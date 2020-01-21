@@ -18,7 +18,7 @@ export class NodeViewerComponent implements OnInit {
   showRightButton = false;
 
   constructor(
-    public fileViewer: FileViewer,
+    public fileViewer: NodeViewer,
     private nodeResolver: TypeService,
   ) { }
 
@@ -43,7 +43,7 @@ export class NodeViewerComponent implements OnInit {
 @Injectable({
   providedIn: 'root'
 })
-export class FileViewer {
+export class NodeViewer {
   public popupContainerRef: ViewContainerRef;
   public popup: NodeViewerComponent;
 

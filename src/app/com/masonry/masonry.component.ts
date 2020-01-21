@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
 import {Node} from '../../service/node.service';
-import {FileViewer} from '../node-viewer/node-viewer.component';
+import {NodeViewer} from '../node-viewer/node-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
 import {PreferenceService} from '../../service/preference.service';
 
@@ -27,8 +27,8 @@ export class MasonryComponent implements OnInit {
   };
 
   click(node: Node) {
-    if (node.type === 'dir') {
-      this.router.navigate(['dir'], { queryParams: { id: node.id } });
+    if (node.mainData.type === 'dir') {
+      this.router.navigate(['dir'], { queryParams: { id: node.mainData.id } });
     } else {
       this.fileViewer.open(node, this.nodes);
     }
@@ -42,7 +42,7 @@ export class MasonryComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public fileViewer: FileViewer,
+    public fileViewer: NodeViewer,
     public preference: PreferenceService,
   ) { }
 }

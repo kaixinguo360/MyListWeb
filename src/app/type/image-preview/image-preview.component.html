@@ -2,7 +2,9 @@
      [style.height.px]="height"
      [style.max-height.px]="maxHeight"
      [class.img-container-loading]="loading">
-  <img #img class="img hide-overflow" [lazyLoad]="node.data"
+  <img #img class="img hide-overflow"
+       [lazyLoad]="node.extraData.url"
+       [alt]="node.extraData.description"
        [hidden]="error"
        (load)="onload()"
        (error)="error=true">

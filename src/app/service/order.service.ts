@@ -33,15 +33,17 @@ export class OrderService {
     }
   }
   public sort(nodes: Node[], dirType = 'dir', order?: Order): Node[] {
-    return nodes.sort((a, b) => {
+    return nodes.sort((an, bn) => {
+      const a = an.mainData;
+      const b = bn.mainData;
       if (a.type === b.type || (a.type !== dirType && b.type !== dirType)) {
         switch (order ? order : this.getOrder()) {
           case Order.MTIME_ASC: return a.mtime - b.mtime;
           case Order.MTIME_DESC: return b.mtime - a.mtime;
           case Order.CTIME_ASC: return a.ctime - b.ctime;
           case Order.CTIME_DESC: return b.ctime - a.ctime;
-          case Order.NAME_ASC: return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-          case Order.NAME_DESC: return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
+          case Order.NAME_ASC: return a.title < b.title ? -1 : a.title > b.title ? 1 : 0;
+          case Order.NAME_DESC: return a.title < b.title ? 1 : a.title > b.title ? -1 : 0;
           case Order.RANDOM: return Math.random() > 0.5 ? -1 : 1;
         }
       } else {

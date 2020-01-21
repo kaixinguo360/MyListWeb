@@ -1,7 +1,7 @@
 import {ComponentFactory, ComponentFactoryResolver, Injectable, Type} from '@angular/core';
 
 import {Node} from './node.service';
-import {TypeInfos} from '../type-infos';
+import {TypeInfos} from '../type/type-infos';
 import {ContentPreview} from '../type/content-preview';
 import {ContentDetail} from '../type/content-detail';
 
@@ -28,10 +28,10 @@ export class TypeService {
   }
 
   public resolveTypeInfo(node: Node): TypeInfo {
-    if (TypeInfos.has(node.type)) {
-      return TypeInfos.get(node.type);
+    if (TypeInfos.has(node.mainData.type)) {
+      return TypeInfos.get(node.mainData.type);
     } else {
-      const ext = node.name.trim().split('.').pop().toLowerCase();
+      const ext = node.mainData.title.trim().split('.').pop().toLowerCase();
       let typeInfo: TypeInfo;
       TypeInfos.forEach(info => {
         if (!typeInfo && info.ext && info.ext.exec(ext)) {

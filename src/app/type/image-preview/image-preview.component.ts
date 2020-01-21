@@ -22,7 +22,7 @@ export class ImagePreviewComponent implements ContentPreview, OnInit {
   isGIF = false;
 
   ngOnInit(): void {
-    this.isGIF = 'gif' === this.node.name.trim().split('.').pop().toLowerCase();
+    this.isGIF = 'gif' === this.node.mainData.title.trim().split('.').pop().toLowerCase();
   }
 
   onload(): void {

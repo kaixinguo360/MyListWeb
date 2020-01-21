@@ -1,11 +1,11 @@
-import {TypeInfo} from './service/type.service';
-import {ListPreviewComponent} from './type/list-preview/list-preview.component';
-import {NodePreviewComponent} from './type/node-preview/node-preview.component';
-import {ImagePreviewComponent} from './type/image-preview/image-preview.component';
-import {VideoPreviewComponent} from './type/video-preview/video-preview.component';
-import {NodeDetailComponent} from './type/node-detail/node-detail.component';
-import {ImageDetailComponent} from './type/image-detail/image-detail.component';
-import {VideoDetailComponent} from './type/video-detail/video-detail.component';
+import {TypeInfo} from '../service/type.service';
+import {ListPreviewComponent} from './list-preview/list-preview.component';
+import {NodePreviewComponent} from './node-preview/node-preview.component';
+import {ImagePreviewComponent} from './image-preview/image-preview.component';
+import {VideoPreviewComponent} from './video-preview/video-preview.component';
+import {NodeDetailComponent} from './node-detail/node-detail.component';
+import {ImageDetailComponent} from './image-detail/image-detail.component';
+import {VideoDetailComponent} from './video-detail/video-detail.component';
 
 export const TypeInfos: Map<string, TypeInfo> = new Map<string, TypeInfo>();
 
@@ -16,16 +16,16 @@ TypeInfos.set('default', {
   detail: NodeDetailComponent,
   icon: 'insert_drive_file',
 });
-TypeInfos.set('dir', {
-  name: 'Directory',
-  id: 'dir',
+TypeInfos.set('list', {
+  name: 'List',
+  id: 'list',
   preview: ListPreviewComponent,
   detail: ListPreviewComponent,
   icon: 'folder',
 });
-TypeInfos.set('img', {
+TypeInfos.set('image', {
   name: 'Image File',
-  id: 'img',
+  id: 'image',
   preview: ImagePreviewComponent,
   detail: ImageDetailComponent,
   icon: 'image',

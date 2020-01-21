@@ -18,7 +18,7 @@ export class NodePreviewComponent implements ContentPreview, OnInit {
   ext: string;
 
   ngOnInit(): void {
-    const ext = this.node.name.trim().split('.').pop().toLowerCase();
+    const ext = this.node.mainData.title.trim().split('.').pop().toLowerCase();
     const info = this.nodeResolver.resolveExt(ext);
     this.icon = info.icon;
     this.ext = (info.name === 'Unknown File') ? ext : null;

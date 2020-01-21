@@ -21,7 +21,7 @@ export interface SimpleResponse<T> {
 })
 export class ApiService {
 
-  private root = AppConfig.apiUrl;
+  private apiUrl = AppConfig.apiUrl;
   private authService: AuthService;
 
   public setAuthService(authService: AuthService) {
@@ -30,28 +30,28 @@ export class ApiService {
 
   public get<T>(path: string, params?: { [param: string]: string | string[] }, needAuth: boolean = true): Observable<T> {
     return this.handleResult(needAuth,
-      this.http.get<SimpleResponse<T>>(this.root + path, {params,
+      this.http.get<SimpleResponse<T>>(this.apiUrl + path, {params,
         headers: needAuth ? { Authorization: this.authService.getToken() } : null
       })
     );
   }
   public post<T>(path: string, body?: any, needAuth: boolean = true): Observable<T> {
     return this.handleResult(needAuth,
-      this.http.post<SimpleResponse<T>>(this.root + path,  body, {
+      this.http.post<SimpleResponse<T>>(this.apiUrl + path,  body, {
         headers: needAuth ? { Authorization: this.authService.getToken() } : null
       })
     );
   }
   public put<T>(path: string, body?: any, needAuth: boolean = true): Observable<T> {
     return this.handleResult(needAuth,
-      this.http.put<SimpleResponse<T>>(this.root + path,  body, {
+      this.http.put<SimpleResponse<T>>(this.apiUrl + path,  body, {
         headers: needAuth ? { Authorization: this.authService.getToken() } : null
       })
     );
   }
   public delete<T>(path: string, body?: any, needAuth: boolean = true): Observable<T> {
     return this.handleResult(needAuth,
-      this.http.request<SimpleResponse<T>>('delete', this.root + path, {body,
+      this.http.request<SimpleResponse<T>>('delete', this.apiUrl + path, {body,
         headers: needAuth ? { Authorization: this.authService.getToken() } : null
       })
     );
@@ -63,7 +63,7 @@ export class ApiService {
                     params?: HttpParams | { [param: string]: string | string[]; },
                     needAuth: boolean = true): Observable<T> {
     return this.handleResult(needAuth,
-      this.http.request<SimpleResponse<T>>(type, this.root + path, {body, params,
+      this.http.request<SimpleResponse<T>>(type, this.apiUrl + path, {body, params,
         headers: needAuth ? { Authorization: this.authService.getToken() } : null
       })
     );

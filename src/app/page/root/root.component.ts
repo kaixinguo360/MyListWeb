@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {FileViewer} from '../../com/node-viewer/node-viewer.component';
+import {NodeViewer} from '../../com/node-viewer/node-viewer.component';
 import {ViewService} from '../../service/view.service';
+import {AuthService} from '../../service/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class RootComponent implements OnInit {
 
   constructor(
     public viewService: ViewService,
-    private popupService: FileViewer,
+    private popupService: NodeViewer,
+    private authService: AuthService, // To init the AuthService and ApiService
   ) { }
 
   ngOnInit() {

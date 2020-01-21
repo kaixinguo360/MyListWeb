@@ -24,8 +24,8 @@ export class CardFootComponent implements OnInit {
     this.typeInfo = this.nodeResolver.resolveTypeInfo(this.node);
     switch (this.orderService.getOrder()) {
       case Order.MTIME_ASC:
-      case Order.MTIME_DESC: { this.time = this.node.mtime; break; }
-      default: { this.time = this.node.ctime; }
+      case Order.MTIME_DESC: { this.time = this.node.mainData.mtime; break; }
+      default: { this.time = this.node.mainData.ctime; }
     }
   }
 

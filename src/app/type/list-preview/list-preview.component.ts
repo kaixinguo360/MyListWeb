@@ -17,6 +17,6 @@ export class ListPreviewComponent implements ContentPreview, OnInit {
   count: number;
 
   ngOnInit(): void {
-    this.count = Object.keys(this.node.data).length;
+    this.count = Object.keys(this.node.extraList).length;
   }
 }

@@ -2,7 +2,7 @@
      [class.img-container-nozoom]="!zoom"
      [class.img-container-zoom]="zoom"
      (click)="zoom?$event.stopPropagation():'';zoom=false">
-  <img [src]="node.data" [alt]="node.name" *ngIf="!error"
+  <img [src]="node.extraData.url" [alt]="node.mainData.title" *ngIf="!error"
        [class.img-nozoom]="!zoom"
        [class.img-zoom]="zoom"
        (click)="$event.stopPropagation();zoom=!zoom"

@@ -16,6 +16,6 @@ export class ImageDetailComponent implements ContentDetail, OnInit {
   zoom = false;
 
   ngOnInit(): void {
-    this.isGIF = 'gif' === this.node.name.trim().split('.').pop().toLowerCase();
+    this.isGIF = 'gif' === this.node.mainData.title.trim().split('.').pop().toLowerCase();
   }
 }
