@@ -1,0 +1,14 @@
+.card-container {
+  box-shadow: 0 0 6px rgba(0,0,0,.26);
+  border-radius: 10px;
+}
+
+.card-content {
+  background: #eaeaea;
+}
+
+.card-foot {
+  background: white;
+  box-shadow: 0 0 18px rgba(0,0,0,.26);
+}
+

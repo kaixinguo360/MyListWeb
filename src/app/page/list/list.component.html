@@ -1,0 +1,4 @@
+<app-masonry [nodes]="nodes" *ngIf="node&&!error"></app-masonry>
+<mat-progress-bar mode="indeterminate" *ngIf="!node&&!error"></mat-progress-bar>
+<mat-icon class="center-icon big-icon" *ngIf="error" (click)="refresh()">refresh</mat-icon>
+<span class="center-info" *ngIf="error">Reload</span>

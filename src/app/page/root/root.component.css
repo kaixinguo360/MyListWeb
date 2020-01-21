@@ -1,0 +1,21 @@
+.sidenav-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidenav-toolbar {
+  flex: 0 0 auto;
+}
+
+.sidenav-content {
+  flex: 1 1 auto;
+  overflow: scroll;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 auto;
+}

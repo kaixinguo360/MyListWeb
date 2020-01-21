@@ -1,0 +1,14 @@
+<div #container class="img-container hide-overflow"
+     [style.height.px]="height"
+     [style.max-height.px]="maxHeight"
+     [class.img-container-loading]="loading">
+  <img #img class="img hide-overflow" [lazyLoad]="node.data"
+       [hidden]="error"
+       (load)="onload()"
+       (error)="error=true">
+  <mat-icon class="big-icon center-icon" color="primary" *ngIf="loading&&!error">
+    {{isGIF?'gif':'photo'}}
+  </mat-icon>
+  <mat-icon class="big-icon center-icon" color="primary" *ngIf="error">broken_image</mat-icon>
+  <div class="shadow" *ngIf="this.height||overflow"></div>
+</div>

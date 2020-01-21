@@ -1,0 +1,13 @@
+<div class="card-container hide-overflow"
+     [style.width]="width+'px'"
+     [style.max-width]="maxWidth+'px'">
+  <div class="card-content hide-overflow"
+       [style.height]="contentHeight+'px'"
+       [style.max-height]="contentMaxHeight+'px'">
+    <ng-container #content></ng-container>
+  </div>
+  <div class="card-foot hide-overflow"
+       [style.height]="footHeight+'px'">
+    <app-card-foot [node]="node"></app-card-foot>
+  </div>
+</div>

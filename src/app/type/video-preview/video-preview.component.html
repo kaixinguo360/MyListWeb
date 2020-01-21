@@ -1,0 +1,8 @@
+<div class="video-container hide-overflow"
+     [style.height.px]="height"
+     [style.max-height.px]="maxHeight"
+     [class.video-container-loading]="loading">
+  <video [src]="node.data" preload="metadata"
+         (loadedmetadata)="this.loading=false;"></video>
+  <mat-icon class="big-icon center-icon" color="primary">play_arrow</mat-icon>
+</div>

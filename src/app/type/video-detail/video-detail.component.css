@@ -1,0 +1,20 @@
+.video-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-container-playing {
+  z-index: 100;
+  background: #00000080;
+}
+
+video {
+  max-width: 100vw;
+  max-height: 100vh;
+}

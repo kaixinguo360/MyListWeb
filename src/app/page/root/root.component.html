@@ -1,0 +1,22 @@
+<mat-sidenav-container>
+  <mat-sidenav-content class="sidenav-container">
+    <mat-toolbar color="primary" class="sidenav-toolbar">
+      <button type="button" mat-icon-button
+              *ngIf="viewService.hasBackButton"
+              (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span class="title">{{viewService.title}}</span>
+      <app-order-selector></app-order-selector>
+      <button type="button" mat-icon-button
+              routerLink="">
+        <mat-icon>home</mat-icon>
+      </button>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <div class="sidenav-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<ng-container #popupContainer></ng-container>

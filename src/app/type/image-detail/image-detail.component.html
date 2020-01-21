@@ -1,0 +1,15 @@
+<div class="img-container"
+     [class.img-container-nozoom]="!zoom"
+     [class.img-container-zoom]="zoom"
+     (click)="zoom?$event.stopPropagation():'';zoom=false">
+  <img [src]="node.data" [alt]="node.name" *ngIf="!error"
+       [class.img-nozoom]="!zoom"
+       [class.img-zoom]="zoom"
+       (click)="$event.stopPropagation();zoom=!zoom"
+       (load)="loading=false"
+       (error)="error=true">
+  <mat-icon class="big-icon center-icon" color="primary" *ngIf="loading&&!error">
+    {{isGIF?'gif':'photo'}}
+  </mat-icon>
+  <mat-icon class="big-icon center-icon" color="primary" *ngIf="error">broken_image</mat-icon>
+</div>

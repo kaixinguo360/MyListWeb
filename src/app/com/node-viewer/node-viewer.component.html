@@ -1,0 +1,32 @@
+<div class="overlay"
+     (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
+     (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)"
+     (click)="fileViewer.close()">
+  <div class="side side-left"
+       (mouseenter)="showLeftButton=true"
+       (mouseleave)="showLeftButton=false"
+       (mousewheel)="turnPage($event.deltaY / 100)"
+       (click)="$event.stopPropagation();turnPage(-1)">
+    <button mat-icon-button class="nav-button nav-button-left" *ngIf="showLeftButton">
+      <mat-icon class="nav-icon">chevron_left</mat-icon>
+    </button>
+  </div>
+  <div class="side side-right"
+       (mouseenter)="showRightButton=true"
+       (mouseleave)="showRightButton=false"
+       (mousewheel)="turnPage($event.deltaY / 100)"
+       (click)="$event.stopPropagation();turnPage(1)">
+    <button mat-icon-button class="nav-button nav-button-right" *ngIf="showRightButton">
+      <mat-icon class="nav-icon">chevron_right</mat-icon>
+    </button>
+  </div>
+  <div class="tool-bar"
+       (click)="$event.stopPropagation()">
+    <button mat-icon-button class="tool-button"
+            (click)="fileViewer.close()">
+      <mat-icon class="tool-icon">arrow_back</mat-icon>
+    </button>
+  </div>
+  <ng-container #content></ng-container>
+</div>
+<div class="tool-bar-background"></div>

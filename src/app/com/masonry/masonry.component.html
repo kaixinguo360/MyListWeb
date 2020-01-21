@@ -1,0 +1,15 @@
+<ngx-masonry #masonry
+  [options]="masonryOptions"
+  [style.width.px]="containerWidth"
+  class="card-container">
+  <ngxMasonryItem
+    class="card-warp"
+    (click)="click(node)"
+    [style.margin.px]="columnMargin"
+    [style.width]="isMobile?('calc('+100/mobileColumn+'% - '+columnMargin*2+'px)'):''"
+    *ngFor="let node of nodes">
+    <app-card [node]="node" [width]="columnWidth-columnMargin*2" [maxHeight]="500"></app-card>
+  </ngxMasonryItem>
+</ngx-masonry>
+<mat-icon class="center-icon big-icon" *ngIf="!nodes.length">info</mat-icon>
+<span class="center-info" *ngIf="!nodes.length">Empty Directory</span>

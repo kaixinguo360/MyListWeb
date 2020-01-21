@@ -1,0 +1,20 @@
+.container {
+  padding: 6px 10px;
+}
+
+.title {
+  font-size: medium;
+  margin-bottom: -2px;
+}
+
+.small {
+  color: gray;
+  font-size: small;
+  text-align: right;
+}
+
+.material-icons {
+  font-size: 20px;
+  vertical-align: middle;
+  margin-right: -2px;
+}

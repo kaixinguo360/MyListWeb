@@ -1,0 +1,29 @@
+.img-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.img-container-nozoom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-container-zoom {
+  z-index: 100;
+  overflow: scroll;
+  background: #00000080;
+}
+
+.img-nozoom {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+.img-zoom {
+  min-width: 100vw;
+  min-height: 100vh;
+}
