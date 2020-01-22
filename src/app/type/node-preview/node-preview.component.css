@@ -11,7 +11,7 @@
   margin: 50px;
 }
 
-.ext {
+.title {
   position: absolute;
   top: calc(50% + 10px);
   left: 50%;

@@ -7,7 +7,6 @@ import {ListPreviewComponent} from './type/list-preview/list-preview.component';
 import {NodePreviewComponent} from './type/node-preview/node-preview.component';
 import {ImagePreviewComponent} from './type/image-preview/image-preview.component';
 import {VideoPreviewComponent} from './type/video-preview/video-preview.component';
-import {NodeDetailComponent} from './type/node-detail/node-detail.component';
 import {VideoDetailComponent} from './type/video-detail/video-detail.component';
 import {ImageDetailComponent} from './type/image-detail/image-detail.component';
 
@@ -17,7 +16,6 @@ import {ImageDetailComponent} from './type/image-detail/image-detail.component';
     NodePreviewComponent,
     ImagePreviewComponent,
     VideoPreviewComponent,
-    NodeDetailComponent,
     ImageDetailComponent,
     VideoDetailComponent,
   ],
@@ -26,7 +24,6 @@ import {ImageDetailComponent} from './type/image-detail/image-detail.component';
     NodePreviewComponent,
     ImagePreviewComponent,
     VideoPreviewComponent,
-    NodeDetailComponent,
     ImageDetailComponent,
     VideoDetailComponent,
   ],

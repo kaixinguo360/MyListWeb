@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ApiService} from './api.service';
+import {catchError, shareReplay, tap} from 'rxjs/operators';
 
 export class MainData {
   id?: number;
@@ -37,28 +38,54 @@ export class Node {
 })
 export class NodeService {
 
-  public addNode(node: Node): Observable<Node> {
-    return this.apiService.post<Node>('node', node, true);
+  private nodeCache = new Map<number, Node>();
+  private obCache = new Map<number, Observable<Node>>();
+
+  public add(node: Node): Observable<Node> {
+    return this.apiService.post<Node>('node', node, true).pipe(
+      tap(n => this.nodeCache.set(n.mainData.id, n)),
+      catchError(err => this.handleError(err))
+    );
   }
-  public getNode(id: number): Observable<Node> {
-    return this.apiService.get<Node>('node/' + id, null, true);
+  public get(id: number): Observable<Node> {
+    if (this.obCache.has(id)) {
+      return this.obCache.get(id);
+    } else {
+      const ob = this.apiService.get<Node>('node/' + id, null, true).pipe(
+        tap(n => this.nodeCache.set(n.mainData.id, n)),
+        shareReplay(1),
+        catchError(err => this.handleError(err))
+      );
+      this.obCache.set(id, ob);
+      return ob;
+    }
   }
-  public getNodes(): Observable<Node[]> {
-    return this.apiService.get<Node[]>('search', null, true);
+  public update(node: Node): Observable<Node> {
+    return this.apiService.put<Node>('node', node, true).pipe(
+      tap(n => this.nodeCache.set(n.mainData.id, n)),
+      catchError(err => this.handleError(err))
+    );
   }
-  public updateNodes(node: Node): Observable<Node> {
-    return this.apiService.put<Node>('node', node, true);
-  }
-  public removeNode(id: string): Observable<void> {
-    return this.apiService.delete<void>('node/' + id, null, true);
+  public remove(id: number): Observable<void> {
+    return this.apiService.delete<void>('node/' + id, null, true).pipe(
+      tap(() => this.nodeCache.delete(id)),
+      catchError(err => this.handleError(err))
+    );
   }
 
-  // TODO
-  private handleError(err) {
-    console.log(err);
+  public getCache(id: number): Node {
+    return this.nodeCache.get(id);
+  }
+
+  // TODO: Tmp method
+  public getAll(): Observable<Node[]> {
+    return this.apiService.get<Node[]>('search', null, true);
+  }
+  private handleError(err): Observable<any> {
     this.matSnackBar.open('Network connection error', 'Close', {
       duration: 2000,
     });
+    return of(err);
   }
 
   constructor(

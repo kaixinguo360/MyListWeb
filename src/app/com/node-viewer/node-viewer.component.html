@@ -27,6 +27,12 @@
       <mat-icon class="tool-icon">arrow_back</mat-icon>
     </button>
   </div>
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <app-card *ngIf="loading"
+            [node]="nodes[index]"
+            [maxWidth]="window.innerWidth / 2"
+            [maxHeight]="window.innerHeight / 2"
+  ></app-card>
   <ng-container #content></ng-container>
 </div>
 <div class="tool-bar-background"></div>

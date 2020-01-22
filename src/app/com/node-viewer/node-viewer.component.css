@@ -85,3 +85,8 @@
   z-index: 9;
   background: #673ab7;
 }
+
+.mat-progress-bar {
+  position: fixed;
+  top: 0;
+}

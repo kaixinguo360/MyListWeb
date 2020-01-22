@@ -16,18 +16,18 @@ import {ViewService} from '../../service/view.service';
 export class ListComponent {
 
   id: number;
-  nodes: Node[] = [];
+  nodes: Node[];
   sub: Subscription;
   error = false;
 
   updateContent(): void {
     this.error = false;
     if (this.sub) { this.sub.unsubscribe(); }
-    this.nodes.length = 0;
+    this.nodes = null;
     let id = this.route.snapshot.queryParamMap.get('id');
     id = !id ? AppConfig.defaultId : id === '' ? AppConfig.defaultId : id;
     this.id = Number(id);
-    this.sub = this.nodeService.getNodes().pipe(
+    this.sub = this.nodeService.getAll().pipe(
       tap(nodes => this.nodes = nodes),
       catchError(err => {
         this.error = true;

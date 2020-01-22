@@ -1,4 +1,7 @@
-<div class="icon-container">
-  <mat-icon class="big-icon" color="primary">{{icon}}</mat-icon>
-  <div class="ext" *ngIf="ext">{{ext}}</div>
+<div class="icon-container"
+     [style.min-width.px]="width?null:300"
+     [style.min-height.px]="height?null:150"
+>
+  <mat-icon class="big-icon" color="primary">insert_drive_file</mat-icon>
+  <div class="title" *ngIf="node&&node.mainData&&node.mainData.title">{{node.mainData.title}}</div>
 </div>

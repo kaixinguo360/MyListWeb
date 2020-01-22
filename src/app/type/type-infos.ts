@@ -3,7 +3,6 @@ import {ListPreviewComponent} from './list-preview/list-preview.component';
 import {NodePreviewComponent} from './node-preview/node-preview.component';
 import {ImagePreviewComponent} from './image-preview/image-preview.component';
 import {VideoPreviewComponent} from './video-preview/video-preview.component';
-import {NodeDetailComponent} from './node-detail/node-detail.component';
 import {ImageDetailComponent} from './image-detail/image-detail.component';
 import {VideoDetailComponent} from './video-detail/video-detail.component';
 
@@ -13,7 +12,7 @@ TypeInfos.set('default', {
   name: 'Unknown File',
   id: 'file',
   preview: NodePreviewComponent,
-  detail: NodeDetailComponent,
+  detail: NodePreviewComponent,
   icon: 'insert_drive_file',
 });
 TypeInfos.set('list', {

@@ -19,11 +19,11 @@ export interface TypeInfo {
 })
 export class TypeService {
 
-  public resolveContentPreviewFactory(node: Node): ComponentFactory<any> {
+  public resolveContentPreviewFactory(node: Node): ComponentFactory<ContentPreview> {
     return this.componentFactoryResolver.resolveComponentFactory(this.resolveTypeInfo(node).preview);
   }
 
-  public resolveContentDetailFactory(node: Node): ComponentFactory<any> {
+  public resolveContentDetailFactory(node: Node): ComponentFactory<ContentDetail> {
     return this.componentFactoryResolver.resolveComponentFactory(this.resolveTypeInfo(node).detail);
   }
 

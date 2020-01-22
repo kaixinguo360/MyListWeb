@@ -24,6 +24,7 @@ export class MasonryComponent implements OnInit {
   masonryOptions: NgxMasonryOptions = {
     columnWidth: this.isMobile ? '.card-warp' : this.columnWidth,
     percentPosition: this.isMobile,
+    transitionDuration: '800ms'
   };
 
   click(node: Node) {
