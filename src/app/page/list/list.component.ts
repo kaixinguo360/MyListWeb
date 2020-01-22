@@ -4,9 +4,10 @@ import {catchError, tap} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 
 import {AppConfig} from '../../../environments/app-config';
-import {Node, NodeService} from '../../service/node.service';
+import {Node} from '../../service/node.service';
 import {NodeViewer} from '../../com/node-viewer/node-viewer.component';
 import {ViewService} from '../../service/view.service';
+import {SearchService} from '../../service/search.service';
 
 @Component({
   selector: 'app-list',
@@ -27,7 +28,7 @@ export class ListComponent {
     let id = this.route.snapshot.queryParamMap.get('id');
     id = !id ? AppConfig.defaultId : id === '' ? AppConfig.defaultId : id;
     this.id = Number(id);
-    this.sub = this.nodeService.getAll().pipe(
+    this.sub = this.searchService.getAll().pipe(
       tap(nodes => this.nodes = nodes),
       catchError(err => {
         this.error = true;
@@ -40,7 +41,7 @@ export class ListComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private nodeService: NodeService,
+    private searchService: SearchService,
     private popupService: NodeViewer,
     private viewService: ViewService,
   ) {

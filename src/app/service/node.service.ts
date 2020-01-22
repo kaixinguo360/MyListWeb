@@ -77,10 +77,6 @@ export class NodeService {
     return this.nodeCache.get(id);
   }
 
-  // TODO: Tmp method
-  public getAll(): Observable<Node[]> {
-    return this.apiService.get<Node[]>('search', null, true);
-  }
   private handleError(err): Observable<any> {
     this.matSnackBar.open('Network connection error', 'Close', {
       duration: 2000,
