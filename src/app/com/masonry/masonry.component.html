@@ -8,7 +8,7 @@
     [style.margin.px]="columnMargin"
     [style.width]="isMobile?('calc('+100/mobileColumn+'% - '+columnMargin*2+'px)'):''"
     *ngFor="let node of nodes">
-    <app-card [node]="node" [width]="columnWidth-columnMargin*2" [maxHeight]="500"></app-card>
+    <app-masonry-item [node]="node" [width]="columnWidth-columnMargin*2" [maxHeight]="500"></app-masonry-item>
   </ngxMasonryItem>
 </ngx-masonry>
 <mat-icon class="center-icon big-icon" *ngIf="!nodes.length">info</mat-icon>

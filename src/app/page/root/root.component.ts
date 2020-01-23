@@ -1,5 +1,5 @@
 import {AfterViewChecked, ChangeDetectorRef, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {NodeViewer} from '../../com/node-viewer/node-viewer.component';
+import {NodeViewer} from '../../com/node-viewer/card-viewer.component';
 import {ViewService} from '../../service/view.service';
 import {AuthService} from '../../service/auth.service';
 

@@ -8,6 +8,7 @@ import {
   MatInputModule,
   MatMenuModule,
   MatProgressBarModule,
+  MatProgressSpinnerModule,
   MatRippleModule,
   MatSelectModule,
   MatSnackBarModule,
@@ -39,6 +40,7 @@ import {MatListModule} from '@angular/material/list';
     MatExpansionModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class MaterialModule { }

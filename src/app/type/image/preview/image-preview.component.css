@@ -1,0 +1,17 @@
+.img-container {
+  position: relative;
+  text-align: center;
+}
+
+.img-container-loading {
+  width: 100%;
+  min-height: 200px;
+}
+
+.img {
+  max-width: 100%;
+  margin-bottom: -4px;
+  object-fit: cover;
+  min-height: 100%;
+  min-width: 100%;
+}

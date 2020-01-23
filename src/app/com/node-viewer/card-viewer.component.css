@@ -1,0 +1,92 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #00000080;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: scroll;
+}
+
+.side {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  max-width: 400px;
+  z-index: 11;
+  cursor: pointer;
+}
+
+.side-left {
+  left: 0;
+}
+
+.side-right {
+  right: 0;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  margin-top: -28px;
+  height: 56px;
+  width: 56px;
+  background: rgba(66,66,66,0.54);
+  border-radius: 28px;
+}
+
+.nav-button-left {
+  left: 28px;
+}
+
+.nav-button-right {
+  right: 28px;
+}
+
+.nav-icon {
+  font-size: 36px;
+  width: 36px;
+  color: white;
+}
+
+.tool-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  max-width: 400px;
+  height: 64px;
+  z-index: 12;
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 16px;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.tool-button {
+  color: white;
+  background: rgba(66,66,66,0.54);
+}
+
+.tool-bar-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 9;
+  background: #673ab7;
+}
+
+.mat-progress-spinner {
+  z-index: 100;
+  position: fixed;
+}

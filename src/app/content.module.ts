@@ -3,25 +3,25 @@ import {CommonModule} from '@angular/common';
 import {MaterialModule} from './material.module';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 
-import {ListPreviewComponent} from './type/list-preview/list-preview.component';
-import {NodePreviewComponent} from './type/node-preview/node-preview.component';
-import {ImagePreviewComponent} from './type/image-preview/image-preview.component';
-import {VideoPreviewComponent} from './type/video-preview/video-preview.component';
-import {VideoDetailComponent} from './type/video-detail/video-detail.component';
-import {ImageDetailComponent} from './type/image-detail/image-detail.component';
+import {NodeCardComponent} from './type/node/node-card.component';
+import {ListCardComponent} from './type/list/list-card.component';
+import {ImagePreviewComponent} from './type/image/preview/image-preview.component';
+import {VideoPreviewComponent} from './type/video/preview/video-preview.component';
+import {VideoDetailComponent} from './type/video/detail/video-detail.component';
+import {ImageDetailComponent} from './type/image/detail/image-detail.component';
 
 @NgModule({
   declarations: [
-    ListPreviewComponent,
-    NodePreviewComponent,
+    NodeCardComponent,
+    ListCardComponent,
     ImagePreviewComponent,
     VideoPreviewComponent,
     ImageDetailComponent,
     VideoDetailComponent,
   ],
   entryComponents: [
-    ListPreviewComponent,
-    NodePreviewComponent,
+    NodeCardComponent,
+    ListCardComponent,
     ImagePreviewComponent,
     VideoPreviewComponent,
     ImageDetailComponent,
