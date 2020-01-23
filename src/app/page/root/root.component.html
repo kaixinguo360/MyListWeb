@@ -9,7 +9,7 @@
       <span class="title">{{viewService.title}}</span>
       <app-order-selector></app-order-selector>
       <button type="button" mat-icon-button
-              routerLink="">
+              routerLink="/list">
         <mat-icon>home</mat-icon>
       </button>
     </mat-toolbar>
@@ -19,4 +19,5 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<mat-progress-bar mode="indeterminate" *ngIf="viewService.loading"></mat-progress-bar>
 <ng-container #popupContainer></ng-container>

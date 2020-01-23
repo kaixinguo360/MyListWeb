@@ -9,8 +9,15 @@ import {VideoDetailComponent} from './video-detail/video-detail.component';
 export const TypeInfos: Map<string, TypeInfo> = new Map<string, TypeInfo>();
 
 TypeInfos.set('default', {
-  name: 'Unknown File',
+  name: 'Unknown',
   id: 'file',
+  preview: NodePreviewComponent,
+  detail: NodePreviewComponent,
+  icon: 'insert_drive_file',
+});
+TypeInfos.set('node', {
+  name: 'Node',
+  id: 'node',
   preview: NodePreviewComponent,
   detail: NodePreviewComponent,
   icon: 'insert_drive_file',
@@ -22,19 +29,38 @@ TypeInfos.set('list', {
   detail: ListPreviewComponent,
   icon: 'folder',
 });
+TypeInfos.set('tag', {
+  name: 'Tag',
+  id: 'tag',
+  preview: NodePreviewComponent,
+  detail: NodePreviewComponent,
+  icon: 'insert_drive_file',
+});
+TypeInfos.set('text', {
+  name: 'Text',
+  id: 'text',
+  preview: ImagePreviewComponent,
+  detail: ImageDetailComponent,
+  icon: 'book',
+});
 TypeInfos.set('image', {
-  name: 'Image File',
+  name: 'Image',
   id: 'image',
   preview: ImagePreviewComponent,
   detail: ImageDetailComponent,
   icon: 'image',
-  ext: /^(jpg|jpeg|jfif|pjpeg|pjp|png|gif|bmp|webp|apng|ico|cur|svg)$/,
+});
+TypeInfos.set('music', {
+  name: 'Music',
+  id: 'music',
+  preview: ImagePreviewComponent,
+  detail: ImageDetailComponent,
+  icon: 'music_video',
 });
 TypeInfos.set('video', {
-  name: 'Video File',
+  name: 'Video',
   id: 'video',
   preview: VideoPreviewComponent,
   detail: VideoDetailComponent,
   icon: 'videocam',
-  ext: /^(3g2|3gp|avi|flv|h264|m4v|mkv|mov|mp4|mpg|rm|vob|wmv|rmvb|asf|divx|mpeg|mpe)$/,
 });

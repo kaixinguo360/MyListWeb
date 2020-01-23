@@ -6,4 +6,5 @@ import {Injectable} from '@angular/core';
 export class ViewService {
   public title = 'Title';
   public hasBackButton: boolean;
+  public loading = false;
 }

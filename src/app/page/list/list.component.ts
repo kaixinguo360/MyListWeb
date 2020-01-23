@@ -1,52 +1,40 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {catchError, tap} from 'rxjs/operators';
-import {of, Subscription} from 'rxjs';
-
-import {AppConfig} from '../../../environments/app-config';
+import {of} from 'rxjs';
 import {Node} from '../../service/node.service';
-import {NodeViewer} from '../../com/node-viewer/node-viewer.component';
 import {ViewService} from '../../service/view.service';
-import {SearchService} from '../../service/search.service';
+import {FilterComponent} from '../../com/filter/filter.component';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent {
+export class ListComponent implements OnInit {
 
-  id: number;
   nodes: Node[];
-  sub: Subscription;
   error = false;
-
-  updateContent(): void {
-    this.error = false;
-    if (this.sub) { this.sub.unsubscribe(); }
-    this.nodes = null;
-    let id = this.route.snapshot.queryParamMap.get('id');
-    id = !id ? AppConfig.defaultId : id === '' ? AppConfig.defaultId : id;
-    this.id = Number(id);
-    this.sub = this.searchService.getAll().pipe(
-      tap(nodes => this.nodes = nodes),
-      catchError(err => {
-        this.error = true;
-        return of(err);
-      } )
-    ).subscribe();
-  }
+  @ViewChild('filter', { read: FilterComponent, static: true }) filter: FilterComponent;
   refresh() { location.reload(); }
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private searchService: SearchService,
-    private popupService: NodeViewer,
     private viewService: ViewService,
   ) {
     this.viewService.hasBackButton = false;
     this.viewService.title = 'List Page';
-    this.router.events.subscribe(event => (event instanceof NavigationEnd) ? this.updateContent() : null);
+  }
+
+  ngOnInit(): void {
+    this.filter.subject.pipe(
+      tap(nodes => {
+        this.nodes = nodes;
+        this.error = false;
+      }),
+      catchError(err => {
+        this.error = true;
+        return of(err);
+      })
+    ).subscribe();
+    this.filter.search();
   }
 }

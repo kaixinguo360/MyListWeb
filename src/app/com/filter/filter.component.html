@@ -1,0 +1,37 @@
+<div class="container">
+  <mat-expansion-panel class="expansion-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Filter
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+      <form [formGroup]="data">
+          <mat-checkbox formControlName="nsfw">Nsfw</mat-checkbox>
+          <mat-checkbox formControlName="like">Like</mat-checkbox>
+          <mat-checkbox formControlName="hide">Hide</mat-checkbox>
+        <mat-form-field>
+          <mat-select placeholder="Types" formControlName="types" multiple>
+            <mat-select-trigger *ngIf="data.value.types?.length==typeList.length||data.value.types?.length==0">All</mat-select-trigger>
+            <mat-select-trigger *ngIf="data.value.types?.length<typeList.length&&data.value.types?.length>4">
+              {{data.value.types ? data.value.types[0] : ''}}
+              <span *ngIf="data.value.types?.length > 1" class="additional-selection">
+            (+{{data.value.types?.length - 1}} {{data.value.types?.length === 2 ? 'other' : 'others'}})
+          </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let type of typeList" [value]="type">{{type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Permission" formControlName="permission">
+            <mat-option *ngFor="let permission of permissionList" [value]="permission">{{permission|uppercase}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-action-row>
+          <button mat-button (click)="search()">Search</button>
+        </mat-action-row>
+      </form>
+
+  </mat-expansion-panel>
+</div>

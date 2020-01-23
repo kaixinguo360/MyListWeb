@@ -22,6 +22,7 @@ import {CardFootComponent} from './com/card/card-foot/card-foot.component';
 import {MasonryComponent} from './com/masonry/masonry.component';
 import {NodeViewerComponent} from './com/node-viewer/node-viewer.component';
 import {OrderSelectorComponent} from './com/order-selector/order-selector.component';
+import {FilterComponent} from './com/filter/filter.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -37,6 +38,7 @@ export class HammerConfig extends HammerGestureConfig  {
     MasonryComponent,
     NodeViewerComponent,
     OrderSelectorComponent,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,7 @@ export class HammerConfig extends HammerGestureConfig  {
     FormsModule,
     ReactiveFormsModule,
     NgxMasonryModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     ContentModule,
     MaterialModule,
   ],

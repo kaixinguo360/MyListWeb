@@ -19,3 +19,9 @@
   white-space: nowrap;
   flex: 1 1 auto;
 }
+
+.mat-progress-bar {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+}
