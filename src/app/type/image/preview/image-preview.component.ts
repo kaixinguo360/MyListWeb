@@ -21,7 +21,7 @@ export class ImagePreviewComponent implements PreviewCard, OnInit {
   isGIF = false;
 
   ngOnInit(): void {
-    this.isGIF = 'gif' === this.node.mainData.title.trim().split('.').pop().toLowerCase();
+    this.isGIF = 'gif' === this.node.mainData.excerpt.trim().split('.').pop().toLowerCase();
   }
 
   onload(): void {

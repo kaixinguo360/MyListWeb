@@ -23,13 +23,14 @@ export class MainData {
   sourceUrl?: string;
   comment?: string;
 }
+export class ExtraData { }
 export class ListItem {
   node: Node;
   status: string;
 }
 export class Node {
   mainData: MainData;
-  extraData: object;
+  extraData: ExtraData;
   extraList: ListItem[];
 }
 

@@ -1,10 +1,10 @@
 <div class="video-container"
      [class.video-container-playing]="playing"
-     (click)="stop($event,video)">
-  <video #video [src]="node.extraData.url"
+     (click)="stop($event,player)">
+  <video #player [src]="video.url"
          (ended)="playing=false"
          (click)="$event.stopPropagation()"
          [controls]="playing"></video>
   <mat-icon class="big-icon center-icon" color="primary" *ngIf="!playing"
-            (click)="play($event,video)">play_arrow</mat-icon>
+            (click)="play($event,player)">play_arrow</mat-icon>
 </div>
