@@ -1,38 +1,9 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {Observable, of} from 'rxjs';
-import {ApiService} from './api.service';
+import {ApiService} from '../api.service';
 import {catchError, shareReplay, tap} from 'rxjs/operators';
-
-export class MainData {
-  id?: number;
-  user?: number;
-  type?: string;
-  ctime?: number;
-  mtime?: number;
-  title?: string;
-  excerpt?: string;
-  linkForward?: number;
-  linkBack?: number;
-  linkDelete?: boolean;
-  linkVirtual?: boolean;
-  permission?: string;
-  nsfw?: boolean;
-  like?: boolean;
-  hide?: boolean;
-  sourceUrl?: string;
-  comment?: string;
-}
-export class ExtraData { }
-export class ListItem {
-  node: Node;
-  status: string;
-}
-export class Node {
-  mainData: MainData;
-  extraData: ExtraData;
-  extraList: ListItem[];
-}
+import {Node} from './node';
 
 @Injectable({
   providedIn: 'root'

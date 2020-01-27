@@ -1,4 +1,4 @@
-import {Node} from '../../../service/node.service';
+import {Node} from '../../../service/node/node';
 
 export interface DetailCard {
   node: Node;

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {Node} from '../../../service/node.service';
 import {PreviewCard} from '../../../com/card/preview/preview-card';
+import {Node} from '../../../service/node/node';
 
 @Component({
   templateUrl: './video-preview.component.html',

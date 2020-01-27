@@ -2,10 +2,10 @@ import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
-import {Node} from '../../service/node.service';
 import {NodeViewer} from '../node-viewer/card-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
 import {PreferenceService} from '../../service/preference.service';
+import {Node} from '../../service/node/node';
 
 @Component({
   selector: 'app-masonry',

@@ -1,7 +1,8 @@
 import {Component, ComponentFactoryResolver, Injectable, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {Node, NodeService} from '../../service/node.service';
+import {NodeService} from '../../service/node/node.service';
 import {tap} from 'rxjs/operators';
 import {DetailCard} from '../card/detail/detail-card';
+import {Node} from '../../service/node/node';
 
 @Component({
   selector: 'app-card-viewer',

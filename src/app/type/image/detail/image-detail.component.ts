@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {ExtraData, Node} from '../../../service/node.service';
 import {DetailCard} from '../../../com/card/detail/detail-card';
+import {ExtraData, Node} from '../../../service/node/node';
 
 export class Image extends ExtraData {
   url: string;

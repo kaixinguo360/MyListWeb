@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {Observable, of} from 'rxjs';
-import {ApiService} from './api.service';
+import {ApiService} from '../api.service';
 import {catchError} from 'rxjs/operators';
-import {Node} from './node.service';
+import {Node} from './node';
 
 export class Condition {
   column?: string;

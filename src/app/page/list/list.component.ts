@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {catchError, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Node} from '../../service/node.service';
 import {ViewService} from '../../service/view.service';
 import {FilterComponent} from '../../com/filter/filter.component';
+import {Node} from '../../service/node/node';
 
 @Component({
   selector: 'app-list',

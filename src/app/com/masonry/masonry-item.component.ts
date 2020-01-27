@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {Node} from '../../service/node.service';
+import {Node} from '../../service/node/node';
 
 @Component({
   selector: 'app-masonry-item',
