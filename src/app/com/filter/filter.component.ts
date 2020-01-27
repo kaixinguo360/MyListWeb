@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Query, SearchService} from '../../service/node/search.service';
+import {Query, SearchService} from '../../service/search.service';
 import {FormBuilder} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {of, Subject, Subscription} from 'rxjs';
-import {ViewService} from '../../service/view.service';
-import {Node} from '../../service/node/node';
+import {ViewService} from '../../service/util/view.service';
+import {Node} from '../../service/node.service';
 
 @Component({
   selector: 'app-filter',

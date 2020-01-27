@@ -1,0 +1,28 @@
+<form [formGroup]="data" class="edit-box" novalidate (ngSubmit)="submit()">
+  <mat-card>
+    <mat-card-content>
+
+      <mat-form-field class="full-width row">
+        <input required matInput placeholder="Name" maxlength="255" formControlName="name" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="full-width row">
+        <input required matInput placeholder="Password" maxlength="255" formControlName="pass" autocomplete="off" type="password">
+      </mat-form-field>
+
+      <mat-form-field class="full-width row">
+        <input matInput placeholder="E-mail" maxlength="255" formControlName="email" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="full-width row">
+        <mat-select required placeholder="Status" formControlName="status">
+          <mat-option value="activated">Activated</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!data.valid">保存</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

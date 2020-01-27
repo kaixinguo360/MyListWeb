@@ -4,8 +4,8 @@ import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
 import {NodeViewer} from '../node-viewer/card-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
-import {PreferenceService} from '../../service/preference.service';
-import {Node} from '../../service/node/node';
+import {PreferenceService} from '../../service/util/preference.service';
+import {Node} from '../../service/node.service';
 
 @Component({
   selector: 'app-masonry',

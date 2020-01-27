@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
 
 import {of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
-import {AuthService} from '../../service/auth.service';
-import {ViewService} from '../../service/view.service';
+import {TokenService} from '../../service/token.service';
+import {ViewService} from '../../service/util/view.service';
+import {Subscription} from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-login',
@@ -16,16 +17,19 @@ import {ViewService} from '../../service/view.service';
 })
 export class LoginComponent implements OnInit {
 
+  isAdmin: boolean;
   loginData = this.fb.group({
     name: [null, Validators.required],
     pass: [null, Validators.required]
   });
+  sub: Subscription;
 
   login() {
     const data = this.loginData.getRawValue();
-    this.authService.login(data.name, data.pass, false).pipe(
+    if (this.sub) { this.sub.unsubscribe(); }
+    this.sub = this.authService.generateToken(data.name, data.pass, this.isAdmin).pipe(
       tap(() => {
-        this.router.navigate(['list']);
+        this.router.navigate([this.isAdmin ? 'admin/home' : 'home']);
       }),
       catchError(err => {
         if (err instanceof HttpErrorResponse && err.status === 401) {
@@ -41,16 +45,29 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthService,
+    private authService: TokenService,
     private viewService: ViewService,
+    private route: ActivatedRoute,
   ) {
-    this.viewService.hasBackButton = false;
-    this.viewService.title = 'Login';
+    this.viewService.init('Login');
   }
 
   ngOnInit() {
-    if (this.authService.isLogin()) {
-      this.router.navigate([ 'list' ]);
-    }
+    this.route.url.subscribe((urls: UrlSegment[]) => {
+      const url = urls.join('/');
+      switch (url) {
+        case 'admin/login': {
+          this.viewService.init('Admin Login');
+          this.isAdmin = true;
+          break;
+        }
+        case 'login':
+        default: {
+          this.viewService.init('User Login');
+          this.isAdmin = false;
+          break;
+        }
+      }
+    });
   }
 }

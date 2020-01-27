@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
-import {TypeService} from '../../../service/type.service';
+import {TypeService} from '../../../service/util/type.service';
 import {DetailCard} from './detail-card';
-import {Node} from '../../../service/node/node';
+import {Node} from '../../../service/node.service';
 
 @Component({
   selector: 'app-card-detail',

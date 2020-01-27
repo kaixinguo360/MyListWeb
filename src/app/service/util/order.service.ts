@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AppConfig} from '../../environments/app-config';
-import {Order} from '../order';
+import {AppConfig} from '../../../environments/app-config';
+import {Order} from '../../order';
 import {PreferenceService} from './preference.service';
-import {Node} from './node/node';
+import {Node} from '../node.service';
 
 @Injectable({
   providedIn: 'root'

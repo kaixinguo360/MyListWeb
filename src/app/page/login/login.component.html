@@ -6,7 +6,7 @@
         <mat-icon [inline]="true">person</mat-icon>
       </div>
       <mat-card-content>
-        <div class="row">
+        <div class="row" *ngIf="!isAdmin">
           <div class="col">
             <mat-form-field class="full-width">
               <input matInput placeholder="用户名" formControlName="name">

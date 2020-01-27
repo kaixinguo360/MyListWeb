@@ -14,7 +14,7 @@ import {MaterialModule} from './material.module';
 import {ContentModule} from './content.module';
 
 import {RootComponent} from './page/root/root.component';
-import {ListComponent} from './page/list/list.component';
+import {ListComponent} from './page/user/list/list.component';
 import {LoginComponent} from './page/login/login.component';
 
 import {MasonryItemComponent} from './com/masonry/masonry-item.component';
@@ -24,6 +24,10 @@ import {OrderSelectorComponent} from './com/order-selector/order-selector.compon
 import {FilterComponent} from './com/filter/filter.component';
 import {PreviewCardComponent} from './com/card/preview/preview-card.component';
 import {DetailCardComponent} from './com/card/detail/detail-card.component';
+import {AdminHomeComponent} from './page/admin/home/admin-home.component';
+import {UserHomeComponent} from './page/user/home/user-home.component';
+import {MatTableModule} from '@angular/material';
+import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -41,6 +45,9 @@ export class HammerConfig extends HammerGestureConfig  {
     FilterComponent,
     PreviewCardComponent,
     DetailCardComponent,
+    AdminHomeComponent,
+    UserHomeComponent,
+    UserEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +61,7 @@ export class HammerConfig extends HammerGestureConfig  {
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     ContentModule,
     MaterialModule,
+    MatTableModule
   ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,

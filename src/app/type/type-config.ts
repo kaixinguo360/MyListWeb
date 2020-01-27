@@ -1,4 +1,4 @@
-import {TypeInfo} from '../service/type.service';
+import {TypeInfo} from '../service/util/type.service';
 import {ListCardComponent} from './list/list-card.component';
 import {NodeCardComponent} from './node/node-card.component';
 import {ImagePreviewComponent} from './image/preview/image-preview.component';
