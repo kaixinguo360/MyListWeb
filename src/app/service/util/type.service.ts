@@ -3,13 +3,14 @@ import {ComponentFactory, ComponentFactoryResolver, Injectable, Type} from '@ang
 import {TypeConfig} from '../../type/type-config';
 import {PreviewCard} from '../../com/card/preview/preview-card';
 import {DetailCard} from '../../com/card/detail/detail-card';
-import {Node} from '../node.service';
+import {ExtraEdit} from '../../com/extra-edit/extra-edit';
 
 export interface TypeInfo {
   name: string;
   id: string;
   preview: Type<PreviewCard>;
   detail: Type<DetailCard>;
+  extraEdit: Type<ExtraEdit>;
   icon: string;
   ext?: RegExp;
 }
@@ -30,11 +31,14 @@ export class TypeService {
     );
   }
 
-  public getPreviewCardFactory(node: Node): ComponentFactory<PreviewCard> {
-    return this.componentFactoryResolver.resolveComponentFactory(this.getType(node.mainData.type).preview);
+  public getPreviewCardFactory(type: string): ComponentFactory<PreviewCard> {
+    return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).preview);
   }
-  public getDetailCardFactory(node: Node): ComponentFactory<DetailCard> {
-    return this.componentFactoryResolver.resolveComponentFactory(this.getType(node.mainData.type).detail);
+  public getDetailCardFactory(type: string): ComponentFactory<DetailCard> {
+    return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).detail);
+  }
+  public getExtraEditFactory(type: string): ComponentFactory<ExtraEdit> {
+    return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).extraEdit);
   }
 
   constructor(

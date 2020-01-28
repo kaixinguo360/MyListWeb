@@ -1,12 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {DetailCard} from '../../../com/card/detail/detail-card';
-import {ExtraData, Node} from '../../../service/node.service';
-
-export class Image extends ExtraData {
-  url: string;
-  description: string;
-}
+import {Node} from '../../../service/node.service';
+import {Image} from '../image';
 
 @Component({
   templateUrl: './image-detail.component.html',

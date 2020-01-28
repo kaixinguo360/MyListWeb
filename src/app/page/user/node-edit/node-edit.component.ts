@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ViewService} from '../../../service/util/view.service';
-import {MainData, Node, NodeService} from '../../../service/node.service';
+import {Node, NodeService} from '../../../service/node.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
 import {throwError} from 'rxjs';
+import {ExtraEditComponent} from '../../../com/extra-edit/extra-edit.component';
 
 @Component({
   selector: 'app-node-edit',
@@ -29,12 +30,16 @@ export class NodeEditComponent implements OnInit {
   });
   types = ['Node', 'List', 'Tag', 'Text', 'Image', 'Music', 'Video'];
   permissions = ['Private', 'Protect', 'Public'];
+  @ViewChild('extraDataEdit', {static: true}) extraEdit: ExtraEditComponent;
 
-  public submit() {
-    const mainData: MainData = this.mainData.getRawValue();
-    mainData.user = null;
-    const node: Node = { mainData, extraData: null, extraList: [] };
-    (mainData.id ?
+  submit() {
+    const node: Node = {
+      mainData: this.mainData.getRawValue(),
+      extraData: this.extraEdit.getExtraData(),
+      extraList: this.extraEdit.getExtraList(),
+    };
+
+    (node.mainData.id ?
       this.nodeService.update(node) :
       this.nodeService.add(node)
     ).pipe(
@@ -45,6 +50,24 @@ export class NodeEditComponent implements OnInit {
       })
     ).subscribe();
   }
+  ngOnInit() {
+    this.route.paramMap.subscribe(map => {
+      const id = Number(map.get('id'));
+      if (id) {
+        this.viewService.init('Node Edit', ['back']);
+        this.viewService.setLoading(true);
+
+        this.nodeService.get(id).subscribe(node => {
+          this.viewService.setLoading(false);
+          this.mainData.patchValue(node.mainData);
+          this.extraEdit.setExtraData(node.extraData);
+          this.extraEdit.setExtraList(node.extraList);
+        });
+      } else {
+        this.viewService.init('New Node', ['back']);
+      }
+    });
+  }
 
   constructor(
     private viewService: ViewService,
@@ -54,20 +77,4 @@ export class NodeEditComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
   ) { }
-
-  ngOnInit() {
-    this.route.paramMap.subscribe(map => {
-      const id = Number(map.get('id'));
-      if (id) {
-        this.viewService.init('Node Edit', ['back']);
-        this.viewService.setLoading(true);
-        this.nodeService.get(id).subscribe(node => {
-          this.mainData.patchValue(node.mainData);
-          this.viewService.setLoading(false);
-        });
-      } else {
-        this.viewService.init('New Node', ['back']);
-      }
-    });
-  }
 }

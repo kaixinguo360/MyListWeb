@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
+  MatBadgeModule,
   MatCardModule,
   MatCheckboxModule,
   MatExpansionModule,
@@ -12,6 +14,7 @@ import {
   MatRippleModule,
   MatSelectModule,
   MatSnackBarModule,
+  MatTableModule,
   MatTooltipModule
 } from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -23,6 +26,8 @@ import {MatListModule} from '@angular/material/list';
 @NgModule({
   exports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
@@ -41,6 +46,8 @@ import {MatListModule} from '@angular/material/list';
     MatSelectModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    MatBadgeModule,
   ]
 })
 export class MaterialModule { }

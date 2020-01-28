@@ -8,7 +8,7 @@
 
       <div class="full-width">
         <mat-form-field class="half-width">
-          <mat-select required placeholder="Type" formControlName="type">
+          <mat-select required placeholder="Type" formControlName="type" [disabled]="mainData.value.id">
             <mat-option *ngFor="let type of types" [value]="type|lowercase">{{type}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -18,6 +18,8 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <app-extra-data-edit #extraDataEdit [type]="mainData.value.type"></app-extra-data-edit>
 
       <mat-form-field class="full-width">
         <input matInput placeholder="Source Url" maxlength="255" formControlName="sourceUrl" autocomplete="off">
@@ -38,10 +40,9 @@
         <mat-checkbox formControlName="linkVirtual">LinkVirtual</mat-checkbox>
       </div>
 
-
     </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!mainData.valid">保存</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!(mainData.valid&&extraEdit.valid)">保存</button>
     </mat-card-actions>
   </mat-card>
 </form>

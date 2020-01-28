@@ -16,7 +16,7 @@ export class DetailCardComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.content) { this.contentHost.remove(); }
-    const factory = this.nodeResolver.getDetailCardFactory(this.node);
+    const factory = this.nodeResolver.getDetailCardFactory(this.node.mainData.type);
     const componentRef = this.contentHost.createComponent(factory);
     this.content = (componentRef.instance as DetailCard);
     this.content.node = this.node;

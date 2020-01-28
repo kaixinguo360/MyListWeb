@@ -16,14 +16,14 @@ export class PreviewCardComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.content) { this.contentHost.remove(); }
-    const factory = this.nodeResolver.getPreviewCardFactory(this.node);
+    const factory = this.typeService.getPreviewCardFactory(this.node.mainData.type);
     const componentRef = this.contentHost.createComponent(factory);
     this.content = (componentRef.instance as PreviewCard);
     this.content.node = this.node;
   }
 
   constructor(
-    private nodeResolver: TypeService
+    private typeService: TypeService
   ) { }
 
 }

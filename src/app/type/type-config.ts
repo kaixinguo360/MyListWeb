@@ -1,10 +1,13 @@
 import {TypeInfo} from '../service/util/type.service';
 import {ListCardComponent} from './list/list-card.component';
-import {NodeCardComponent} from './node/node-card.component';
+import {NodeCardComponent} from './node/card/node-card.component';
 import {ImagePreviewComponent} from './image/preview/image-preview.component';
 import {VideoPreviewComponent} from './video/preview/video-preview.component';
 import {ImageDetailComponent} from './image/detail/image-detail.component';
 import {VideoDetailComponent} from './video/detail/video-detail.component';
+import {NodeExtraEditComponent} from './node/extra-edit/node-extra-edit.component';
+import {ImageEditComponent} from './image/edit/image-edit.component';
+import {VideoEditComponent} from './video/edit/video-edit.component';
 
 export const TypeConfig: TypeInfo[] = [
   {
@@ -12,6 +15,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'Unknown',
     preview: NodeCardComponent,
     detail: NodeCardComponent,
+    extraEdit: NodeExtraEditComponent,
     icon: 'insert_drive_file',
   },
   {
@@ -19,6 +23,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'Simple Node',
     preview: NodeCardComponent,
     detail: NodeCardComponent,
+    extraEdit: NodeExtraEditComponent,
     icon: 'insert_drive_file',
   },
   {
@@ -26,6 +31,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'List',
     preview: ListCardComponent,
     detail: ListCardComponent,
+    extraEdit: NodeExtraEditComponent,
     icon: 'folder',
   },
   {
@@ -33,6 +39,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'Tag',
     preview: NodeCardComponent,
     detail: NodeCardComponent,
+    extraEdit: NodeExtraEditComponent,
     icon: 'insert_drive_file',
   },
   {
@@ -40,6 +47,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'Text',
     preview: ImagePreviewComponent,
     detail: ImageDetailComponent,
+    extraEdit: NodeExtraEditComponent,
     icon: 'book',
   },
   {
@@ -47,6 +55,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'Image',
     preview: ImagePreviewComponent,
     detail: ImageDetailComponent,
+    extraEdit: ImageEditComponent,
     icon: 'image',
   },
   {
@@ -54,6 +63,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'Music',
     preview: ImagePreviewComponent,
     detail: ImageDetailComponent,
+    extraEdit: NodeExtraEditComponent,
     icon: 'music_video',
   },
   {
@@ -61,6 +71,7 @@ export const TypeConfig: TypeInfo[] = [
     name: 'Video',
     preview: VideoPreviewComponent,
     detail: VideoDetailComponent,
+    extraEdit: VideoEditComponent,
     icon: 'videocam',
   }
 ];

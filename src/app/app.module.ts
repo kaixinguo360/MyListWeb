@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LayoutModule} from '@angular/cdk/layout';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxMasonryModule} from 'ngx-masonry';
 import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
 import * as Hammer from 'hammerjs';
@@ -26,9 +25,9 @@ import {PreviewCardComponent} from './com/card/preview/preview-card.component';
 import {DetailCardComponent} from './com/card/detail/detail-card.component';
 import {AdminHomeComponent} from './page/admin/home/admin-home.component';
 import {UserHomeComponent} from './page/user/home/user-home.component';
-import {MatBadgeModule, MatTableModule} from '@angular/material';
 import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
 import {NodeEditComponent} from './page/user/node-edit/node-edit.component';
+import {ExtraEditComponent} from './com/extra-edit/extra-edit.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -50,6 +49,7 @@ export class HammerConfig extends HammerGestureConfig  {
     UserHomeComponent,
     UserEditComponent,
     NodeEditComponent,
+    ExtraEditComponent,
   ],
     imports: [
         BrowserModule,
@@ -57,14 +57,10 @@ export class HammerConfig extends HammerGestureConfig  {
         BrowserAnimationsModule,
         AppRoutingModule,
         LayoutModule,
-        FormsModule,
-        ReactiveFormsModule,
         NgxMasonryModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
         ContentModule,
         MaterialModule,
-        MatTableModule,
-        MatBadgeModule
     ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,
