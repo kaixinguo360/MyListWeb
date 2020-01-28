@@ -41,9 +41,6 @@ export class AdminHomeComponent implements OnInit {
       () => this.fetchUsers()
     );
   }
-  logout() {
-    this.tokenService.invalidateToken(true).subscribe(() => this.router.navigate(['/admin/login']));
-  }
 
   constructor(
     private viewService: ViewService,
@@ -52,7 +49,7 @@ export class AdminHomeComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
   ) {
-    this.viewService.init('Admin Home');
+    this.viewService.init('Admin Home', ['logout'], true);
   }
 
   ngOnInit() {

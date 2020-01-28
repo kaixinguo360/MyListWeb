@@ -48,22 +48,20 @@ export class LoginComponent implements OnInit {
     private authService: TokenService,
     private viewService: ViewService,
     private route: ActivatedRoute,
-  ) {
-    this.viewService.init('Login');
-  }
+  ) { }
 
   ngOnInit() {
     this.route.url.subscribe((urls: UrlSegment[]) => {
       const url = urls.join('/');
       switch (url) {
         case 'admin/login': {
-          this.viewService.init('Admin Login');
+          this.viewService.init('Admin Login', [], true);
           this.isAdmin = true;
           break;
         }
         case 'login':
         default: {
-          this.viewService.init('User Login');
+          this.viewService.init('User Login', []);
           this.isAdmin = false;
           break;
         }

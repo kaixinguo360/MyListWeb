@@ -53,11 +53,11 @@ export class FilterComponent implements OnInit {
 
   public search() {
     if (this.sub) { this.sub.unsubscribe(); }
-    this.viewService.loading = true;
+    this.viewService.setLoading(true);
     this.sub = this.searchService.search(this.getQuery()).pipe(
       tap(nodes => {
         this.subject.next(nodes);
-        this.viewService.loading = false;
+        this.viewService.setLoading(false);
       }),
       catchError(err => {
         this.subject.error(err);

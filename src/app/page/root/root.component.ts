@@ -2,6 +2,7 @@ import {AfterViewChecked, ChangeDetectorRef, Component, OnInit, ViewChild, ViewC
 import {NodeViewer} from '../../com/node-viewer/card-viewer.component';
 import {ViewService} from '../../service/util/view.service';
 import {TokenService} from '../../service/token.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +11,23 @@ import {TokenService} from '../../service/token.service';
 })
 export class RootComponent implements OnInit, AfterViewChecked {
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true }) popupContainerRef: ViewContainerRef;
-  private loading = this.viewService.loading;
 
   back() {
     window.stop();
     window.history.back();
   }
   refresh() { location.reload(); }
+  logout() {
+    this.tokenService.invalidateToken(this.viewService.admin)
+      .subscribe(() => this.router.navigate([this.viewService.admin ? '/admin/login' : '/login']));
+  }
 
   constructor(
     public viewService: ViewService,
     private popupService: NodeViewer,
+    private tokenService: TokenService,
     private authService: TokenService, // To init the TokenService and HttpService
+    private router: Router,
     private cdRef: ChangeDetectorRef,
   ) { }
 
@@ -30,7 +36,8 @@ export class RootComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (this.loading !== this.viewService.loading) {
+    if (this.viewService.changed) {
+      this.viewService.changed = false;
       this.cdRef.detectChanges();
     }
   }

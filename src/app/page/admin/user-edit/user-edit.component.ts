@@ -49,18 +49,18 @@ export class UserEditComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
   ) {
-    this.viewService.init('User Edit');
+    this.viewService.init('User Edit', ['back'], true);
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(map => {
       const id = Number(map.get('id'));
       if (id) {
-        this.viewService.loading = true;
+        this.viewService.setLoading(true);
         this.userService.get(id).subscribe(user => {
           this.user = user;
           this.data.setValue(user);
-          this.viewService.loading = false;
+          this.viewService.setLoading(false);
         });
       }
     });
