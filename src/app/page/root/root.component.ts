@@ -3,6 +3,7 @@ import {NodeViewer} from '../../com/node-viewer/card-viewer.component';
 import {ViewService} from '../../service/util/view.service';
 import {TokenService} from '../../service/token.service';
 import {Router} from '@angular/router';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -18,17 +19,18 @@ export class RootComponent implements OnInit, AfterViewChecked {
   }
   refresh() { location.reload(); }
   logout() {
-    this.tokenService.invalidateToken(this.viewService.admin)
+    this.tokenService.invalidateToken()
       .subscribe(() => this.router.navigate([this.viewService.admin ? '/admin/login' : '/login']));
   }
 
   constructor(
-    public viewService: ViewService,
+    private router: Router,
+    private cdRef: ChangeDetectorRef,
+    private titleService: Title,
     private popupService: NodeViewer,
     private tokenService: TokenService,
     private authService: TokenService, // To init the TokenService and HttpService
-    private router: Router,
-    private cdRef: ChangeDetectorRef,
+    public viewService: ViewService,
   ) { }
 
   ngOnInit() {
@@ -38,6 +40,7 @@ export class RootComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked(): void {
     if (this.viewService.changed) {
       this.viewService.changed = false;
+      this.titleService.setTitle('MyList - ' + this.viewService.title);
       this.cdRef.detectChanges();
     }
   }

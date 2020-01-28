@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 
 import {HttpService} from './util/http.service';
 import {PreferenceService} from './util/preference.service';
+import {ViewService} from './util/view.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,40 +17,38 @@ export class TokenService {
     return pass;
   }
 
-  public generateToken(name: string, pass: string, admin = false): Observable<string> {
+  public generateToken(name: string, pass: string): Observable<string> {
     pass = TokenService.password(pass);
     return this.apiService.get<string>(
-      admin ? `token/admin?pass=${pass}` : `token?name=${name}&pass=${pass}`,
+      this.viewService.admin ? `token/admin?pass=${pass}` : `token?name=${name}&pass=${pass}`,
       null, false)
       .pipe(
-        tap(token => token ? this.preferenceService.set(admin ? 'admin_token' : 'token', token) : null)
+        tap(token => token ? this.preferenceService.set(this.viewService.admin ? 'admin_token' : 'token', token) : null)
       );
   }
-  public invalidateToken(admin = false): Observable<void> {
-    return this.apiService.delete<void>(admin ? 'token/admin' : 'token', null, true, admin).pipe(
-      tap(() => this.removeToken(admin))
+  public invalidateToken(): Observable<void> {
+    return this.apiService.delete<void>(this.viewService.admin ? 'token/admin' : 'token', null, true).pipe(
+      tap(() => this.preferenceService.remove(this.viewService.admin ? 'admin_token' : 'token'))
     );
   }
 
-  public hasToken(admin = false): boolean {
-    return Boolean(this.preferenceService.get(admin ? 'admin_token' : 'token'));
+  public hasToken(): boolean {
+    return Boolean(this.preferenceService.get(this.viewService.admin ? 'admin_token' : 'token'));
   }
-  public getToken(admin = false): string {
-    const token = this.preferenceService.get(admin ? 'admin_token' : 'token');
+  public getToken(): string {
+    const token = this.preferenceService.get(this.viewService.admin ? 'admin_token' : 'token');
     if (token) {
       return token;
     } else {
-      this.router.navigate([admin ? '/admin/login' : '/login']);
+      this.router.navigate([this.viewService.admin ? '/admin/login' : '/login']);
     }
-  }
-  public removeToken(admin = false) {
-    this.preferenceService.remove(admin ? 'admin_token' : 'token');
   }
 
   constructor(
     private router: Router,
     private preferenceService: PreferenceService,
     private apiService: HttpService,
+    private viewService: ViewService,
   ) {
     apiService.setAuthService(this);
   }

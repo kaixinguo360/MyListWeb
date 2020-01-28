@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Query, SearchService} from '../../service/search.service';
+import {Filter} from '../../service/list.service';
 import {FormBuilder} from '@angular/forms';
-import {catchError, tap} from 'rxjs/operators';
-import {of, Subject, Subscription} from 'rxjs';
-import {ViewService} from '../../service/util/view.service';
-import {Node} from '../../service/node.service';
+import {Subject} from 'rxjs';
+import {PreferenceService} from '../../service/util/preference.service';
 
 @Component({
   selector: 'app-filter',
@@ -13,11 +11,6 @@ import {Node} from '../../service/node.service';
 })
 export class FilterComponent implements OnInit {
 
-  typeList: string[] = ['node', 'list', 'text', 'image', 'music', 'video', 'tag'];
-  permissionList: string[] = [
-    'private', 'protect', 'public', 'shared', 'self',
-    'others_protect', 'others_public', 'others_shared',
-    'editable', 'available'];
   data = this.fb.group({
     nsfw: false,
     like: false,
@@ -25,12 +18,36 @@ export class FilterComponent implements OnInit {
     permission: 'self',
     types: this.fb.control([])
   });
-  sub: Subscription;
-  public subject = new Subject<Node[]>();
+  types: string[] = ['node', 'list', 'text', 'image', 'music', 'video', 'tag'];
+  permissions: string[] = [
+    'private', 'protect', 'public', 'shared', 'self',
+    'others_protect', 'others_public', 'others_shared',
+    'editable', 'available'];
 
-  public getQuery(): Query {
+  open = false;
+  modified = false;
+
+  private defaultData = JSON.stringify(this.data.value);
+  private changed = false;
+  private onChangeSubject = new Subject<void>();
+
+  private reset() {
+    this.data.setValue(JSON.parse(this.defaultData));
+  }
+  private close() {
+    this.open = !this.open;
+    if (!this.open && this.changed) {
+      this.changed = false;
+      this.onChangeSubject.next();
+      const json = JSON.stringify(this.data.value);
+      this.modified = (json !== this.defaultData);
+      this.preferenceService.set('saved_filter', json); // Save Filter
+    }
+  }
+
+  public getFilter(): Filter {
     const value = this.data.value;
-    const query: Query = {
+    const filter: Filter = {
       nsfw: value.nsfw ? null : false,
       like: value.like ? true : null,
       hide: value.hide ? null : false,
@@ -41,37 +58,31 @@ export class FilterComponent implements OnInit {
       orTags: [],
       notTags: []
     };
-    if (value.types.length < this.typeList.length && value.types.length > 0) {
-      query.conditions.push({
+    if (value.types.length < this.types.length && value.types.length > 0) {
+      filter.conditions.push({
         column: 'node_type',
         oper: 'in',
         value: '(\'' + value.types.join('\',\'') + '\')',
       });
     }
-    return query;
+    return filter;
   }
-
-  public search() {
-    if (this.sub) { this.sub.unsubscribe(); }
-    this.viewService.setLoading(true);
-    this.sub = this.searchService.search(this.getQuery()).pipe(
-      tap(nodes => {
-        this.subject.next(nodes);
-        this.viewService.setLoading(false);
-      }),
-      catchError(err => {
-        this.subject.error(err);
-        return of(err);
-      })
-    ).subscribe();
+  public onChange(next?: (value: void) => void, error?: (error: any) => void, complete?: () => void) {
+    this.onChangeSubject.subscribe(next, error, complete);
   }
 
   constructor(
     private fb: FormBuilder,
-    private searchService: SearchService,
-    private viewService: ViewService,
-  ) { }
+    private preferenceService: PreferenceService,
+  ) {
+    const saved = this.preferenceService.get('saved_filter');
+    if (saved) {
+      this.modified = (saved !== this.defaultData);
+      this.data.setValue(JSON.parse(saved));
+    }
+  }
 
   ngOnInit(): void {
+    this.data.statusChanges.subscribe(() => this.changed = true);
   }
 }

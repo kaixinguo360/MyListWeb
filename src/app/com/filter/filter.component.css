@@ -1,13 +1,6 @@
 .container {
-  margin: 10px;
-  padding: 4px;
-  display: flex;
-  justify-content: center;
-}
-
-.expansion-panel {
-  flex: 1;
-  max-width: 600px;
+  display: inline-block;
+  position: relative;
 }
 
 .additional-selection {
@@ -17,4 +10,14 @@
 
 .mat-checkbox {
   margin-right: 12px;
+}
+
+.mat-card {
+  position: fixed;
+  width: calc(100% - 64px);
+  max-width: 600px;
+  z-index: 100;
+  top: 180px;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

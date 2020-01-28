@@ -15,20 +15,22 @@ export class User {
 })
 export class UserService {
 
+  private errorHandler = HttpService.errorHandler;
+
   public add(user: User): Observable<User> {
-    return this.httpService.post<User>('user', user, true, true);
+    return this.httpService.post<User>('user', user, true).pipe(this.errorHandler);
   }
   public get(id: number): Observable<User> {
-    return this.httpService.get<User>('user/' + id, null, true, true);
+    return this.httpService.get<User>('user/' + id, null, true).pipe(this.errorHandler);
   }
   public getAll(): Observable<User[]> {
-    return this.httpService.get<User[]>('user', null, true, true);
+    return this.httpService.get<User[]>('user', null, true).pipe(this.errorHandler);
   }
   public update(user: User): Observable<User> {
-    return this.httpService.put<User>('user', user, true, true);
+    return this.httpService.put<User>('user', user, true).pipe(this.errorHandler);
   }
   public remove(id: number): Observable<void> {
-    return this.httpService.delete<void>('user/' + id, null, true, true);
+    return this.httpService.delete<void>('user/' + id, null, true).pipe(this.errorHandler);
   }
 
   constructor(

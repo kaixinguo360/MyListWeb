@@ -3,6 +3,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PreviewCard} from '../../com/card/preview/preview-card';
 import {Node} from '../../service/node.service';
 
+interface Excerpt {
+  type: string;
+  excerpt: string;
+  count: number;
+}
+
 @Component({
   templateUrl: './list-card.component.html',
   styleUrls: ['./list-card.component.css']
@@ -10,9 +16,10 @@ import {Node} from '../../service/node.service';
 export class ListCardComponent implements PreviewCard, OnInit {
 
   @Input() node: Node;
-  count: number;
+  excerpt: Excerpt;
 
   ngOnInit(): void {
-    this.count = Number(this.node.mainData.excerpt);
+    const json: string = this.node.mainData.excerpt;
+    this.excerpt = JSON.parse(json);
   }
 }

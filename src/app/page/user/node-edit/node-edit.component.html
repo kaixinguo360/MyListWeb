@@ -1,0 +1,47 @@
+<form [formGroup]="mainData" class="edit-box" novalidate (ngSubmit)="submit()">
+  <mat-card>
+    <mat-card-content>
+
+      <mat-form-field class="full-width">
+        <input required matInput placeholder="Title" maxlength="255" formControlName="title" autocomplete="off">
+      </mat-form-field>
+
+      <div class="full-width">
+        <mat-form-field class="half-width">
+          <mat-select required placeholder="Type" formControlName="type">
+            <mat-option *ngFor="let type of types" [value]="type|lowercase">{{type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="half-width">
+          <mat-select required placeholder="Permission" formControlName="permission">
+            <mat-option *ngFor="let permission of permissions" [value]="permission|lowercase">{{permission}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Source Url" maxlength="255" formControlName="sourceUrl" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <textarea matInput placeholder="Comment" maxlength="255" formControlName="comment" autocomplete="off"></textarea>
+      </mat-form-field>
+
+      <div class="full-width">
+        <mat-checkbox formControlName="nsfw">Nsfw</mat-checkbox>
+        <mat-checkbox formControlName="like">Like</mat-checkbox>
+        <mat-checkbox formControlName="hide">Hide</mat-checkbox>
+      </div>
+
+      <div class="full-width">
+        <mat-checkbox formControlName="linkDelete">LinkDelete</mat-checkbox>
+        <mat-checkbox formControlName="linkVirtual">LinkVirtual</mat-checkbox>
+      </div>
+
+
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!mainData.valid">保存</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

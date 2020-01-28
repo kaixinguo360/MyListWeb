@@ -11,8 +11,6 @@ export class MainData {
   mtime?: number;
   title?: string;
   excerpt?: string;
-  linkForward?: number;
-  linkBack?: number;
   linkDelete?: boolean;
   linkVirtual?: boolean;
   permission?: string;
@@ -22,15 +20,12 @@ export class MainData {
   sourceUrl?: string;
   comment?: string;
 }
-
 export class ExtraData {
 }
-
 export class ListItem {
   node: Node;
   status: string;
 }
-
 export class Node {
   mainData: MainData;
   extraData: ExtraData;
@@ -42,34 +37,39 @@ export class Node {
 })
 export class NodeService {
 
+  private errorHandler = HttpService.errorHandler;
   private nodeCache = new Map<number, Node>();
   private obCache = new Map<number, Observable<Node>>();
 
   public add(node: Node): Observable<Node> {
-    return this.httpService.post<Node>('node', node, true).pipe(
-      tap(n => this.nodeCache.set(n.mainData.id, n))
+    return this.httpService.post<Node>('node', node).pipe(
+      tap<Node>(n => this.nodeCache.set(n.mainData.id, n)),
+      this.errorHandler,
     );
   }
   public get(id: number): Observable<Node> {
     if (this.obCache.has(id)) {
       return this.obCache.get(id);
     } else {
-      const ob = this.httpService.get<Node>('node/' + id, null, true).pipe(
+      const ob = this.httpService.get<Node>('node/' + id, null).pipe(
         tap(n => this.nodeCache.set(n.mainData.id, n)),
-        shareReplay(1)
+        shareReplay(1),
+        this.errorHandler,
       );
       this.obCache.set(id, ob);
       return ob;
     }
   }
   public update(node: Node): Observable<Node> {
-    return this.httpService.put<Node>('node', node, true).pipe(
-      tap(n => this.nodeCache.set(n.mainData.id, n))
+    return this.httpService.put<Node>('node', node).pipe(
+      tap<Node>(n => this.nodeCache.set(n.mainData.id, n)),
+      this.errorHandler,
     );
   }
   public remove(id: number): Observable<void> {
-    return this.httpService.delete<void>('node/' + id, null, true).pipe(
-      tap(() => this.nodeCache.delete(id))
+    return this.httpService.delete<void>('node/' + id, null).pipe(
+      tap(() => this.nodeCache.delete(id)),
+      this.errorHandler,
     );
   }
 

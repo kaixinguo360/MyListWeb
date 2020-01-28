@@ -1,0 +1,9 @@
+.icon-box {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.center-icon {
+   cursor: pointer;
+ }

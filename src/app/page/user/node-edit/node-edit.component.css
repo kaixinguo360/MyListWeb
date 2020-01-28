@@ -1,0 +1,10 @@
+.mat-card {
+  width: calc(100% - 64px);
+  max-width: 400px;
+  margin: 24px auto;
+}
+
+.mat-checkbox {
+  margin-right: 12px;
+}
+

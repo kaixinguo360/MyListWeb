@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   login() {
     const data = this.loginData.getRawValue();
     if (this.sub) { this.sub.unsubscribe(); }
-    this.sub = this.authService.generateToken(data.name, data.pass, this.isAdmin).pipe(
+    this.sub = this.authService.generateToken(data.name, data.pass).pipe(
       tap(() => {
         this.router.navigate([this.isAdmin ? 'admin/home' : 'home']);
       }),

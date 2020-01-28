@@ -1,12 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ViewService} from '../../../service/util/view.service';
 import {User, UserService} from '../../../service/user.service';
-import {TokenService} from '../../../service/token.service';
-import {Router} from '@angular/router';
-import {catchError, tap} from 'rxjs/operators';
-import {HttpErrorResponse} from '@angular/common/http';
-import {of} from 'rxjs';
-import {MatSnackBar} from '@angular/material';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-home',
@@ -20,15 +15,7 @@ export class AdminHomeComponent implements OnInit {
 
   fetchUsers() {
     this.userService.getAll().pipe(
-      tap(users => this.users = users),
-      catchError(err => {
-        if (err instanceof HttpErrorResponse && err.status === 401) {
-          this.snackBar.open('The token has expired, please log in again.', 'Close');
-          this.tokenService.removeToken(true);
-          this.router.navigate(['/admin/login']);
-        }
-        return of(err);
-      })
+      tap(users => this.users = users)
     ).subscribe();
   }
   deleteUser(user: User) {
@@ -45,14 +32,10 @@ export class AdminHomeComponent implements OnInit {
   constructor(
     private viewService: ViewService,
     private userService: UserService,
-    private tokenService: TokenService,
-    private router: Router,
-    private snackBar: MatSnackBar,
-  ) {
-    this.viewService.init('Admin Home', ['logout'], true);
-  }
+  ) { }
 
   ngOnInit() {
+    this.viewService.init('Admin Home', ['logout'], true);
     this.fetchUsers();
   }
 
