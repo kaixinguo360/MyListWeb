@@ -7,7 +7,7 @@
   <div>
 
     <div class="card-container">
-      <app-preview-card [node]="node"></app-preview-card>
+      <app-card-preview [node]="node"></app-card-preview>
 
       <div class="desktop-buttons" *ngIf="!view.isMobile&&show" (click)="$event.stopPropagation()">
         <a *ngIf="node.mainData.sourceUrl" [href]="node.mainData.sourceUrl" class="desktop-url-button one-line-text"
@@ -37,7 +37,7 @@
         </button>
       </a>
       <span></span>
-      <button mat-icon-button disableRipple class="mobile-more-button"><mat-icon>more_horiz</mat-icon></button>
+      <button mat-icon-button disableRipple class="mobile-more-button" (click)="openMenu()"><mat-icon>more_horiz</mat-icon></button>
     </div>
 
   </div>

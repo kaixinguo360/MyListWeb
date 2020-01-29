@@ -4,7 +4,7 @@ import {TypeService} from '../../../service/util/type.service';
 import {Node} from '../../../service/node.service';
 
 @Component({
-  selector: 'app-preview-card',
+  selector: 'app-card-preview',
   templateUrl: './preview-card.component.html',
   styleUrls: ['./preview-card.component.css']
 })

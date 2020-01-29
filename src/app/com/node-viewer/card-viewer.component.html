@@ -31,7 +31,7 @@
   <div *ngIf="!currentNode"
        [style.max-width.px]="window.innerWidth / 2"
        [style.max-height.px]="window.innerHeight / 2">
-    <app-preview-card [node]="nodes[index]"></app-preview-card>
+    <app-card-preview [node]="nodes[index]"></app-card-preview>
   </div>
   <app-card-detail *ngIf="currentNode" [node]="currentNode"></app-card-detail>
   <ng-container #content></ng-container>

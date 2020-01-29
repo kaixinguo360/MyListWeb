@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatBadgeModule,
+  MatBottomSheetModule,
   MatCardModule,
   MatCheckboxModule,
   MatExpansionModule,
@@ -48,6 +49,7 @@ import {MatListModule} from '@angular/material/list';
     MatProgressSpinnerModule,
     MatTableModule,
     MatBadgeModule,
+    MatBottomSheetModule,
   ]
 })
 export class MaterialModule { }

@@ -16,7 +16,7 @@ import {RootComponent} from './page/root/root.component';
 import {ListComponent} from './page/user/list/list.component';
 import {LoginComponent} from './page/login/login.component';
 
-import {MasonryItemComponent} from './com/masonry/masonry-item.component';
+import {MasonryItemComponent} from './com/masonry/item/masonry-item.component';
 import {MasonryComponent} from './com/masonry/masonry.component';
 import {CardViewerComponent} from './com/node-viewer/card-viewer.component';
 import {OrderSelectorComponent} from './com/order-selector/order-selector.component';
@@ -28,6 +28,7 @@ import {UserHomeComponent} from './page/user/home/user-home.component';
 import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
 import {NodeEditComponent} from './page/user/node-edit/node-edit.component';
 import {ExtraEditComponent} from './com/extra-edit/extra-edit.component';
+import {MasonryMenuComponent} from './com/masonry/menu/masonry-menu.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -50,6 +51,7 @@ export class HammerConfig extends HammerGestureConfig  {
     UserEditComponent,
     NodeEditComponent,
     ExtraEditComponent,
+    MasonryMenuComponent,
   ],
     imports: [
         BrowserModule,
@@ -67,6 +69,9 @@ export class HammerConfig extends HammerGestureConfig  {
     useClass: HammerConfig
   }],
   bootstrap: [ RootComponent ],
-  entryComponents: [ CardViewerComponent ]
+  entryComponents: [
+    CardViewerComponent,
+    MasonryMenuComponent,
+  ]
 })
 export class AppModule { }

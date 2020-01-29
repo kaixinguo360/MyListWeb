@@ -1,7 +1,9 @@
 import {Component, Input} from '@angular/core';
 
-import {Node} from '../../service/node.service';
-import {ViewService} from '../../service/util/view.service';
+import {Node} from '../../../service/node.service';
+import {ViewService} from '../../../service/util/view.service';
+import {MatBottomSheet} from '@angular/material';
+import {MasonryMenuComponent} from '../menu/masonry-menu.component';
 
 @Component({
   selector: 'app-masonry-item',
@@ -17,8 +19,14 @@ export class MasonryItemComponent {
 
   show = false;
 
+  openMenu() {
+    this.bottomSheet.open(MasonryMenuComponent, {
+      data: this.node
+    });
+  }
+
   constructor(
     public view: ViewService,
-  ) {
-  }
+    private bottomSheet: MatBottomSheet
+  ) { }
 }
