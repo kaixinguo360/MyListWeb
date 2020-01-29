@@ -1,9 +1,15 @@
-<form [formGroup]="mainData" class="edit-box" novalidate (ngSubmit)="submit()">
-  <mat-card>
-    <mat-card-content>
+<mat-toolbar>
+  <button type="button" mat-icon-button (click)="view.back()"><mat-icon>arrow_back</mat-icon></button>
+  <span>{{view.config.title}}</span>
+  <button color="primary" mat-raised-button (click)="submit()" [disabled]="!valid">Save</button>
+</mat-toolbar>
+<!-- Add Content Here -->
+<div class="mat-content">
+  <form [formGroup]="mainData" class="edit-box" novalidate (ngSubmit)="submit()">
+    <div class="content">
 
       <mat-form-field class="full-width">
-        <input required matInput placeholder="Title" maxlength="255" formControlName="title" autocomplete="off">
+        <input matInput placeholder="Title" maxlength="255" formControlName="title" autocomplete="off">
       </mat-form-field>
 
       <div class="full-width">
@@ -39,10 +45,6 @@
         <mat-checkbox formControlName="linkDelete">LinkDelete</mat-checkbox>
         <mat-checkbox formControlName="linkVirtual">LinkVirtual</mat-checkbox>
       </div>
-
-    </mat-card-content>
-    <mat-card-actions align="end">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!(mainData.valid&&extraEdit.valid)">保存</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+    </div>
+  </form>
+</div>

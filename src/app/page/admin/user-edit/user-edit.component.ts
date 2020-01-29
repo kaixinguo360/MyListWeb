@@ -42,7 +42,7 @@ export class UserEditComponent implements OnInit {
   }
 
   constructor(
-    private viewService: ViewService,
+    private view: ViewService,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
@@ -54,15 +54,15 @@ export class UserEditComponent implements OnInit {
     this.route.paramMap.subscribe(map => {
       const id = Number(map.get('id'));
       if (id) {
-        this.viewService.init('User Edit', ['back'], true);
-        this.viewService.setLoading(true);
+        this.view.init({title: 'User Edit'}, true);
+        this.view.setLoading(true);
         this.userService.get(id).subscribe(user => {
           this.user = user;
           this.data.setValue(user);
-          this.viewService.setLoading(false);
+          this.view.setLoading(false);
         });
       } else {
-        this.viewService.init('New User', ['back'], true);
+        this.view.init({title: 'New User'}, true);
       }
     });
   }

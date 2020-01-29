@@ -1,30 +1,43 @@
 import {Injectable} from '@angular/core';
+import {TokenService} from '../token.service';
+import {Router} from '@angular/router';
+
+export interface ViewConfig {
+  title: string;
+  background?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViewService {
-  public title = 'Title';
-  public icons: string[] = [];
+
   public admin = false;
   public loading = false;
   public changed = false;
+  public config: ViewConfig = {title: ''};
 
-  public init(title: string, icons = ['order', 'home'], admin = false) {
+  public tokenService: TokenService;
+  public router: Router;
+
+  public init(config: ViewConfig, admin = false) {
     this.changed = true;
-    this.title = title;
-    this.icons = icons;
-    this.admin = admin;
     this.loading = false;
+    this.config = config;
+    this.admin = admin;
   }
-
-  public hasIcon(icon: string): boolean {
-    this.changed = true;
-    return this.icons.indexOf(icon) !== -1;
-  }
-
   public setLoading(loading: boolean) {
     this.changed = true;
     this.loading = loading;
+  }
+
+  public back() {
+    window.stop();
+    window.history.back();
+  }
+  public refresh() { location.reload(); }
+  public logout() {
+    this.tokenService.invalidateToken()
+      .subscribe(() => this.router.navigate([this.admin ? '/admin/login' : '/login']));
   }
 }

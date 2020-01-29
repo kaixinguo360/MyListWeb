@@ -55,13 +55,13 @@ export class LoginComponent implements OnInit {
       const url = urls.join('/');
       switch (url) {
         case 'admin/login': {
-          this.viewService.init('Admin Login', [], true);
+          this.viewService.init({title: 'Admin Login', background: '#00000033'}, true);
           this.isAdmin = true;
           break;
         }
         case 'login':
         default: {
-          this.viewService.init('User Login', []);
+          this.viewService.init({title: 'User Login', background: '#00000033'});
           this.isAdmin = false;
           break;
         }

@@ -1,15 +1,11 @@
 <form [formGroup]="videoData" class="edit-box">
-  <mat-card>
-    <mat-card-content>
 
-      <mat-form-field class="full-width">
-        <input required matInput placeholder="Image URL" maxlength="255" formControlName="url" autocomplete="off">
-      </mat-form-field>
+  <mat-form-field class="full-width">
+    <input required matInput placeholder="Video URL" maxlength="255" formControlName="url" autocomplete="off">
+  </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <input required matInput placeholder="Image Description" maxlength="255" formControlName="format" autocomplete="off">
-      </mat-form-field>
-
-    </mat-card-content>
-  </mat-card>
+  <mat-form-field class="full-width">
+    <input required matInput placeholder="Video Format" maxlength="255" formControlName="format" autocomplete="off">
+  </mat-form-field>
+  
 </form>

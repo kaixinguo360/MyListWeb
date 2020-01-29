@@ -3,6 +3,37 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.mat-icon-button:hover {
+  background-color: #efefef;
+}
+
+.mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: #8e8e8e;
+  background-color: white;
+  height: 64px;
+  z-index: 1;
+  border-bottom: 1px solid #efefef;
+}
+
+.mat-toolbar>span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 auto;
+}
+
+.mat-content {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 0;
+}
+
 .one-line-text {
   overflow: hidden;
   text-overflow: ellipsis;

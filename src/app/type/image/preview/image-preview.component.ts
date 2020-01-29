@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 
 import {PreviewCard} from '../../../com/card/preview/preview-card';
 import {Node} from '../../../service/node.service';
@@ -7,7 +7,7 @@ import {Node} from '../../../service/node.service';
   templateUrl: './image-preview.component.html',
   styleUrls: ['./image-preview.component.css']
 })
-export class ImagePreviewComponent implements PreviewCard, OnInit {
+export class ImagePreviewComponent implements PreviewCard {
   @Input() node: Node;
   @Input() width: number;
   @Input() height: number;
@@ -18,11 +18,6 @@ export class ImagePreviewComponent implements PreviewCard, OnInit {
   overflow = false;
   loading = true;
   error = false;
-  isGIF = false;
-
-  ngOnInit(): void {
-    this.isGIF = 'gif' === this.node.mainData.excerpt.trim().split('.').pop().toLowerCase();
-  }
 
   onload(): void {
     this.overflow = this.imgRef.nativeElement.offsetHeight > this.containerRef.nativeElement.offsetHeight;

@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.viewService.init('List Page', ['logout']);
+    this.viewService.init({title: 'List Page'});
     this.filter.onChange(() => this.fetchData());
     this.fetchData();
   }

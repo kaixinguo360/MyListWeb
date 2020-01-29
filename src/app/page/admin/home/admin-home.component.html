@@ -1,17 +1,25 @@
-<table mat-table [dataSource]="users">
-  <mat-text-column name="name"></mat-text-column>
-  <mat-text-column name="email"></mat-text-column>
-  <mat-text-column name="status"></mat-text-column>
-  <ng-container matColumnDef="operation">
-    <th mat-header-cell *matHeaderCellDef>
-      Operation
-    </th>
-    <td mat-cell *matCellDef="let user">
-      <button mat-icon-button [routerLink]="['/admin/user', user.id]"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button (click)="deleteUser(user)"><mat-icon>delete</mat-icon></button>
-    </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
-</table>
-<button mat-icon-button class="add-button" routerLink="/admin/user"><mat-icon>add</mat-icon></button>
+<mat-toolbar>
+  <span>{{view.config.title}}</span>
+  <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
+</mat-toolbar>
+<!-- Add Content Here -->
+<div class="mat-content">
+  <table mat-table [dataSource]="users">
+    <mat-text-column name="name"></mat-text-column>
+    <mat-text-column name="email"></mat-text-column>
+    <mat-text-column name="status"></mat-text-column>
+    <ng-container matColumnDef="operation">
+      <th mat-header-cell *matHeaderCellDef>
+        Operation
+      </th>
+      <td mat-cell *matCellDef="let user">
+        <button mat-icon-button [routerLink]="['/admin/user', user.id]"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button (click)="deleteUser(user)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+  </table>
+  <button mat-icon-button class="add-button" routerLink="/admin/user"><mat-icon>add</mat-icon></button>
+</div>
+

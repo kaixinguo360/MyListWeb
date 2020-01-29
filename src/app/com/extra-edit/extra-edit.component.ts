@@ -1,21 +1,22 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
-import {ExtraData, ListItem} from '../../service/node.service';
+import {ExtraData, ListItem, Node} from '../../service/node.service';
 import {TypeService} from '../../service/util/type.service';
 import {ExtraEdit} from './extra-edit';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-extra-data-edit',
   templateUrl: './extra-edit.component.html',
   styleUrls: ['./extra-edit.component.css']
 })
-export class ExtraEditComponent implements OnChanges {
+export class ExtraEditComponent implements OnChanges, ExtraEdit {
 
   @Input() type: string;
   public valid: boolean;
 
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
   content: ExtraEdit;
+  subject: Subject<void> = new Subject<void>();
   subscription: Subscription;
 
   private extraData: ExtraData;
@@ -33,6 +34,12 @@ export class ExtraEditComponent implements OnChanges {
   public getExtraList(): ListItem[] {
     return this.content.getExtraList ? this.content.getExtraList() : null;
   }
+  public process(node: Node) {
+    if (this.content.process) { this.content.process(node); }
+  }
+  public onChange(next: () => void): Subscription {
+    return this.subject.subscribe(next);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.content) { this.contentHost.remove(); }
@@ -41,8 +48,13 @@ export class ExtraEditComponent implements OnChanges {
     this.content = (componentRef.instance as ExtraEdit);
 
     this.valid = this.content.valid;
+    this.subject.next();
+
     if (this.subscription) { this.subscription.unsubscribe(); }
-    this.subscription = this.content.onChange(() => this.valid = this.content.valid);
+    this.subscription = this.content.onChange(() => {
+      this.valid = this.content.valid;
+      this.subject.next();
+    });
 
     if (this.extraData) {
       if (this.content.setExtraData) { this.content.setExtraData(this.extraData); }
@@ -57,5 +69,6 @@ export class ExtraEditComponent implements OnChanges {
   constructor(
     private typeService: TypeService
   ) { }
+
 
 }

@@ -2,8 +2,9 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  color: #8e8e8e;
 }
 
 .center-icon {
-   cursor: pointer;
- }
+  cursor: pointer;
+}

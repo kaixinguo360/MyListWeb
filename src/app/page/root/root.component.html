@@ -1,23 +1,5 @@
-<mat-sidenav-container>
-  <mat-sidenav-content class="sidenav-container">
-    <mat-toolbar color="primary" class="sidenav-toolbar">
-      <button type="button" mat-icon-button
-              *ngIf="viewService.hasIcon('back')"
-              (click)="back()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <span class="title">{{viewService.title}}</span>
-      <div *ngFor="let icon of viewService.icons">
-        <app-order-selector *ngIf="icon=='order'"></app-order-selector>
-        <button *ngIf="icon=='home'" type="button" mat-icon-button [routerLink]="viewService.admin?'/admin/home':'/home'"><mat-icon>home</mat-icon></button>
-        <button *ngIf="icon=='logout'" type="button" mat-icon-button (click)="logout()"><mat-icon>logout</mat-icon></button>
-      </div>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-    <div class="sidenav-content">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-<mat-progress-bar mode="indeterminate" *ngIf="viewService.loading"></mat-progress-bar>
-<ng-container #popupContainer></ng-container>
+<div class="container" [style.background-color]="view.config.background">
+  <router-outlet></router-outlet>
+  <mat-progress-bar mode="indeterminate" *ngIf="view.loading"></mat-progress-bar>
+  <ng-container #popupContainer></ng-container>
+</div>

@@ -30,12 +30,12 @@ export class AdminHomeComponent implements OnInit {
   }
 
   constructor(
-    private viewService: ViewService,
+    private view: ViewService,
     private userService: UserService,
   ) { }
 
   ngOnInit() {
-    this.viewService.init('Admin Home', ['logout'], true);
+    this.view.init({title: 'Admin Home'}, true);
     this.fetchUsers();
   }
 

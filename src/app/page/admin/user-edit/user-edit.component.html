@@ -1,7 +1,12 @@
-<form [formGroup]="data" class="edit-box" novalidate (ngSubmit)="submit()">
-  <mat-card>
-    <mat-card-content>
-
+<mat-toolbar>
+  <button type="button" mat-icon-button (click)="view.back()"><mat-icon>arrow_back</mat-icon></button>
+  <span>{{view.config.title}}</span>
+  <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
+</mat-toolbar>
+<!-- Add Content Here -->
+<div class="mat-content">
+  <form [formGroup]="data" class="edit-box" novalidate (ngSubmit)="submit()">
+    <div class="content">
       <mat-form-field class="full-width row">
         <input required matInput placeholder="Name" maxlength="255" formControlName="name" autocomplete="off">
       </mat-form-field>
@@ -20,9 +25,10 @@
         </mat-select>
       </mat-form-field>
 
-    </mat-card-content>
-    <mat-card-actions align="end">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!data.valid">保存</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+      <div class="full-width row">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!data.valid">保存</button>
+      </div>
+    </div>
+  </form>
+
+</div>
