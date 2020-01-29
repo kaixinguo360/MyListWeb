@@ -4,7 +4,7 @@ export const AppConfig = {
   iNodeStore: 'INodeStore',
   apiUrl: 'http://localhost:8080/api/',
   columnWidth: 240,
-  columnMargin: 8,
+  columnMargin: 4,
   mobileWidth: 640,
   defaultOrder: Order.MTIME_DESC,
   defaultMobileColumn: 2,

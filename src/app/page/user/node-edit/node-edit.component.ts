@@ -54,6 +54,16 @@ export class NodeEditComponent implements OnInit {
       })
     ).subscribe();
   }
+  public delete() {
+    if (!confirm('Delete this node?')) { return; }
+    this.nodeService.remove(this.mainData.value.id).pipe(
+      tap(() => this.router.navigate(['/home'])),
+      catchError(err => {
+        this.snackBar.open('An error occurred.', 'Close');
+        return throwError(err);
+      })
+    ).subscribe();
+  }
   ngOnInit() {
     this.valid = this.extraEdit.valid;
     this.extraEdit.onChange(() => {

@@ -12,3 +12,9 @@
   margin-right: 12px;
 }
 
+.button-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+

@@ -1,4 +1,89 @@
-.button-box {
+.container {
+  border-radius: 10px;
+  background-color: white;
+}
+.container>div {
+  margin: 6px;
+}
+
+.card-container {
+  position: relative;
+}
+
+.mat-icon-button {
+  background-color: #ffffffde;
+}
+.mat-icon-button:hover {
+  background-color: #ffffff;
+}
+
+.mat-flat-button {
+  color: inherit;
+  background-color: #ffffffde;
+  border-radius: 18px;
+  padding: 0 8px;
+  min-width: 0;
+}
+.mat-flat-button:hover {
+  background-color: #ffffff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.comment {
+  font-size: small;
+  color: #8e8e8e;
+  margin: 10px 2px;
+}
+
+/* -- mobile-buttons -- */
+
+.mobile-buttons {
   display: flex;
   justify-content: flex-end;
+  color: #8e8e8e;
+  margin: -2px 0 -10px;
+}
+
+.mobile-buttons>span {
+  flex: 1;
+}
+
+.mobile-buttons button {
+  background-color: unset;
+}
+
+.mobile-url-button {
+  padding: 0;
+  transform: translate(-50%) scale(0.8) translate(50%);
+}
+
+.mobile-more-button {
+  flex: 0 1 auto;
+  color: inherit;
+  margin-right: -6px;
+  min-width: 0;
+}
+
+/* -- desktop-buttons -- */
+
+.desktop-url-button {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  transform: translate(-50%, 50%) scale(0.8) translate(50%, -50%);
+}
+
+.desktop-edit-button {
+  position: absolute;
+  top: 8px; left: 8px;
+  transform: translate(-50%, -50%) scale(0.8) translate(50%, 50%);
+}
+
+.desktop-star-button {
+  position: absolute;
+  top: 8px; right: 8px;
+  transform: translate(50%, -50%) scale(0.8) translate(-50%, 50%);
 }

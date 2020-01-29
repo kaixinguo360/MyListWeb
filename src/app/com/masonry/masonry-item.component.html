@@ -1,10 +1,44 @@
-<div class="card-container hide-overflow"
+<div class="container hide-overflow"
      [style.width.px]="width"
      [style.max-width.px]="maxWidth"
      [style.height.px]="height"
-     [style.max-height.px]="maxHeight">
-  <app-preview-card [node]="node"></app-preview-card>
-  <div class="button-box">
-    <button mat-icon-button><mat-icon>more_horiz</mat-icon></button>
+     [style.max-height.px]="maxHeight"
+     (mouseenter)="show=true" (mouseleave)="show=false">
+  <div>
+
+    <div class="card-container">
+      <app-preview-card [node]="node"></app-preview-card>
+
+      <div class="desktop-buttons" *ngIf="!view.isMobile&&show" (click)="$event.stopPropagation()">
+        <a *ngIf="node.mainData.sourceUrl" [href]="node.mainData.sourceUrl" class="desktop-url-button one-line-text"
+           [style.max-width.px]="maxWidth?maxWidth:width">
+          <button mat-flat-button disableRipple>
+            <mat-icon>open_in_new</mat-icon>{{node.mainData.sourceUrl|domain}}
+          </button>
+        </a>
+        <a [routerLink]="['/edit/node/',node.mainData.id]" class="desktop-edit-button">
+          <button mat-icon-button disableRipple><mat-icon>edit</mat-icon></button>
+        </a>
+        <button mat-icon-button disableRipple class="desktop-star-button" [color]="node.mainData.like?'accent':'black'">
+          <mat-icon>star</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="comment" *ngIf="node.mainData.comment">
+      {{node.mainData.comment|limit:100}}
+    </div>
+
+    <div class="mobile-buttons" *ngIf="view.isMobile" (click)="$event.stopPropagation()"
+      [style.margin-top.px]="node.mainData.comment?-12:0">
+      <a *ngIf="node.mainData.sourceUrl" [href]="node.mainData.sourceUrl" class="one-line-text">
+        <button mat-flat-button disableRipple class="mobile-url-button">
+          <mat-icon>open_in_new</mat-icon>{{node.mainData.sourceUrl|domain}}
+        </button>
+      </a>
+      <span></span>
+      <button mat-icon-button disableRipple class="mobile-more-button"><mat-icon>more_horiz</mat-icon></button>
+    </div>
+
   </div>
 </div>

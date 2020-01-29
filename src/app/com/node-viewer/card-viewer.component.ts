@@ -2,6 +2,7 @@ import {Component, ComponentFactoryResolver, Injectable, Input, OnInit, ViewChil
 import {Node, NodeService} from '../../service/node.service';
 import {tap} from 'rxjs/operators';
 import {DetailCard} from '../card/detail/detail-card';
+import {ViewService} from '../../service/util/view.service';
 
 @Component({
   selector: 'app-card-viewer',
@@ -81,12 +82,15 @@ export class NodeViewer {
       this.popup.nodes = [node];
       this.popup.index = 0;
     }
+    this.view.stopBodyScroll(true);
   }
   public close() {
     this.popupContainerRef.remove();
+    this.view.stopBodyScroll(false);
   }
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
+    private view: ViewService,
   ) { }
 }

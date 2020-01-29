@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TokenService} from '../token.service';
 import {Router} from '@angular/router';
+import {AppConfig} from '../../../environments/app-config';
 
 export interface ViewConfig {
   title: string;
@@ -19,6 +20,8 @@ export class ViewService {
 
   public tokenService: TokenService;
   public router: Router;
+
+  public isMobile = window.innerWidth < AppConfig.mobileWidth;
 
   public init(config: ViewConfig, admin = false) {
     this.changed = true;
@@ -39,5 +42,9 @@ export class ViewService {
   public logout() {
     this.tokenService.invalidateToken()
       .subscribe(() => this.router.navigate([this.admin ? '/admin/login' : '/login']));
+  }
+
+  public stopBodyScroll(isFixed) {
+    document.body.style.overflow = isFixed ? 'hidden' : '';
   }
 }

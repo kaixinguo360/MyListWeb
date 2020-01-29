@@ -62,13 +62,19 @@ export class NodeService {
   }
   public update(node: Node): Observable<Node> {
     return this.httpService.put<Node>('node', node).pipe(
-      tap<Node>(n => this.nodeCache.set(n.mainData.id, n)),
+      tap<Node>(n => {
+        this.nodeCache.set(n.mainData.id, n);
+        this.obCache.delete(n.mainData.id);
+      }),
       this.errorHandler,
     );
   }
   public remove(id: number): Observable<void> {
     return this.httpService.delete<void>('node/' + id, null).pipe(
-      tap(() => this.nodeCache.delete(id)),
+      tap(() => {
+        this.nodeCache.delete(id);
+        this.obCache.delete(id);
+      }),
       this.errorHandler,
     );
   }

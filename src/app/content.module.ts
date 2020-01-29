@@ -15,6 +15,7 @@ import {ImageEditComponent} from './type/image/edit/image-edit.component';
 import {VideoPreviewComponent} from './type/video/preview/video-preview.component';
 import {VideoDetailComponent} from './type/video/detail/video-detail.component';
 import {VideoEditComponent} from './type/video/edit/video-edit.component';
+import {DomainPipe, LimitPipe} from './service/util/pipes';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,8 @@ import {VideoEditComponent} from './type/video/edit/video-edit.component';
     VideoPreviewComponent,
     VideoDetailComponent,
     VideoEditComponent,
+    DomainPipe,
+    LimitPipe,
   ],
   entryComponents: [
     NodeCardComponent,
@@ -37,12 +40,16 @@ import {VideoEditComponent} from './type/video/edit/video-edit.component';
     ImageEditComponent,
     VideoPreviewComponent,
     VideoDetailComponent,
-    VideoEditComponent,
+    VideoEditComponent
+  ],
+  exports: [
+    DomainPipe,
+    LimitPipe,
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    LazyLoadImageModule,
+    LazyLoadImageModule
   ]
 })
 export class ContentModule { }

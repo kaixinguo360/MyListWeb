@@ -6,6 +6,7 @@ import {NodeViewer} from '../node-viewer/card-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
 import {PreferenceService} from '../../service/util/preference.service';
 import {Node} from '../../service/node.service';
+import {ViewService} from '../../service/util/view.service';
 
 @Component({
   selector: 'app-masonry',
@@ -16,7 +17,7 @@ export class MasonryComponent implements OnInit {
   @Input() nodes: Node[];
 
   @ViewChild('masonry', { static: true }) masonry: NgxMasonryComponent;
-  isMobile = window.innerWidth < AppConfig.mobileWidth;
+  isMobile = this.view.isMobile;
   mobileColumn = this.preference.getNumber('mobileColumn', AppConfig.defaultMobileColumn);
   columnWidth = this.isMobile ? (window.innerWidth / 2) : AppConfig.columnWidth;
   columnMargin = AppConfig.columnMargin;
@@ -43,6 +44,7 @@ export class MasonryComponent implements OnInit {
 
   constructor(
     private router: Router,
+    public view: ViewService,
     public fileViewer: NodeViewer,
     public preference: PreferenceService,
   ) { }
