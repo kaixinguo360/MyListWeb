@@ -17,6 +17,7 @@ export class NodeEditComponent implements OnInit {
 
   mainData = this.fb.group({
     id: null,
+    user: null,
     title: this.fb.control(null),
     type: this.fb.control('node', Validators.required),
     linkDelete: this.fb.control(false, Validators.required),

@@ -11,7 +11,7 @@
 
   <mat-nav-list>
 
-    <a [routerLink]="['/node', node.mainData.id,'edit']" mat-list-item (click)="close()">
+    <a mat-list-item [routerLink]="['/node', node.mainData.id,'edit']" (click)="close()" *ngIf="canWrite">
       <mat-icon>edit</mat-icon>
       <span mat-line>Edit</span>
     </a>

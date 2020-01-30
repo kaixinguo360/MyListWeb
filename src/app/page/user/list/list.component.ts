@@ -20,13 +20,13 @@ export class ListComponent implements OnInit {
 
   fetchData() {
     if (this.sub) { this.sub.unsubscribe(); }
-    this.viewService.setLoading(true);
+    this.view.setLoading(true);
     this.nodes = [];
     this.error = false;
     this.sub = this.listService.getAll(this.filter.getFilter()).pipe(
       tap(nodes => {
         this.nodes = nodes;
-        this.viewService.setLoading(false);
+        this.view.setLoading(false);
       }),
       catchError(err => {
         this.error = false;
@@ -36,12 +36,12 @@ export class ListComponent implements OnInit {
   }
 
   constructor(
-    private viewService: ViewService,
+    public view: ViewService,
     private listService: ListService,
   ) { }
 
   ngOnInit(): void {
-    this.viewService.init({title: 'List Page'});
+    this.view.init({title: 'List Page'});
     this.filter.onChange(() => this.fetchData());
     this.fetchData();
   }

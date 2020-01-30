@@ -30,7 +30,16 @@
       </div>
     </form>
     <mat-card-actions align="end">
-      <button mat-button (click)="reset();close();">Clear</button>
+      <button mat-icon-button
+              [color]="(this.data.value.types.length === this.types.length)?'accent':null"
+              (click)="changeTypes()"><mat-icon>list</mat-icon></button>
+      <button mat-icon-button
+              [color]="(this.data.value.nsfw===true&&this.data.value.like===false&&this.data.value.hide===true)?'accent':null"
+              (click)="changeOptions()"><mat-icon>select_all</mat-icon></button>
+      <button mat-icon-button
+              [color]="(this.data.value.permission==='available')?'accent':(this.data.value.permission==='others_shared'?'primary':null)"
+              (click)="changePermission()"><mat-icon>public</mat-icon></button>
+      <button mat-button (click)="reset();">Reset</button>
       <button mat-button (click)="close();">OK</button>
     </mat-card-actions>
   </mat-card>

@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpService} from './util/http.service';
 import {shareReplay, tap} from 'rxjs/operators';
+import {ViewService} from './util/view.service';
+import {User} from './user.service';
 
 export class MainData {
   id?: number;
@@ -37,9 +39,17 @@ export class Node {
 })
 export class NodeService {
 
+  constructor(
+    public view: ViewService,
+    private httpService: HttpService,
+  ) { }
+
   private errorHandler = HttpService.errorHandler;
   private nodeCache = new Map<number, Node>();
   private obCache = new Map<number, Observable<Node>>();
+  public static canWrite(node: Node, user: User): boolean {
+    return !(node.mainData.user !== user.id && node.mainData.permission !== 'public');
+  }
 
   public add(node: Node): Observable<Node> {
     return this.httpService.post<Node>('node', node).pipe(
@@ -82,8 +92,4 @@ export class NodeService {
   public getCache(id: number): Node {
     return this.nodeCache.get(id);
   }
-
-  constructor(
-    private httpService: HttpService,
-  ) { }
 }

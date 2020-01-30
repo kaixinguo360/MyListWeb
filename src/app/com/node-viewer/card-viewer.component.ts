@@ -91,6 +91,6 @@ export class NodeViewer {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private view: ViewService,
+    public view: ViewService,
   ) { }
 }

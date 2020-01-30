@@ -31,6 +31,26 @@ export class FilterComponent implements OnInit {
   private changed = false;
   private onChangeSubject = new Subject<void>();
 
+  changeTypes() {
+    this.data.patchValue({
+      types: (this.data.value.types.length === this.types.length) ? [] : this.types
+    });
+  }
+  changeOptions() {
+    const value = this.data.value;
+    this.data.patchValue(
+      (value.nsfw === true && value.like === false && value.hide === true) ?
+        {nsfw: false, like: false, hide: false} :
+        {nsfw: true, like: false, hide: true}
+        );
+  }
+  changePermission() {
+    switch (this.data.value.permission) {
+      case 'available': this.data.patchValue({permission: 'others_shared'}); break;
+      case 'self': this.data.patchValue({permission: 'available'}); break;
+      default: this.data.patchValue({permission: 'self'}); break;
+    }
+  }
   reset() {
     this.data.setValue(JSON.parse(this.defaultData));
   }

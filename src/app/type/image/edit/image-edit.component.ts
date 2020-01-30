@@ -25,7 +25,7 @@ export class ImageEditComponent implements ExtraEdit {
   public setExtraData(extraData: ExtraData) { this.imageData.patchValue(extraData); }
 
   constructor(
-    private viewService: ViewService,
+    public view: ViewService,
     private nodeService: NodeService,
     private route: ActivatedRoute,
     private router: Router,

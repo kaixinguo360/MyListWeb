@@ -25,7 +25,7 @@ export class VideoEditComponent implements ExtraEdit {
   public setExtraData(extraData: ExtraData) { this.videoData.patchValue(extraData); }
 
   constructor(
-    private viewService: ViewService,
+    public view: ViewService,
     private nodeService: NodeService,
     private route: ActivatedRoute,
     private router: Router,

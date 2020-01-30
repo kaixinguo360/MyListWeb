@@ -18,8 +18,10 @@
             <mat-icon>open_in_new</mat-icon>{{node.mainData.sourceUrl|domain}}
           </button>
         </a>
-        <a [routerLink]="['/node',node.mainData.id,'edit']" class="desktop-edit-button">
-          <button mat-icon-button disableRipple><mat-icon>edit</mat-icon></button>
+        <a [routerLink]="canWrite?['/node',node.mainData.id,'edit']:null" class="desktop-edit-button">
+          <button mat-icon-button disableRipple [disabled]="!canWrite">
+            <mat-icon>{{canWrite?'edit':'public'}}</mat-icon>
+          </button>
         </a>
         <button mat-icon-button disableRipple class="desktop-star-button" [color]="node.mainData.like?'accent':'black'">
           <mat-icon>star</mat-icon>
@@ -27,10 +29,11 @@
       </div>
 
       <div class="icons">
-        <mat-icon color="primary" *ngIf="node.mainData.permission!='private'">share</mat-icon>
+        <mat-icon color="primary" *ngIf="node.mainData.user==view.user.id&&node.mainData.permission!='private'">share</mat-icon>
         <mat-icon color="primary" *ngIf="node.mainData.nsfw">warning</mat-icon>
         <mat-icon color="primary" *ngIf="node.mainData.hide">visibility_off</mat-icon>
         <mat-icon color="primary" *ngIf="node.mainData.like">star</mat-icon>
+        <mat-icon color="primary" *ngIf="node.mainData.user!=view.user.id">public</mat-icon>
       </div>
     </div>
 

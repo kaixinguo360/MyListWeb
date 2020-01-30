@@ -19,7 +19,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="half-width">
-          <mat-select required placeholder="Permission" formControlName="permission">
+          <mat-select required placeholder="Permission" formControlName="permission" [disabled]="mainData.value.id&&mainData.value.user!=view.user.id">
             <mat-option *ngFor="let permission of permissions" [value]="permission|lowercase">{{permission}}</mat-option>
           </mat-select>
         </mat-form-field>

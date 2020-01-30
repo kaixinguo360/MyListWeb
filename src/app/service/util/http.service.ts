@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 
-import {Observable, OperatorFunction, throwError} from 'rxjs';
+import {EMPTY, Observable, OperatorFunction} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 import {TokenService} from '../token.service';
@@ -29,22 +29,27 @@ export class HttpService {
     private preferenceService: PreferenceService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private viewService: ViewService
+    public view: ViewService,
   ) {
     HttpService.thisService = this;
   }
 
-  public static thisService: HttpService;
+  private static thisService: HttpService;
+  private static resultHandler: OperatorFunction<SimpleResponse<any>, any> = map<SimpleResponse<any>, any>(response  => response.result);
   public static errorHandler: OperatorFunction<any, any> = catchError(err => {
-    if (err instanceof HttpErrorResponse && err.status === 401) {
-      const thisService = HttpService.thisService;
-      thisService.snackBar.open('The token has expired, please log in again.', 'Close', {duration: 2000});
-      thisService.preferenceService.clean();
-      thisService.router.navigate([thisService.viewService.admin ? '/admin/login' : '/login']);
+    const that = HttpService.thisService;
+    if (err instanceof HttpErrorResponse) {
+      if (err.status === 401) {
+        that.snackBar.open('The token has expired, please log in again.', 'Close', {duration: 2000});
+        that.preferenceService.clean();
+        that.router.navigate([that.view.admin ? '/admin/login' : '/login']);
+      } else {
+        const result: SimpleResponse<any> = err.error;
+        that.snackBar.open(result ? result.message : 'An unknown error occurred.', 'Close', {duration: 2000});
+      }
     }
-    return throwError(err);
+    return EMPTY;
   });
-  public static resultHandler: OperatorFunction<SimpleResponse<any>, any> = map<SimpleResponse<any>, any>(response  => response.result);
 
   private apiUrl = AppConfig.apiUrl;
   private authService: TokenService;

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {TokenService} from '../token.service';
 import {Router} from '@angular/router';
 import {AppConfig} from '../../../environments/app-config';
+import {User} from '../user.service';
 
 export interface ViewConfig {
   title: string;
@@ -13,6 +14,7 @@ export interface ViewConfig {
 })
 export class ViewService {
 
+  public user: User;
   public admin = false;
   public loading = false;
   public changed = false;
