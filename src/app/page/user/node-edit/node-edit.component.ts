@@ -90,7 +90,7 @@ export class NodeEditComponent implements OnInit {
   }
 
   constructor(
-    private view: ViewService,
+    public view: ViewService,
     private nodeService: NodeService,
     private route: ActivatedRoute,
     private router: Router,

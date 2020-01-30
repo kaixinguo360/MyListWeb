@@ -31,10 +31,10 @@ export class FilterComponent implements OnInit {
   private changed = false;
   private onChangeSubject = new Subject<void>();
 
-  private reset() {
+  reset() {
     this.data.setValue(JSON.parse(this.defaultData));
   }
-  private close() {
+  close() {
     this.open = !this.open;
     if (!this.open && this.changed) {
       this.changed = false;

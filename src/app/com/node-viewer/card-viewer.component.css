@@ -83,7 +83,7 @@
   right: 0;
   height: 64px;
   z-index: 9;
-  background: #673ab7;
+  background: white;
 }
 
 .mat-progress-spinner {

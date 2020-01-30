@@ -42,7 +42,7 @@ export class UserEditComponent implements OnInit {
   }
 
   constructor(
-    private view: ViewService,
+    public view: ViewService,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,

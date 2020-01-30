@@ -30,7 +30,7 @@ export class AdminHomeComponent implements OnInit {
   }
 
   constructor(
-    private view: ViewService,
+    public view: ViewService,
     private userService: UserService,
   ) { }
 

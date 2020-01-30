@@ -3,10 +3,18 @@
   background-color: white;
 }
 .container>div {
+  max-height: 100%;
   margin: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 10px;
   position: relative;
 }
 
@@ -33,10 +41,27 @@ a {
   text-decoration: none;
 }
 
+.icons {
+  position: absolute;
+  bottom: 8px; right: 8px;
+  transform: translate(50%, 50%) scale(0.6) translate(-50%, -50%);
+  display: flex;
+  align-items: flex-end;
+}
+.icons>.mat-icon {
+  border-radius: 50%;
+  background-color: #ffffff9e;
+  color: #858585;
+  margin: 0 2px;
+  padding: 5px;
+}
+
 .comment {
   font-size: small;
   color: #8e8e8e;
   margin: 10px 2px;
+  overflow: hidden;
+  overflow-wrap: break-word;
 }
 
 /* -- mobile-buttons -- */
@@ -44,16 +69,14 @@ a {
 .mobile-buttons {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   color: #8e8e8e;
+  min-height: 36px;
   margin: -2px 0 -10px;
 }
 
 .mobile-buttons>span {
-  flex: 1;
-}
-
-.mobile-buttons button {
-  background-color: unset;
+  flex: 1 1 auto;
 }
 
 .mobile-url-button {
@@ -62,10 +85,7 @@ a {
 }
 
 .mobile-more-button {
-  flex: 0 1 auto;
-  color: inherit;
-  margin-right: -6px;
-  min-width: 0;
+  flex: 0 0;
 }
 
 /* -- desktop-buttons -- */

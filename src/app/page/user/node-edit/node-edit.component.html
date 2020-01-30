@@ -46,8 +46,9 @@
         <mat-checkbox formControlName="linkVirtual">LinkVirtual</mat-checkbox>
       </div>
 
-      <div class="full-width button-box" *ngIf="mainData.value.id">
-        <button type="button" color="warn" mat-raised-button (click)="delete()">Delete</button>
+      <div class="full-width button-box">
+        <button type="button" mat-raised-button (click)="delete()" *ngIf="mainData.value.id">Delete</button>
+        <button type="button" color="primary" mat-raised-button (click)="submit()" [disabled]="!valid">Save</button>
       </div>
     </div>
   </form>

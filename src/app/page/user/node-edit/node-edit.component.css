@@ -18,3 +18,7 @@
   margin-top: 24px;
 }
 
+.button-box>button {
+  margin: 0 8px;
+}
+

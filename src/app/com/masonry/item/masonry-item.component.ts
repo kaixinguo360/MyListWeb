@@ -21,6 +21,7 @@ export class MasonryItemComponent {
 
   openMenu() {
     this.bottomSheet.open(MasonryMenuComponent, {
+      hasBackdrop: true,
       data: this.node
     });
   }

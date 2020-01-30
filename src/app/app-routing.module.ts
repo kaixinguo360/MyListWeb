@@ -9,16 +9,17 @@ import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
 import {NodeEditComponent} from './page/user/node-edit/node-edit.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: UserHomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'edit/node', component: NodeEditComponent },
-  { path: 'edit/node/:id', component: NodeEditComponent },
+  { path: 'node/new', component: NodeEditComponent },
+  { path: 'node/:id/edit', component: NodeEditComponent },
   { path: 'list', component: ListComponent },
-  { path: 'admin', redirectTo: 'admin/home' },
+  { path: 'admin', redirectTo: 'admin/home', pathMatch: 'full' },
   { path: 'admin/home', component: AdminHomeComponent },
   { path: 'admin/login', component: LoginComponent },
-  { path: 'admin/user', component: UserEditComponent },
-  { path: 'admin/user/:id', component: UserEditComponent },
+  { path: 'admin/user/new', component: UserEditComponent },
+  { path: 'admin/user/:id/edit', component: UserEditComponent },
 ];
 
 @NgModule({

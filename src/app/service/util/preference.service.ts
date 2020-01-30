@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {ViewService} from './view.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,14 @@ export class PreferenceService {
     localStorage.removeItem(key);
   }
 
-  constructor() { }
+  public clean() {
+    this.remove(this.viewService.admin ? 'admin_token' : 'token');
+    if (!this.viewService.admin) {
+      ['saved_filter', 'order'].forEach(key => this.remove(key));
+    }
+  }
+
+  constructor(
+    private viewService: ViewService
+  ) { }
 }

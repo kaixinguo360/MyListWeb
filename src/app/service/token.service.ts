@@ -28,7 +28,7 @@ export class TokenService {
   }
   public invalidateToken(): Observable<void> {
     return this.apiService.delete<void>(this.viewService.admin ? 'token/admin' : 'token', null, true).pipe(
-      tap(() => this.preferenceService.remove(this.viewService.admin ? 'admin_token' : 'token'))
+      tap(() => this.preferenceService.clean())
     );
   }
 

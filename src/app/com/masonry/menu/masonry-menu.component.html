@@ -1,22 +1,27 @@
-<div (click)="open()">
-  <app-card-preview [node]="node"></app-card-preview>
+<div class="container">
+  <div class="card-container hide-overflow">
+    <div class="preview-container hide-overflow">
+      <app-card-preview [node]="node"></app-card-preview>
+    </div>
+    <div class="info-container hide-overflow">
+      <h2>{{node.mainData.title?(node.mainData.title|limit:50):('Unnamed '+node.mainData.type|titlecase)}}</h2>
+      <p>{{node.mainData.comment|limit:50}}</p>
+    </div>
+  </div>
+
+  <mat-nav-list>
+
+    <a [routerLink]="['/node', node.mainData.id,'edit']" mat-list-item (click)="close()">
+      <mat-icon>edit</mat-icon>
+      <span mat-line>Edit</span>
+    </a>
+
+    <a mat-list-item (click)="star()">
+      <mat-icon>star</mat-icon>
+      <span mat-line>Star</span>
+    </a>
+
+  </mat-nav-list>
+
+  <div style="height: 100px"></div>
 </div>
-
-<div>
-  <h2>{{node.mainData.title}}</h2>
-  <p>{{node.mainData.comment}}</p>
-</div>
-
-<mat-nav-list>
-
-  <a [routerLink]="['/edit/node', node.mainData.id]" mat-list-item (click)="close()">
-    <mat-icon>edit</mat-icon>
-    <span mat-line>Edit</span>
-  </a>
-
-  <a mat-list-item (click)="star()">
-    <mat-icon>star</mat-icon>
-    <span mat-line>Star</span>
-  </a>
-
-</mat-nav-list>

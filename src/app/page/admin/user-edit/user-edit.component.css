@@ -1,5 +1,24 @@
 .content {
-  width: 100%;
+  width: calc(100% - 64px);
   max-width: 400px;
   margin: 24px auto;
 }
+
+.mat-raised-button {
+  box-shadow: white 0 0 0;
+}
+
+.mat-checkbox {
+  margin-right: 12px;
+}
+
+.button-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.button-box>button {
+  margin: 0 8px;
+}
+

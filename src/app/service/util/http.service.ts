@@ -39,7 +39,7 @@ export class HttpService {
     if (err instanceof HttpErrorResponse && err.status === 401) {
       const thisService = HttpService.thisService;
       thisService.snackBar.open('The token has expired, please log in again.', 'Close', {duration: 2000});
-      thisService.preferenceService.remove(thisService.viewService.admin ? 'admin_token' : 'token');
+      thisService.preferenceService.clean();
       thisService.router.navigate([thisService.viewService.admin ? '/admin/login' : '/login']);
     }
     return throwError(err);

@@ -2,6 +2,8 @@
   <button mat-icon-button (click)="open?close():(open=true)">
     <mat-icon matBadgeSize="small" matBadge="!" matBadgePosition="above before" matBadgeColor="accent" [matBadgeHidden]="!modified">filter_list</mat-icon>
   </button>
+  <div *ngIf="open" class="overlay" (click)="close()">
+  </div>
   <mat-card *ngIf="open">
     <form [formGroup]="data">
       <mat-form-field class="half-width">

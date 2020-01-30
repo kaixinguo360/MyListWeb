@@ -1,7 +1,7 @@
 <mat-toolbar>
   <button type="button" mat-icon-button (click)="view.back()"><mat-icon>arrow_back</mat-icon></button>
   <span>{{view.config.title}}</span>
-  <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
+  <button color="primary" mat-raised-button (click)="submit()" [disabled]="!data.valid">Save</button>
 </mat-toolbar>
 <!-- Add Content Here -->
 <div class="mat-content">
@@ -25,8 +25,8 @@
         </mat-select>
       </mat-form-field>
 
-      <div class="full-width row">
-        <button mat-raised-button color="primary" type="submit" [disabled]="!data.valid">保存</button>
+      <div class="full-width button-box">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!data.valid">Save</button>
       </div>
     </div>
   </form>

@@ -15,3 +15,16 @@ video {
   min-height: 100%;
   min-width: 100%;
 }
+
+.mat-icon {
+  min-width: 100px;
+  min-height: 100px;
+  font-size: 100px;
+  border-radius: 50%;
+  box-shadow: 0 0 64px rgb(234, 234, 234);
+  background: radial-gradient(#eaeaea, rgba(234, 234, 234, 0.1));
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.6);
+}
