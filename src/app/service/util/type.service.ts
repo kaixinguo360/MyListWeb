@@ -4,6 +4,7 @@ import {TypeConfig} from '../../type/type-config';
 import {PreviewCard} from '../../com/card/preview/preview-card';
 import {DetailCard} from '../../com/card/detail/detail-card';
 import {ExtraEdit} from '../../com/extra-edit/extra-edit';
+import {Node} from '../node.service';
 
 export interface TypeInfo {
   name: string;
@@ -13,6 +14,7 @@ export interface TypeInfo {
   extraEdit: Type<ExtraEdit>;
   icon: string;
   ext?: RegExp;
+  process?: (node: Node) => void;
 }
 
 @Injectable({

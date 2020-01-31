@@ -48,10 +48,12 @@ export class ListService {
     return this.httpService.post<Node[]>(ListService.path, filter, true).pipe(this.errorHandler);
   }
   public getAllByType(type: string, filter: Filter = {}): Observable<Node[]> {
-    filter.conditions.push({column: 'node_type', oper: '=', value: type});
+    if (!filter.conditions) { filter.conditions = []; }
+    filter.conditions.push({column: 'node_type', oper: '=', value: `'${type}'`});
     return this.httpService.post<Node[]>(ListService.path, filter, true).pipe(this.errorHandler);
   }
   public getAllByListId(listId: number, filter: Filter = {}): Observable<Node[]> {
+    if (!filter.conditions) { filter.conditions = []; }
     filter.andTags.push({id: listId});
     return this.httpService.post<Node[]>(ListService.path, filter, true).pipe(this.errorHandler);
   }

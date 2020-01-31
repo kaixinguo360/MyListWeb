@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ViewService} from '../../../service/util/view.service';
-import {Node} from '../../../service/node.service';
-import {FilterComponent} from '../../../com/filter/filter.component';
+import {ViewService} from '../../service/util/view.service';
+import {Node} from '../../service/node.service';
+import {FilterComponent} from '../../com/filter/filter.component';
 import {catchError, tap} from 'rxjs/operators';
 import {Subscription, throwError} from 'rxjs';
-import {ListService} from '../../../service/list.service';
+import {ListService} from '../../service/list.service';
 
 @Component({
   selector: 'app-user-home',

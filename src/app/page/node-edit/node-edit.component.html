@@ -47,6 +47,11 @@
       </div>
 
       <div class="full-width button-box">
+        <button type="button" mat-raised-button (click)="selectTag()">Tag</button>
+        <button type="button" mat-raised-button (click)="selectTags()">Tags</button>
+      </div>
+
+      <div class="full-width button-box">
         <button type="button" mat-raised-button (click)="delete()" *ngIf="mainData.value.id">Delete</button>
         <button type="button" color="primary" mat-raised-button (click)="submit()" [disabled]="!valid||view.loading">Save</button>
       </div>

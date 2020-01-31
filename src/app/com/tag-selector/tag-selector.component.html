@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="title-container flex-fixed">
+    <span class="flex-padding">{{title}}</span>
+    <button class="flex-fixed" mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
+  </div>
+  <div class="input-container flex-fixed full-width" (click)="showInputBox=true;">
+    <mat-icon *ngIf="!showInputBox">add</mat-icon>
+    <div *ngIf="!showInputBox">
+      <p class="title" matLine>新建标签</p>
+      <p class="info" matLine></p>
+    </div>
+    <mat-form-field class="full-width input-box" *ngIf="showInputBox">
+      <input matInput #title [disabled]="view.loading" placeholder="标签名称" maxlength="255">
+      <button matSuffix mat-icon-button [disabled]="view.loading" (click)="create(title.value)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="list-container">
+    <mat-action-list class="flex-padding" *ngIf="!multi">
+      <mat-list-item class="item-container" (click)="selectTag(tag)" *ngFor="let tag of tags">
+        <div class="image" [style.background-image]="'url(\'/favicon.ico\')'"></div>
+        <div>
+          <p class="title" matLine>{{tag.mainData.title}}</p>
+          <p class="info" matLine>{{tag.mainData.comment}}</p>
+        </div>
+      </mat-list-item>
+    </mat-action-list>
+    <mat-selection-list class="flex-padding" *ngIf="multi">
+      <mat-list-option class="item-container" *ngFor="let tag of tags">
+        <div>
+          <p class="title" matLine>{{tag.mainData.title}}</p>
+          <p class="info" matLine>{{tag.mainData.comment}}</p>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <div class="save-button-container flex-fixed full-width" *ngIf="multi">
+    <button mat-button (click)="selectTags()">Save</button>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import {
   MatBottomSheetModule,
   MatCardModule,
   MatCheckboxModule,
+  MatDialogModule,
   MatExpansionModule,
   MatFormFieldModule,
   MatInputModule,
@@ -50,6 +51,7 @@ import {MatListModule} from '@angular/material/list';
     MatTableModule,
     MatBadgeModule,
     MatBottomSheetModule,
+    MatDialogModule,
   ]
 })
 export class MaterialModule { }

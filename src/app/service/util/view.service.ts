@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {ChangeDetectorRef, Injectable} from '@angular/core';
 import {TokenService} from '../token.service';
 import {Router} from '@angular/router';
 import {AppConfig} from '../../../environments/app-config';
@@ -18,23 +18,22 @@ export class ViewService {
   public user: User;
   public admin = false;
   public loading = false;
-  public changed = false;
   public config: ViewConfig = {title: ''};
 
   public isMobile = window.innerWidth < AppConfig.mobileWidth;
 
   public tokenService: TokenService; // @Autowired
   public router: Router; // @Autowired
+  public cdRef: ChangeDetectorRef; // @Autowired
 
   public init(config: ViewConfig, admin = false) {
-    this.changed = true;
     this.loading = false;
     this.config = config;
     this.admin = admin;
   }
   public setLoading(loading: boolean) {
-    this.changed = true;
     this.loading = loading;
+    this.cdRef.detectChanges();
   }
 
   public back() {
@@ -53,5 +52,7 @@ export class ViewService {
     this.matSnackBar.open(message, action, config);
   }
 
-  constructor(private matSnackBar: MatSnackBar) { }
+  constructor(
+    private matSnackBar: MatSnackBar,
+  ) { }
 }

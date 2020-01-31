@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 68px);
+  max-width: 400px;
+  height: calc(100vh - 68px);
+  max-height: 600px;
+}
+
+.title-container {
+  display: flex;
+}
+.input-container {
+  display: flex;
+  align-items: center;
+}
+.list-container {
+  height: 100%;
+  overflow-y: auto;
+  margin: 0 24px;
+}
+.save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  margin-bottom: -12px;
+}
+
+.item-container {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.image {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+  margin: 0 10px 0 -10px;
+}
+.title {
+  margin-bottom: 0;
+  font-size: 17px;
+  font-weight: bold;
+}
+.info {
+  margin-top: 5px;
+  color: gray;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.input-box {
+  margin-top: 20px;
+}

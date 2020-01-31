@@ -1,4 +1,4 @@
-import {ExtraData, ListItem, Node} from '../../service/node.service';
+import {ExtraData, ListItem} from '../../service/node.service';
 import {Subscription} from 'rxjs';
 
 export interface ExtraEdit {
@@ -8,5 +8,4 @@ export interface ExtraEdit {
   setExtraList?(extraList: ListItem[]);
   getExtraData?(): ExtraData;
   getExtraList?(): ListItem[];
-  process?(node: Node);
 }

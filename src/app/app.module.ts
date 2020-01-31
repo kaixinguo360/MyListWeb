@@ -12,8 +12,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {MaterialModule} from './material.module';
 import {ContentModule} from './content.module';
 
-import {RootComponent} from './page/root/root.component';
-import {ListComponent} from './page/user/list/list.component';
+import {RootComponent} from './page/root.component';
 import {LoginComponent} from './page/login/login.component';
 
 import {MasonryItemComponent} from './com/masonry/item/masonry-item.component';
@@ -24,11 +23,12 @@ import {FilterComponent} from './com/filter/filter.component';
 import {PreviewCardComponent} from './com/card/preview/preview-card.component';
 import {DetailCardComponent} from './com/card/detail/detail-card.component';
 import {AdminHomeComponent} from './page/admin/home/admin-home.component';
-import {UserHomeComponent} from './page/user/home/user-home.component';
+import {UserHomeComponent} from './page/user-home/user-home.component';
 import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
-import {NodeEditComponent} from './page/user/node-edit/node-edit.component';
+import {NodeEditComponent} from './page/node-edit/node-edit.component';
 import {ExtraEditComponent} from './com/extra-edit/extra-edit.component';
 import {MasonryMenuComponent} from './com/masonry/menu/masonry-menu.component';
+import {TagSelectorComponent} from './com/tag-selector/tag-selector.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -37,7 +37,6 @@ export class HammerConfig extends HammerGestureConfig  {
 @NgModule({
   declarations: [
     RootComponent,
-    ListComponent,
     LoginComponent,
     MasonryItemComponent,
     MasonryComponent,
@@ -52,6 +51,7 @@ export class HammerConfig extends HammerGestureConfig  {
     NodeEditComponent,
     ExtraEditComponent,
     MasonryMenuComponent,
+    TagSelectorComponent,
   ],
     imports: [
         BrowserModule,
@@ -72,6 +72,7 @@ export class HammerConfig extends HammerGestureConfig  {
   entryComponents: [
     CardViewerComponent,
     MasonryMenuComponent,
+    TagSelectorComponent,
   ]
 })
 export class AppModule { }

@@ -1,12 +1,13 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {ViewService} from '../../../service/util/view.service';
-import {Node, NodeService} from '../../../service/node.service';
+import {ViewService} from '../../service/util/view.service';
+import {Node, NodeService} from '../../service/node.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
 import {throwError} from 'rxjs';
-import {ExtraEditComponent} from '../../../com/extra-edit/extra-edit.component';
+import {ExtraEditComponent} from '../../com/extra-edit/extra-edit.component';
+import {TagSelectorComponent} from '../../com/tag-selector/tag-selector.component';
 
 @Component({
   selector: 'app-node-edit',
@@ -65,6 +66,13 @@ export class NodeEditComponent implements OnInit {
       })
     ).subscribe();
   }
+  public selectTag() {
+    TagSelectorComponent.getTag();
+  }
+  public selectTags() {
+    TagSelectorComponent.getTags();
+  }
+
   ngOnInit() {
     this.valid = this.extraEdit.valid;
     this.extraEdit.onChange(() => {

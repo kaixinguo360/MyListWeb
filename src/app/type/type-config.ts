@@ -33,6 +33,7 @@ export const TypeConfig: TypeInfo[] = [
     detail: ListCardComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'folder',
+    process: node => { node.extraList.forEach(n => (n.status === 'new') ? (n.node.mainData.linkDelete = true) : null); },
   },
   {
     id: 'tag',
@@ -41,6 +42,7 @@ export const TypeConfig: TypeInfo[] = [
     detail: NodeCardComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'insert_drive_file',
+    process: node => { node.mainData.linkVirtual = true; },
   },
   {
     id: 'text',
