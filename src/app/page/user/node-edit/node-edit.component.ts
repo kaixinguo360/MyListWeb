@@ -76,10 +76,8 @@ export class NodeEditComponent implements OnInit {
       const id = Number(map.get('id'));
       if (id) {
         this.view.init({title: 'Node Edit'});
-        this.view.setLoading(true);
 
         this.nodeService.get(id).subscribe(node => {
-          this.view.setLoading(false);
           this.mainData.patchValue(node.mainData);
           this.extraEdit.setExtraData(node.extraData);
           this.extraEdit.setExtraList(node.extraList);

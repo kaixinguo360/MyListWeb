@@ -20,13 +20,11 @@ export class UserHomeComponent implements OnInit {
 
   fetchData() {
     if (this.sub) { this.sub.unsubscribe(); }
-    this.view.setLoading(true);
     this.nodes = [];
     this.error = false;
     this.sub = this.listService.getAll(this.filter.getFilter()).pipe(
       tap(nodes => {
         this.nodes = nodes;
-        this.view.setLoading(false);
       }),
       catchError(err => {
         this.error = false;

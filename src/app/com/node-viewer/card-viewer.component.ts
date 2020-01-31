@@ -47,12 +47,14 @@ export class CardViewerComponent implements OnInit {
         this.nodeService.get(node.mainData.id).subscribe();
       }
     }
+    this.view.setLoading(false);
   }
   private showNode(node: Node) {
     this.currentNode = node;
   }
 
   constructor(
+    public view: ViewService,
     public fileViewer: NodeViewer,
     private nodeService: NodeService,
   ) { }

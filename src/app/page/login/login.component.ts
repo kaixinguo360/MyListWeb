@@ -16,7 +16,6 @@ import {Subscription} from 'rxjs/internal/Subscription';
 })
 export class LoginComponent implements OnInit {
 
-  isAdmin: boolean;
   loginData = this.fb.group({
     name: [null, Validators.required],
     pass: [null, Validators.required]
@@ -28,20 +27,20 @@ export class LoginComponent implements OnInit {
     const data = this.loginData.getRawValue();
 
     this.sub = (this.view.admin ?
-      this.authService.generateAdminToken(data.pass) :
-      this.authService.generateToken(data.name, data.pass)
+      this.tokenService.generateAdminToken(data.pass) :
+      this.tokenService.generateToken(data.name, data.pass)
     ).pipe(
-      tap(() => this.router.navigate([this.isAdmin ? 'admin/home' : 'home'])),
-      catchError(err => { alert('未知错误!'); return of(err); })
+      tap(() => this.router.navigate([this.view.admin ? '/admin/home' : '/home'])),
+      catchError(err => of(err))
     ).subscribe();
   }
 
   constructor(
+    public view: ViewService,
     private router: Router,
     private fb: FormBuilder,
-    private authService: TokenService,
-    public view: ViewService,
     private route: ActivatedRoute,
+    private tokenService: TokenService,
   ) { }
 
   ngOnInit() {
@@ -49,16 +48,17 @@ export class LoginComponent implements OnInit {
       const url = urls.join('/');
       switch (url) {
         case 'admin/login': {
-          this.view.init({title: 'Admin Login', background: '#00000033'}, true);
-          this.isAdmin = true;
+          this.view.init({title: 'Admin Login'}, true);
           break;
         }
         case 'login':
         default: {
-          this.view.init({title: 'User Login', background: '#00000033'});
-          this.isAdmin = false;
+          this.view.init({title: 'User Login'});
           break;
         }
+      }
+      if (this.tokenService.hasToken()) {
+        this.router.navigate([this.view.admin ? '/admin/home' : '/home']);
       }
     });
   }

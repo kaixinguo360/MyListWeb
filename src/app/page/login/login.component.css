@@ -1,21 +1,17 @@
-.login-container {
+.container {
   display: flex;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.space {
-  flex: 0 1 auto;
-  min-width: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000033;
 }
 
 .login-card {
   flex: 1 0 auto;
   max-width: 400px;
   min-width: 0;
-  margin: 164px auto;
+  margin: 10px;
 }
 
 .login-card>div {
@@ -36,13 +32,4 @@
 .row {
   display: flex;
   flex-direction: row;
-}
-
-.col {
-  flex: 1 0 auto;
-  margin-right: 20px;
-}
-
-.col:last-child {
-  margin-right: 0;
 }

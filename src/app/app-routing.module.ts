@@ -20,6 +20,7 @@ const routes: Routes = [
   { path: 'admin/login', component: LoginComponent },
   { path: 'admin/user/new', component: UserEditComponent },
   { path: 'admin/user/:id/edit', component: UserEditComponent },
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({

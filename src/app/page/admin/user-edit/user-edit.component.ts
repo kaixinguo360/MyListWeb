@@ -55,11 +55,9 @@ export class UserEditComponent implements OnInit {
       const id = Number(map.get('id'));
       if (id) {
         this.view.init({title: 'User Edit'}, true);
-        this.view.setLoading(true);
         this.userService.get(id).subscribe(user => {
           this.user = user;
           this.data.setValue(user);
-          this.view.setLoading(false);
         });
       } else {
         this.view.init({title: 'New User'}, true);

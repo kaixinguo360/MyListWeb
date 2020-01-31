@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {catchError, tap} from 'rxjs/operators';
-import {EMPTY, Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 
 import {HttpService} from './util/http.service';
 import {PreferenceService} from './util/preference.service';
@@ -16,9 +16,11 @@ export class TokenService {
 
   private errorHandler = catchError(err => {
     if (err instanceof HttpErrorResponse && err.status === 403) {
-      alert('Wrong user name or password!');
+      this.view.alert('Wrong user name or password!');
+    } else {
+      this.view.alert('Unknown error!');
     }
-    return EMPTY;
+    return throwError(err);
   });
   public static password(pass: string) {
     // TODO
@@ -68,6 +70,6 @@ export class TokenService {
     private preferenceService: PreferenceService,
     private apiService: HttpService,
   ) {
-    apiService.setAuthService(this);
+    apiService.setTokenService(this);
   }
 }
