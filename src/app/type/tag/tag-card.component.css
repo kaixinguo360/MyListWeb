@@ -1,0 +1,12 @@
+.container {
+  font-size: 20px;
+  padding: 11px;
+  color: white;
+  background-color: #673ab7;
+}
+
+.mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}

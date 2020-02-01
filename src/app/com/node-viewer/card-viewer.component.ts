@@ -69,7 +69,8 @@ export class CardViewerComponent implements OnInit {
   providedIn: 'root'
 })
 export class NodeViewer {
-  public popupContainerRef: ViewContainerRef;
+
+  public popupContainerRef: ViewContainerRef; // @Autowired
   public popup: CardViewerComponent;
 
   public open(node: Node, nodes?: Node[]) {
@@ -84,11 +85,11 @@ export class NodeViewer {
       this.popup.nodes = [node];
       this.popup.index = 0;
     }
-    this.view.stopBodyScroll(true);
+    this.view.stopScroll(true);
   }
   public close() {
     this.popupContainerRef.remove();
-    this.view.stopBodyScroll(false);
+    this.view.stopScroll(false);
   }
 
   constructor(

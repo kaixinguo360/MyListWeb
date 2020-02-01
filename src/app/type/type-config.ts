@@ -8,6 +8,7 @@ import {VideoDetailComponent} from './video/detail/video-detail.component';
 import {NodeExtraEditComponent} from './node/extra-edit/node-extra-edit.component';
 import {ImageEditComponent} from './image/edit/image-edit.component';
 import {VideoEditComponent} from './video/edit/video-edit.component';
+import {TagCardComponent} from './tag/tag-card.component';
 
 export const TypeConfig: TypeInfo[] = [
   {
@@ -38,11 +39,14 @@ export const TypeConfig: TypeInfo[] = [
   {
     id: 'tag',
     name: 'Tag',
-    preview: NodeCardComponent,
-    detail: NodeCardComponent,
+    preview: TagCardComponent,
+    detail: TagCardComponent,
     extraEdit: NodeExtraEditComponent,
-    icon: 'insert_drive_file',
-    process: node => { node.mainData.linkVirtual = true; },
+    icon: 'style',
+    process: node => {
+      if (!node.mainData.title) { return 'Tag node should have a title.'; }
+      node.mainData.linkVirtual = true;
+    },
   },
   {
     id: 'text',

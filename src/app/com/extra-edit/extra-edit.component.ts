@@ -34,9 +34,9 @@ export class ExtraEditComponent implements OnChanges, ExtraEdit {
   public getExtraList(): ListItem[] {
     return this.content.getExtraList ? this.content.getExtraList() : null;
   }
-  public process(node: Node) {
+  public process(node: Node): any {
     const type = this.typeService.getType(node.mainData.type);
-    if (type && type.process) { type.process(node); }
+    if (type && type.process) { return type.process(node); }
   }
   public onChange(next: () => void): Subscription {
     return this.subject.subscribe(next);

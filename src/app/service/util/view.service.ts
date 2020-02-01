@@ -5,6 +5,7 @@ import {AppConfig} from '../../../environments/app-config';
 import {User} from '../user.service';
 import {MatSnackBar} from '@angular/material';
 import {MatSnackBarConfig} from '@angular/material/snack-bar/typings/snack-bar-config';
+import {Title} from '@angular/platform-browser';
 
 export interface ViewConfig {
   title: string;
@@ -25,14 +26,21 @@ export class ViewService {
   public tokenService: TokenService; // @Autowired
   public router: Router; // @Autowired
   public cdRef: ChangeDetectorRef; // @Autowired
+  public matSnackBar: MatSnackBar; // @Autowired
+  public titleService: Title; // @Autowired
 
   public init(config: ViewConfig, admin = false) {
     this.loading = false;
     this.config = config;
     this.admin = admin;
+    this.onChange();
   }
   public setLoading(loading: boolean) {
     this.loading = loading;
+    this.onChange();
+  }
+  private onChange() {
+    this.titleService.setTitle(this.config.title);
     this.cdRef.detectChanges();
   }
 
@@ -40,19 +48,20 @@ export class ViewService {
     window.stop();
     window.history.back();
   }
-  public refresh() { location.reload(); }
+  public reload() {
+    location.reload();
+  }
   public logout() {
     this.tokenService.invalidateToken()
-      .subscribe(() => this.router.navigate([this.admin ? '/admin/login' : '/login']));
+      .subscribe(() => {
+        this.router.navigate([this.admin ? '/admin/login' : '/login']);
+        location.reload();
+      });
   }
-  public stopBodyScroll(isFixed) {
+  public stopScroll(isFixed) {
     document.body.style.overflow = isFixed ? 'hidden' : '';
   }
   public alert(message: string, action: string = 'Close', config: MatSnackBarConfig = {duration: 2000}) {
     this.matSnackBar.open(message, action, config);
   }
-
-  constructor(
-    private matSnackBar: MatSnackBar,
-  ) { }
 }

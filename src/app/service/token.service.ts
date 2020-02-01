@@ -69,7 +69,5 @@ export class TokenService {
     private router: Router,
     private preferenceService: PreferenceService,
     private apiService: HttpService,
-  ) {
-    apiService.setTokenService(this);
-  }
+  ) { }
 }

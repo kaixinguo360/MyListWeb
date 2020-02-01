@@ -10,7 +10,7 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {MaterialModule} from './material.module';
-import {ContentModule} from './content.module';
+import {TypeModule} from './type.module';
 
 import {RootComponent} from './page/root.component';
 import {LoginComponent} from './page/login/login.component';
@@ -61,7 +61,7 @@ export class HammerConfig extends HammerGestureConfig  {
         LayoutModule,
         NgxMasonryModule,
         ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
-        ContentModule,
+        TypeModule,
         MaterialModule,
     ],
   providers: [{

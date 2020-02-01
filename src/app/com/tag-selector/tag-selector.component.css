@@ -63,6 +63,12 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.info .mat-icon {
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+  transform: translate(0, 2px);
+}
 
 .input-box {
   margin-top: 20px;

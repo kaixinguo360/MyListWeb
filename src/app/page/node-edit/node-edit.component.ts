@@ -47,7 +47,8 @@ export class NodeEditComponent implements OnInit {
       extraList: this.extraEdit.getExtraList(),
       tags: this.tags.map(tag => tag.mainData.id)
     };
-    this.extraEdit.process(node);
+    const error = this.extraEdit.process(node);
+    if (error) { this.view.alert(error); return; }
 
     (node.mainData.id ?
       this.nodeService.update(node) :

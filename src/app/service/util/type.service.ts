@@ -14,7 +14,7 @@ export interface TypeInfo {
   extraEdit: Type<ExtraEdit>;
   icon: string;
   ext?: RegExp;
-  process?: (node: Node) => void;
+  process?: (node: Node) => any;
 }
 
 @Injectable({

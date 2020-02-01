@@ -33,7 +33,14 @@
         <div>
           <p class="title" matLine>{{tag.mainData.title}}</p>
           <p class="info" matLine>
-            <span *ngIf="tag.mainData.user!==view.user.id">from other user</span>
+            <span *ngIf="tag.mainData.user!==view.user.id">
+              <mat-icon>public</mat-icon>
+              from other user
+            </span>
+            <span *ngIf="tag.mainData.user===view.user.id&&tag.mainData.permission!=='private'">
+              <mat-icon>share</mat-icon>
+              {{tag.mainData.permission}}
+            </span>
           </p>
         </div>
       </mat-list-option>

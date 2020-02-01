@@ -7,6 +7,7 @@ import {NodeCardComponent} from './type/node/card/node-card.component';
 import {NodeExtraEditComponent} from './type/node/extra-edit/node-extra-edit.component';
 
 import {ListCardComponent} from './type/list/list-card.component';
+import {TagCardComponent} from './type/tag/tag-card.component';
 
 import {ImagePreviewComponent} from './type/image/preview/image-preview.component';
 import {ImageDetailComponent} from './type/image/detail/image-detail.component';
@@ -22,6 +23,7 @@ import {DomainPipe, LimitPipe} from './service/util/pipes';
     NodeCardComponent,
     NodeExtraEditComponent,
     ListCardComponent,
+    TagCardComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
     ImageEditComponent,
@@ -35,12 +37,13 @@ import {DomainPipe, LimitPipe} from './service/util/pipes';
     NodeCardComponent,
     NodeExtraEditComponent,
     ListCardComponent,
+    TagCardComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
     ImageEditComponent,
     VideoPreviewComponent,
     VideoDetailComponent,
-    VideoEditComponent
+    VideoEditComponent,
   ],
   exports: [
     DomainPipe,
@@ -52,4 +55,4 @@ import {DomainPipe, LimitPipe} from './service/util/pipes';
     LazyLoadImageModule
   ]
 })
-export class ContentModule { }
+export class TypeModule { }
