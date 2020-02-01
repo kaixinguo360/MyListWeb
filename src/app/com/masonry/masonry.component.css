@@ -1,7 +1,7 @@
-.card-container {
+.container {
   margin: 0 auto;
 }
 
-.card-warp {
+.item {
   cursor: pointer;
 }
