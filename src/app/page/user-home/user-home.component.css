@@ -1,8 +1,20 @@
+.mat-toolbar {
+  height: 64px;
+}
+
 .icon-box {
+  position: fixed;
+  top: 64px;
+  z-index: 5;
+  background-color: white;
   width: 100%;
   display: flex;
   justify-content: flex-end;
   color: #8e8e8e;
+}
+
+.masonry {
+  margin-top: 40px;
 }
 
 .center-icon {

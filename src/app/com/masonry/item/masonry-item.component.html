@@ -11,8 +11,20 @@
     <div class="card-container flex-padding hide-overflow">
       <app-card-preview [node]="node"></app-card-preview>
 
+      <div class="icons">
+        <mat-icon color="primary" *ngIf="node.mainData.nsfw">warning</mat-icon>
+        <mat-icon color="primary" *ngIf="node.mainData.hide">visibility_off</mat-icon>
+        <mat-icon color="primary" *ngIf="node.mainData.like">star</mat-icon>
+        <mat-icon color="primary" *ngIf="node.mainData.user==view.user.id&&node.mainData.permission!='private'">share</mat-icon>
+        <div *ngIf="node.mainData.user!=view.user.id">
+          <mat-icon color="primary" *ngIf="node.mainData.permission==='public'">public</mat-icon>
+          <mat-icon color="primary" *ngIf="node.mainData.permission==='protect'">lock</mat-icon>
+        </div>
+      </div>
+
       <div class="desktop-buttons" *ngIf="!view.isMobile&&show" (click)="$event.stopPropagation()">
-        <a *ngIf="node.mainData.sourceUrl" [href]="node.mainData.sourceUrl" class="desktop-url-button one-line-text"
+        <a class="desktop-url-button one-line-text" *ngIf="node.mainData.sourceUrl"
+           target="_blank" [href]="node.mainData.sourceUrl"
            [style.max-width.px]="maxWidth?maxWidth:width">
           <button mat-flat-button disableRipple>
             <mat-icon>open_in_new</mat-icon>{{node.mainData.sourceUrl|domain}}
@@ -26,17 +38,6 @@
         <button mat-icon-button disableRipple class="desktop-star-button" [color]="node.mainData.like?'accent':'black'">
           <mat-icon>star</mat-icon>
         </button>
-      </div>
-
-      <div class="icons">
-        <mat-icon color="primary" *ngIf="node.mainData.nsfw">warning</mat-icon>
-        <mat-icon color="primary" *ngIf="node.mainData.hide">visibility_off</mat-icon>
-        <mat-icon color="primary" *ngIf="node.mainData.like">star</mat-icon>
-        <mat-icon color="primary" *ngIf="node.mainData.user==view.user.id&&node.mainData.permission!='private'">share</mat-icon>
-        <div *ngIf="node.mainData.user!=view.user.id">
-          <mat-icon color="primary" *ngIf="node.mainData.permission==='public'">public</mat-icon>
-          <mat-icon color="primary" *ngIf="node.mainData.permission==='protect'">lock</mat-icon>
-        </div>
       </div>
     </div>
 

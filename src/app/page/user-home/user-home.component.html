@@ -4,13 +4,21 @@
 </mat-toolbar>
 <!-- Add Content Here -->
 <div class="mat-content">
+
   <div class="icon-box">
     <button mat-icon-button routerLink="/node/new"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
+      <mat-icon [color]="masonry.selectMode?'accent':null">select_all</mat-icon>
+    </button>
     <app-order-selector></app-order-selector>
     <app-filter #filter></app-filter>
     <button mat-icon-button (click)="fetchData()"><mat-icon>refresh</mat-icon></button>
   </div>
-  <app-masonry [nodes]="nodes" *ngIf="nodes&&!error"></app-masonry>
+
+  <div class="masonry">
+    <app-masonry #masonry></app-masonry>
+  </div>
+
   <mat-icon class="center-icon big-icon" *ngIf="error" (click)="fetchData()">refresh</mat-icon>
   <span class="center-info" *ngIf="error">Reload</span>
 </div>

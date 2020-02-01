@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
@@ -6,6 +6,11 @@ import {NodeViewer} from '../node-viewer/card-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
 import {Node} from '../../service/node.service';
 import {ViewService} from '../../service/util/view.service';
+import {Subject} from 'rxjs';
+
+class NodeItem extends Node {
+  selected: boolean;
+}
 
 @Component({
   selector: 'app-masonry',
@@ -14,16 +19,19 @@ import {ViewService} from '../../service/util/view.service';
 })
 export class MasonryComponent implements OnInit {
 
-  @Input() nodes: Node[];
+  nodes: NodeItem[] = [];
 
   containerWidth: number;
   columnWidth = this.view.isMobile ? (window.innerWidth / 2) : AppConfig.columnWidth;
+
+  public selectMode = false;
+  selectSubject: Subject<Node> = new Subject();
 
   @ViewChild('masonry', { static: true }) masonry: NgxMasonryComponent;
   masonryOptions: NgxMasonryOptions = {
     initLayout: true,
     transitionDuration: '0',
-    columnWidth: this.view.isMobile ? '.item' : this.columnWidth,
+    columnWidth: this.view.isMobile ? '.item-container' : this.columnWidth,
     percentPosition: this.view.isMobile,
   };
 
@@ -40,6 +48,27 @@ export class MasonryComponent implements OnInit {
     this.masonry.layout();
   }
   ngOnInit(): void { this.resize(); }
+
+  public setNodes(nodes: Node[]) {
+    this.nodes = nodes as NodeItem[];
+    this.masonry.layout();
+  }
+  public enableSelectMode(mode: boolean) {
+    this.selectMode = mode;
+    if (!mode) {
+      this.nodes.forEach(node => node.selected = false);
+    }
+  }
+  public selectAll() {
+    if (this.nodes.find(i => !i.selected)) {
+      this.nodes.forEach(node => node.selected = true);
+    } else {
+      this.nodes.forEach(node => node.selected = false);
+    }
+  }
+  public getSelectedItems(): Node[] {
+    return this.nodes.filter(i => i.selected);
+  }
 
   constructor(
     private router: Router,

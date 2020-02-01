@@ -2,6 +2,21 @@
   margin: 0 auto;
 }
 
-.item {
+.item-container {
+  position: relative;
   cursor: pointer;
+}
+.item-container-selected {
+  transform: scale(0.9);
+}
+
+.item-overlay {
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  border-radius: 16px;
+}
+.item-overlay:hover { background-color: #0000001a; }
+.item-overlay:active { background-color: unset; }
+.item-overlay-selected {
+  border: 2px solid #ffd740;
 }
