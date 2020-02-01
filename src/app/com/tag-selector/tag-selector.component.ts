@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Filter, ListService} from '../../service/list.service';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef, MatListOption} from '@angular/material';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {Node, NodeService} from '../../service/node.service';
 import {ViewService} from '../../service/util/view.service';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-tag-selector',
@@ -17,25 +18,27 @@ export class TagSelectorComponent implements OnInit {
 
   title: string; // @Input
   filter: Filter; // @Input
-  multi: boolean; // @Input
+  multiple: boolean; // @Input
+  selected: Node[]; // @Input
 
   tags: Node[];
   showInputBox = false;
 
-  public static getTag(title?: string, filter?: Filter): Observable<Node> {
+  public static selectTag(filter?: Filter, title?: string): Observable<Node> {
     const dialogRef = this.createDialogRef();
     const instance = dialogRef.componentInstance;
     instance.title = title;
     instance.filter = filter;
-    instance.multi = false;
+    instance.multiple = false;
     return dialogRef.afterClosed();
   }
-  public static getTags(title?: string, filter?: Filter): Observable<Node[]> {
+  public static selectTags(selected?: Node[], filter?: Filter, title?: string): Observable<Node[]> {
     const dialogRef = this.createDialogRef();
     const instance = dialogRef.componentInstance;
     instance.title = title;
     instance.filter = filter;
-    instance.multi = true;
+    instance.multiple = true;
+    instance.selected = selected;
     return dialogRef.afterClosed();
   }
   public static createDialogRef(): MatDialogRef<TagSelectorComponent> {
@@ -62,8 +65,11 @@ export class TagSelectorComponent implements OnInit {
   selectTag(tag: Node) {
     this.dialogRef.close(tag);
   }
-  selectTags() {
-    this.dialogRef.close();
+  selectTags(options: MatListOption[]) {
+    this.dialogRef.close(options.map(o => o.value));
+  }
+  isSelected(tag: Node): boolean {
+    return !!(this.selected && this.selected.find(t => t.mainData.id === tag.mainData.id));
   }
   close() {
     this.dialogRef.close();
@@ -71,9 +77,25 @@ export class TagSelectorComponent implements OnInit {
 
   ngOnInit() {
     this.title = this.title ? this.title :
-      (this.multi ? '请选择多个标签' : '请选择一个标签');
+      (this.multiple ? '请选择标签' : '请选择一个标签');
     this.listService.getAllByType('tag', this.filter).pipe(
-      tap(tags => this.tags = tags),
+      tap(tags => {
+        this.tags = tags;
+
+        if (this.multiple && this.selected && this.selected.length) {
+          const selectedIds: number[] = this.selected.map(tag => tag.mainData.id);
+          const selectedTags: Node[] = [];
+
+          for (let i = this.tags.length - 1; i >= 0; i--) {
+            const tag = this.tags[i];
+            if (selectedIds.indexOf(tag.mainData.id) !== -1) {
+              this.tags.splice(i, 1);
+              selectedTags.push(tag);
+            }
+          }
+          this.tags = selectedTags.concat(this.tags);
+        }
+      }),
       catchError(err => {
         alert('获取标签信息时出错!');
         return throwError(err);
@@ -84,6 +106,7 @@ export class TagSelectorComponent implements OnInit {
   constructor(
     public view: ViewService,
     private dialogRef: MatDialogRef<TagSelectorComponent>,
+    private fb: FormBuilder,
     private nodeService: NodeService,
     private listService: ListService,
   ) {}

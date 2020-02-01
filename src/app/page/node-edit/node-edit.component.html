@@ -47,8 +47,13 @@
       </div>
 
       <div class="full-width button-box">
-        <button type="button" mat-raised-button (click)="selectTag()">Tag</button>
-        <button type="button" mat-raised-button (click)="selectTags()">Tags</button>
+        <mat-form-field class="full-width">
+          <input matInput disabled [placeholder]="tags.length?'Tags':'No tags'" [value]="getTagsInfo()">
+          <mat-hint>
+            <span *ngIf="othersTags.length>0">+{{othersTags.length}} from others</span>
+          </mat-hint>
+          <button type="button" mat-button matSuffix (click)="selectTags()"><mat-icon>edit</mat-icon></button>
+        </mat-form-field>
       </div>
 
       <div class="full-width button-box">

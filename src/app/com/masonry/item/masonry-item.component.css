@@ -48,7 +48,7 @@ a {
   display: flex;
   align-items: flex-end;
 }
-.icons>.mat-icon {
+.icons .mat-icon {
   border-radius: 50%;
   background-color: #ffffff9e;
   color: #858585;

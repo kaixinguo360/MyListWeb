@@ -16,8 +16,8 @@
       </button>
     </mat-form-field>
   </div>
-  <div class="list-container">
-    <mat-action-list class="flex-padding" *ngIf="!multi">
+  <div class="list-container flex-padding" *ngIf="!multiple">
+    <mat-action-list>
       <mat-list-item class="item-container" (click)="selectTag(tag)" *ngFor="let tag of tags">
         <div class="image" [style.background-image]="'url(\'/favicon.ico\')'"></div>
         <div>
@@ -26,16 +26,21 @@
         </div>
       </mat-list-item>
     </mat-action-list>
-    <mat-selection-list class="flex-padding" *ngIf="multi">
-      <mat-list-option class="item-container" *ngFor="let tag of tags">
+  </div>
+  <div class="list-container flex-padding" *ngIf="multiple">
+    <mat-selection-list #selectList>
+      <mat-list-option class="item-container" [selected]="isSelected(tag)" [value]="tag" *ngFor="let tag of tags">
         <div>
           <p class="title" matLine>{{tag.mainData.title}}</p>
-          <p class="info" matLine>{{tag.mainData.comment}}</p>
+          <p class="info" matLine>
+            <span *ngIf="tag.mainData.user!==view.user.id">from other user</span>
+          </p>
         </div>
       </mat-list-option>
     </mat-selection-list>
-  </div>
-  <div class="save-button-container flex-fixed full-width" *ngIf="multi">
-    <button mat-button (click)="selectTags()">Save</button>
+    <div class="button-container">
+      <button mat-button (click)="selectList.deselectAll()">Clear</button>
+      <button mat-button (click)="selectTags(selectList.selectedOptions.selected)">OK</button>
+    </div>
   </div>
 </div>

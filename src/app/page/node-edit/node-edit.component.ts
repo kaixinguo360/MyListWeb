@@ -37,11 +37,15 @@ export class NodeEditComponent implements OnInit {
   @ViewChild('extraDataEdit', {static: true}) extraEdit: ExtraEditComponent;
   valid: boolean;
 
-  public submit() {
+  tags: Node[] = [];
+  othersTags: Node[] = [];
+
+  submit() {
     const node: Node = {
       mainData: this.mainData.getRawValue(),
       extraData: this.extraEdit.getExtraData(),
       extraList: this.extraEdit.getExtraList(),
+      tags: this.tags.map(tag => tag.mainData.id)
     };
     this.extraEdit.process(node);
 
@@ -56,7 +60,7 @@ export class NodeEditComponent implements OnInit {
       })
     ).subscribe();
   }
-  public delete() {
+  delete() {
     if (!confirm('Delete this node?')) { return; }
     this.nodeService.remove(this.mainData.value.id).pipe(
       tap(() => this.router.navigate(['/home'])),
@@ -66,11 +70,21 @@ export class NodeEditComponent implements OnInit {
       })
     ).subscribe();
   }
-  public selectTag() {
-    TagSelectorComponent.getTag();
+  selectTags() {
+    TagSelectorComponent.selectTags(this.tags, {
+      permission: 'editable',
+      conditions: this.mainData.value.id ? [{column: 'id', oper: '!=', value: this.mainData.value.id}] : null
+    }).subscribe(tags => tags ? this.tags = tags : null);
   }
-  public selectTags() {
-    TagSelectorComponent.getTags();
+  getTagsInfo(): string {
+    if (this.tags.length === 0) {
+      return null;
+    } else
+    if (this.tags.length <= 4) {
+      return this.tags.map(tag => tag.mainData.title).join(', ');
+    } else {
+      return this.tags.slice(0, 4).map(tag => tag.mainData.title).join(', ') + ', ...';
+    }
   }
 
   ngOnInit() {
@@ -89,6 +103,11 @@ export class NodeEditComponent implements OnInit {
           this.mainData.patchValue(node.mainData);
           this.extraEdit.setExtraData(node.extraData);
           this.extraEdit.setExtraList(node.extraList);
+          this.tags = (node.tags as Node[]).filter(tag => {
+            const isOthers = tag.mainData.user !== this.view.user.id && tag.mainData.permission !== 'public';
+            if (isOthers) { this.othersTags.push(tag); }
+            return !isOthers;
+          });
         });
       } else {
         this.view.init({title: 'New Node'});
