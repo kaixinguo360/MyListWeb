@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {of, Subscription} from 'rxjs';
-import {ExtraEdit} from '../../../com/extra-edit/extra-edit';
+import {ExtraEdit} from '../../../component/extra-edit/extra-edit';
 
 @Component({template: ''})
 export class NodeExtraEditComponent implements ExtraEdit {

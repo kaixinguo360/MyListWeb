@@ -1,29 +1,29 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
-import {PreviewCard} from './preview-card';
 import {TypeService} from '../../../service/util/type.service';
-import {Node} from '../../../service/node.service';
+import {DetailCard} from './detail-card';
+import {Node} from '../../../service/util/node';
 
 @Component({
-  selector: 'app-card-preview',
-  templateUrl: './preview-card.component.html',
-  styleUrls: ['./preview-card.component.css']
+  selector: 'app-card-detail',
+  templateUrl: './detail-card.component.html',
+  styleUrls: ['./detail-card.component.css']
 })
-export class PreviewCardComponent implements OnChanges {
+export class DetailCardComponent implements OnChanges {
 
   @Input() node: Node;
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
-  content: PreviewCard;
+  content: DetailCard;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.content) { this.contentHost.remove(); }
-    const factory = this.typeService.getPreviewCardFactory(this.node.mainData.type);
+    const factory = this.nodeResolver.getDetailCardFactory(this.node.mainData.type);
     const componentRef = this.contentHost.createComponent(factory);
-    this.content = (componentRef.instance as PreviewCard);
+    this.content = (componentRef.instance as DetailCard);
     this.content.node = this.node;
   }
 
   constructor(
-    private typeService: TypeService
+    private nodeResolver: TypeService
   ) { }
 
 }

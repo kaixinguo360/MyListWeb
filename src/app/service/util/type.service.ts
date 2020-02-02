@@ -1,10 +1,10 @@
 import {ComponentFactory, ComponentFactoryResolver, Injectable, Type} from '@angular/core';
 
 import {TypeConfig} from '../../type/type-config';
-import {PreviewCard} from '../../com/card/preview/preview-card';
-import {DetailCard} from '../../com/card/detail/detail-card';
-import {ExtraEdit} from '../../com/extra-edit/extra-edit';
-import {Node} from '../node.service';
+import {PreviewCard} from '../../component/card/preview/preview-card';
+import {DetailCard} from '../../component/card/detail/detail-card';
+import {ExtraEdit} from '../../component/extra-edit/extra-edit';
+import {Node} from './node';
 
 export interface TypeInfo {
   name: string;

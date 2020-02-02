@@ -1,4 +1,4 @@
-import {ExtraData} from '../../service/node.service';
+import {ExtraData} from '../../service/util/node';
 
 export class Image extends ExtraData {
   url: string;

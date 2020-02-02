@@ -2,15 +2,20 @@
   height: 64px;
 }
 
-.icon-box {
+.tool-container {
   position: fixed;
   top: 64px;
-  z-index: 5;
-  background-color: white;
   width: 100%;
+  z-index: 5;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  background-color: white;
   color: #8e8e8e;
+}
+
+.select-tool>.mat-button {
+  border-radius: 20px;
 }
 
 .masonry {

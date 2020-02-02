@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DetailCard} from '../../../com/card/detail/detail-card';
-import {ExtraData, Node} from '../../../service/node.service';
+import {DetailCard} from '../../../component/card/detail/detail-card';
+import {ExtraData, Node} from '../../../service/util/node';
 
 export class Video extends ExtraData {
   url: string;

@@ -4,9 +4,8 @@ import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
 import {NodeViewer} from '../node-viewer/card-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
-import {Node} from '../../service/node.service';
 import {ViewService} from '../../service/util/view.service';
-import {Subject} from 'rxjs';
+import {Node} from '../../service/util/node';
 
 class NodeItem extends Node {
   selected: boolean;
@@ -25,7 +24,7 @@ export class MasonryComponent implements OnInit {
   columnWidth = this.view.isMobile ? (window.innerWidth / 2) : AppConfig.columnWidth;
 
   public selectMode = false;
-  selectSubject: Subject<Node> = new Subject();
+  public selectCount = 0;
 
   @ViewChild('masonry', { static: true }) masonry: NgxMasonryComponent;
   masonryOptions: NgxMasonryOptions = {
@@ -57,13 +56,16 @@ export class MasonryComponent implements OnInit {
     this.selectMode = mode;
     if (!mode) {
       this.nodes.forEach(node => node.selected = false);
+      this.selectCount = 0;
     }
   }
   public selectAll() {
     if (this.nodes.find(i => !i.selected)) {
       this.nodes.forEach(node => node.selected = true);
+      this.selectCount = this.nodes.length;
     } else {
       this.nodes.forEach(node => node.selected = false);
+      this.selectCount = 0;
     }
   }
   public getSelectedItems(): Node[] {

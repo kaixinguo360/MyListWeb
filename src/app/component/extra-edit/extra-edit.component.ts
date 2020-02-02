@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
-import {ExtraData, ListItem, Node} from '../../service/node.service';
 import {TypeService} from '../../service/util/type.service';
 import {ExtraEdit} from './extra-edit';
 import {Subject, Subscription} from 'rxjs';
+import {ExtraData, ListItem, Node} from '../../service/util/node';
 
 @Component({
   selector: 'app-extra-data-edit',

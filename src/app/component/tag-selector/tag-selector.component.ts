@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Filter, ListService} from '../../service/list.service';
 import {MatDialog, MatDialogRef, MatListOption} from '@angular/material';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
-import {Node, NodeService} from '../../service/node.service';
+import {NodeService} from '../../service/node.service';
 import {ViewService} from '../../service/util/view.service';
 import {FormBuilder} from '@angular/forms';
+import {Filter} from '../../service/util/filter';
+import {Node} from '../../service/util/node';
 
 @Component({
   selector: 'app-tag-selector',
@@ -78,7 +79,7 @@ export class TagSelectorComponent implements OnInit {
   ngOnInit() {
     this.title = this.title ? this.title :
       (this.multiple ? '请选择标签' : '请选择一个标签');
-    this.listService.getAllByType('tag', this.filter).pipe(
+    this.nodeService.getAllByType('tag', this.filter).pipe(
       tap(tags => {
         this.tags = tags;
 
@@ -108,7 +109,6 @@ export class TagSelectorComponent implements OnInit {
     private dialogRef: MatDialogRef<TagSelectorComponent>,
     private fb: FormBuilder,
     private nodeService: NodeService,
-    private listService: ListService,
   ) {}
 
 }

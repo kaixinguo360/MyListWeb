@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {DetailCard} from '../../../com/card/detail/detail-card';
-import {Node} from '../../../service/node.service';
+import {DetailCard} from '../../../component/card/detail/detail-card';
 import {Image} from '../image';
+import {Node} from '../../../service/util/node';
 
 @Component({
   templateUrl: './image-detail.component.html',

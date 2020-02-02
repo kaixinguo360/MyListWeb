@@ -1,7 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from '@angular/material';
-import {Node, NodeService} from '../../../service/node.service';
+import {NodeService} from '../../../service/node.service';
 import {ViewService} from '../../../service/util/view.service';
+import {Node} from '../../../service/util/node';
 
 @Component({
   selector: 'app-masonry-menu',

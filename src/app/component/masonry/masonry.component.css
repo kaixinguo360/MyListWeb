@@ -6,6 +6,9 @@
   position: relative;
   cursor: pointer;
 }
+.item-container-select-mode {
+  transform: scale(0.95);
+}
 .item-container-selected {
   transform: scale(0.9);
 }

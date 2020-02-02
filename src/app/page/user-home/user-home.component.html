@@ -5,14 +5,30 @@
 <!-- Add Content Here -->
 <div class="mat-content">
 
-  <div class="icon-box">
-    <button mat-icon-button routerLink="/node/new"><mat-icon>add</mat-icon></button>
+  <div class="tool-container">
+    <button mat-icon-button *ngIf="!masonry.selectMode" routerLink="/node/new"><mat-icon>add</mat-icon></button>
     <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
-      <mat-icon [color]="masonry.selectMode?'accent':null">select_all</mat-icon>
+      <mat-icon>center_focus_weak</mat-icon>
     </button>
     <app-order-selector></app-order-selector>
     <app-filter #filter></app-filter>
     <button mat-icon-button (click)="fetchData()"><mat-icon>refresh</mat-icon></button>
+  </div>
+  <div class="tool-container select-tool" *ngIf="masonry.selectMode">
+
+    <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)"><mat-icon>close</mat-icon></button>
+    <button mat-icon-button (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
+
+    <button mat-button (click)="tag()"><mat-icon>style</mat-icon>Tag</button>
+    <button mat-button (click)="star()"><mat-icon>star</mat-icon>Star</button>
+
+    <button mat-icon-button [matMenuTriggerFor]="matMenu"><mat-icon>more_horiz</mat-icon></button>
+    <mat-menu #matMenu xPosition="before" yPosition="below">
+      <button mat-menu-item>
+        <mat-icon>library_add_check</mat-icon>{{masonry.selectCount?'Selected: '+masonry.selectCount:'No selected'}}
+      </button>
+      <button mat-menu-item (click)="delete()"><mat-icon>delete</mat-icon>Delete</button>
+    </mat-menu>
   </div>
 
   <div class="masonry">

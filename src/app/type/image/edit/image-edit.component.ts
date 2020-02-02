@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import {ExtraEdit} from '../../../com/extra-edit/extra-edit';
-import {ExtraData, NodeService} from '../../../service/node.service';
+import {ExtraEdit} from '../../../component/extra-edit/extra-edit';
+import {NodeService} from '../../../service/node.service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {ViewService} from '../../../service/util/view.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ExtraData} from '../../../service/util/node';
 
 @Component({
   selector: 'app-image-edit',

@@ -1,10 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {FilterSelectorComponent} from '../../component/filter-selector/filter-selector.component';
 import {ViewService} from '../../service/util/view.service';
-import {FilterComponent} from '../../com/filter/filter.component';
 import {catchError, tap} from 'rxjs/operators';
 import {Subscription, throwError} from 'rxjs';
-import {ListService} from '../../service/list.service';
-import {MasonryComponent} from '../../com/masonry/masonry.component';
+import {MasonryComponent} from '../../component/masonry/masonry.component';
+import {NodeService} from '../../service/node.service';
+import {Node} from '../../service/util/node';
 
 @Component({
   selector: 'app-user-home',
@@ -15,13 +16,13 @@ export class UserHomeComponent implements OnInit {
 
   error = false;
   sub: Subscription;
-  @ViewChild('filter', { read: FilterComponent, static: true }) filter: FilterComponent;
+  @ViewChild('filter', { read: FilterSelectorComponent, static: true }) filter: FilterSelectorComponent;
   @ViewChild('masonry', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
 
   fetchData() {
     if (this.sub) { this.sub.unsubscribe(); }
     this.error = false;
-    this.sub = this.listService.getAll(this.filter.getFilter()).pipe(
+    this.sub = this.nodeService.getAll(this.filter.getFilter()).pipe(
       tap(nodes => this.masonry.setNodes(nodes)),
       catchError(err => {
         this.error = false;
@@ -29,10 +30,28 @@ export class UserHomeComponent implements OnInit {
       })
     ).subscribe();
   }
+  tag() {
+    this.getNodes(nodes => {});
+  }
+  star() {
+    this.getNodes(nodes => {});
+  }
+  delete() {
+    this.getNodes(nodes => {});
+  }
+  private getNodes(handler: (nodes: Node[]) => void) {
+    const nodes = this.masonry.getSelectedItems();
+    if (nodes.length) {
+      this.masonry.enableSelectMode(false);
+      handler(nodes);
+    } else {
+      this.view.alert('Please select at least one item.');
+    }
+  }
 
   constructor(
     public view: ViewService,
-    private listService: ListService,
+    private nodeService: NodeService,
   ) { }
 
   ngOnInit(): void {

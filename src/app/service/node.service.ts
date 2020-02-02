@@ -4,36 +4,8 @@ import {HttpService} from './util/http.service';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {ViewService} from './util/view.service';
 import {User} from './user.service';
-
-export class MainData {
-  id?: number;
-  user?: number;
-  type?: string;
-  ctime?: number;
-  mtime?: number;
-  title?: string;
-  excerpt?: string;
-  linkDelete?: boolean;
-  linkVirtual?: boolean;
-  permission?: string;
-  nsfw?: boolean;
-  like?: boolean;
-  hide?: boolean;
-  sourceUrl?: string;
-  comment?: string;
-}
-export class ExtraData {
-}
-export class ListItem {
-  node: Node;
-  status: string;
-}
-export class Node {
-  mainData: MainData;
-  extraData?: ExtraData;
-  extraList?: ListItem[];
-  tags?: Node[] | number[];
-}
+import {Filter} from './util/filter';
+import {Node} from './util/node';
 
 class InputWrap {
   node: Node;
@@ -124,8 +96,21 @@ export class NodeService {
     );
   }
 
+  public getAll(filter: Filter = {}): Observable<Node[]> {
+    return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);
+  }
+  public getAllByType(type: string, filter: Filter = {}): Observable<Node[]> {
+    if (!filter.conditions) { filter.conditions = []; }
+    filter.conditions.push({column: 'node_type', oper: '=', value: `'${type}'`});
+    return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);
+  }
+
   public getCache(id: number): Node {
     return this.nodeCache.get(id);
+  }
+  public clearCache() {
+    this.nodeCache.clear();
+    this.obCache.clear();
   }
 
   constructor(

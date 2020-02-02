@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {Node, NodeService} from '../../../service/node.service';
+import {NodeService} from '../../../service/node.service';
 import {ViewService} from '../../../service/util/view.service';
 import {MatBottomSheet} from '@angular/material';
 import {MasonryMenuComponent} from '../menu/masonry-menu.component';
+import {Node} from '../../../service/util/node';
 
 @Component({
   selector: 'app-masonry-item',

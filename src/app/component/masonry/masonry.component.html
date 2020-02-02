@@ -2,9 +2,11 @@
              [style.width.px]="containerWidth">
   <ngxMasonryItem *ngFor="let node of nodes"
                   [style.width]="view.isMobile?'50%':columnWidth+'px'">
-    <div class="item-container" [class.item-container-selected]="node.selected">
+    <div class="item-container"
+         [class.item-container-select-mode]="selectMode"
+         [class.item-container-selected]="node.selected">
       <app-masonry-item (click)="click(node)" [node]="node" [maxHeight]="500"></app-masonry-item>
-      <div class="item-overlay" (click)="node.selected=!node.selected" *ngIf="selectMode"
+      <div class="item-overlay" (click)="node.selected=!node.selected;selectCount=selectCount+(node.selected?1:-1);" *ngIf="selectMode"
            [class.item-overlay-selected]="node.selected"></div>
     </div>
   </ngxMasonryItem>

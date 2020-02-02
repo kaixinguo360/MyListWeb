@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {PreviewCard} from '../../com/card/preview/preview-card';
-import {Node} from '../../service/node.service';
+import {PreviewCard} from '../../component/card/preview/preview-card';
+import {Node} from '../../service/util/node';
 
 @Component({
   templateUrl: './tag-card.component.html',

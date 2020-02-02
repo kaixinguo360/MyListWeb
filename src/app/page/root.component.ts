@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {NodeViewer} from '../com/node-viewer/card-viewer.component';
+import {NodeViewer} from '../component/node-viewer/card-viewer.component';
 import {ViewService} from '../service/util/view.service';
 import {TokenService} from '../service/token.service';
 import {Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
-import {TagSelectorComponent} from '../com/tag-selector/tag-selector.component';
+import {TagSelectorComponent} from '../component/tag-selector/tag-selector.component';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {HttpService} from '../service/util/http.service';
 
