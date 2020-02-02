@@ -31,17 +31,56 @@ export class UserHomeComponent implements OnInit {
     ).subscribe();
   }
   tag() {
-    this.getNodes(nodes => {});
+    this.handleSelectedNodes(nodes => true, nodes => {});
   }
-  star() {
-    this.getNodes(nodes => {});
+  star(star: boolean) {
+    this.handleSelectedNodes(
+      nodes => confirm(`${star ? 'Star' : 'Unstar'} ${nodes.length === 1 ? `this item` : `these ${nodes.length} items`}?`),
+      nodes => this.nodeService.updateAll(nodes
+        .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+        .map(n => { n.mainData.like = star; return n; })
+        , true
+      ).pipe(tap((ns) => {
+        this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${star ? 'starred' : 'unstarred'}.`);
+        this.fetchData();
+      })).subscribe());
+  }
+  hide(hide: boolean) {
+    this.handleSelectedNodes(
+      nodes => confirm(`${hide ? 'Hide' : 'Unhide'} ${nodes.length === 1 ? `this item` : `these ${nodes.length} items`}?`),
+      nodes => this.nodeService.updateAll(nodes
+        .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+        .map(n => { n.mainData.hide = hide; return n; })
+        , true
+      ).pipe(tap((ns) => {
+        this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${hide ? 'hidden' : 'unhide'}.`);
+        this.fetchData();
+      })).subscribe());
+  }
+  permission(permission: string) {
+    this.handleSelectedNodes(
+      nodes => confirm(`Set ${nodes.length === 1 ? `this item` : `these ${nodes.length} items`} to ${permission}?`),
+      nodes => this.nodeService.updateAll(nodes
+          .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+          .map(n => { n.mainData.permission = permission; return n; })
+        , true
+      ).pipe(tap((ns) => {
+        this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} set to ${permission}.`);
+        this.fetchData();
+      })).subscribe());
   }
   delete() {
-    this.getNodes(nodes => {});
+    this.handleSelectedNodes(
+      nodes => confirm(nodes.length === 1 ? `Remove this item?` : `Remove these ${nodes.length} items?`),
+      nodes => this.nodeService.removeAll(nodes.map(node => node.mainData.id)).pipe(tap(() => {
+        this.view.alert(nodes.length === 1 ? `One item removed.` : `${nodes.length} items removed.`);
+        this.fetchData();
+      })).subscribe());
   }
-  private getNodes(handler: (nodes: Node[]) => void) {
+  private handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
     const nodes = this.masonry.getSelectedItems();
     if (nodes.length) {
+      if (!confirm || !confirm(nodes)) { return; }
       this.masonry.enableSelectMode(false);
       handler(nodes);
     } else {

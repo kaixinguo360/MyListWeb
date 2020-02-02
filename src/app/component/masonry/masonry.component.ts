@@ -7,7 +7,8 @@ import {AppConfig} from '../../../environments/app-config';
 import {ViewService} from '../../service/util/view.service';
 import {Node} from '../../service/util/node';
 
-class NodeItem extends Node {
+class NodeItem {
+  node: Node;
   selected: boolean;
 }
 
@@ -18,7 +19,7 @@ class NodeItem extends Node {
 })
 export class MasonryComponent implements OnInit {
 
-  nodes: NodeItem[] = [];
+  items: NodeItem[] = [];
 
   containerWidth: number;
   columnWidth = this.view.isMobile ? (window.innerWidth / 2) : AppConfig.columnWidth;
@@ -38,7 +39,7 @@ export class MasonryComponent implements OnInit {
     if (node.mainData.type === 'tag') {
       this.router.navigate(['tag'], { queryParams: { id: node.mainData.id } });
     } else {
-      this.fileViewer.open(node, this.nodes);
+      this.fileViewer.open(node, this.items.map(item => item.node));
     }
   }
   @HostListener('window:resize') resize() {
@@ -49,27 +50,27 @@ export class MasonryComponent implements OnInit {
   ngOnInit(): void { this.resize(); }
 
   public setNodes(nodes: Node[]) {
-    this.nodes = nodes as NodeItem[];
+    this.items = nodes.map(node => ({node, selected: false}));
     this.masonry.layout();
   }
   public enableSelectMode(mode: boolean) {
     this.selectMode = mode;
     if (!mode) {
-      this.nodes.forEach(node => node.selected = false);
+      this.items.forEach(item => item.selected = false);
       this.selectCount = 0;
     }
   }
   public selectAll() {
-    if (this.nodes.find(i => !i.selected)) {
-      this.nodes.forEach(node => node.selected = true);
-      this.selectCount = this.nodes.length;
+    if (this.items.find(item => !item.selected)) {
+      this.items.forEach(item => item.selected = true);
+      this.selectCount = this.items.length;
     } else {
-      this.nodes.forEach(node => node.selected = false);
+      this.items.forEach(item => item.selected = false);
       this.selectCount = 0;
     }
   }
   public getSelectedItems(): Node[] {
-    return this.nodes.filter(i => i.selected);
+    return this.items.filter(item => item.selected).map(item => item.node);
   }
 
   constructor(

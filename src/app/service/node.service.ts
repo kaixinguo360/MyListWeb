@@ -21,8 +21,10 @@ class OutputWrap {
 })
 export class NodeService {
 
+  // ------------ Static ------------ //
   private static errorHandler = HttpService.errorHandler;
-  private static unwrap = map<OutputWrap, Node>(result => { result.node.tags = result.tags; return result.node; });
+  private static unwrap = map<OutputWrap, Node>(r => { r.node.tags = r.tags; return r.node; });
+  private static unwrapAll = map<OutputWrap[], Node[]>(rs => rs.map(r => { r.node.tags = r.tags; return r.node; }));
 
   private nodeCache = new Map<number, Node>();
   private obCache = new Map<number, Observable<Node>>();
@@ -32,6 +34,9 @@ export class NodeService {
     node.tags = undefined;
     node.tags = undefined;
     return {node, tags};
+  }
+  private static wrapAll(nodes: Node[]): InputWrap[] {
+    return nodes.map(node => NodeService.wrap(node));
   }
   public static canWrite(node: Node, user: User): boolean {
     return !(node.mainData.user !== user.id && node.mainData.permission !== 'public');
@@ -55,6 +60,7 @@ export class NodeService {
     };
   }
 
+  // ------------ Single Node Method ------------ //
   public add(node: Node): Observable<Node> {
     return this.httpService.post<OutputWrap>('node', NodeService.wrap(node)).pipe(
       NodeService.unwrap,
@@ -96,15 +102,52 @@ export class NodeService {
     );
   }
 
+  // ------------ Batch Node Method ------------ //
+  public addAll(nodes: Node[]): Observable<Node[]> {
+    return this.httpService.post<OutputWrap[]>('node/batch', NodeService.wrapAll(nodes)).pipe(
+      NodeService.unwrapAll,
+      tap<Node[]>(ns => ns.forEach(n => this.nodeCache.set(n.mainData.id, n))),
+      NodeService.errorHandler,
+    );
+  }
   public getAll(filter: Filter = {}): Observable<Node[]> {
     return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);
   }
+  public updateAll(nodes: Node[], isSimple = false): Observable<Node[]> {
+    const wraps = NodeService.wrapAll(nodes);
+    if (isSimple) {
+      wraps.forEach(wrap => {
+        const mainData = wrap.node.mainData;
+        delete mainData.title;
+        delete mainData.excerpt;
+        delete mainData.comment;
+      });
+    }
+    return this.httpService.put<OutputWrap[]>(`node/batch?simple=${isSimple}`, wraps).pipe(
+      NodeService.unwrapAll,
+      tap<Node[]>(ns => ns.forEach(n => {
+        this.nodeCache.set(n.mainData.id, n);
+        this.obCache.delete(n.mainData.id);
+      })),
+      NodeService.errorHandler,
+    );
+  }
+  public removeAll(ids: number[]): Observable<void> {
+    return this.httpService.delete<void>('node/batch', ids).pipe(
+      tap(() => ids.forEach(id => {
+        this.nodeCache.delete(id);
+        this.obCache.delete(id);
+      })),
+      NodeService.errorHandler,
+    );
+  }
+
+  // ------------ Util Method ------------ //
   public getAllByType(type: string, filter: Filter = {}): Observable<Node[]> {
     if (!filter.conditions) { filter.conditions = []; }
     filter.conditions.push({column: 'node_type', oper: '=', value: `'${type}'`});
     return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);
   }
-
   public getCache(id: number): Node {
     return this.nodeCache.get(id);
   }

@@ -1,15 +1,15 @@
 <ngx-masonry #masonry class="container" [options]="masonryOptions" useImagesLoaded="false" updateLayout="false"
              [style.width.px]="containerWidth">
-  <ngxMasonryItem *ngFor="let node of nodes"
+  <ngxMasonryItem *ngFor="let item of items"
                   [style.width]="view.isMobile?'50%':columnWidth+'px'">
     <div class="item-container"
          [class.item-container-select-mode]="selectMode"
-         [class.item-container-selected]="node.selected">
-      <app-masonry-item (click)="click(node)" [node]="node" [maxHeight]="500"></app-masonry-item>
-      <div class="item-overlay" (click)="node.selected=!node.selected;selectCount=selectCount+(node.selected?1:-1);" *ngIf="selectMode"
-           [class.item-overlay-selected]="node.selected"></div>
+         [class.item-container-selected]="item.selected">
+      <app-masonry-item (click)="click(item.node)" [node]="item.node" [maxHeight]="500"></app-masonry-item>
+      <div class="item-overlay" (click)="item.selected=!item.selected;selectCount=selectCount+(item.selected?1:-1);" *ngIf="selectMode"
+           [class.item-overlay-selected]="item.selected"></div>
     </div>
   </ngxMasonryItem>
 </ngx-masonry>
-<mat-icon class="center-icon big-icon" *ngIf="!nodes.length">info</mat-icon>
-<span class="center-info" *ngIf="!nodes.length">Empty Directory</span>
+<mat-icon class="center-icon big-icon" *ngIf="!items.length">info</mat-icon>
+<span class="center-info" *ngIf="!items.length">Empty Directory</span>

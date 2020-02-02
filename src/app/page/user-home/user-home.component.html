@@ -19,15 +19,26 @@
     <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)"><mat-icon>close</mat-icon></button>
     <button mat-icon-button (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
 
-    <button mat-button (click)="tag()"><mat-icon>style</mat-icon>Tag</button>
-    <button mat-button (click)="star()"><mat-icon>star</mat-icon>Star</button>
+    <button mat-button (click)="tag()"><mat-icon>bookmark</mat-icon>Tag</button>
+    <button mat-button (click)="star(true)"><mat-icon>star</mat-icon>Star</button>
 
     <button mat-icon-button [matMenuTriggerFor]="matMenu"><mat-icon>more_horiz</mat-icon></button>
     <mat-menu #matMenu xPosition="before" yPosition="below">
+      <button mat-menu-item (click)="delete()"><mat-icon>delete</mat-icon>Delete</button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="tag()"><mat-icon>bookmark_border</mat-icon>Untag</button>
+      <button mat-menu-item (click)="star(false)"><mat-icon>star_border</mat-icon>Unstar</button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="hide(false)"><mat-icon>visibility</mat-icon>Show</button>
+      <button mat-menu-item (click)="hide(true)"><mat-icon>visibility_off</mat-icon>Hide</button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="permission('public')"><mat-icon>public</mat-icon>Public</button>
+      <button mat-menu-item (click)="permission('protect')"><mat-icon>lock</mat-icon>Protect</button>
+      <button mat-menu-item (click)="permission('private')"><mat-icon>person</mat-icon>Private</button>
+      <mat-divider></mat-divider>
       <button mat-menu-item>
         <mat-icon>library_add_check</mat-icon>{{masonry.selectCount?'Selected: '+masonry.selectCount:'No selected'}}
       </button>
-      <button mat-menu-item (click)="delete()"><mat-icon>delete</mat-icon>Delete</button>
     </mat-menu>
   </div>
 
