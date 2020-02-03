@@ -4,7 +4,6 @@ import {ViewService} from '../service/util/view.service';
 import {TokenService} from '../service/token.service';
 import {Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
-import {TagSelectorComponent} from '../component/tag-selector/tag-selector.component';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {HttpService} from '../service/util/http.service';
 
@@ -36,6 +35,5 @@ export class RootComponent implements OnInit {
     this.view.router = this.router;
     this.view.cdRef = this.cdRef;
     this.view.matSnackBar = this.matSnackBar;
-    TagSelectorComponent.dialog = this.matDialog;
   }
 }

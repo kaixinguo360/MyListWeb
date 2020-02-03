@@ -7,7 +7,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
 import {throwError} from 'rxjs';
 import {ExtraEditComponent} from '../../component/extra-edit/extra-edit.component';
-import {TagSelectorComponent} from '../../component/tag-selector/tag-selector.component';
+import {TagSelector} from '../../component/tag-selector/tag-selector.component';
 import {Node} from '../../service/util/node';
 
 @Component({
@@ -73,7 +73,7 @@ export class NodeEditComponent implements OnInit {
     ).subscribe();
   }
   selectTags() {
-    TagSelectorComponent.selectTags(this.tags, {
+    this.tagSelector.selectTags(this.tags, {
       permission: 'editable',
       conditions: this.mainData.value.id ? [{column: 'id', oper: '!=', value: this.mainData.value.id}] : null
     }).subscribe(tags => tags ? this.tags = tags : null);
@@ -120,6 +120,7 @@ export class NodeEditComponent implements OnInit {
   constructor(
     public view: ViewService,
     private nodeService: NodeService,
+    private tagSelector: TagSelector,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,

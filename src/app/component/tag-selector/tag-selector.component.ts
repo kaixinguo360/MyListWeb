@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef, MatListOption} from '@angular/material';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
@@ -15,8 +15,6 @@ import {Node} from '../../service/util/node';
 })
 export class TagSelectorComponent implements OnInit {
 
-  public static dialog: MatDialog; // @Autowired
-
   title: string; // @Input
   filter: Filter; // @Input
   multiple: boolean; // @Input
@@ -24,29 +22,6 @@ export class TagSelectorComponent implements OnInit {
 
   tags: Node[];
   showInputBox = false;
-
-  public static selectTag(filter?: Filter, title?: string): Observable<Node> {
-    const dialogRef = this.createDialogRef();
-    const instance = dialogRef.componentInstance;
-    instance.title = title;
-    instance.filter = filter;
-    instance.multiple = false;
-    return dialogRef.afterClosed();
-  }
-  public static selectTags(selected?: Node[], filter?: Filter, title?: string): Observable<Node[]> {
-    const dialogRef = this.createDialogRef();
-    const instance = dialogRef.componentInstance;
-    instance.title = title;
-    instance.filter = filter;
-    instance.multiple = true;
-    instance.selected = selected;
-    return dialogRef.afterClosed();
-  }
-  public static createDialogRef(): MatDialogRef<TagSelectorComponent> {
-    return TagSelectorComponent.dialog.open(
-      TagSelectorComponent, {maxWidth: null, maxHeight: null}
-    );
-  }
 
   create(title: string) {
     if (title) {
@@ -110,5 +85,39 @@ export class TagSelectorComponent implements OnInit {
     private fb: FormBuilder,
     private nodeService: NodeService,
   ) {}
+
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TagSelector {
+
+  public selectTag(filter?: Filter, title?: string): Observable<Node> {
+    const dialogRef = this.createDialogRef();
+    const instance = dialogRef.componentInstance;
+    instance.title = title;
+    instance.filter = filter;
+    instance.multiple = false;
+    return dialogRef.afterClosed();
+  }
+  public selectTags(selected?: Node[], filter?: Filter, title?: string): Observable<Node[]> {
+    const dialogRef = this.createDialogRef();
+    const instance = dialogRef.componentInstance;
+    instance.title = title;
+    instance.filter = filter;
+    instance.multiple = true;
+    instance.selected = selected;
+    return dialogRef.afterClosed();
+  }
+  private createDialogRef(): MatDialogRef<TagSelectorComponent> {
+    return this.dialog.open(
+      TagSelectorComponent, {maxWidth: null, maxHeight: null}
+    );
+  }
+
+  constructor(
+    private dialog: MatDialog,
+  ) { }
 
 }

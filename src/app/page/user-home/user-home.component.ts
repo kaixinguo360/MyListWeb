@@ -6,6 +6,7 @@ import {Subscription, throwError} from 'rxjs';
 import {MasonryComponent} from '../../component/masonry/masonry.component';
 import {NodeService} from '../../service/node.service';
 import {Node} from '../../service/util/node';
+import {TagSelector} from '../../component/tag-selector/tag-selector.component';
 
 @Component({
   selector: 'app-user-home',
@@ -30,8 +31,22 @@ export class UserHomeComponent implements OnInit {
       })
     ).subscribe();
   }
-  tag() {
-    this.handleSelectedNodes(nodes => true, nodes => {});
+  tag(tag: boolean) {
+    this.tagSelector.selectTags().pipe(tap(tags => {
+      if (!tags) { return; }
+      if (tags.length) {
+        this.handleSelectedNodes(() => true, nodes => this.nodeService.updateAll(nodes
+              .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+              .map(n => { n.tags = tags.map(t => t.mainData.id); return n; })
+            , true, (tag ? 'add' : 'remove')
+          ).pipe(tap((ns) => {
+            this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${tag ? 'tagged' : 'untagged'}.`);
+            this.fetchData();
+          })).subscribe());
+      } else {
+        this.view.alert('Please select at least one tag.');
+      }
+    })).subscribe();
   }
   star(star: boolean) {
     this.handleSelectedNodes(
@@ -91,6 +106,7 @@ export class UserHomeComponent implements OnInit {
   constructor(
     public view: ViewService,
     private nodeService: NodeService,
+    private tagSelector: TagSelector,
   ) { }
 
   ngOnInit(): void {

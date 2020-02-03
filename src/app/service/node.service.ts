@@ -113,7 +113,7 @@ export class NodeService {
   public getAll(filter: Filter = {}): Observable<Node[]> {
     return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);
   }
-  public updateAll(nodes: Node[], isSimple = false): Observable<Node[]> {
+  public updateAll(nodes: Node[], isSimple = false, tagMode = 'set'): Observable<Node[]> {
     const wraps = NodeService.wrapAll(nodes);
     if (isSimple) {
       wraps.forEach(wrap => {
@@ -123,7 +123,7 @@ export class NodeService {
         delete mainData.comment;
       });
     }
-    return this.httpService.put<OutputWrap[]>(`node/batch?simple=${isSimple}`, wraps).pipe(
+    return this.httpService.put<OutputWrap[]>(`node/batch?simple=${isSimple}&tag=${tagMode}`, wraps).pipe(
       NodeService.unwrapAll,
       tap<Node[]>(ns => ns.forEach(n => {
         this.nodeCache.set(n.mainData.id, n);
