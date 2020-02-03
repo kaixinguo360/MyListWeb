@@ -2,7 +2,7 @@
      (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
      (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)"
      (click)="fileViewer.close()">
-  <div class="side side-left"
+  <div class="side side-left" *ngIf="nodes.length>1"
        (mouseenter)="showLeftButton=true"
        (mouseleave)="showLeftButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"
@@ -11,7 +11,7 @@
       <mat-icon class="nav-icon">chevron_left</mat-icon>
     </button>
   </div>
-  <div class="side side-right"
+  <div class="side side-right" *ngIf="nodes.length>1"
        (mouseenter)="showRightButton=true"
        (mouseleave)="showRightButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"

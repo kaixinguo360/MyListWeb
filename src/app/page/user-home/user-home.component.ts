@@ -32,17 +32,19 @@ export class UserHomeComponent implements OnInit {
     ).subscribe();
   }
   tag(tag: boolean) {
-    this.tagSelector.selectTags().pipe(tap(tags => {
+    this.tagSelector.selectTags(
+      undefined, undefined, tag ? '为选中的项目添加标签' : '从选中的项目删除标签'
+    ).pipe(tap(tags => {
       if (!tags) { return; }
       if (tags.length) {
-        this.handleSelectedNodes(() => true, nodes => this.nodeService.updateAll(nodes
-              .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
-              .map(n => { n.tags = tags.map(t => t.mainData.id); return n; })
-            , true, (tag ? 'add' : 'remove')
-          ).pipe(tap((ns) => {
-            this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${tag ? 'tagged' : 'untagged'}.`);
-            this.fetchData();
-          })).subscribe());
+        this.handleSelectedNodes(() => true, nodes => this.nodeService.updateTags(nodes
+            .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+            .map(n => n.mainData.id)
+          , tags.map(t => t.mainData.id), tag ? 'add' : 'remove'
+        ).pipe(tap((ns) => {
+          this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${tag ? 'tagged' : 'untagged'}.`);
+          this.fetchData();
+        })).subscribe());
       } else {
         this.view.alert('Please select at least one tag.');
       }

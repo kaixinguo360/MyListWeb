@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HttpService} from './util/http.service';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {ViewService} from './util/view.service';
@@ -8,8 +8,9 @@ import {Filter} from './util/filter';
 import {Node} from './util/node';
 
 class InputWrap {
-  node: Node;
-  tags: number[];
+  id?: number;
+  node?: Node;
+  tags?: number[];
 }
 class OutputWrap {
   node: Node;
@@ -31,7 +32,6 @@ export class NodeService {
 
   private static wrap(node: Node): InputWrap {
     const tags = node.tags as number[];
-    node.tags = undefined;
     node.tags = undefined;
     return {node, tags};
   }
@@ -128,6 +128,16 @@ export class NodeService {
       tap<Node[]>(ns => ns.forEach(n => {
         this.nodeCache.set(n.mainData.id, n);
         this.obCache.delete(n.mainData.id);
+      })),
+      NodeService.errorHandler,
+    );
+  }
+  public updateTags(nodeIds: number[], tagIds: number[], action = 'set'): Observable<Node[]> {
+    if (!tagIds.length) { return throwError('tagIds.length is 0!'); }
+    return this.httpService.put<OutputWrap[]>(`node/tag?id=${tagIds.join('&id=')}&action=${action}`, nodeIds).pipe(
+      tap(() => nodeIds.forEach(nodeId => {
+        this.nodeCache.delete(nodeId);
+        this.obCache.delete(nodeId);
       })),
       NodeService.errorHandler,
     );
