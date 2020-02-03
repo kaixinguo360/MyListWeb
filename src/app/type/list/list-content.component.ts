@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {PreviewCard} from '../../component/card/preview/preview-card';
+import {Preview} from '../../component/content/preview/preview';
 import {Node} from '../../service/util/node';
 
 interface Excerpt {
@@ -10,10 +10,10 @@ interface Excerpt {
 }
 
 @Component({
-  templateUrl: './list-card.component.html',
-  styleUrls: ['./list-card.component.css']
+  templateUrl: './list-content.component.html',
+  styleUrls: ['./list-content.component.css']
 })
-export class ListCardComponent implements PreviewCard, OnInit {
+export class ListContentComponent implements Preview, OnInit {
 
   @Input() node: Node;
   excerpt: Excerpt;

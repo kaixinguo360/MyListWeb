@@ -1,5 +1,5 @@
 import {Node} from '../../../service/util/node';
 
-export interface PreviewCard {
+export interface Detail {
   node: Node;
 }

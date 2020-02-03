@@ -15,19 +15,19 @@ import {TypeModule} from './type.module';
 import {RootComponent} from './page/root.component';
 import {LoginComponent} from './page/login/login.component';
 
-import {MasonryItemComponent} from './component/masonry/item/masonry-item.component';
+import {NodeCardComponent} from './component/node-card/node-card.component';
 import {MasonryComponent} from './component/masonry/masonry.component';
-import {CardViewerComponent} from './component/node-viewer/card-viewer.component';
+import {NodeViewerComponent} from './component/node-viewer/node-viewer.component';
 import {OrderSelectorComponent} from './component/order-selector/order-selector.component';
 import {FilterSelectorComponent} from './component/filter-selector/filter-selector.component';
-import {PreviewCardComponent} from './component/card/preview/preview-card.component';
-import {DetailCardComponent} from './component/card/detail/detail-card.component';
+import {PreviewComponent} from './component/content/preview/preview.component';
+import {DetailComponent} from './component/content/detail/detail.component';
 import {AdminHomeComponent} from './page/admin/home/admin-home.component';
 import {UserHomeComponent} from './page/user-home/user-home.component';
 import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
 import {NodeEditComponent} from './page/node-edit/node-edit.component';
 import {ExtraEditComponent} from './component/extra-edit/extra-edit.component';
-import {MasonryMenuComponent} from './component/masonry/menu/masonry-menu.component';
+import {NodeMenuComponent} from './component/node-menu/node-menu.component';
 import {TagSelectorComponent} from './component/tag-selector/tag-selector.component';
 
 export class HammerConfig extends HammerGestureConfig  {
@@ -38,19 +38,19 @@ export class HammerConfig extends HammerGestureConfig  {
   declarations: [
     RootComponent,
     LoginComponent,
-    MasonryItemComponent,
+    NodeCardComponent,
     MasonryComponent,
-    CardViewerComponent,
+    NodeViewerComponent,
     OrderSelectorComponent,
     FilterSelectorComponent,
-    PreviewCardComponent,
-    DetailCardComponent,
+    PreviewComponent,
+    DetailComponent,
     AdminHomeComponent,
     UserHomeComponent,
     UserEditComponent,
     NodeEditComponent,
     ExtraEditComponent,
-    MasonryMenuComponent,
+    NodeMenuComponent,
     TagSelectorComponent,
   ],
     imports: [
@@ -70,8 +70,8 @@ export class HammerConfig extends HammerGestureConfig  {
   }],
   bootstrap: [ RootComponent ],
   entryComponents: [
-    CardViewerComponent,
-    MasonryMenuComponent,
+    NodeViewerComponent,
+    NodeMenuComponent,
     TagSelectorComponent,
   ]
 })

@@ -3,11 +3,11 @@ import {CommonModule} from '@angular/common';
 import {MaterialModule} from './material.module';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 
-import {NodeCardComponent} from './type/node/card/node-card.component';
+import {NodeContentComponent} from './type/node/content/node-content.component';
 import {NodeExtraEditComponent} from './type/node/extra-edit/node-extra-edit.component';
 
-import {ListCardComponent} from './type/list/list-card.component';
-import {TagCardComponent} from './type/tag/tag-card.component';
+import {ListContentComponent} from './type/list/list-content.component';
+import {TagContentComponent} from './type/tag/tag-content.component';
 
 import {ImagePreviewComponent} from './type/image/preview/image-preview.component';
 import {ImageDetailComponent} from './type/image/detail/image-detail.component';
@@ -20,10 +20,10 @@ import {DomainPipe, LimitPipe} from './service/util/pipes';
 
 @NgModule({
   declarations: [
-    NodeCardComponent,
+    NodeContentComponent,
     NodeExtraEditComponent,
-    ListCardComponent,
-    TagCardComponent,
+    ListContentComponent,
+    TagContentComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
     ImageEditComponent,
@@ -34,10 +34,10 @@ import {DomainPipe, LimitPipe} from './service/util/pipes';
     LimitPipe,
   ],
   entryComponents: [
-    NodeCardComponent,
+    NodeContentComponent,
     NodeExtraEditComponent,
-    ListCardComponent,
-    TagCardComponent,
+    ListContentComponent,
+    TagContentComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
     ImageEditComponent,

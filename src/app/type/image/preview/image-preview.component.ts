@@ -1,13 +1,13 @@
 import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 
-import {PreviewCard} from '../../../component/card/preview/preview-card';
+import {Preview} from '../../../component/content/preview/preview';
 import {Node} from '../../../service/util/node';
 
 @Component({
   templateUrl: './image-preview.component.html',
   styleUrls: ['./image-preview.component.css']
 })
-export class ImagePreviewComponent implements PreviewCard {
+export class ImagePreviewComponent implements Preview {
   @Input() node: Node;
   @Input() width: number;
   @Input() height: number;

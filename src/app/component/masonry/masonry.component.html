@@ -5,7 +5,7 @@
     <div class="item-container"
          [class.item-container-select-mode]="selectMode"
          [class.item-container-selected]="item.selected">
-      <app-masonry-item (click)="click(item.node)" [node]="item.node" [maxHeight]="500"></app-masonry-item>
+      <app-masonry-item (click)="click(item.node)" [node]="item.node" [maxHeight]="500" [interact]="!selectMode"></app-masonry-item>
       <div class="item-overlay" (click)="item.selected=!item.selected;selectCount=selectCount+(item.selected?1:-1);" *ngIf="selectMode"
            [class.item-overlay-selected]="item.selected"></div>
     </div>

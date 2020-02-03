@@ -1,20 +1,23 @@
-import {Component, ComponentFactoryResolver, Injectable, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, Injectable, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {NodeService} from '../../service/node.service';
 import {tap} from 'rxjs/operators';
-import {DetailCard} from '../card/detail/detail-card';
+import {Detail} from '../content/detail/detail';
 import {ViewService} from '../../service/util/view.service';
 import {Node} from '../../service/util/node';
+import {Overlay} from '@angular/cdk/overlay';
+import {ComponentPortal} from '@angular/cdk/portal';
+import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
 
 @Component({
   selector: 'app-card-viewer',
-  templateUrl: './card-viewer.component.html',
-  styleUrls: ['./card-viewer.component.css']
+  templateUrl: './node-viewer.component.html',
+  styleUrls: ['./node-viewer.component.css']
 })
-export class CardViewerComponent implements OnInit {
+export class NodeViewerComponent implements OnInit {
   @Input() index: number;
   @Input() nodes: Node[];
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
-  private content: DetailCard;
+  private content: Detail;
   showLeftButton = false;
   showRightButton = false;
   currentNode: Node = null;
@@ -71,30 +74,31 @@ export class CardViewerComponent implements OnInit {
 })
 export class NodeViewer {
 
-  public popupContainerRef: ViewContainerRef; // @Autowired
-  public popup: CardViewerComponent;
+  private overlayRef: OverlayRef;
 
   public open(node: Node, nodes?: Node[]) {
-    if (this.popup) { this.close(); }
-    const factory = this.componentFactoryResolver.resolveComponentFactory(CardViewerComponent);
-    const componentRef = this.popupContainerRef.createComponent(factory);
-    this.popup = (componentRef.instance as CardViewerComponent);
+    if (this.overlayRef) { this.close(); }
+
+    this.overlayRef = this.overlay.create();
+    const componentRef = this.overlayRef.attach(new ComponentPortal(NodeViewerComponent));
+
+    const popup = (componentRef.instance as NodeViewerComponent);
     if (nodes) {
-      this.popup.nodes = nodes;
-      this.popup.index = nodes.findIndex(n => n === node);
+      popup.nodes = nodes;
+      popup.index = nodes.findIndex(n => n === node);
     } else {
-      this.popup.nodes = [node];
-      this.popup.index = 0;
+      popup.nodes = [node];
+      popup.index = 0;
     }
     this.view.stopScroll(true);
   }
   public close() {
-    this.popupContainerRef.remove();
+    this.overlayRef.dispose();
     this.view.stopScroll(false);
   }
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
     public view: ViewService,
+    private overlay: Overlay,
   ) { }
 }

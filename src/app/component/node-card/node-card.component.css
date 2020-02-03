@@ -1,4 +1,7 @@
+
+/* -- container -- */
 .container {
+  position: relative;
   border-radius: 10px;
   background-color: white;
 }
@@ -9,7 +12,6 @@
   flex-direction: column;
   justify-content: flex-end;
 }
-
 .card-container {
   display: flex;
   flex-direction: column;
@@ -18,13 +20,70 @@
   position: relative;
 }
 
+/* -- mobile-buttons -- */
+.mobile-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #8e8e8e;
+  min-height: 36px;
+  margin: -2px 0 -10px;
+}
+.mobile-buttons>span {
+  flex: 1 1 auto;
+}
+.mobile-url-button {
+  padding: 0;
+  transform: translate(-50%) scale(0.8) translate(50%);
+}
+.mobile-more-button {
+  flex: 0 0;
+}
+
+/* -- desktop-buttons -- */
+.desktop-url-button {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  transform: translate(-50%, 50%) scale(0.8) translate(50%, -50%);
+}
+.desktop-edit-button {
+  position: absolute;
+  top: 8px; left: 8px;
+  transform: translate(-50%, -50%) scale(0.8) translate(50%, 50%);
+}
+.desktop-star-button {
+  position: absolute;
+  top: 8px; right: 8px;
+  transform: translate(50%, -50%) scale(0.8) translate(-50%, 50%);
+}
+
+/* -- icons -- */
+.status-icons {
+  position: absolute;
+  bottom: 8px; right: 8px;
+  transform: translate(50%, 50%) scale(0.6) translate(-50%, -50%);
+  display: flex;
+  align-items: flex-end;
+}
+.status-icons .mat-icon {
+  border-radius: 50%;
+  background-color: #ffffff9e;
+  color: #858585;
+  margin: 0 2px;
+  padding: 5px;
+}
+.status-icons>.permission .mat-icon {
+  background-color: #858585;
+  color: #ffffff;
+}
+
+/* -- default -- */
 .mat-icon-button {
   background-color: #ffffffde;
 }
 .mat-icon-button:hover {
   background-color: #ffffff;
 }
-
 .mat-flat-button {
   color: inherit;
   background-color: #ffffffde;
@@ -35,27 +94,12 @@
 .mat-flat-button:hover {
   background-color: #ffffff;
 }
-
 a {
   color: inherit;
   text-decoration: none;
 }
 
-.icons {
-  position: absolute;
-  bottom: 8px; right: 8px;
-  transform: translate(50%, 50%) scale(0.6) translate(-50%, -50%);
-  display: flex;
-  align-items: flex-end;
-}
-.icons .mat-icon {
-  border-radius: 50%;
-  background-color: #ffffff9e;
-  color: #858585;
-  margin: 0 2px;
-  padding: 5px;
-}
-
+/* -- others -- */
 .comment {
   font-size: small;
   color: #8e8e8e;
@@ -63,47 +107,7 @@ a {
   overflow: hidden;
   overflow-wrap: break-word;
 }
-
-/* -- mobile-buttons -- */
-
-.mobile-buttons {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: #8e8e8e;
-  min-height: 36px;
-  margin: -2px 0 -10px;
-}
-
-.mobile-buttons>span {
-  flex: 1 1 auto;
-}
-
-.mobile-url-button {
-  padding: 0;
-  transform: translate(-50%) scale(0.8) translate(50%);
-}
-
-.mobile-more-button {
-  flex: 0 0;
-}
-
-/* -- desktop-buttons -- */
-
-.desktop-url-button {
+.overlay {
   position: absolute;
-  bottom: 8px; left: 8px;
-  transform: translate(-50%, 50%) scale(0.8) translate(50%, -50%);
-}
-
-.desktop-edit-button {
-  position: absolute;
-  top: 8px; left: 8px;
-  transform: translate(-50%, -50%) scale(0.8) translate(50%, 50%);
-}
-
-.desktop-star-button {
-  position: absolute;
-  top: 8px; right: 8px;
-  transform: translate(50%, -50%) scale(0.8) translate(-50%, 50%);
+  top: 0; bottom: 0; left: 0; right: 0;
 }

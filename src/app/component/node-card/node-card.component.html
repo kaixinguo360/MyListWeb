@@ -3,7 +3,8 @@
      [style.max-width.px]="maxWidth"
      [style.height.px]="height"
      [style.max-height.px]="maxHeight"
-     (mouseenter)="show=true" (mouseleave)="show=false">
+     (mouseenter)="interact?showDesktopIcons=true:null"
+     (mouseleave)="interact?showDesktopIcons=false:null">
   <div
     [style.height.px]="height?(height-12):null"
     [style.max-height.px]="maxHeight?(maxHeight-12):null">
@@ -11,18 +12,20 @@
     <div class="card-container flex-padding hide-overflow">
       <app-card-preview [node]="node"></app-card-preview>
 
-      <div class="icons">
-        <mat-icon color="primary" *ngIf="node.mainData.nsfw">warning</mat-icon>
-        <mat-icon color="primary" *ngIf="node.mainData.hide">visibility_off</mat-icon>
-        <mat-icon color="primary" *ngIf="node.mainData.like">star</mat-icon>
-        <mat-icon color="primary" *ngIf="node.mainData.user==view.user.id&&node.mainData.permission!='private'">share</mat-icon>
-        <div *ngIf="node.mainData.user!=view.user.id">
-          <mat-icon color="primary" *ngIf="node.mainData.permission==='public'">public</mat-icon>
-          <mat-icon color="primary" *ngIf="node.mainData.permission==='protect'">lock</mat-icon>
+      <div class="status-icons">
+        <mat-icon *ngIf="node.mainData.nsfw">warning</mat-icon>
+        <mat-icon *ngIf="node.mainData.hide">visibility_off</mat-icon>
+        <mat-icon *ngIf="node.mainData.like">star</mat-icon>
+        <div class="permission">
+          <mat-icon *ngIf="node.mainData.user!==view.user.id">share</mat-icon>
+          <div *ngIf="node.mainData.user===view.user.id">
+            <mat-icon *ngIf="node.mainData.permission==='public'">public</mat-icon>
+            <mat-icon *ngIf="node.mainData.permission==='protect'">edit</mat-icon>
+          </div>
         </div>
       </div>
 
-      <div class="desktop-buttons" *ngIf="!view.isMobile&&show" (click)="$event.stopPropagation()">
+      <div class="desktop-buttons" *ngIf="!view.isMobile&&showDesktopIcons" (click)="$event.stopPropagation()">
         <a class="desktop-url-button one-line-text" *ngIf="node.mainData.sourceUrl"
            target="_blank" [href]="node.mainData.sourceUrl"
            [style.max-width.px]="maxWidth?maxWidth:width">
@@ -35,8 +38,8 @@
             <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>
           </button>
         </a>
-        <button mat-icon-button disableRipple class="desktop-star-button" [color]="node.mainData.like?'accent':'black'">
-          <mat-icon>star</mat-icon>
+        <button mat-icon-button disableRipple class="desktop-star-button" (click)="openMenu()">
+          <mat-icon>more_horiz</mat-icon>
         </button>
       </div>
     </div>
@@ -56,5 +59,6 @@
       <mat-icon class="mobile-more-button" (click)="openMenu()">more_horiz</mat-icon>
     </div>
 
+    <div class="overlay" *ngIf="!interact"></div>
   </div>
 </div>

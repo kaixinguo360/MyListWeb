@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {catchError, tap} from 'rxjs/operators';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 
 import {HttpService} from './util/http.service';
 import {PreferenceService} from './util/preference.service';
@@ -48,6 +48,7 @@ export class TokenService {
   }
   public invalidateToken(): Observable<void> {
     return this.apiService.delete<void>(this.view.admin ? 'token/admin' : 'token', null, true).pipe(
+      catchError(err => of(err)),
       tap(() => this.preferenceService.clean())
     );
   }

@@ -1,16 +1,16 @@
 import {ComponentFactory, ComponentFactoryResolver, Injectable, Type} from '@angular/core';
 
 import {TypeConfig} from '../../type/type-config';
-import {PreviewCard} from '../../component/card/preview/preview-card';
-import {DetailCard} from '../../component/card/detail/detail-card';
+import {Preview} from '../../component/content/preview/preview';
+import {Detail} from '../../component/content/detail/detail';
 import {ExtraEdit} from '../../component/extra-edit/extra-edit';
 import {Node} from './node';
 
 export interface TypeInfo {
   name: string;
   id: string;
-  preview: Type<PreviewCard>;
-  detail: Type<DetailCard>;
+  preview: Type<Preview>;
+  detail: Type<Detail>;
   extraEdit: Type<ExtraEdit>;
   icon: string;
   ext?: RegExp;
@@ -33,10 +33,10 @@ export class TypeService {
     );
   }
 
-  public getPreviewCardFactory(type: string): ComponentFactory<PreviewCard> {
+  public getPreviewCardFactory(type: string): ComponentFactory<Preview> {
     return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).preview);
   }
-  public getDetailCardFactory(type: string): ComponentFactory<DetailCard> {
+  public getDetailCardFactory(type: string): ComponentFactory<Detail> {
     return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).detail);
   }
   public getExtraEditFactory(type: string): ComponentFactory<ExtraEdit> {

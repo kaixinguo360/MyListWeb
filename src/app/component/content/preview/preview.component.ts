@@ -1,24 +1,24 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
-import {PreviewCard} from './preview-card';
+import {Preview} from './preview';
 import {TypeService} from '../../../service/util/type.service';
 import {Node} from '../../../service/util/node';
 
 @Component({
   selector: 'app-card-preview',
-  templateUrl: './preview-card.component.html',
-  styleUrls: ['./preview-card.component.css']
+  templateUrl: './preview.component.html',
+  styleUrls: ['./preview.component.css']
 })
-export class PreviewCardComponent implements OnChanges {
+export class PreviewComponent implements OnChanges {
 
   @Input() node: Node;
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
-  content: PreviewCard;
+  content: Preview;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.content) { this.contentHost.remove(); }
     const factory = this.typeService.getPreviewCardFactory(this.node.mainData.type);
     const componentRef = this.contentHost.createComponent(factory);
-    this.content = (componentRef.instance as PreviewCard);
+    this.content = (componentRef.instance as Preview);
     this.content.node = this.node;
   }
 

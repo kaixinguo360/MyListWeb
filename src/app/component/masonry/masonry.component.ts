@@ -2,7 +2,7 @@ import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
-import {NodeViewer} from '../node-viewer/card-viewer.component';
+import {NodeViewer} from '../node-viewer/node-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
 import {ViewService} from '../../service/util/view.service';
 import {Node} from '../../service/util/node';

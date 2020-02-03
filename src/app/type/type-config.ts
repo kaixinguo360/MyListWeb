@@ -1,6 +1,6 @@
 import {TypeInfo} from '../service/util/type.service';
-import {ListCardComponent} from './list/list-card.component';
-import {NodeCardComponent} from './node/card/node-card.component';
+import {ListContentComponent} from './list/list-content.component';
+import {NodeContentComponent} from './node/content/node-content.component';
 import {ImagePreviewComponent} from './image/preview/image-preview.component';
 import {VideoPreviewComponent} from './video/preview/video-preview.component';
 import {ImageDetailComponent} from './image/detail/image-detail.component';
@@ -8,30 +8,30 @@ import {VideoDetailComponent} from './video/detail/video-detail.component';
 import {NodeExtraEditComponent} from './node/extra-edit/node-extra-edit.component';
 import {ImageEditComponent} from './image/edit/image-edit.component';
 import {VideoEditComponent} from './video/edit/video-edit.component';
-import {TagCardComponent} from './tag/tag-card.component';
+import {TagContentComponent} from './tag/tag-content.component';
 
 export const TypeConfig: TypeInfo[] = [
   {
     id: 'default',
     name: 'Unknown',
-    preview: NodeCardComponent,
-    detail: NodeCardComponent,
+    preview: NodeContentComponent,
+    detail: NodeContentComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'insert_drive_file',
   },
   {
     id: 'node',
     name: 'Simple Node',
-    preview: NodeCardComponent,
-    detail: NodeCardComponent,
+    preview: NodeContentComponent,
+    detail: NodeContentComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'insert_drive_file',
   },
   {
     id: 'list',
     name: 'List',
-    preview: ListCardComponent,
-    detail: ListCardComponent,
+    preview: ListContentComponent,
+    detail: ListContentComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'folder',
     process: node => { node.extraList.forEach(n => (n.status === 'new') ? (n.node.mainData.linkDelete = true) : null); },
@@ -39,8 +39,8 @@ export const TypeConfig: TypeInfo[] = [
   {
     id: 'tag',
     name: 'Tag',
-    preview: TagCardComponent,
-    detail: TagCardComponent,
+    preview: TagContentComponent,
+    detail: TagContentComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'style',
     process: node => {

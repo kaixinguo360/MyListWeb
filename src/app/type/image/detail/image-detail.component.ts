@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {DetailCard} from '../../../component/card/detail/detail-card';
+import {Detail} from '../../../component/content/detail/detail';
 import {Image} from '../image';
 import {Node} from '../../../service/util/node';
 
@@ -8,7 +8,7 @@ import {Node} from '../../../service/util/node';
   templateUrl: './image-detail.component.html',
   styleUrls: ['./image-detail.component.css']
 })
-export class ImageDetailComponent implements DetailCard, OnInit {
+export class ImageDetailComponent implements Detail, OnInit {
   @Input() node: Node;
   image: Image;
   loading = true;

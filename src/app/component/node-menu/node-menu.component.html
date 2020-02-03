@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="item-container hide-overflow">
+    <div class="preview-container hide-overflow" (click)="nodeViewer.open(node)">
+      <app-card-preview [node]="node"></app-card-preview>
+    </div>
+    <div class="info-container hide-overflow">
+      <div class="title">
+        {{node.mainData.title?node.mainData.title:'Untitled'}}
+        <span class="small">{{node.mainData.type}}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="comment">
+        {{node.mainData.comment}}
+        <span class="small" *ngIf="!node.mainData.comment">no comment</span>
+      </div>
+    </div>
+  </div>
+
+  <mat-nav-list>
+
+    <a mat-list-item [routerLink]="canWrite?['/node', node.mainData.id,'edit']:null" (click)="canWrite?close():null">
+      <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>
+      <span mat-line>
+        Edit<span class="small" *ngIf="!canWrite"> (permission denied)</span>
+      </span>
+    </a>
+
+    <a mat-list-item (click)="star()">
+      <mat-icon>star</mat-icon>
+      <span mat-line>Star</span>
+    </a>
+
+    <a mat-list-item target="_blank" [href]="[node.mainData.sourceUrl]" *ngIf="node.mainData.sourceUrl">
+      <mat-icon>open_in_new</mat-icon>
+      <span mat-line>
+        Source<span class="small"> (from {{node.mainData.sourceUrl|domain}})</span>
+      </span>
+    </a>
+
+  </mat-nav-list>
+
+  <div style="height: 100px"></div>
+</div>

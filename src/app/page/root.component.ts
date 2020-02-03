@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {NodeViewer} from '../component/node-viewer/card-viewer.component';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {NodeViewer} from '../component/node-viewer/node-viewer.component';
 import {ViewService} from '../service/util/view.service';
 import {TokenService} from '../service/token.service';
 import {Router} from '@angular/router';
@@ -14,7 +14,6 @@ import {HttpService} from '../service/util/http.service';
   styleUrls: ['./root.component.css']
 })
 export class RootComponent implements OnInit {
-  @ViewChild('popupContainer', { read: ViewContainerRef, static: true }) popupContainerRef: ViewContainerRef;
 
   constructor(
     private router: Router,
@@ -31,7 +30,6 @@ export class RootComponent implements OnInit {
 
   ngOnInit() {
     // @Autowired
-    this.popupService.popupContainerRef = this.popupContainerRef;
     this.httpService.tokenService = this.tokenService;
     this.view.tokenService = this.tokenService;
     this.view.titleService = this.titleService;

@@ -40,7 +40,7 @@ export class ViewService {
     this.onChange();
   }
   private onChange() {
-    this.titleService.setTitle(this.config.title);
+    this.titleService.setTitle('MyList' + (this.config.title ? ` - ${this.config.title}` : ''));
     this.cdRef.detectChanges();
   }
 

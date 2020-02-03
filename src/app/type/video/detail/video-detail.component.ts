@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DetailCard} from '../../../component/card/detail/detail-card';
+import {Detail} from '../../../component/content/detail/detail';
 import {ExtraData, Node} from '../../../service/util/node';
 
 export class Video extends ExtraData {
@@ -11,7 +11,7 @@ export class Video extends ExtraData {
   templateUrl: './video-detail.component.html',
   styleUrls: ['./video-detail.component.css']
 })
-export class VideoDetailComponent implements OnInit, DetailCard  {
+export class VideoDetailComponent implements OnInit, Detail  {
   @Input() node: Node;
   video: Video;
 

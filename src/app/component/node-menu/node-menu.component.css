@@ -1,0 +1,36 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.item-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.preview-container {
+  flex: 1 1 200px;
+}
+.info-container {
+  flex: 1 1 400px;
+  margin: 10px;
+}
+
+.info-container div {
+  margin: 4px 0;
+  overflow-wrap: break-word;
+}
+.info-container .title {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.info-container .comment {
+  white-space: pre-wrap;
+}
+
+.small {
+  color: #b0b0b0;
+  font-size: small;
+}
