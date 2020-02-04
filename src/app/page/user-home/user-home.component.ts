@@ -8,6 +8,7 @@ import {NodeService} from '../../service/node.service';
 import {Node} from '../../service/util/node';
 import {TagSelector} from '../../component/tag-selector/tag-selector.component';
 import {TagFilterComponent} from '../../component/filter/tag-filter/tag-filter.component';
+import {OrderFilterComponent} from '../../component/filter/order-filter/order-filter.component';
 
 @Component({
   selector: 'app-user-home',
@@ -18,19 +19,23 @@ export class UserHomeComponent implements OnInit {
 
   error = false;
   sub: Subscription;
-  @ViewChild('tagFilter', { read: TagFilterComponent, static: true }) tagsInput: TagFilterComponent;
-  @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) filter: BasicFilterComponent;
+  @ViewChild('orderFilter', { read: OrderFilterComponent, static: true }) orderFilter: OrderFilterComponent;
+  @ViewChild('tagFilter', { read: TagFilterComponent, static: true }) tagFilter: TagFilterComponent;
+  @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) basicFilter: BasicFilterComponent;
   @ViewChild('masonry', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
 
   fetchData() {
     if (this.sub) { this.sub.unsubscribe(); }
     this.error = false;
 
-    const filter = this.filter.getFilter();
-    const tags = this.tagsInput.getTags();
+    const filter = this.basicFilter.getFilter();
+    const tags = this.tagFilter.getTags();
     filter.orTags = tags.or;
     filter.andTags = tags.and;
     filter.notTags = tags.not;
+
+    const sort = this.orderFilter.getSort();
+    if (sort) { filter.sorts = [sort]; }
 
     this.sub = this.nodeService.getAll(filter).pipe(
       tap(nodes => this.masonry.setNodes(nodes)),
@@ -122,8 +127,9 @@ export class UserHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.view.init({title: 'Home'});
-    this.filter.onChange(() => this.fetchData());
-    this.tagsInput.onChange(() => this.fetchData());
+    this.basicFilter.onChange(() => this.fetchData());
+    this.tagFilter.onChange(() => this.fetchData());
+    this.orderFilter.onChange(() => this.fetchData());
     this.fetchData();
   }
 }

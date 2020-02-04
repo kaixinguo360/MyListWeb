@@ -10,7 +10,7 @@
     <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
       <mat-icon>center_focus_weak</mat-icon>
     </button>
-    <app-order-filter></app-order-filter>
+    <app-order-filter #orderFilter></app-order-filter>
     <app-tag-filter #tagFilter></app-tag-filter>
     <app-basic-filter #basicFilter></app-basic-filter>
     <button mat-icon-button (click)="fetchData()"><mat-icon>refresh</mat-icon></button>

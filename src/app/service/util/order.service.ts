@@ -3,6 +3,7 @@ import {AppConfig} from '../../../environments/app-config';
 import {Order} from '../../order';
 import {PreferenceService} from './preference.service';
 import {Node} from './node';
+import {Sort} from './filter';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,21 @@ export class OrderService {
       default:
         this.preference.set('order', this.defaultOrder);
         return this.defaultOrder;
+    }
+  }
+  public getSort(): Sort {
+    const order = this.preference.get('order', this.defaultOrder);
+    switch (order) {
+      case Order.MTIME_DESC: return {property: 'node_mtime', direction: 'desc'};
+      case Order.MTIME_ASC: return {property: 'node_mtime', direction: 'asc'};
+      case Order.CTIME_DESC: return {property: 'node_ctime', direction: 'desc'};
+      case Order.CTIME_ASC: return {property: 'node_ctime', direction: 'asc'};
+      case Order.NAME_DESC: return {property: 'node_title', direction: 'desc'};
+      case Order.NAME_ASC: return {property: 'node_title', direction: 'asc'};
+      case Order.RANDOM: return null;
+      default:
+        this.preference.set('order', this.defaultOrder);
+        return {property: 'node_mtime', direction: 'desc'};
     }
   }
   public setOrder(order: Order): void {

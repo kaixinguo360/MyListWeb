@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Order} from '../../../order';
 import {OrderService} from '../../../service/util/order.service';
+import {Sort} from '../../../service/util/filter';
+import {Subject} from 'rxjs';
 
 class OrderMenuItem {
   title: string;
@@ -17,10 +19,18 @@ class OrderMenuItem {
 export class OrderFilterComponent implements OnInit {
   public orderMenuItems: OrderMenuItem[];
   public currentOrder: Order;
+  private onChangeSubject = new Subject<void>();
 
   changeOrder(order: Order) {
+    this.currentOrder = order;
     this.orderService.setOrder(order);
-    location.reload();
+    this.onChangeSubject.next();
+  }
+  public getSort(): Sort {
+    return this.orderService.getSort();
+  }
+  public onChange(next?: (value: void) => void, error?: (error: any) => void, complete?: () => void) {
+    this.onChangeSubject.subscribe(next, error, complete);
   }
 
   constructor(
