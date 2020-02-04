@@ -14,8 +14,10 @@ import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
   styleUrls: ['./node-viewer.component.css']
 })
 export class NodeViewerComponent implements OnInit {
+
   @Input() index: number;
   @Input() nodes: Node[];
+
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
   private content: Detail;
   showLeftButton = false;

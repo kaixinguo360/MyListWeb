@@ -18,8 +18,8 @@ import {LoginComponent} from './page/login/login.component';
 import {NodeCardComponent} from './component/node-card/node-card.component';
 import {MasonryComponent} from './component/masonry/masonry.component';
 import {NodeViewerComponent} from './component/node-viewer/node-viewer.component';
-import {OrderSelectorComponent} from './component/order-selector/order-selector.component';
-import {FilterSelectorComponent} from './component/filter-selector/filter-selector.component';
+import {OrderFilterComponent} from './component/filter/order-filter/order-filter.component';
+import {BasicFilterComponent} from './component/filter/basic-filter/basic-filter.component';
 import {PreviewComponent} from './component/content/preview/preview.component';
 import {DetailComponent} from './component/content/detail/detail.component';
 import {AdminHomeComponent} from './page/admin/home/admin-home.component';
@@ -29,6 +29,8 @@ import {NodeEditComponent} from './page/node-edit/node-edit.component';
 import {ExtraEditComponent} from './component/extra-edit/extra-edit.component';
 import {NodeMenuComponent} from './component/node-menu/node-menu.component';
 import {TagSelectorComponent} from './component/tag-selector/tag-selector.component';
+import {TagInputComponent} from './component/filter/tag-filter/tag-input/tag-input.component';
+import {TagFilterComponent} from './component/filter/tag-filter/tag-filter.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -41,8 +43,8 @@ export class HammerConfig extends HammerGestureConfig  {
     NodeCardComponent,
     MasonryComponent,
     NodeViewerComponent,
-    OrderSelectorComponent,
-    FilterSelectorComponent,
+    OrderFilterComponent,
+    BasicFilterComponent,
     PreviewComponent,
     DetailComponent,
     AdminHomeComponent,
@@ -52,6 +54,8 @@ export class HammerConfig extends HammerGestureConfig  {
     ExtraEditComponent,
     NodeMenuComponent,
     TagSelectorComponent,
+    TagInputComponent,
+    TagFilterComponent,
   ],
     imports: [
         BrowserModule,

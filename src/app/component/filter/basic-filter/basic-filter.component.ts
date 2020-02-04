@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {PreferenceService} from '../../service/util/preference.service';
-import {Filter} from '../../service/util/filter';
+import {PreferenceService} from '../../../service/util/preference.service';
+import {Filter} from '../../../service/util/filter';
 
 @Component({
-  selector: 'app-filter',
-  templateUrl: './filter-selector.component.html',
-  styleUrls: ['./filter-selector.component.css']
+  selector: 'app-basic-filter',
+  templateUrl: './basic-filter.component.html',
+  styleUrls: ['./basic-filter.component.css']
 })
-export class FilterSelectorComponent implements OnInit {
+export class BasicFilterComponent implements OnInit {
 
   data = this.fb.group({
     nsfw: false,

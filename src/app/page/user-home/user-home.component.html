@@ -10,8 +10,9 @@
     <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
       <mat-icon>center_focus_weak</mat-icon>
     </button>
-    <app-order-selector></app-order-selector>
-    <app-filter #filter></app-filter>
+    <app-order-filter></app-order-filter>
+    <app-tag-filter #tagFilter></app-tag-filter>
+    <app-basic-filter #basicFilter></app-basic-filter>
     <button mat-icon-button (click)="fetchData()"><mat-icon>refresh</mat-icon></button>
   </div>
   <div class="tool-container select-tool" *ngIf="masonry.selectMode">
@@ -29,7 +30,7 @@
       <button mat-menu-item (click)="tag(false)"><mat-icon>bookmark_border</mat-icon>Untag</button>
       <button mat-menu-item (click)="star(false)"><mat-icon>star_border</mat-icon>Unstar</button>
       <mat-divider></mat-divider>
-      <button mat-menu-item (click)="hide(false)"><mat-icon>visibility</mat-icon>Show</button>
+      <button mat-menu-item (click)="hide(false)"><mat-icon>visibility</mat-icon>Display</button>
       <button mat-menu-item (click)="hide(true)"><mat-icon>visibility_off</mat-icon>Hide</button>
       <mat-divider></mat-divider>
       <button mat-menu-item (click)="permission('public')"><mat-icon>public</mat-icon>Public</button>

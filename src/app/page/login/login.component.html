@@ -7,17 +7,17 @@
       <mat-card-content>
         <div class="row" *ngIf="!view.admin">
           <mat-form-field class="full-width">
-            <input matInput placeholder="用户名" formControlName="name">
+            <input matInput placeholder="User" formControlName="name">
           </mat-form-field>
         </div>
         <div class="row">
           <mat-form-field class="full-width">
-            <input matInput type="password" placeholder="密码" formControlName="pass">
+            <input matInput type="password" placeholder="Password" formControlName="pass">
           </mat-form-field>
         </div>
       </mat-card-content>
       <div class="align-center">
-        <button mat-raised-button color="primary" type="submit" [disabled]="view.loading">登陆</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="view.loading">Login</button>
       </div>
     </div>
   </mat-card>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Order} from '../../order';
-import {OrderService} from '../../service/util/order.service';
+import {Order} from '../../../order';
+import {OrderService} from '../../../service/util/order.service';
 
 class OrderMenuItem {
   title: string;
@@ -10,11 +10,11 @@ class OrderMenuItem {
 }
 
 @Component({
-  selector: 'app-order-selector',
-  templateUrl: './order-selector.component.html',
-  styleUrls: ['./order-selector.component.css']
+  selector: 'app-order-filter',
+  templateUrl: './order-filter.component.html',
+  styleUrls: ['./order-filter.component.css']
 })
-export class OrderSelectorComponent implements OnInit {
+export class OrderFilterComponent implements OnInit {
   public orderMenuItems: OrderMenuItem[];
   public currentOrder: Order;
 

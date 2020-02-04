@@ -6,4 +6,3 @@ export const AppConfig = {
   mobileWidth: 640,
   defaultOrder: Order.MTIME_DESC,
 };
-

@@ -35,7 +35,7 @@ export class TagSelectorComponent implements OnInit {
         this.showInputBox = false;
       });
     } else {
-      alert('标签名称不能为空!');
+      this.view.alert('Please enter a title for the new tag!');
     }
   }
   selectTag(tag: Node) {
@@ -53,7 +53,7 @@ export class TagSelectorComponent implements OnInit {
 
   ngOnInit() {
     this.title = this.title ? this.title :
-      (this.multiple ? '请选择标签' : '请选择一个标签');
+      (this.multiple ? 'Please select tags' : 'Please select a tag');
     this.nodeService.getAllByType('tag', this.filter).pipe(
       tap(tags => {
         this.tags = tags;
@@ -73,7 +73,7 @@ export class TagSelectorComponent implements OnInit {
         }
       }),
       catchError(err => {
-        alert('获取标签信息时出错!');
+        this.view.alert('An error occurred while fetching the tag info');
         return throwError(err);
       })
     ).subscribe();

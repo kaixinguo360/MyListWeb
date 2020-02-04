@@ -26,9 +26,9 @@
   width: calc(100% - 64px);
   max-width: 600px;
   z-index: 101;
-  top: 180px;
+  top: 100px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
 }
 
 .actions {

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FilterSelectorComponent} from '../../component/filter-selector/filter-selector.component';
+import {BasicFilterComponent} from '../../component/filter/basic-filter/basic-filter.component';
 import {ViewService} from '../../service/util/view.service';
 import {catchError, tap} from 'rxjs/operators';
 import {Subscription, throwError} from 'rxjs';
@@ -7,6 +7,7 @@ import {MasonryComponent} from '../../component/masonry/masonry.component';
 import {NodeService} from '../../service/node.service';
 import {Node} from '../../service/util/node';
 import {TagSelector} from '../../component/tag-selector/tag-selector.component';
+import {TagFilterComponent} from '../../component/filter/tag-filter/tag-filter.component';
 
 @Component({
   selector: 'app-user-home',
@@ -17,13 +18,21 @@ export class UserHomeComponent implements OnInit {
 
   error = false;
   sub: Subscription;
-  @ViewChild('filter', { read: FilterSelectorComponent, static: true }) filter: FilterSelectorComponent;
+  @ViewChild('tagFilter', { read: TagFilterComponent, static: true }) tagsInput: TagFilterComponent;
+  @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) filter: BasicFilterComponent;
   @ViewChild('masonry', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
 
   fetchData() {
     if (this.sub) { this.sub.unsubscribe(); }
     this.error = false;
-    this.sub = this.nodeService.getAll(this.filter.getFilter()).pipe(
+
+    const filter = this.filter.getFilter();
+    const tags = this.tagsInput.getTags();
+    filter.orTags = tags.or;
+    filter.andTags = tags.and;
+    filter.notTags = tags.not;
+
+    this.sub = this.nodeService.getAll(filter).pipe(
       tap(nodes => this.masonry.setNodes(nodes)),
       catchError(err => {
         this.error = false;
@@ -33,7 +42,7 @@ export class UserHomeComponent implements OnInit {
   }
   tag(tag: boolean) {
     this.tagSelector.selectTags(
-      undefined, undefined, tag ? '为选中的项目添加标签' : '从选中的项目删除标签'
+      undefined, undefined, tag ? 'Add tags to selected items' : 'Remove tags from selected items'
     ).pipe(tap(tags => {
       if (!tags) { return; }
       if (tags.length) {
@@ -114,6 +123,7 @@ export class UserHomeComponent implements OnInit {
   ngOnInit(): void {
     this.view.init({title: 'Home'});
     this.filter.onChange(() => this.fetchData());
+    this.tagsInput.onChange(() => this.fetchData());
     this.fetchData();
   }
 }

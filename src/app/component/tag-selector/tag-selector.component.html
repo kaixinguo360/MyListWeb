@@ -6,11 +6,11 @@
   <div class="input-container flex-fixed full-width" (click)="showInputBox=true;">
     <mat-icon *ngIf="!showInputBox">add</mat-icon>
     <div *ngIf="!showInputBox">
-      <p class="title" matLine>新建标签</p>
+      <p class="title" matLine>New Tag</p>
       <p class="info" matLine></p>
     </div>
     <mat-form-field class="full-width input-box" *ngIf="showInputBox">
-      <input matInput #title [disabled]="view.loading" placeholder="标签名称" maxlength="255">
+      <input matInput #title [disabled]="view.loading" placeholder="Tag Title" maxlength="255">
       <button matSuffix mat-icon-button [disabled]="view.loading" (click)="create(title.value)">
         <mat-icon>add</mat-icon>
       </button>

@@ -1,0 +1,37 @@
+<mat-form-field class="full-width">
+  <mat-chip-list #chipList aria-label="Tag selection" [disabled]="disabled">
+
+    <mat-chip *ngFor="let item of selectedItems; index as i"
+      [removable]="!item.fixed" (removed)="selectedItems.splice(i,1)"
+      [class.special-chip]="item.isNew">
+      <mat-icon class="chip-icon" *ngIf="!item.isNew">style</mat-icon>
+      {{item.isNew?item.title:item.node.mainData.title}}
+      <mat-icon matChipRemove (click)="this.onChange.emit()" *ngIf="!item.fixed">cancel</mat-icon>
+    </mat-chip>
+
+    <input #tagInput [placeholder]="placeholder?placeholder:'Tag input'"
+      [formControl]="chipCtrl"
+      [matChipInputFor]="chipList"
+      [matAutocomplete]="auto">
+
+  </mat-chip-list>
+
+  <mat-autocomplete #auto (optionSelected)="selected($event)" autoActiveFirstOption>
+    <mat-option [value]="tagInput.value" *ngIf="tagInput.value">
+      {{tagInput.value|limit:20}}
+      <span class="small">
+        - {{plaintextTips?plaintextTips:'plain text'}}
+      </span>
+    </mat-option>
+    <mat-option *ngFor="let tag of filteredTags|async" [value]="tag">
+      <mat-icon class="chip-icon">style</mat-icon>
+      {{tag.mainData.title}}
+      <span class="small" *ngIf="tag.mainData.user!==view.user.id">
+        - from other user
+      </span>
+      <span class="small" *ngIf="tag.mainData.user===view.user.id&&tag.mainData.permission!=='private'">
+        - {{tag.mainData.permission}}
+      </span>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
