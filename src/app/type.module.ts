@@ -10,7 +10,7 @@ import {DomainPipe, LimitPipe} from './service/util/pipes';
 import {NodeContentComponent} from './type/node/content/node-content.component';
 import {NodeExtraEditComponent} from './type/node/extra-edit/node-extra-edit.component';
 
-import {ListContentComponent} from './type/album/content/list-content.component';
+import {ListContentComponent} from './type/list/content/list-content.component';
 import {TagContentComponent} from './type/tag/tag-content.component';
 
 import {ImagePreviewComponent} from './type/image/preview/image-preview.component';
@@ -21,7 +21,7 @@ import {VideoPreviewComponent} from './type/video/preview/video-preview.componen
 import {VideoDetailComponent} from './type/video/detail/video-detail.component';
 import {VideoEditComponent} from './type/video/edit/video-edit.component';
 
-import {AlbumEditComponent} from './type/album/edit/album-edit.component';
+import {ListEditComponent} from './type/list/edit/list-edit.component';
 import {RouterModule} from '@angular/router';
 
 @NgModule({
@@ -40,7 +40,7 @@ import {RouterModule} from '@angular/router';
     VideoPreviewComponent,
     VideoDetailComponent,
     VideoEditComponent,
-    AlbumEditComponent,
+    ListEditComponent,
   ],
   entryComponents: [
     NodeContentComponent,
@@ -53,7 +53,7 @@ import {RouterModule} from '@angular/router';
     VideoPreviewComponent,
     VideoDetailComponent,
     VideoEditComponent,
-    AlbumEditComponent,
+    ListEditComponent,
   ],
   exports: [
     PreviewComponent,

@@ -6,8 +6,8 @@ export class MainData {
   mtime?: number;
   title?: string;
   excerpt?: string;
-  linkDelete?: boolean;
-  linkVirtual?: boolean;
+  part?: boolean;
+  collection?: boolean;
   permission?: string;
   nsfw?: boolean;
   like?: boolean;

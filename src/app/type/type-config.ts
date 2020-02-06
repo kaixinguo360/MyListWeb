@@ -1,5 +1,5 @@
 import {TypeInfo} from '../service/util/type.service';
-import {ListContentComponent} from './album/content/list-content.component';
+import {ListContentComponent} from './list/content/list-content.component';
 import {NodeContentComponent} from './node/content/node-content.component';
 import {ImagePreviewComponent} from './image/preview/image-preview.component';
 import {VideoPreviewComponent} from './video/preview/video-preview.component';
@@ -9,7 +9,7 @@ import {NodeExtraEditComponent} from './node/extra-edit/node-extra-edit.componen
 import {ImageEditComponent} from './image/edit/image-edit.component';
 import {VideoEditComponent} from './video/edit/video-edit.component';
 import {TagContentComponent} from './tag/tag-content.component';
-import {AlbumEditComponent} from './album/edit/album-edit.component';
+import {ListEditComponent} from './list/edit/list-edit.component';
 
 export const TypeConfig: TypeInfo[] = [
   {
@@ -29,6 +29,25 @@ export const TypeConfig: TypeInfo[] = [
     icon: 'insert_drive_file',
   },
   {
+    id: 'list',
+    name: 'List',
+    preview: ListContentComponent,
+    detail: ListContentComponent,
+    extraEdit: ListEditComponent,
+    icon: 'collections',
+    process: node => {
+      node.extraList.forEach(image => {
+        if (image.status === 'new') {
+          image.node.mainData.permission = node.mainData.permission;
+          image.node.mainData.nsfw = node.mainData.nsfw;
+          image.node.mainData.like = node.mainData.like;
+          image.node.mainData.hide = node.mainData.hide;
+          image.node.mainData.sourceUrl = node.mainData.sourceUrl;
+        }
+      });
+    },
+  },
+  {
     id: 'tag',
     name: 'Tag',
     preview: TagContentComponent,
@@ -37,7 +56,7 @@ export const TypeConfig: TypeInfo[] = [
     icon: 'style',
     process: node => {
       if (!node.mainData.title) { return 'Tag node should have a title.'; }
-      node.mainData.linkVirtual = true;
+      node.mainData.collection = true;
     },
   },
   {
@@ -72,23 +91,4 @@ export const TypeConfig: TypeInfo[] = [
     extraEdit: VideoEditComponent,
     icon: 'videocam',
   },
-  {
-    id: 'list',
-    name: 'List',
-    preview: ListContentComponent,
-    detail: ListContentComponent,
-    extraEdit: AlbumEditComponent,
-    icon: 'collections',
-    process: node => {
-      node.extraList.forEach(image => {
-        if (image.status === 'new') {
-          image.node.mainData.permission = node.mainData.permission;
-          image.node.mainData.nsfw = node.mainData.nsfw;
-          image.node.mainData.like = node.mainData.like;
-          image.node.mainData.hide = node.mainData.hide;
-          image.node.mainData.sourceUrl = node.mainData.sourceUrl;
-        }
-      });
-    },
-  }
 ];

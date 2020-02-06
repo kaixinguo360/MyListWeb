@@ -59,6 +59,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 /* -- Util -- */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .flex-padding {
   flex: 1 1 auto;
 }

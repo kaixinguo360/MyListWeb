@@ -80,7 +80,7 @@ export class BasicFilterComponent implements OnInit {
       notTags: []
     };
     if (!value.part) {
-      filter.conditions.push({column: 'node_link_delete', oper: '=', value: '0'});
+      filter.conditions.push({column: 'node_part', oper: '=', value: '0'});
     }
     if (value.types.length < this.types.length && value.types.length > 0) {
       filter.conditions.push({

@@ -1,4 +1,4 @@
-.image-container {
+.item-container {
   border-radius: 10px;
   border: 2px solid #e0e0e0;
   margin: 8px 0;
@@ -7,6 +7,7 @@
 
 .preview-container {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   color: gray;
 }
@@ -22,10 +23,25 @@
   height: 36px;
   object-fit: cover;
 }
+.preview {
+  border-radius: 10px;
+  max-height: 64px;
+}
 
 .editor-container {
   margin-top: 4px;
 }
 .editor-container>.mat-form-field {
   margin-bottom: -14px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 9px;
+}
+
+.count-text {
+  color: gray;
 }
