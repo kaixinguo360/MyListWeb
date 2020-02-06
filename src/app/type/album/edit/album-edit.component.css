@@ -1,0 +1,31 @@
+.image-container {
+  border-radius: 10px;
+  border: 2px solid #e0e0e0;
+  margin: 8px 0;
+  padding: 8px;
+}
+
+.preview-container {
+  display: flex;
+  align-items: center;
+  color: gray;
+}
+.preview-container>div {
+  display: flex;
+  align-items: center;
+}
+.preview-container span {
+  margin: 0 8px;
+}
+.preview-container img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+}
+
+.editor-container {
+  margin-top: 4px;
+}
+.editor-container>.mat-form-field {
+  margin-bottom: -14px;
+}

@@ -25,9 +25,9 @@
       </span>
     </a>
 
-    <a mat-list-item (click)="star()">
-      <mat-icon>star</mat-icon>
-      <span mat-line>Star</span>
+    <a mat-list-item (click)="delete()">
+      <mat-icon>delete</mat-icon>
+      <span mat-line>Delete</span>
     </a>
 
     <a mat-list-item target="_blank" [href]="[node.mainData.sourceUrl]" *ngIf="node.mainData.sourceUrl">

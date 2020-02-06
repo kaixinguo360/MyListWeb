@@ -1,11 +1,9 @@
-<div #container class="img-container hide-overflow"
-     [class.img-container-loading]="loading">
-  <img #img class="img hide-overflow"
-       [lazyLoad]="node.mainData.excerpt"
-       [alt]="node.mainData.title"
-       [hidden]="error"
-       (load)="onload()"
+<div class="container" [class.container-loading]="loading">
+
+  <img [src]="node.mainData.excerpt" [alt]="" *ngIf="!error"
+       (load)="loading=false"
        (error)="error=true">
-  <mat-icon class="big-icon center-icon" color="primary" *ngIf="loading&&!error">photo</mat-icon>
-  <mat-icon class="big-icon center-icon" color="primary" *ngIf="error">broken_image</mat-icon>
+
+  <mat-icon color="primary" *ngIf="loading">{{error?'broken_image':'photo'}}</mat-icon>
+
 </div>

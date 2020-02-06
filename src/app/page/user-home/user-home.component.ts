@@ -57,7 +57,6 @@ export class UserHomeComponent implements OnInit {
           , tags.map(t => t.mainData.id), tag ? 'add' : 'remove'
         ).pipe(tap((ns) => {
           this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${tag ? 'tagged' : 'untagged'}.`);
-          this.fetchData();
         })).subscribe());
       } else {
         this.view.alert('Please select at least one tag.');
@@ -73,7 +72,6 @@ export class UserHomeComponent implements OnInit {
         , true
       ).pipe(tap((ns) => {
         this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${star ? 'starred' : 'unstarred'}.`);
-        this.fetchData();
       })).subscribe());
   }
   hide(hide: boolean) {
@@ -85,7 +83,6 @@ export class UserHomeComponent implements OnInit {
         , true
       ).pipe(tap((ns) => {
         this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} ${hide ? 'hidden' : 'unhide'}.`);
-        this.fetchData();
       })).subscribe());
   }
   permission(permission: string) {
@@ -97,7 +94,6 @@ export class UserHomeComponent implements OnInit {
         , true
       ).pipe(tap((ns) => {
         this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} set to ${permission}.`);
-        this.fetchData();
       })).subscribe());
   }
   delete() {
@@ -105,7 +101,6 @@ export class UserHomeComponent implements OnInit {
       nodes => confirm(nodes.length === 1 ? `Remove this item?` : `Remove these ${nodes.length} items?`),
       nodes => this.nodeService.removeAll(nodes.map(node => node.mainData.id)).pipe(tap(() => {
         this.view.alert(nodes.length === 1 ? `One item removed.` : `${nodes.length} items removed.`);
-        this.fetchData();
       })).subscribe());
   }
   private handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
@@ -119,17 +114,19 @@ export class UserHomeComponent implements OnInit {
     }
   }
 
+  ngOnInit(): void {
+    this.view.init({title: 'Home'});
+    this.basicFilter.onChange(() => this.fetchData());
+    this.tagFilter.onChange(() => this.fetchData());
+    this.orderFilter.onChange(() => this.fetchData());
+    this.nodeService.onChange(() => this.fetchData());
+    this.fetchData();
+  }
+
   constructor(
     public view: ViewService,
     private nodeService: NodeService,
     private tagSelector: TagSelector,
   ) { }
 
-  ngOnInit(): void {
-    this.view.init({title: 'Home'});
-    this.basicFilter.onChange(() => this.fetchData());
-    this.tagFilter.onChange(() => this.fetchData());
-    this.orderFilter.onChange(() => this.fetchData());
-    this.fetchData();
-  }
 }

@@ -2,10 +2,12 @@
   <button mat-icon-button (click)="open?close():(open=true)">
     <mat-icon matBadgeSize="small" matBadge="!" matBadgePosition="above before" matBadgeColor="accent" [matBadgeHidden]="!modified">filter_list</mat-icon>
   </button>
+
   <div *ngIf="open" class="overlay" (click)="close()">
   </div>
   <mat-card *ngIf="open">
     <form [formGroup]="data">
+
       <mat-form-field class="half-width">
         <mat-select placeholder="Types" formControlName="types" multiple>
           <mat-select-trigger *ngIf="data.value.types?.length==types.length||data.value.types?.length==0">All</mat-select-trigger>
@@ -18,17 +20,22 @@
           <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
         </mat-select>
       </mat-form-field>
+
       <mat-form-field class="half-width">
         <mat-select placeholder="Permission" formControlName="permission">
           <mat-option *ngFor="let permission of permissions" [value]="permission">{{permission|uppercase}}</mat-option>
         </mat-select>
       </mat-form-field>
+
       <div class="full-width">
         <mat-checkbox formControlName="nsfw">Unsafe</mat-checkbox>
         <mat-checkbox formControlName="like">Like</mat-checkbox>
         <mat-checkbox formControlName="hide">Hide</mat-checkbox>
+        <mat-checkbox formControlName="part">Part</mat-checkbox>
       </div>
+
     </form>
+
     <mat-card-actions align="end">
       <button mat-icon-button
               [color]="(this.data.value.types.length === this.types.length)?'accent':null"

@@ -1,7 +1,6 @@
-import {Component, Injectable, Input, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, Injectable, Input, OnInit} from '@angular/core';
 import {NodeService} from '../../service/node.service';
 import {tap} from 'rxjs/operators';
-import {Detail} from '../content/detail/detail';
 import {ViewService} from '../../service/util/view.service';
 import {Node} from '../../service/util/node';
 import {Overlay} from '@angular/cdk/overlay';
@@ -18,19 +17,15 @@ export class NodeViewerComponent implements OnInit {
   @Input() index: number;
   @Input() nodes: Node[];
 
-  @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
-  private content: Detail;
   showLeftButton = false;
   showRightButton = false;
   currentNode: Node = null;
-  window = window;
 
   public turnPage(num: number) {
     this.index = (this.index + this.nodes.length + Math.round(num)) % this.nodes.length;
     this.load();
   }
   private load() {
-    if (this.content) { this.contentHost.remove(); }
     const id = this.nodes[this.index].mainData.id;
     const cache = this.nodeService.getCache(id);
     if (cache != null) {

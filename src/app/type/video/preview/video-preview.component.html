@@ -1,6 +1,8 @@
-<div class="video-container hide-overflow"
-     [class.video-container-loading]="loading">
+<div class="video-container hide-overflow" [class.video-container-loading]="loading">
+
   <video [src]="node.mainData.excerpt" preload="metadata"
          (loadedmetadata)="this.loading=false;"></video>
+
   <mat-icon color="primary">videocam</mat-icon>
+
 </div>

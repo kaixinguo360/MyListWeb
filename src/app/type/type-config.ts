@@ -1,5 +1,5 @@
 import {TypeInfo} from '../service/util/type.service';
-import {ListContentComponent} from './list/list-content.component';
+import {ListContentComponent} from './album/content/list-content.component';
 import {NodeContentComponent} from './node/content/node-content.component';
 import {ImagePreviewComponent} from './image/preview/image-preview.component';
 import {VideoPreviewComponent} from './video/preview/video-preview.component';
@@ -9,6 +9,7 @@ import {NodeExtraEditComponent} from './node/extra-edit/node-extra-edit.componen
 import {ImageEditComponent} from './image/edit/image-edit.component';
 import {VideoEditComponent} from './video/edit/video-edit.component';
 import {TagContentComponent} from './tag/tag-content.component';
+import {AlbumEditComponent} from './album/edit/album-edit.component';
 
 export const TypeConfig: TypeInfo[] = [
   {
@@ -28,15 +29,6 @@ export const TypeConfig: TypeInfo[] = [
     icon: 'insert_drive_file',
   },
   {
-    id: 'list',
-    name: 'List',
-    preview: ListContentComponent,
-    detail: ListContentComponent,
-    extraEdit: NodeExtraEditComponent,
-    icon: 'folder',
-    process: node => { node.extraList.forEach(n => (n.status === 'new') ? (n.node.mainData.linkDelete = true) : null); },
-  },
-  {
     id: 'tag',
     name: 'Tag',
     preview: TagContentComponent,
@@ -51,8 +43,8 @@ export const TypeConfig: TypeInfo[] = [
   {
     id: 'text',
     name: 'Text',
-    preview: ImagePreviewComponent,
-    detail: ImageDetailComponent,
+    preview: NodeContentComponent,
+    detail: NodeContentComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'book',
   },
@@ -67,8 +59,8 @@ export const TypeConfig: TypeInfo[] = [
   {
     id: 'music',
     name: 'Music',
-    preview: ImagePreviewComponent,
-    detail: ImageDetailComponent,
+    preview: NodeContentComponent,
+    detail: NodeContentComponent,
     extraEdit: NodeExtraEditComponent,
     icon: 'music_video',
   },
@@ -79,5 +71,24 @@ export const TypeConfig: TypeInfo[] = [
     detail: VideoDetailComponent,
     extraEdit: VideoEditComponent,
     icon: 'videocam',
+  },
+  {
+    id: 'list',
+    name: 'List',
+    preview: ListContentComponent,
+    detail: ListContentComponent,
+    extraEdit: AlbumEditComponent,
+    icon: 'collections',
+    process: node => {
+      node.extraList.forEach(image => {
+        if (image.status === 'new') {
+          image.node.mainData.permission = node.mainData.permission;
+          image.node.mainData.nsfw = node.mainData.nsfw;
+          image.node.mainData.like = node.mainData.like;
+          image.node.mainData.hide = node.mainData.hide;
+          image.node.mainData.sourceUrl = node.mainData.sourceUrl;
+        }
+      });
+    },
   }
 ];

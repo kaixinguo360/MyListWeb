@@ -1,0 +1,67 @@
+<div class="image-container" *ngFor="let item of items; index as i">
+
+  <div class="preview-container" *ngIf="item.status!='exist'">
+    <a [href]="item.node.extraData.url" target="_blank" *ngIf="item.node.extraData.url">
+      <img [src]="item.node.extraData.url" alt=""/>
+    </a>
+    <span class="flex-padding single-line">
+      {{
+      item.node.mainData.comment ?
+        item.node.mainData.comment :
+        (item.node.extraData.url?(item.node.extraData.url|domain):'新建图片')
+      }}
+      </span>
+
+    <button type="button" mat-icon-button (click)="editor.hidden=!editor.hidden">
+      <mat-icon>{{editor.hidden?'keyboard_arrow_down':'keyboard_arrow_up'}}</mat-icon>
+    </button>
+    <button type="button" mat-icon-button (click)="down(i)" [disabled]="i+1>=items.length"><mat-icon>arrow_drop_down</mat-icon></button>
+    <button type="button" mat-icon-button (click)="up(i)" [disabled]="i<=0"><mat-icon>arrow_drop_up</mat-icon></button>
+    <button type="button" mat-icon-button
+            (click)="$event.stopPropagation();item.node.mainData.linkDelete=!item.node.mainData.linkDelete">
+      <mat-icon>{{item.node.mainData.linkDelete?'bookmark_border':'bookmark'}}</mat-icon>
+    </button>
+    <button type="button" mat-icon-button (click)="items.splice(i, 1)"><mat-icon>delete</mat-icon></button>
+  </div>
+  <div class="preview-container" *ngIf="item.status=='exist'">
+    <a [href]="item.node.mainData.excerpt" target="_blank" *ngIf="item.node.mainData.excerpt">
+      <img [src]="item.node.mainData.excerpt" alt=""/>
+    </a>
+    <span class="flex-padding single-line">
+      {{
+      item.node.mainData.comment ?
+        item.node.mainData.comment :
+        (item.node.mainData.excerpt?(item.node.mainData.excerpt|domain):'新建图片')
+      }}
+    </span>
+
+    <button type="button" mat-icon-button [routerLink]="['/node',item.node.mainData.id,'edit']" [disabled]="!canWrite(item.node)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button type="button" mat-icon-button (click)="down(i)" [disabled]="i+1>=items.length"><mat-icon>arrow_drop_down</mat-icon></button>
+    <button type="button" mat-icon-button (click)="up(i)" [disabled]="i<=0"><mat-icon>arrow_drop_up</mat-icon></button>
+    <button type="button" mat-icon-button disabled>
+      <mat-icon>{{item.node.mainData.linkDelete?'bookmark_border':'bookmark'}}</mat-icon>
+    </button>
+    <button type="button" mat-icon-button (click)="items.splice(i, 1)"><mat-icon>delete</mat-icon></button>
+  </div>
+
+  <div #editor class="editor-container">
+    <mat-form-field class="full-width" *ngIf="item.status!='exist'">
+      <input matInput placeholder="图片 URL" maxlength="1023" autocomplete="off"
+             [(ngModel)]="item.node.extraData.url" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-form-field class="full-width" *ngIf="item.status!='exist'">
+      <input matInput placeholder="描述" maxlength="1023" autocomplete="off"
+             [(ngModel)]="item.node.mainData.comment" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+  </div>
+
+</div>
+
+<div class="align-center">
+  <button mat-icon-button type="button" (click)="addImage()">
+    <mat-icon>add_photo_alternate</mat-icon>
+  </button>
+</div>

@@ -1,4 +1,4 @@
-<div class="icon-container">
+<div class="container">
   <mat-icon class="big-icon" color="primary">insert_drive_file</mat-icon>
-  <div class="title" *ngIf="node&&node.mainData&&node.mainData.title">{{node.mainData.title}}</div>
+  <div class="title" *ngIf="node&&node.mainData&&node.mainData.title">{{node.mainData.title|limit:10}}</div>
 </div>

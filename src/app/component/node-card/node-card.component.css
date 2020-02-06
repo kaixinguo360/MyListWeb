@@ -12,7 +12,7 @@
   flex-direction: column;
   justify-content: flex-end;
 }
-.card-container {
+.preview-container {
   display: flex;
   flex-direction: column;
   justify-content: center;

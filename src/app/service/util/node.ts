@@ -17,16 +17,17 @@ export class MainData {
 }
 
 export class ExtraData {
+  type: string;
 }
 
-export class ListItem {
-  node: Node;
-  status: string;
+export class ListItem<T extends ExtraData = ExtraData> {
+  node?: Node<T>;
+  status?: string;
 }
 
-export class Node {
+export class Node<T extends ExtraData = ExtraData> {
   mainData: MainData;
-  extraData?: ExtraData;
+  extraData?: T;
   extraList?: ListItem[];
   tags?: Node[] | number[];
 }

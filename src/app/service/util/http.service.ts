@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 
-import {EMPTY, Observable, OperatorFunction} from 'rxjs';
+import {EMPTY, Observable, OperatorFunction, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 
 import {TokenService} from '../token.service';
@@ -31,12 +31,13 @@ export class HttpService {
         that.view.alert('The token has expired, please log in again.');
         that.preferenceService.clean();
         location.href = that.view.admin ? '/admin/login' : '/login';
+        return EMPTY;
       } else {
         const message = err.error ? err.error.message : null;
         that.view.alert(message ? message : 'An unknown error occurred.');
       }
     }
-    return EMPTY;
+    return throwError(err);
   });
 
   public tokenService: TokenService; // @Autowired

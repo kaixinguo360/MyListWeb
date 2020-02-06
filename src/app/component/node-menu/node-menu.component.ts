@@ -4,6 +4,7 @@ import {NodeService} from '../../service/node.service';
 import {ViewService} from '../../service/util/view.service';
 import {Node} from '../../service/util/node';
 import {NodeViewer} from '../node-viewer/node-viewer.component';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-node-menu',
@@ -18,13 +19,19 @@ export class NodeMenuComponent {
   close() {
     this.bottomSheetRef.dismiss();
   }
-  star() {
-
+  delete() {
+    if (!confirm('Remove this item?')) { return; }
+    this.nodeService.remove(this.node.mainData.id)
+      .pipe(tap(() => {
+        this.view.alert('One item removed.');
+        this.close();
+      })).subscribe();
   }
 
   constructor(
     public view: ViewService,
     public nodeViewer: NodeViewer,
+    private nodeService: NodeService,
     private bottomSheetRef: MatBottomSheetRef<NodeMenuComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public node: Node,
   ) {

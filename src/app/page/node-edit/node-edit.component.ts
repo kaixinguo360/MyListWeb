@@ -5,10 +5,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
-import {throwError} from 'rxjs';
+import {EMPTY, throwError} from 'rxjs';
 import {ExtraEditComponent} from '../../component/extra-edit/extra-edit.component';
 import {TagSelector} from '../../component/tag-selector/tag-selector.component';
 import {Node} from '../../service/util/node';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-node-edit',
@@ -32,7 +33,7 @@ export class NodeEditComponent implements OnInit {
     comment: this.fb.control(null),
   });
   // types = ['Node', 'List', 'Tag', 'Text', 'Image', 'Music', 'Video'];
-  types = ['Node', 'Tag', 'Image', 'Video'];
+  types = ['Node', 'List', 'Tag', 'Image', 'Video'];
   permissions = ['Private', 'Protect', 'Public'];
 
   @ViewChild('extraDataEdit', {static: true}) extraEdit: ExtraEditComponent;
@@ -55,7 +56,8 @@ export class NodeEditComponent implements OnInit {
       this.nodeService.update(node) :
       this.nodeService.add(node)
     ).pipe(
-      tap(() => this.router.navigate(['/home'])),
+      // tap(() => this.router.navigate(['/home'])),
+      tap(() => this.view.back()),
       catchError(err => {
         this.snackBar.open('An error occurred.', 'Close');
         return throwError(err);
@@ -101,16 +103,22 @@ export class NodeEditComponent implements OnInit {
       if (id) {
         this.view.init({title: 'Node Edit'});
 
-        this.nodeService.get(id).subscribe(node => {
-          this.mainData.patchValue(node.mainData);
-          this.extraEdit.setExtraData(node.extraData);
-          this.extraEdit.setExtraList(node.extraList);
-          this.tags = (node.tags as Node[]).filter(tag => {
-            const isOthers = tag.mainData.user !== this.view.user.id && tag.mainData.permission !== 'public';
-            if (isOthers) { this.othersTags.push(tag); }
-            return !isOthers;
-          });
-        });
+        this.nodeService.get(id).pipe(
+          tap(node => {
+            this.mainData.patchValue(node.mainData);
+            this.extraEdit.setExtraData(node.extraData);
+            this.extraEdit.setExtraList(node.extraList);
+            this.tags = (node.tags as Node[]).filter(tag => {
+              const isOthers = tag.mainData.user !== this.view.user.id && tag.mainData.permission !== 'public';
+              if (isOthers) { this.othersTags.push(tag); }
+              return !isOthers;
+            });
+          }),
+          catchError(err => {
+            if (err instanceof HttpErrorResponse && err.status === 403) { this.view.back(); }
+            return EMPTY;
+          }),
+        ).subscribe();
       } else {
         this.view.init({title: 'New Node'});
       }

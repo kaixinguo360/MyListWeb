@@ -8,9 +8,5 @@ import {Node} from '../../../service/util/node';
 })
 export class VideoPreviewComponent implements Preview {
   @Input() node: Node;
-  @Input() width: number;
-  @Input() height: number;
-  @Input() maxWidth: number;
-  @Input() maxHeight: number;
   loading = true;
 }

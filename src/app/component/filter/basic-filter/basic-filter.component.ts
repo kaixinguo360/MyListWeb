@@ -15,6 +15,7 @@ export class BasicFilterComponent implements OnInit {
     nsfw: false,
     like: false,
     hide: false,
+    part: false,
     permission: 'self',
     types: this.fb.control([])
   });
@@ -78,6 +79,9 @@ export class BasicFilterComponent implements OnInit {
       orTags: [],
       notTags: []
     };
+    if (!value.part) {
+      filter.conditions.push({column: 'node_link_delete', oper: '=', value: '0'});
+    }
     if (value.types.length < this.types.length && value.types.length > 0) {
       filter.conditions.push({
         column: 'node_type',

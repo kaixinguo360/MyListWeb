@@ -20,8 +20,6 @@ import {MasonryComponent} from './component/masonry/masonry.component';
 import {NodeViewerComponent} from './component/node-viewer/node-viewer.component';
 import {OrderFilterComponent} from './component/filter/order-filter/order-filter.component';
 import {BasicFilterComponent} from './component/filter/basic-filter/basic-filter.component';
-import {PreviewComponent} from './component/content/preview/preview.component';
-import {DetailComponent} from './component/content/detail/detail.component';
 import {AdminHomeComponent} from './page/admin/home/admin-home.component';
 import {UserHomeComponent} from './page/user-home/user-home.component';
 import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
@@ -45,8 +43,6 @@ export class HammerConfig extends HammerGestureConfig  {
     NodeViewerComponent,
     OrderFilterComponent,
     BasicFilterComponent,
-    PreviewComponent,
-    DetailComponent,
     AdminHomeComponent,
     UserHomeComponent,
     UserEditComponent,
@@ -55,19 +51,19 @@ export class HammerConfig extends HammerGestureConfig  {
     NodeMenuComponent,
     TagSelectorComponent,
     TagInputComponent,
-    TagFilterComponent,
+    TagFilterComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        LayoutModule,
-        NgxMasonryModule,
-        ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
-        TypeModule,
-        MaterialModule,
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    LayoutModule,
+    NgxMasonryModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    TypeModule,
+    MaterialModule
+  ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,
     useClass: HammerConfig
@@ -76,7 +72,7 @@ export class HammerConfig extends HammerGestureConfig  {
   entryComponents: [
     NodeViewerComponent,
     NodeMenuComponent,
-    TagSelectorComponent,
+    TagSelectorComponent
   ]
 })
 export class AppModule { }

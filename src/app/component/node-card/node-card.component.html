@@ -9,7 +9,7 @@
     [style.height.px]="height?(height-12):null"
     [style.max-height.px]="maxHeight?(maxHeight-12):null">
 
-    <div class="card-container flex-padding hide-overflow">
+    <div class="preview-container flex-padding hide-overflow">
       <app-card-preview [node]="node"></app-card-preview>
 
       <div class="status-icons">
@@ -26,7 +26,7 @@
       </div>
 
       <div class="desktop-buttons" *ngIf="!view.isMobile&&showDesktopIcons" (click)="$event.stopPropagation()">
-        <a class="desktop-url-button one-line-text" *ngIf="node.mainData.sourceUrl"
+        <a class="desktop-url-button single-line" *ngIf="node.mainData.sourceUrl"
            target="_blank" [href]="node.mainData.sourceUrl"
            [style.max-width.px]="maxWidth?maxWidth:width">
           <button mat-flat-button disableRipple>
@@ -50,7 +50,7 @@
 
     <div class="mobile-buttons flex-fixed" *ngIf="view.isMobile" (click)="$event.stopPropagation()"
       [style.margin-top.px]="node.mainData.comment?-12:0">
-      <a *ngIf="node.mainData.sourceUrl" [href]="node.mainData.sourceUrl" class="one-line-text">
+      <a *ngIf="node.mainData.sourceUrl" [href]="node.mainData.sourceUrl" class="single-line">
         <button mat-flat-button disableRipple class="mobile-url-button">
           <mat-icon>open_in_new</mat-icon>{{node.mainData.sourceUrl|domain}}
         </button>
