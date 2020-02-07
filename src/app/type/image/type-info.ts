@@ -1,0 +1,23 @@
+import {ExtraData, Node} from '../../service/util/node';
+import {ImageDetailComponent} from './detail/image-detail.component';
+import {ImageEditComponent} from './edit/image-edit.component';
+import {ImagePreviewComponent} from './preview/image-preview.component';
+import {TypeInfo} from '../../service/util/type.service';
+
+export class Image extends ExtraData {
+  url: string;
+  description: string;
+}
+
+export const ImageType: TypeInfo = {
+  id: 'image',
+  name: 'Image',
+  icon: 'image',
+  detail: ImageDetailComponent,
+  preview: ImagePreviewComponent,
+  extraEdit: ImageEditComponent,
+  process: (node: Node<Image>) => {
+    node.mainData.excerpt = node.extraData.url;
+    return true;
+  },
+};

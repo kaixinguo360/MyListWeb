@@ -3,6 +3,7 @@ import {FormBuilder} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {PreferenceService} from '../../../service/util/preference.service';
 import {Filter} from '../../../service/util/filter';
+import {TypeService} from '../../../service/util/type.service';
 
 @Component({
   selector: 'app-basic-filter',
@@ -19,7 +20,7 @@ export class BasicFilterComponent implements OnInit {
     permission: 'self',
     types: this.fb.control([])
   });
-  types: string[] = ['node', 'list', 'text', 'image', 'music', 'video', 'tag'];
+  types: string[] = TypeService.typeInfos.map(info => info.id);
   permissions: string[] = [
     'private', 'protect', 'public', 'shared', 'self',
     'others_protect', 'others_public', 'others_shared',
@@ -97,6 +98,7 @@ export class BasicFilterComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private typeService: TypeService,
     private preferenceService: PreferenceService,
   ) {
     const saved = this.preferenceService.get('saved_filter');

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 import {Detail} from '../../../component/content/detail/detail';
-import {Image} from '../image';
+import {Image} from '../type-info';
 import {Node} from '../../../service/util/node';
 
 @Component({

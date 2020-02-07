@@ -1,4 +1,4 @@
-import {Order} from '../app/order';
+import {Order} from '../app/service/util/order';
 
 export const AppConfig = {
   apiUrl: 'http://localhost:8080/api/',

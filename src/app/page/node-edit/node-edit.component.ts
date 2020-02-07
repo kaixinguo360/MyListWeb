@@ -10,6 +10,7 @@ import {ExtraEditComponent} from '../../component/extra-edit/extra-edit.componen
 import {TagSelector} from '../../component/tag-selector/tag-selector.component';
 import {Node} from '../../service/util/node';
 import {HttpErrorResponse} from '@angular/common/http';
+import {TypeService} from '../../service/util/type.service';
 
 @Component({
   selector: 'app-node-edit',
@@ -22,7 +23,7 @@ export class NodeEditComponent implements OnInit {
     id: null,
     user: null,
     title: this.fb.control(null),
-    type: this.fb.control('node', Validators.required),
+    type: this.fb.control(TypeService.defaultType.id, Validators.required),
     part: this.fb.control(false, Validators.required),
     collection: this.fb.control(false, Validators.required),
     permission: this.fb.control('private', Validators.required),
@@ -32,8 +33,7 @@ export class NodeEditComponent implements OnInit {
     sourceUrl: this.fb.control(null),
     comment: this.fb.control(null),
   });
-  // types = ['Node', 'List', 'Tag', 'Text', 'Image', 'Music', 'Video'];
-  types = ['Node', 'List', 'Tag', 'Image', 'Video'];
+  types: string[] = TypeService.typeInfos.map(info => info.id);
   permissions = ['Private', 'Protect', 'Public'];
 
   @ViewChild('extraDataEdit', {static: true}) extraEdit: ExtraEditComponent;
@@ -49,8 +49,8 @@ export class NodeEditComponent implements OnInit {
       extraList: this.extraEdit.getExtraList(),
       tags: this.tags.map(tag => tag.mainData.id)
     };
-    const error = this.extraEdit.process(node);
-    if (error) { this.view.alert(error); return; }
+
+    if (!this.typeService.process(node)) { return; }
 
     (node.mainData.id ?
       this.nodeService.update(node) :
@@ -128,6 +128,7 @@ export class NodeEditComponent implements OnInit {
   constructor(
     public view: ViewService,
     private nodeService: NodeService,
+    private typeService: TypeService,
     private tagSelector: TagSelector,
     private route: ActivatedRoute,
     private router: Router,

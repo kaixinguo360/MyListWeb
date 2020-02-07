@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Order} from '../../../order';
+import {Order} from '../../../service/util/order';
 import {OrderService} from '../../../service/util/order.service';
 import {Sort} from '../../../service/util/filter';
 import {Subject} from 'rxjs';

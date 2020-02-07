@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -30,7 +29,6 @@ import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   exports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,

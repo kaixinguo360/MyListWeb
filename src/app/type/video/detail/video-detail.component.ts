@@ -1,11 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Detail} from '../../../component/content/detail/detail';
-import {ExtraData, Node} from '../../../service/util/node';
-
-export class Video extends ExtraData {
-  url: string;
-  format: string;
-}
+import {Node} from '../../../service/util/node';
+import {Video} from '../type-info';
 
 @Component({
   templateUrl: './video-detail.component.html',

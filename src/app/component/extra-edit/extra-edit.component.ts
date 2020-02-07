@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
-import {TypeService} from '../../service/util/type.service';
 import {ExtraEdit} from './extra-edit';
 import {Subject, Subscription} from 'rxjs';
-import {ExtraData, ListItem, Node} from '../../service/util/node';
+import {ExtraData, ListItem} from '../../service/util/node';
+import {TypeService} from '../../service/util/type.service';
 
 @Component({
   selector: 'app-extra-data-edit',
@@ -33,10 +33,6 @@ export class ExtraEditComponent implements OnChanges, ExtraEdit {
   }
   public getExtraList(): ListItem[] {
     return this.content.getExtraList ? this.content.getExtraList() : null;
-  }
-  public process(node: Node): any {
-    const type = this.typeService.getType(node.mainData.type);
-    if (type && type.process) { return type.process(node); }
   }
   public onChange(next: () => void): Subscription {
     return this.subject.subscribe(next);

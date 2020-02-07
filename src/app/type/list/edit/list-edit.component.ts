@@ -3,7 +3,7 @@ import {ExtraEdit} from '../../../component/extra-edit/extra-edit';
 import {of, Subscription, throwError} from 'rxjs';
 import {ListItem, Node} from '../../../service/util/node';
 import {ViewService} from '../../../service/util/view.service';
-import {Image} from '../../image/image';
+import {Image} from '../../image/type-info';
 import {NodeService} from '../../../service/node.service';
 import {catchError, tap} from 'rxjs/operators';
 

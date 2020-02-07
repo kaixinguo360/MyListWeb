@@ -16,6 +16,12 @@ export interface ViewConfig {
 })
 export class ViewService {
 
+  public static back;
+  public static reload;
+  public static logout;
+  public static stopScroll;
+  public static alert;
+
   public user: User;
   public admin = false;
   public loading = false;
@@ -63,5 +69,13 @@ export class ViewService {
   }
   public alert(message: string, action: string = 'Close', config: MatSnackBarConfig = {duration: 2000}) {
     this.matSnackBar.open(message, action, config);
+  }
+
+  constructor() {
+    ViewService.back = this.back;
+    ViewService.reload = this.reload;
+    ViewService.logout = this.logout;
+    ViewService.stopScroll = this.stopScroll;
+    ViewService.alert = this.alert;
   }
 }

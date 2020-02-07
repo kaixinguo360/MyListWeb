@@ -15,7 +15,7 @@
       <div class="full-width">
         <mat-form-field class="half-width">
           <mat-select required placeholder="Type" formControlName="type" [disabled]="mainData.value.id">
-            <mat-option *ngFor="let type of types" [value]="type|lowercase">{{type}}</mat-option>
+            <mat-option *ngFor="let type of types" [value]="type">{{type|titlecase}}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="half-width">

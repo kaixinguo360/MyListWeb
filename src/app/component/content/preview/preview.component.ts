@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
 import {Preview} from './preview';
-import {TypeService} from '../../../service/util/type.service';
 import {Node} from '../../../service/util/node';
+import {TypeService} from '../../../service/util/type.service';
 
 @Component({
   selector: 'app-card-preview',
