@@ -12,7 +12,7 @@ export interface TypeInfo {
   preview: Type<Preview>;
   detail: Type<Detail>;
   extraEdit: Type<ExtraEdit>;
-  process?: (node: Node) => boolean;
+  process?: (node: Node) => void;
 }
 
 @Injectable({
@@ -20,37 +20,39 @@ export interface TypeInfo {
 })
 export class TypeService {
 
-    public static defaultType = DefaultType;
-    public static typeInfos = TypeConfig;
+  public static type: TypeService;
+  public static defaultType = DefaultType;
+  public static typeInfos = TypeConfig;
 
-    private types: Map<string, TypeInfo> = new Map<string, TypeInfo>();
+  private types: Map<string, TypeInfo> = new Map<string, TypeInfo>();
 
-    public getPreviewCardFactory(type: string): ComponentFactory<Preview> {
-        return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).preview);
+  public getPreviewCardFactory(type: string): ComponentFactory<Preview> {
+    return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).preview);
+  }
+
+  public getDetailCardFactory(type: string): ComponentFactory<Detail> {
+    return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).detail);
+  }
+
+  public getExtraEditFactory(type: string): ComponentFactory<ExtraEdit> {
+    return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).extraEdit);
+  }
+
+  public process(node: Node) {
+    const type = this.getType(node.mainData.type);
+    if (type && type.process) {
+      type.process(node);
     }
+  }
 
-    public getDetailCardFactory(type: string): ComponentFactory<Detail> {
-        return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).detail);
-    }
+  public getType(id: string): TypeInfo {
+    return this.types.has(id) ? this.types.get(id) : TypeService.defaultType;
+  }
 
-    public getExtraEditFactory(type: string): ComponentFactory<ExtraEdit> {
-        return this.componentFactoryResolver.resolveComponentFactory(this.getType(type).extraEdit);
-    }
-
-    public process(node: Node): boolean {
-        const type = this.getType(node.mainData.type);
-        if (type && type.process) {
-            return type.process(node);
-        }
-    }
-
-    public getType(id: string): TypeInfo {
-        return this.types.has(id) ? this.types.get(id) : TypeService.defaultType;
-    }
-
-    constructor(
-            private componentFactoryResolver: ComponentFactoryResolver
-    ) {
-        TypeService.typeInfos.forEach(type => this.types.set(type.id, type));
-    }
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {
+    TypeService.type = this;
+    TypeService.typeInfos.forEach(type => this.types.set(type.id, type));
+  }
 }

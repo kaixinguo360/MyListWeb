@@ -16,7 +16,7 @@ export class VideoEditComponent implements ExtraEdit {
 
   public valid = false;
   videoData = this.fb.group({
-    type: 'video',
+    nodeType: 'video',
     url: this.fb.control(null, Validators.required),
     format: this.fb.control(null, Validators.required),
   });

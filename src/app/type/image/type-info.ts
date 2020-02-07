@@ -6,7 +6,10 @@ import {TypeInfo} from '../../service/util/type.service';
 
 export class Image extends ExtraData {
   url: string;
-  description: string;
+  type?: string;
+  author?: string;
+  gallery?: string;
+  source?: string;
 }
 
 export const ImageType: TypeInfo = {
@@ -18,6 +21,5 @@ export const ImageType: TypeInfo = {
   extraEdit: ImageEditComponent,
   process: (node: Node<Image>) => {
     node.mainData.excerpt = node.extraData.url;
-    return true;
   },
 };

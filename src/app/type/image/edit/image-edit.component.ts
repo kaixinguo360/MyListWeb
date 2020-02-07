@@ -16,9 +16,12 @@ export class ImageEditComponent implements ExtraEdit {
 
   public valid = false;
   imageData = this.fb.group({
-    type: 'image',
+    nodeType: 'image',
     url: this.fb.control(null, Validators.required),
-    description: this.fb.control(null),
+    type: this.fb.control(null),
+    author: this.fb.control(null),
+    gallery: this.fb.control(null),
+    source: this.fb.control(null),
   });
 
   public onChange(next: () => void): Subscription { return this.imageData.statusChanges.subscribe(next); }

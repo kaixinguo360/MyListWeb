@@ -14,8 +14,8 @@
       </a>
       <span class="flex-padding single-line">
       {{
-        item.node.mainData.comment ?
-          item.node.mainData.comment :
+        item.node.mainData.description ?
+          item.node.mainData.description :
           (item.node.extraData.url?(item.node.extraData.url|domain):'New')
         }}
     </span>
@@ -25,7 +25,7 @@
       </button>
       <button type="button" mat-icon-button (click)="down(i)" [disabled]="i+1>=items.length"><mat-icon>arrow_drop_down</mat-icon></button>
       <button type="button" mat-icon-button (click)="up(i)" [disabled]="i<=0"><mat-icon>arrow_drop_up</mat-icon></button>
-      <button type="button" mat-icon-button (click)="changePart(i)">
+      <button type="button" mat-icon-button (click)="togglePart(i)">
         <mat-icon>{{item.node.mainData.part?'remove_circle_outline':'check_circle'}}</mat-icon>
       </button>
       <button type="button" mat-icon-button (click)="items.splice(i, 1)"><mat-icon>delete</mat-icon></button>
@@ -40,7 +40,7 @@
       </button>
       <button type="button" mat-icon-button (click)="down(i)" [disabled]="i+1>=items.length"><mat-icon>arrow_drop_down</mat-icon></button>
       <button type="button" mat-icon-button (click)="up(i)" [disabled]="i<=0"><mat-icon>arrow_drop_up</mat-icon></button>
-      <button type="button" mat-icon-button (click)="changePart(i)" [disabled]="!canWrite(item.node)||item.node.mainData.part===null">
+      <button type="button" mat-icon-button (click)="togglePart(i)" [disabled]="!canWrite(item.node)||item.node.mainData.part===null">
         <mat-icon>{{(item.node.mainData.part!==null)?(item.node.mainData.part?'remove_circle_outline':'check_circle'):'cloud_circle'}}</mat-icon>
       </button>
       <button type="button" mat-icon-button (click)="items.splice(i, 1)"><mat-icon>delete</mat-icon></button>
@@ -54,7 +54,7 @@
 
       <mat-form-field class="full-width" *ngIf="item.status=='new'">
         <input matInput placeholder="Description" maxlength="1023" autocomplete="off"
-               [(ngModel)]="item.node.mainData.comment" [ngModelOptions]="{standalone: true}">
+               [(ngModel)]="item.node.mainData.description" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </div>
 
@@ -64,7 +64,7 @@
     <button mat-icon-button type="button" (click)="addImage()"><mat-icon>add_photo_alternate</mat-icon></button>
     <span class="flex-padding"></span>
     <div *ngIf="items.length">
-      <button type="button" mat-icon-button (click)="changeAllPart()" [disabled]="updating"><mat-icon>check_circle</mat-icon></button>
+      <button type="button" mat-icon-button (click)="toggleAllPart()" [disabled]="updating"><mat-icon>check_circle</mat-icon></button>
       <button type="button" mat-icon-button (click)="items.length=0"><mat-icon>delete</mat-icon></button>
     </div>
   </div>

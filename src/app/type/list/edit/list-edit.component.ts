@@ -45,13 +45,12 @@ export class ListEditComponent implements ExtraEdit {
           nsfw: false,
           like: false,
           hide: false,
-          sourceUrl: undefined,
-          comment: undefined,
+          source: undefined,
+          description: undefined,
         },
         extraData: {
-          type: 'image',
+          nodeType: 'image',
           url: '',
-          description: '',
         },
       },
       status: 'new',
@@ -68,7 +67,7 @@ export class ListEditComponent implements ExtraEdit {
     [items[index], items[index + 1]] = [items[index + 1], items[index]];
   }
 
-  changePart(index: number) {
+  togglePart(index: number) {
     const item = this.items[index];
     if (item.status === 'new') {
       item.node.mainData.part = !item.node.mainData.part;
@@ -85,7 +84,7 @@ export class ListEditComponent implements ExtraEdit {
       ).subscribe();
     }
   }
-  changeAllPart() {
+  toggleAllPart() {
     const editableItems = this.items.filter(item => this.canWrite(item.node));
     const existItems = editableItems.filter(item => item.status !== 'new' && this.canWrite(item.node));
     const target = !editableItems.find(item => item.node.mainData.part);

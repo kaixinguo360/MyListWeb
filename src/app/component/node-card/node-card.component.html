@@ -26,11 +26,11 @@
       </div>
 
       <div class="desktop-buttons" *ngIf="!view.isMobile&&showDesktopIcons" (click)="$event.stopPropagation()">
-        <a class="desktop-url-button single-line" *ngIf="node.mainData.sourceUrl"
-           target="_blank" [href]="node.mainData.sourceUrl"
+        <a class="desktop-url-button single-line" *ngIf="node.mainData.source"
+           target="_blank" [href]="node.mainData.source"
            [style.max-width.px]="maxWidth?maxWidth:width">
           <button mat-flat-button disableRipple>
-            <mat-icon>open_in_new</mat-icon>{{node.mainData.sourceUrl|domain}}
+            <mat-icon>open_in_new</mat-icon>{{node.mainData.source|domain}}
           </button>
         </a>
         <a [routerLink]="canWrite?['/node',node.mainData.id,'edit']:null" class="desktop-edit-button">
@@ -44,15 +44,15 @@
       </div>
     </div>
 
-    <div class="comment flex-fixed" *ngIf="node.mainData.comment">
-      {{node.mainData.comment|limit:100}}
+    <div class="description flex-fixed" *ngIf="node.mainData.description">
+      {{node.mainData.description|limit:100}}
     </div>
 
     <div class="mobile-buttons flex-fixed" *ngIf="view.isMobile" (click)="$event.stopPropagation()"
-      [style.margin-top.px]="node.mainData.comment?-12:0">
-      <a *ngIf="node.mainData.sourceUrl" [href]="node.mainData.sourceUrl" class="single-line">
+      [style.margin-top.px]="node.mainData.description?-12:0">
+      <a *ngIf="node.mainData.source" [href]="node.mainData.source" class="single-line">
         <button mat-flat-button disableRipple class="mobile-url-button">
-          <mat-icon>open_in_new</mat-icon>{{node.mainData.sourceUrl|domain}}
+          <mat-icon>open_in_new</mat-icon>{{node.mainData.source|domain}}
         </button>
       </a>
       <span></span>

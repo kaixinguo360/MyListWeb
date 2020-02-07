@@ -9,9 +9,9 @@
         <span class="small">{{node.mainData.type}}</span>
       </div>
       <mat-divider></mat-divider>
-      <div class="comment">
-        {{node.mainData.comment}}
-        <span class="small" *ngIf="!node.mainData.comment">no comment</span>
+      <div class="description">
+        {{node.mainData.description}}
+        <span class="small" *ngIf="!node.mainData.description">no comment</span>
       </div>
     </div>
   </div>
@@ -30,10 +30,10 @@
       <span mat-line>Delete</span>
     </a>
 
-    <a mat-list-item target="_blank" [href]="[node.mainData.sourceUrl]" *ngIf="node.mainData.sourceUrl">
+    <a mat-list-item target="_blank" [href]="[node.mainData.source]" *ngIf="node.mainData.source">
       <mat-icon>open_in_new</mat-icon>
       <span mat-line>
-        Source<span class="small"> (from {{node.mainData.sourceUrl|domain}})</span>
+        Source<span class="small"> (from {{node.mainData.source|domain}})</span>
       </span>
     </a>
 

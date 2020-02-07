@@ -26,7 +26,7 @@ export class ListContentComponent implements Preview, OnInit {
       mainData: {
         type: this.excerpt.type,
         excerpt: this.excerpt.excerpt,
-        comment: this.excerpt.count + '',
+        description: this.excerpt.count + '',
       }
     };
   }

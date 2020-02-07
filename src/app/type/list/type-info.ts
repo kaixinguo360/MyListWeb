@@ -1,6 +1,6 @@
 import {ListContentComponent} from './content/list-content.component';
 import {ListEditComponent} from './edit/list-edit.component';
-import {TypeInfo} from '../../service/util/type.service';
+import {TypeInfo, TypeService} from '../../service/util/type.service';
 
 export const ListType: TypeInfo = {
   id: 'list',
@@ -10,13 +10,14 @@ export const ListType: TypeInfo = {
   extraEdit: ListEditComponent,
   icon: 'collections',
   process: node => {
-    node.extraList.forEach(image => {
-      if (image.status === 'new') {
-        image.node.mainData.permission = node.mainData.permission;
-        image.node.mainData.nsfw = node.mainData.nsfw;
-        image.node.mainData.like = node.mainData.like;
-        image.node.mainData.hide = node.mainData.hide;
-        image.node.mainData.sourceUrl = node.mainData.sourceUrl;
+    node.extraList.forEach(n => {
+      if (n.status === 'new') {
+        n.node.mainData.permission = node.mainData.permission;
+        n.node.mainData.nsfw = node.mainData.nsfw;
+        n.node.mainData.like = node.mainData.like;
+        n.node.mainData.hide = node.mainData.hide;
+        n.node.mainData.source = node.mainData.source;
+        TypeService.type.process(n.node);
       }
     });
     if (node.extraList.length) {
@@ -33,6 +34,5 @@ export const ListType: TypeInfo = {
         count: 0,
       });
     }
-    return true;
   },
 };

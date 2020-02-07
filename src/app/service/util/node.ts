@@ -12,12 +12,13 @@ export class MainData {
   nsfw?: boolean;
   like?: boolean;
   hide?: boolean;
-  sourceUrl?: string;
+  source?: string;
+  description?: string;
   comment?: string;
 }
 
 export class ExtraData {
-  type: string;
+  nodeType: string;
 }
 
 export class ListItem<T extends ExtraData = ExtraData> {

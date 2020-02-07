@@ -18,6 +18,5 @@ export const VideoType: TypeInfo = {
   icon: 'videocam',
   process: (node: Node<Video>) => {
     node.mainData.excerpt = node.extraData.url;
-    return true;
   },
 };

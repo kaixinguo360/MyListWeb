@@ -55,8 +55,8 @@ export class NodeService {
         nsfw: false,
         like: false,
         hide: false,
-        sourceUrl: null,
-        comment: null,
+        source: null,
+        description: null,
       }
     };
   }
@@ -116,7 +116,7 @@ export class NodeService {
         const mainData = wrap.node.mainData;
         delete mainData.title;
         delete mainData.excerpt;
-        delete mainData.comment;
+        delete mainData.description;
       });
     }
     return this.httpService.put<OutputWrap[]>(`node/batch?simple=${isSimple}&tag=${tagMode}`, wraps).pipe(

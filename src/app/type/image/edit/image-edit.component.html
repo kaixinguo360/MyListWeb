@@ -1,11 +1,21 @@
 <form [formGroup]="imageData" class="edit-box">
 
   <mat-form-field class="full-width">
-    <input required matInput placeholder="Image URL" maxlength="255" formControlName="url" autocomplete="off">
+    <input required matInput placeholder="Image URL" maxlength="255" formControlName="url" autocomplete="off"/>
   </mat-form-field>
 
-  <mat-form-field class="full-width">
-    <textarea matInput placeholder="Image Description" maxlength="255" formControlName="description" autocomplete="off"></textarea>
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Image type" maxlength="255" formControlName="type" autocomplete="off"/>
+  </mat-form-field>
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Image author" maxlength="255" formControlName="author" autocomplete="off"/>
+  </mat-form-field>
+
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Image gallery" maxlength="255" formControlName="gallery" autocomplete="off"/>
+  </mat-form-field>
+  <mat-form-field class="half-width">
+    <input matInput placeholder="Image source" maxlength="255" formControlName="source" autocomplete="off"/>
   </mat-form-field>
 
 </form>

@@ -30,8 +30,8 @@ export class NodeEditComponent implements OnInit {
     nsfw: this.fb.control(false, Validators.required),
     like: this.fb.control(false, Validators.required),
     hide: this.fb.control(false, Validators.required),
-    sourceUrl: this.fb.control(null),
-    comment: this.fb.control(null),
+    source: this.fb.control(null),
+    description: this.fb.control(null),
   });
   types: string[] = TypeService.typeInfos.map(info => info.id);
   permissions = ['Private', 'Protect', 'Public'];
@@ -49,8 +49,12 @@ export class NodeEditComponent implements OnInit {
       extraList: this.extraEdit.getExtraList(),
       tags: this.tags.map(tag => tag.mainData.id)
     };
-
-    if (!this.typeService.process(node)) { return; }
+    try {
+      this.typeService.process(node);
+    } catch (err) {
+      this.view.alert(err);
+      return;
+    }
 
     (node.mainData.id ?
       this.nodeService.update(node) :

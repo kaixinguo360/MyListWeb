@@ -16,11 +16,7 @@ export interface ViewConfig {
 })
 export class ViewService {
 
-  public static back;
-  public static reload;
-  public static logout;
-  public static stopScroll;
-  public static alert;
+  public static view: ViewService;
 
   public user: User;
   public admin = false;
@@ -72,10 +68,6 @@ export class ViewService {
   }
 
   constructor() {
-    ViewService.back = this.back;
-    ViewService.reload = this.reload;
-    ViewService.logout = this.logout;
-    ViewService.stopScroll = this.stopScroll;
-    ViewService.alert = this.alert;
+    ViewService.view = this;
   }
 }
