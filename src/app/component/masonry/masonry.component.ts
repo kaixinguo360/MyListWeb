@@ -1,14 +1,11 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, HostListener, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
-import {NodeViewer} from '../node-viewer/node-viewer.component';
 import {AppConfig} from '../../../environments/app-config';
 import {ViewService} from '../../service/util/view.service';
-import {Node} from '../../service/util/node';
 
-class NodeItem {
-  node: Node;
+class MasonryItem {
+  data: any;
   selected: boolean;
 }
 
@@ -19,7 +16,8 @@ class NodeItem {
 })
 export class MasonryComponent implements OnInit {
 
-  items: NodeItem[] = [];
+  @Input() template: TemplateRef<any>;
+  items: MasonryItem[] = [];
 
   containerWidth: number;
   columnWidth = this.view.isMobile ? (window.innerWidth / 2) : AppConfig.columnWidth;
@@ -35,13 +33,6 @@ export class MasonryComponent implements OnInit {
     percentPosition: this.view.isMobile,
   };
 
-  click(node: Node) {
-    if (node.mainData.type === 'tag') {
-      this.router.navigate(['tag'], { queryParams: { id: node.mainData.id } });
-    } else {
-      this.fileViewer.open(node, this.items.map(item => item.node));
-    }
-  }
   @HostListener('window:resize') resize() {
     this.containerWidth = this.view.isMobile ? window.innerWidth :
       (Math.max(Math.floor((window.innerWidth - 20) / this.columnWidth), 1) * this.columnWidth);
@@ -49,8 +40,8 @@ export class MasonryComponent implements OnInit {
   }
   ngOnInit(): void { this.resize(); }
 
-  public setNodes(nodes: Node[]) {
-    this.items = nodes.map(node => ({node, selected: false}));
+  public setItems(items: any[]) {
+    this.items = items.map(data => ({data, selected: false}));
     this.masonry.layout();
   }
   public enableSelectMode(mode: boolean) {
@@ -69,13 +60,11 @@ export class MasonryComponent implements OnInit {
       this.selectCount = 0;
     }
   }
-  public getSelectedItems(): Node[] {
-    return this.items.filter(item => item.selected).map(item => item.node);
+  public getSelectedItems<T = any>(): T[] {
+    return this.items.filter(item => item.selected).map(item => item.data);
   }
 
   constructor(
-    private router: Router,
     public view: ViewService,
-    public fileViewer: NodeViewer,
   ) { }
 }

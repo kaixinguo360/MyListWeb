@@ -155,10 +155,10 @@ export class NodeEditComponent implements OnInit {
 
   constructor(
     public view: ViewService,
+    public typeService: TypeService,
+    public preference: Preference,
     private nodeService: NodeService,
-    private typeService: TypeService,
     private tagSelector: TagSelector,
-    private preference: Preference,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,

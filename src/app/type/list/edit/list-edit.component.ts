@@ -147,9 +147,9 @@ export class ListEditComponent implements ExtraEdit {
 
   constructor(
     public view: ViewService,
+    public preference: Preference,
     private nodeService: NodeService,
     private typeService: TypeService,
-    private preference: Preference,
   ) { }
 
 }

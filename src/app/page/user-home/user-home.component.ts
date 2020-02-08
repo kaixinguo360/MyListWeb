@@ -9,6 +9,8 @@ import {Node} from '../../service/util/node';
 import {TagSelector} from '../../component/tag-selector/tag-selector.component';
 import {TagFilterComponent} from '../../component/filter/tag-filter/tag-filter.component';
 import {OrderFilterComponent} from '../../component/filter/order-filter/order-filter.component';
+import {NodeViewer} from '../../component/node-viewer/node-viewer.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-home',
@@ -22,8 +24,15 @@ export class UserHomeComponent implements OnInit {
   @ViewChild('orderFilter', { read: OrderFilterComponent, static: true }) orderFilter: OrderFilterComponent;
   @ViewChild('tagFilter', { read: TagFilterComponent, static: true }) tagFilter: TagFilterComponent;
   @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) basicFilter: BasicFilterComponent;
-  @ViewChild('masonry', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
+  @ViewChild('masonryRef', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
 
+  click(node: Node) {
+    if (node.mainData.type === 'tag') {
+      this.router.navigate(['tag'], { queryParams: { id: node.mainData.id } });
+    } else {
+      this.nodeViewer.open(node, this.masonry.items.map(item => item.data));
+    }
+  }
   fetchData() {
     if (this.sub) { this.sub.unsubscribe(); }
     this.error = false;
@@ -38,7 +47,7 @@ export class UserHomeComponent implements OnInit {
     if (sort) { filter.sorts = [sort]; }
 
     this.sub = this.nodeService.getAll(filter).pipe(
-      tap(nodes => this.masonry.setNodes(nodes)),
+      tap(nodes => this.masonry.setItems(nodes)),
       catchError(err => {
         this.error = false;
         return throwError(err);
@@ -127,6 +136,8 @@ export class UserHomeComponent implements OnInit {
     public view: ViewService,
     private nodeService: NodeService,
     private tagSelector: TagSelector,
+    private router: Router,
+    private nodeViewer: NodeViewer,
   ) { }
 
 }
