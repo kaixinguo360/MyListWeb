@@ -1,7 +1,8 @@
 import {Order} from '../app/service/util/order';
 
 export const AppConfig = {
-  apiUrl: 'http://localhost:8080/api/',
+  apiUrl: '/api/',
+  proxyUrl: '/proxy/',
   columnWidth: 240,
   mobileWidth: 640,
   defaultOrder: Order.MTIME_DESC,

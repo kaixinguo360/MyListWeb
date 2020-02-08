@@ -6,7 +6,7 @@ import {NodeMenu} from '../node-menu/node-menu.component';
 import {Node} from '../../service/util/node';
 
 @Component({
-  selector: 'app-masonry-item',
+  selector: 'app-node-card',
   templateUrl: './node-card.component.html',
   styleUrls: ['./node-card.component.css']
 })

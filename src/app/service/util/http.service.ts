@@ -94,8 +94,8 @@ export class HttpService {
   }
 
   constructor(
+    public preference: Preference,
     private http: HttpClient,
-    private preference: Preference,
     public view: ViewService,
   ) {
     HttpService.thisService = this;

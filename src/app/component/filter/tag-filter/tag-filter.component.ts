@@ -87,8 +87,8 @@ export class TagFilterComponent implements OnInit {
   }
 
   constructor(
+    public preference: Preference,
     private nodeService: NodeService,
-    private preference: Preference,
   ) {
     const savedTags = this.preference.get('saved_tags');
     if (savedTags) {

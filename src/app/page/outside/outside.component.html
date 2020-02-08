@@ -1,0 +1,29 @@
+<mat-toolbar>
+  <button mat-icon-button (click)="preference.toggle('outside@isOpen')">
+    <mat-icon>{{(isOpen|async)?'arrow_drop_down':'arrow_drop_up'}}</mat-icon>
+  </button>
+  <span>{{title?title:(sourceUrl|domain)}}</span>
+  <button mat-icon-button routerLink="/home"><mat-icon>close</mat-icon></button>
+</mat-toolbar>
+<!-- Add Content Here -->
+<iframe class="iframe" [src]="proxyUrl" [class.iframe-close]="isOpen|async"></iframe>
+
+<div>
+  <div class="masonry-container">
+
+    <app-masonry #masonryRef [template]="template"></app-masonry>
+    <ng-template #template let-data="data">
+      <app-node-card interact="false" [node]="data" [maxHeight]="500"></app-node-card>
+    </ng-template>
+
+  </div>
+
+  <div class="loading-icon" *ngIf="isLoading">
+    <mat-icon>autorenew</mat-icon>Loading...
+  </div>
+</div>
+
+<div class="round-button-container">
+  <button mat-raised-button class="round-button" (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
+  <button mat-raised-button class="round-button" (click)="save()"><mat-icon>save</mat-icon></button>
+</div>

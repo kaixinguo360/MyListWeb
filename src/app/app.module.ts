@@ -9,6 +9,7 @@ import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {MaterialModule} from './material.module';
 import {TypeModule} from './type/type.module';
+import {ComponentModule} from './component/component.module';
 
 import {RootComponent} from './page/root.component';
 import {LoginComponent} from './page/login/login.component';
@@ -16,7 +17,7 @@ import {AdminHomeComponent} from './page/admin/home/admin-home.component';
 import {UserHomeComponent} from './page/user-home/user-home.component';
 import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
 import {NodeEditComponent} from './page/node-edit/node-edit.component';
-import {ComponentModule} from './component/component.module';
+import {OutsideComponent} from './page/outside/outside.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {ComponentModule} from './component/component.module';
     UserEditComponent,
     UserHomeComponent,
     NodeEditComponent,
+    OutsideComponent,
   ],
   imports: [
     BrowserModule,

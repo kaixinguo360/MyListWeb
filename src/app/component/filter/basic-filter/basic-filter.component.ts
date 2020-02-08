@@ -97,9 +97,9 @@ export class BasicFilterComponent implements OnInit {
   }
 
   constructor(
-    private fb: FormBuilder,
+    public preference: Preference,
     private typeService: TypeService,
-    private preference: Preference,
+    private fb: FormBuilder,
   ) {
     const saved = this.preference.get('saved_filter');
     if (saved) {

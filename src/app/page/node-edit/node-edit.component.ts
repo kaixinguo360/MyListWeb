@@ -66,7 +66,7 @@ export class NodeEditComponent implements OnInit {
       this.nodeService.add(node)
     ).pipe(
       tap(() => this.saveStatus()),
-      tap(() => this.view.back()),
+      tap(() => this.router.navigate(['/home'])),
       catchError(err => {
         this.snackBar.open('An error occurred.', 'Close');
         return throwError(err);
@@ -149,6 +149,16 @@ export class NodeEditComponent implements OnInit {
         ).subscribe();
       } else {
         this.view.init({title: 'New Node'});
+
+        const draftStr = this.preference.get('node-edit@draft');
+        if (draftStr) {
+          this.preference.remove('node-edit@draft');
+          const draft: Node = JSON.parse(draftStr);
+          this.mainData.patchValue(draft.mainData);
+          this.extraEdit.setExtraData(draft.extraData);
+          this.extraEdit.setExtraList(draft.extraList);
+          this.extraEdit.ngOnChanges(null);
+        }
       }
     });
   }

@@ -6,7 +6,17 @@
 <div class="mat-content">
 
   <div class="tool-container">
-    <button mat-icon-button *ngIf="!masonry.selectMode" routerLink="/node/new"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button *ngIf="!masonry.selectMode" [matMenuTriggerFor]="addMenu"><mat-icon>add</mat-icon></button>
+    <mat-menu #addMenu xPosition="before" yPosition="below">
+
+      <button mat-menu-item routerLink="/node/new" *ngFor="let type of types"
+              (click)="preference.set('node-edit@type', type.id)">
+        <mat-icon>{{type.icon}}</mat-icon>{{type.name}}
+      </button>
+
+      <button mat-menu-item (click)="addFromURL()"><mat-icon>link</mat-icon>From URL</button>
+    </mat-menu>
+
     <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
       <mat-icon>center_focus_weak</mat-icon>
     </button>
@@ -23,8 +33,8 @@
     <button mat-button (click)="tag(true)"><mat-icon>bookmark</mat-icon>Tag</button>
     <button mat-button (click)="star(true)"><mat-icon>star</mat-icon>Star</button>
 
-    <button mat-icon-button [matMenuTriggerFor]="matMenu"><mat-icon>more_horiz</mat-icon></button>
-    <mat-menu #matMenu xPosition="before" yPosition="below">
+    <button mat-icon-button [matMenuTriggerFor]="selectMenu"><mat-icon>more_horiz</mat-icon></button>
+    <mat-menu #selectMenu xPosition="before" yPosition="below">
       <button mat-menu-item (click)="delete()"><mat-icon>delete</mat-icon>Delete</button>
       <mat-divider></mat-divider>
       <button mat-menu-item (click)="tag(false)"><mat-icon>bookmark_border</mat-icon>Untag</button>
@@ -47,7 +57,7 @@
 
     <app-masonry #masonryRef [template]="template"></app-masonry>
     <ng-template #template let-data="data">
-      <app-masonry-item (click)="click(data)" [interact]="!masonry.selectMode" [node]="data" [maxHeight]="500"></app-masonry-item>
+      <app-node-card (click)="click(data)" [interact]="!masonry.selectMode" [node]="data" [maxHeight]="500"></app-node-card>
     </ng-template>
 
   </div>
@@ -55,4 +65,7 @@
   <mat-icon class="center-icon big-icon" *ngIf="error" (click)="fetchData()">refresh</mat-icon>
   <span class="center-info" *ngIf="error">Reload</span>
 </div>
+
+<mat-icon class="center-icon big-icon" *ngIf="!masonry.items.length">info</mat-icon>
+<span class="center-info" *ngIf="!masonry.items.length">Empty Directory</span>
 

@@ -69,6 +69,6 @@ export class OrderService {
   }
 
   constructor(
-    private preference: Preference
+    public preference: Preference,
   ) { }
 }

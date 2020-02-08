@@ -11,6 +11,8 @@ import {TagFilterComponent} from '../../component/filter/tag-filter/tag-filter.c
 import {OrderFilterComponent} from '../../component/filter/order-filter/order-filter.component';
 import {NodeViewer} from '../../component/node-viewer/node-viewer.component';
 import {Router} from '@angular/router';
+import {TypeInfo, TypeService} from '../../service/util/type.service';
+import {Preference} from '../../service/util/preference.service';
 
 @Component({
   selector: 'app-user-home',
@@ -21,6 +23,8 @@ export class UserHomeComponent implements OnInit {
 
   error = false;
   sub: Subscription;
+  types: TypeInfo[] = TypeService.typeInfos;
+
   @ViewChild('orderFilter', { read: OrderFilterComponent, static: true }) orderFilter: OrderFilterComponent;
   @ViewChild('tagFilter', { read: TagFilterComponent, static: true }) tagFilter: TagFilterComponent;
   @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) basicFilter: BasicFilterComponent;
@@ -33,27 +37,13 @@ export class UserHomeComponent implements OnInit {
       this.nodeViewer.open(node, this.masonry.items.map(item => item.data));
     }
   }
-  fetchData() {
-    if (this.sub) { this.sub.unsubscribe(); }
-    this.error = false;
-
-    const filter = this.basicFilter.getFilter();
-    const tags = this.tagFilter.getTags();
-    filter.orTags = tags.or;
-    filter.andTags = tags.and;
-    filter.notTags = tags.not;
-
-    const sort = this.orderFilter.getSort();
-    if (sort) { filter.sorts = [sort]; }
-
-    this.sub = this.nodeService.getAll(filter).pipe(
-      tap(nodes => this.masonry.setItems(nodes)),
-      catchError(err => {
-        this.error = false;
-        return throwError(err);
-      })
-    ).subscribe();
+  addFromURL() {
+    const url = prompt('Please enter the URL: ');
+    if (url) {
+      this.router.navigate(['/node/new/outside'], {queryParams: {url}});
+    }
   }
+
   tag(tag: boolean) {
     this.tagSelector.selectTags(
       undefined, undefined, tag ? 'Add tags to selected items' : 'Remove tags from selected items'
@@ -112,7 +102,8 @@ export class UserHomeComponent implements OnInit {
         this.view.alert(nodes.length === 1 ? `One item removed.` : `${nodes.length} items removed.`);
       })).subscribe());
   }
-  private handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
+
+  handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
     const nodes = this.masonry.getSelectedItems();
     if (nodes.length) {
       if (!confirm || !confirm(nodes)) { return; }
@@ -122,7 +113,27 @@ export class UserHomeComponent implements OnInit {
       this.view.alert('Please select at least one item.');
     }
   }
+  fetchData() {
+    if (this.sub) { this.sub.unsubscribe(); }
+    this.error = false;
 
+    const filter = this.basicFilter.getFilter();
+    const tags = this.tagFilter.getTags();
+    filter.orTags = tags.or;
+    filter.andTags = tags.and;
+    filter.notTags = tags.not;
+
+    const sort = this.orderFilter.getSort();
+    if (sort) { filter.sorts = [sort]; }
+
+    this.sub = this.nodeService.getAll(filter).pipe(
+      tap(nodes => this.masonry.setItems(nodes)),
+      catchError(err => {
+        this.error = false;
+        return throwError(err);
+      })
+    ).subscribe();
+  }
   ngOnInit(): void {
     this.view.init({title: 'Home'});
     this.basicFilter.onChange(() => this.fetchData());
@@ -134,6 +145,7 @@ export class UserHomeComponent implements OnInit {
 
   constructor(
     public view: ViewService,
+    public preference: Preference,
     private nodeService: NodeService,
     private tagSelector: TagSelector,
     private router: Router,

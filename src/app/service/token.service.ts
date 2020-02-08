@@ -67,8 +67,8 @@ export class TokenService {
 
   constructor(
     public view: ViewService,
+    public preference: Preference,
     private router: Router,
-    private preference: Preference,
     private apiService: HttpService,
   ) { }
 }
