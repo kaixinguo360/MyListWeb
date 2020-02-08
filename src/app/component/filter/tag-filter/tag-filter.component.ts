@@ -4,7 +4,7 @@ import {tap} from 'rxjs/operators';
 import {Node} from '../../../service/util/node';
 import {NodeService} from '../../../service/node.service';
 import {ChipItem} from './tag-input/tag-input.component';
-import {PreferenceService} from '../../../service/util/preference.service';
+import {Preference} from '../../../service/util/preference.service';
 import {Tag} from '../../../service/util/filter';
 
 class ChipItems {
@@ -62,7 +62,7 @@ export class TagFilterComponent implements OnInit {
         notAll: this.notAll,
       });
       this.modified = (json !== this.defaultData);
-      this.preferenceService.set('saved_tags', json); // Save Tags
+      this.preference.set('saved_tags', json); // Save Tags
     }
   }
 
@@ -88,9 +88,9 @@ export class TagFilterComponent implements OnInit {
 
   constructor(
     private nodeService: NodeService,
-    private preferenceService: PreferenceService,
+    private preference: Preference,
   ) {
-    const savedTags = this.preferenceService.get('saved_tags');
+    const savedTags = this.preference.get('saved_tags');
     if (savedTags) {
       this.modified = (savedTags !== this.defaultData);
       const chipItems: ChipItems = JSON.parse(savedTags);

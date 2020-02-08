@@ -1,11 +1,13 @@
 import {Component} from '@angular/core';
-import {ExtraEdit} from '../../../component/extra-edit/extra-edit';
+import {ExtraEdit} from '../../../component/edit/extra-edit/extra-edit';
 import {of, Subscription, throwError} from 'rxjs';
 import {ListItem, Node} from '../../../service/util/node';
 import {ViewService} from '../../../service/util/view.service';
 import {Image} from '../../image/type-info';
 import {NodeService} from '../../../service/node.service';
 import {catchError, tap} from 'rxjs/operators';
+import {TypeService} from '../../../service/util/type.service';
+import {Preference} from '../../../service/util/preference.service';
 
 @Component({
   selector: 'app-list-edit',
@@ -14,9 +16,9 @@ import {catchError, tap} from 'rxjs/operators';
 })
 export class ListEditComponent implements ExtraEdit {
 
-  items: ListItem<Image>[] = [];
-  show = false;
+  items: ListItem[] = [];
   updating = false;
+  show = this.preference.getSwitch('list-edit@show');
 
   public valid = true;
   public onChange(next: () => void): Subscription { return of().subscribe(); }
@@ -31,30 +33,31 @@ export class ListEditComponent implements ExtraEdit {
     if (!this.items) {
       this.items = [];
     }
-    this.items.push({
+    const item: ListItem<Image> = {
       node: {
         mainData: {
           id: undefined,
-          user: this.view.user.id,
-          type: 'image',
-          title: undefined,
-          excerpt: undefined,
-          part: true,
-          collection: false,
-          permission: 'private',
-          nsfw: false,
-          like: false,
-          hide: false,
-          source: undefined,
-          description: undefined,
+            user: this.view.user.id,
+            type: 'image',
+            title: undefined,
+            excerpt: undefined,
+            part: true,
+            collection: false,
+            permission: 'private',
+            nsfw: false,
+            like: false,
+            hide: false,
+            source: undefined,
+            description: undefined,
         },
         extraData: {
           nodeType: 'image',
-          url: '',
+            url: '',
         },
       },
       status: 'new',
-    });
+    };
+    this.items.push(item);
   }
   up(index: number) {
     if (index <= 0) { return; }
@@ -67,44 +70,70 @@ export class ListEditComponent implements ExtraEdit {
     [items[index], items[index + 1]] = [items[index + 1], items[index]];
   }
 
+  toggleEditor(editor, index: number) {
+    const item = this.items[index];
+    if (editor.hidden && item.status === 'exist') {
+      item.status = 'loading';
+      this.nodeService.get(item.node.mainData.id).pipe(
+        tap(node => node.tags = undefined),
+        tap(node => {
+          item.node = node;
+          item.status = 'update';
+          editor.hidden = false;
+        }),
+        catchError(err => {
+          item.status = 'exist';
+          return of(err);
+        }),
+      ).subscribe();
+    } else {
+      editor.hidden = !editor.hidden;
+      if ( editor.hidden) { this.typeService.process(item.node); }
+    }
+  }
   togglePart(index: number) {
     const item = this.items[index];
-    if (item.status === 'new') {
+    if (item.status !== 'exist') {
       item.node.mainData.part = !item.node.mainData.part;
     } else {
-      const before = item.node.mainData.part;
       const node: Node = JSON.parse(JSON.stringify(item.node));
 
-      item.node.mainData.part = null;
-      node.mainData.part = !before;
+      item.status = 'loading';
+      node.mainData.part = !item.node.mainData.part;
 
       this.nodeService.updateAll([node], true).pipe(
-        tap(nodes => item.node.mainData.part = nodes[0].mainData.part),
-        catchError(err => { item.node.mainData.part = before; return throwError(err); }),
+        tap(nodes => {
+          item.node.mainData.part = nodes[0].mainData.part;
+          item.status = 'exist';
+        }),
+        catchError(err => {
+          item.status = 'exist';
+          return throwError(err);
+        }),
       ).subscribe();
     }
   }
   toggleAllPart() {
     const editableItems = this.items.filter(item => this.canWrite(item.node));
-    const existItems = editableItems.filter(item => item.status !== 'new' && this.canWrite(item.node));
+    const existItems = editableItems.filter(item => item.status === 'exist' && this.canWrite(item.node));
     const target = !editableItems.find(item => item.node.mainData.part);
 
-    const before = editableItems.map(item => item.node.mainData.part);
-    editableItems.filter(item => item.status === 'new').forEach(item => item.node.mainData.part = target);
+    editableItems.filter(item => item.status !== 'exist').forEach(item => item.node.mainData.part = target);
 
     if (existItems.length) {
       this.updating = true;
 
       const existNodes: Node[] = existItems.map(item => JSON.parse(JSON.stringify(item.node)));
-      existItems.forEach(item => item.node.mainData.part = null);
+      existItems.forEach(item => item.status = 'loading');
       existNodes.forEach(node => node.mainData.part = target);
 
       this.nodeService.updateAll(existNodes, true).pipe(
         tap(ns => ns.forEach((node, i) => {
           existItems[i].node.mainData.part = node.mainData.part;
+          existItems[i].status = 'exist';
         })),
         catchError(err => {
-          editableItems.forEach((item, i) => item.node.mainData.part = before[i]);
+          editableItems.forEach((item) => item.status = 'exist');
           return of(err);
         }),
         tap(() => this.updating = false),
@@ -119,6 +148,8 @@ export class ListEditComponent implements ExtraEdit {
   constructor(
     public view: ViewService,
     private nodeService: NodeService,
+    private typeService: TypeService,
+    private preference: Preference,
   ) { }
 
 }

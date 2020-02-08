@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AppConfig} from '../../../environments/app-config';
 import {Order} from './order';
-import {PreferenceService} from './preference.service';
+import {Preference} from './preference.service';
 import {Node} from './node';
 import {Sort} from './filter';
 
@@ -69,6 +69,6 @@ export class OrderService {
   }
 
   constructor(
-    private preference: PreferenceService
+    private preference: Preference
   ) { }
 }

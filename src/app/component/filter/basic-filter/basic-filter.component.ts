@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Subject} from 'rxjs';
-import {PreferenceService} from '../../../service/util/preference.service';
+import {Preference} from '../../../service/util/preference.service';
 import {Filter} from '../../../service/util/filter';
 import {TypeService} from '../../../service/util/type.service';
 
@@ -63,7 +63,7 @@ export class BasicFilterComponent implements OnInit {
       this.onChangeSubject.next();
       const json = JSON.stringify(this.data.value);
       this.modified = (json !== this.defaultData);
-      this.preferenceService.set('saved_filter', json); // Save Filter
+      this.preference.set('saved_filter', json); // Save Filter
     }
   }
 
@@ -99,9 +99,9 @@ export class BasicFilterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private typeService: TypeService,
-    private preferenceService: PreferenceService,
+    private preference: Preference,
   ) {
-    const saved = this.preferenceService.get('saved_filter');
+    const saved = this.preference.get('saved_filter');
     if (saved) {
       this.modified = (saved !== this.defaultData);
       this.data.setValue(JSON.parse(saved));

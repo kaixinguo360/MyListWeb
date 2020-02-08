@@ -11,13 +11,13 @@ export const ListType: TypeInfo = {
   icon: 'collections',
   process: node => {
     node.extraList.forEach(n => {
-      if (n.status === 'new') {
+      if (n.status !== 'exist') {
         n.node.mainData.permission = node.mainData.permission;
         n.node.mainData.nsfw = node.mainData.nsfw;
         n.node.mainData.like = node.mainData.like;
         n.node.mainData.hide = node.mainData.hide;
         n.node.mainData.source = node.mainData.source;
-        TypeService.type.process(n.node);
+        TypeService.instance.process(n.node);
       }
     });
     if (node.extraList.length) {

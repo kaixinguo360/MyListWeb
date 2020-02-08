@@ -6,11 +6,12 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
 import {EMPTY, throwError} from 'rxjs';
-import {ExtraEditComponent} from '../../component/extra-edit/extra-edit.component';
+import {ExtraEditComponent} from '../../component/edit/extra-edit/extra-edit.component';
 import {TagSelector} from '../../component/tag-selector/tag-selector.component';
 import {Node} from '../../service/util/node';
 import {HttpErrorResponse} from '@angular/common/http';
 import {TypeService} from '../../service/util/type.service';
+import {Preference} from '../../service/util/preference.service';
 
 @Component({
   selector: 'app-node-edit',
@@ -18,6 +19,9 @@ import {TypeService} from '../../service/util/type.service';
   styleUrls: ['./node-edit.component.css']
 })
 export class NodeEditComponent implements OnInit {
+
+  showDescription =  this.preference.getSwitch('node-edit@showDescription');
+  showComment =  this.preference.getSwitch('node-edit@showComment');
 
   mainData = this.fb.group({
     id: null,
@@ -32,9 +36,10 @@ export class NodeEditComponent implements OnInit {
     hide: this.fb.control(false, Validators.required),
     source: this.fb.control(null),
     description: this.fb.control(null),
+    comment: this.fb.control(null),
   });
   types: string[] = TypeService.typeInfos.map(info => info.id);
-  permissions = ['Private', 'Protect', 'Public'];
+  permissions = ['private', 'protect', 'public'];
 
   @ViewChild('extraDataEdit', {static: true}) extraEdit: ExtraEditComponent;
   valid: boolean;
@@ -60,7 +65,7 @@ export class NodeEditComponent implements OnInit {
       this.nodeService.update(node) :
       this.nodeService.add(node)
     ).pipe(
-      // tap(() => this.router.navigate(['/home'])),
+      tap(() => this.saveStatus()),
       tap(() => this.view.back()),
       catchError(err => {
         this.snackBar.open('An error occurred.', 'Close');
@@ -95,12 +100,30 @@ export class NodeEditComponent implements OnInit {
     }
   }
 
+  loadStatus() {
+    this.mainData.patchValue({
+      type: this.preference.get('node-edit@type', 'node'),
+      permission: this.preference.get('node-edit@permission', 'private'),
+      nsfw: Boolean(this.preference.get('node-edit@nsfw')),
+      like: Boolean(this.preference.get('node-edit@like')),
+      hide: Boolean(this.preference.get('node-edit@hide')),
+    });
+  }
+  saveStatus() {
+    this.preference.set('node-edit@type', this.mainData.value.type);
+    this.preference.set('node-edit@permission', this.mainData.value.permission);
+    this.mainData.value.nsfw ? this.preference.set('node-edit@nsfw', 'true') : this.preference.remove('node-edit@nsfw');
+    this.mainData.value.like ? this.preference.set('node-edit@like', 'true') : this.preference.remove('node-edit@like');
+    this.mainData.value.hide ? this.preference.set('node-edit@hide', 'true') : this.preference.remove('node-edit@hide');
+  }
+
   ngOnInit() {
     this.valid = this.extraEdit.valid;
     this.extraEdit.onChange(() => {
       this.valid = this.mainData.valid && this.extraEdit.valid;
       this.ref.detectChanges();
     });
+    this.loadStatus();
 
     this.route.paramMap.subscribe(map => {
       const id = Number(map.get('id'));
@@ -112,6 +135,7 @@ export class NodeEditComponent implements OnInit {
             this.mainData.patchValue(node.mainData);
             this.extraEdit.setExtraData(node.extraData);
             this.extraEdit.setExtraList(node.extraList);
+            this.extraEdit.ngOnChanges(null);
             this.tags = (node.tags as Node[]).filter(tag => {
               const isOthers = tag.mainData.user !== this.view.user.id && tag.mainData.permission !== 'public';
               if (isOthers) { this.othersTags.push(tag); }
@@ -134,6 +158,7 @@ export class NodeEditComponent implements OnInit {
     private nodeService: NodeService,
     private typeService: TypeService,
     private tagSelector: TagSelector,
+    private preference: Preference,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,

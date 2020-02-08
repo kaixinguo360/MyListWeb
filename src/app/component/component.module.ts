@@ -14,12 +14,13 @@ import {MasonryComponent} from './masonry/masonry.component';
 import {NodeViewerComponent} from './node-viewer/node-viewer.component';
 import {OrderFilterComponent} from './filter/order-filter/order-filter.component';
 import {BasicFilterComponent} from './filter/basic-filter/basic-filter.component';
-import {ExtraEditComponent} from './extra-edit/extra-edit.component';
+import {ExtraEditComponent} from './edit/extra-edit/extra-edit.component';
 import {NodeMenuComponent} from './node-menu/node-menu.component';
 import {TagSelectorComponent} from './tag-selector/tag-selector.component';
 import {TagInputComponent} from './filter/tag-filter/tag-input/tag-input.component';
 import {TagFilterComponent} from './filter/tag-filter/tag-filter.component';
 import {CommonModule} from '@angular/common';
+import {QuickEditComponent} from './edit/quick-edit/quick-edit.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -37,6 +38,7 @@ export class HammerConfig extends HammerGestureConfig  {
     OrderFilterComponent,
     BasicFilterComponent,
     ExtraEditComponent,
+    QuickEditComponent,
     NodeMenuComponent,
     TagSelectorComponent,
     TagInputComponent,
@@ -59,6 +61,7 @@ export class HammerConfig extends HammerGestureConfig  {
     OrderFilterComponent,
     BasicFilterComponent,
     ExtraEditComponent,
+    QuickEditComponent,
     NodeMenuComponent,
     TagSelectorComponent,
     TagInputComponent,
@@ -71,7 +74,8 @@ export class HammerConfig extends HammerGestureConfig  {
   entryComponents: [
     NodeViewerComponent,
     NodeMenuComponent,
-    TagSelectorComponent
+    TagSelectorComponent,
+    QuickEditComponent,
   ]
 })
 export class ComponentModule { }

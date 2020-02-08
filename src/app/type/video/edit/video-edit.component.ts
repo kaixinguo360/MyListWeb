@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ExtraEdit} from '../../../component/extra-edit/extra-edit';
+import {ExtraEdit} from '../../../component/edit/extra-edit/extra-edit';
 import {NodeService} from '../../../service/node.service';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';

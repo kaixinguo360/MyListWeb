@@ -16,7 +16,7 @@ export interface ViewConfig {
 })
 export class ViewService {
 
-  public static view: ViewService;
+  public static instance: ViewService;
 
   public user: User;
   public admin = false;
@@ -56,8 +56,7 @@ export class ViewService {
   public logout() {
     this.tokenService.invalidateToken()
       .subscribe(() => {
-        this.router.navigate([this.admin ? '/admin/login' : '/login']);
-        location.reload();
+        location.href = this.admin ? '/admin/login' : '/login';
       });
   }
   public stopScroll(isFixed) {
@@ -68,6 +67,6 @@ export class ViewService {
   }
 
   constructor() {
-    ViewService.view = this;
+    ViewService.instance = this;
   }
 }

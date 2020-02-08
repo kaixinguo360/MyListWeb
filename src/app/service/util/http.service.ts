@@ -6,7 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 
 import {TokenService} from '../token.service';
 import {AppConfig} from '../../../environments/app-config';
-import {PreferenceService} from './preference.service';
+import {Preference} from './preference.service';
 import {ViewService} from './view.service';
 
 export interface SimpleResponse<T> {
@@ -29,7 +29,7 @@ export class HttpService {
     if (err instanceof HttpErrorResponse) {
       if (err.status === 401) {
         that.view.alert('The token has expired, please log in again.');
-        that.preferenceService.clean();
+        that.preference.clear();
         location.href = that.view.admin ? '/admin/login' : '/login';
         return EMPTY;
       } else {
@@ -95,7 +95,7 @@ export class HttpService {
 
   constructor(
     private http: HttpClient,
-    private preferenceService: PreferenceService,
+    private preference: Preference,
     public view: ViewService,
   ) {
     HttpService.thisService = this;

@@ -4,7 +4,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {Observable, of, throwError} from 'rxjs';
 
 import {HttpService} from './util/http.service';
-import {PreferenceService} from './util/preference.service';
+import {Preference} from './util/preference.service';
 import {ViewService} from './util/view.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {User} from './user.service';
@@ -32,8 +32,8 @@ export class TokenService {
     return this.apiService.get<{token: string, user: User}>(`token?name=${name}&pass=${pass}`, null, false)
       .pipe(
         tap<{token: string, user: User}>(result => {
-          this.preferenceService.set('token', result.token);
-          this.preferenceService.setUser(result.user);
+          this.preference.set('token', result.token);
+          this.preference.setUser(result.user);
         }),
         this.errorHandler
       );
@@ -42,22 +42,22 @@ export class TokenService {
     pass = TokenService.password(pass);
     return this.apiService.get<string>(`token/admin?pass=${pass}`, null, false)
       .pipe(
-        tap<string>(token => this.preferenceService.set('admin_token', token)),
+        tap<string>(token => this.preference.set('admin_token', token)),
         this.errorHandler
       );
   }
   public invalidateToken(): Observable<void> {
     return this.apiService.delete<void>(this.view.admin ? 'token/admin' : 'token', null, true).pipe(
       catchError(err => of(err)),
-      tap(() => this.preferenceService.clean())
+      tap(() => this.preference.clear())
     );
   }
 
   public hasToken(): boolean {
-    return Boolean(this.preferenceService.get(this.view.admin ? 'admin_token' : 'token'));
+    return Boolean(this.preference.get(this.view.admin ? 'admin_token' : 'token'));
   }
   public getToken(): string {
-    const token = this.preferenceService.get(this.view.admin ? 'admin_token' : 'token');
+    const token = this.preference.get(this.view.admin ? 'admin_token' : 'token');
     if (token) {
       return token;
     } else {
@@ -68,7 +68,7 @@ export class TokenService {
   constructor(
     public view: ViewService,
     private router: Router,
-    private preferenceService: PreferenceService,
+    private preference: Preference,
     private apiService: HttpService,
   ) { }
 }

@@ -1,0 +1,10 @@
+
+<mat-form-field class="full-width">
+  <input matInput placeholder="Image URL" maxlength="1023" autocomplete="off"
+         [(ngModel)]="node.extraData.url" [ngModelOptions]="{standalone: true}">
+</mat-form-field>
+
+<mat-form-field class="full-width">
+  <input matInput placeholder="Description" maxlength="1023" autocomplete="off"
+         [(ngModel)]="node.mainData.description" [ngModelOptions]="{standalone: true}">
+</mat-form-field>

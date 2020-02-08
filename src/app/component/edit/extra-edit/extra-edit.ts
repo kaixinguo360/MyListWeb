@@ -1,5 +1,5 @@
 import {Subscription} from 'rxjs';
-import {ExtraData, ListItem} from '../../service/util/node';
+import {ExtraData, ListItem} from '../../../service/util/node';
 
 export interface ExtraEdit {
   valid: boolean;

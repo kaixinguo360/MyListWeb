@@ -7,7 +7,6 @@
 .mat-raised-button {
   box-shadow: white 0 0 0;
 }
-
 .mat-checkbox {
   margin-right: 12px;
 }
@@ -17,8 +16,21 @@
   justify-content: flex-end;
   margin-top: 24px;
 }
-
 .button-box>button {
   margin: 0 8px;
+}
+
+.hidden-input {
+  margin: 8px 0;
+}
+.hidden-input-open {
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+}
+.hidden-input span {
+  color: gray;
+}
+.hidden-input>div {
+  margin: 8px;
 }
 

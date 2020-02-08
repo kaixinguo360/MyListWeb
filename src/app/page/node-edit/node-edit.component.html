@@ -15,24 +15,52 @@
       <div class="full-width">
         <mat-form-field class="half-width">
           <mat-select required placeholder="Type" formControlName="type" [disabled]="mainData.value.id">
-            <mat-option *ngFor="let type of types" [value]="type">{{type|titlecase}}</mat-option>
+            <mat-option *ngFor="let type of types" [value]="type">
+              {{type|titlecase}}
+            </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="half-width">
           <mat-select required placeholder="Permission" formControlName="permission" [disabled]="mainData.value.id&&mainData.value.user!=view.user.id">
-            <mat-option *ngFor="let permission of permissions" [value]="permission|lowercase">{{permission}}</mat-option>
+            <mat-option *ngFor="let permission of permissions" [value]="permission">
+              {{permission|titlecase}}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
-      <app-extra-data-edit #extraDataEdit [type]="mainData.value.type"></app-extra-data-edit>
+      <div class="hidden-input hidden-input-open full-width" [hidden]="!typeService.getType(mainData.value.type).extraEdit">
+        <div>
+          <app-extra-edit #extraDataEdit [type]="mainData.value.type"></app-extra-edit>
+        </div>
+      </div>
+
+      <div class="hidden-input full-width" [class.hidden-input-open]="showDescription|async">
+        <div>
+          <button type="button" mat-icon-button (click)="preference.toggle('node-edit@showDescription')">
+            <mat-icon>{{(showDescription|async)?'arrow_drop_down':'arrow_right'}}</mat-icon>
+          </button>
+          <span class="flex-padding">Description {{mainData.value.description?'(+)':''}}</span>
+          <mat-form-field class="full-width" *ngIf="showDescription|async">
+            <textarea formControlName="description" matInput maxlength="2550" autocomplete="off"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="hidden-input full-width" [class.hidden-input-open]="showComment|async">
+        <div>
+          <button type="button" mat-icon-button (click)="preference.toggle('node-edit@showComment')">
+            <mat-icon>{{(showComment|async)?'arrow_drop_down':'arrow_right'}}</mat-icon>
+          </button>
+          <span class="flex-padding">Comment {{mainData.value.comment?'(+)':''}}</span>
+          <mat-form-field class="full-width" *ngIf="showComment|async">
+            <textarea formControlName="comment" matInput maxlength="2550" autocomplete="off"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
 
       <mat-form-field class="full-width">
         <input matInput placeholder="Source Url" maxlength="255" formControlName="source" autocomplete="off">
-      </mat-form-field>
-
-      <mat-form-field class="full-width">
-        <textarea matInput placeholder="Description" maxlength="2550" formControlName="description" autocomplete="off"></textarea>
       </mat-form-field>
 
       <div class="full-width">
