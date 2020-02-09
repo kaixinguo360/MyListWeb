@@ -46,11 +46,12 @@ export class NodeMenuComponent {
 export class NodeMenu {
 
   public open(node: Node) {
-    history.pushState(null, 'Node detail', location.href);
+    const currentHref = location.href;
+    history.pushState(null, 'Node detail', currentHref);
     this.bottomSheet.open(NodeMenuComponent, {
       data: node, hasBackdrop: true, closeOnNavigation: true,
     }).afterDismissed().subscribe(() => {
-      history.back();
+      if (location.href === currentHref) { history.back(); }
       this.view.stopScroll(false);
     });
     this.view.stopScroll(true);

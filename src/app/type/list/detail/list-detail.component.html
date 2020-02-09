@@ -1,0 +1,6 @@
+<div class="container">
+  <div class="item-container" *ngFor="let item of node.extraList"
+       (click)="$event.stopPropagation();click(item)">
+    <app-card-preview [node]="item.node"></app-card-preview>
+  </div>
+</div>

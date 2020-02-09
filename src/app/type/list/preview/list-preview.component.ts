@@ -10,10 +10,10 @@ interface Excerpt {
 }
 
 @Component({
-  templateUrl: './list-content.component.html',
-  styleUrls: ['./list-content.component.css']
+  templateUrl: './list-preview.component.html',
+  styleUrls: ['./list-preview.component.css']
 })
-export class ListContentComponent implements Preview, OnInit {
+export class ListPreviewComponent implements Preview, OnInit {
 
   @Input() node: Node;
   excerptNode: Node;

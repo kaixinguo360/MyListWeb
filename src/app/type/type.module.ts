@@ -7,7 +7,7 @@ import {ComponentModule} from '../component/component.module';
 
 import {NodeContentComponent} from './node/content/node-content.component';
 
-import {ListContentComponent} from './list/content/list-content.component';
+import {ListPreviewComponent} from './list/preview/list-preview.component';
 import {TagContentComponent} from './tag/tag-content.component';
 
 import {ImagePreviewComponent} from './image/preview/image-preview.component';
@@ -20,11 +20,13 @@ import {VideoEditComponent} from './video/edit/video-edit.component';
 
 import {ListEditComponent} from './list/edit/list-edit.component';
 import {ImageQuickEditComponent} from './image/quick-edit/image-quick-edit.component';
+import {ListDetailComponent} from './list/detail/list-detail.component';
 
 @NgModule({
   declarations: [
     NodeContentComponent,
-    ListContentComponent,
+    ListPreviewComponent,
+    ListDetailComponent,
     TagContentComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
@@ -37,7 +39,8 @@ import {ImageQuickEditComponent} from './image/quick-edit/image-quick-edit.compo
   ],
   entryComponents: [
     NodeContentComponent,
-    ListContentComponent,
+    ListPreviewComponent,
+    ListDetailComponent,
     TagContentComponent,
     ImagePreviewComponent,
     ImageDetailComponent,

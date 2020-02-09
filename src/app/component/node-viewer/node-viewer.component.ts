@@ -6,7 +6,6 @@ import {Node} from '../../service/util/node';
 import {Overlay} from '@angular/cdk/overlay';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
-import {Subscription} from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-card-viewer',
@@ -18,8 +17,11 @@ export class NodeViewerComponent implements OnInit {
   @Input() index: number;
   @Input() nodes: Node[];
 
+  overlayRef: OverlayRef;
   showLeftButton = false;
   showRightButton = false;
+  showDetail = false;
+  canWrite: boolean;
   currentNode: Node = null;
 
   public turnPage(num: number) {
@@ -53,17 +55,18 @@ export class NodeViewerComponent implements OnInit {
   }
   private showNode(node: Node) {
     this.currentNode = node;
+    this.canWrite = NodeService.canWrite(node, this.view.user);
   }
-
-  constructor(
-    public view: ViewService,
-    public fileViewer: NodeViewer,
-    private nodeService: NodeService,
-  ) { }
 
   public ngOnInit() {
     this.load();
   }
+
+  constructor(
+    public view: ViewService,
+    public nodeViewer: NodeViewer,
+    private nodeService: NodeService,
+  ) { }
 
 }
 
@@ -72,16 +75,17 @@ export class NodeViewerComponent implements OnInit {
 })
 export class NodeViewer {
 
-  private overlayRef: OverlayRef;
-  private subscription: Subscription;
+  private count = 0;
 
   public open(node: Node, nodes?: Node[]) {
-    if (this.overlayRef) { this.close(); }
+    if (this.count === 0) { this.view.stopScroll(true); }
 
-    this.overlayRef = this.overlay.create();
-    const componentRef = this.overlayRef.attach(new ComponentPortal(NodeViewerComponent));
+    this.count++;
+    const overlayRef = this.overlay.create();
+    const componentRef = overlayRef.attach(new ComponentPortal(NodeViewerComponent));
 
     const popup = (componentRef.instance as NodeViewerComponent);
+    popup.overlayRef = overlayRef;
     if (nodes) {
       popup.nodes = nodes;
       popup.index = nodes.findIndex(n => n === node);
@@ -89,17 +93,11 @@ export class NodeViewer {
       popup.nodes = [node];
       popup.index = 0;
     }
-    this.view.stopScroll(true);
   }
-  public openById(id: number) {
-    if (this.subscription) { this.subscription.unsubscribe(); }
-    this.subscription = this.nodeService.get(id).pipe(
-      tap(node => this.open(node)),
-    ).subscribe();
-  }
-  public close() {
-    this.overlayRef.dispose();
-    this.view.stopScroll(false);
+  public close(overlayRef: OverlayRef) {
+    overlayRef.dispose();
+    this.count--;
+    if (this.count === 0) { this.view.stopScroll(false); }
   }
 
   constructor(

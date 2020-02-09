@@ -64,7 +64,7 @@ export class ListEditComponent implements ExtraEdit {
   }
   openViewer(item: ListItem) {
     if (item.status === 'exist') {
-      this.nodeViewer.openById(item.node.mainData.id);
+      this.nodeViewer.open(item.node);
     } else {
       this.nodeViewer.open(item.node);
     }

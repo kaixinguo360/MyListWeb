@@ -1,9 +1,9 @@
 <div class="overlay"
      (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
      (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)"
-     (click)="fileViewer.close()">
+     (click)="nodeViewer.close(overlayRef)">
 
-  <div class="side side-left" *ngIf="nodes.length>1"
+  <div class="left-container sidebar" *ngIf="nodes.length>1"
        (mouseenter)="showLeftButton=true"
        (mouseleave)="showLeftButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"
@@ -12,7 +12,8 @@
       <mat-icon class="nav-icon">chevron_left</mat-icon>
     </button>
   </div>
-  <div class="side side-right" *ngIf="nodes.length>1"
+
+  <div class="right-container sidebar" *ngIf="nodes.length>1"
        (mouseenter)="showRightButton=true"
        (mouseleave)="showRightButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"
@@ -22,10 +23,33 @@
     </button>
   </div>
 
-  <div class="tool-bar" (click)="$event.stopPropagation()">
-    <button mat-icon-button class="tool-button" (click)="fileViewer.close()">
-      <mat-icon class="tool-icon">arrow_back</mat-icon>
-    </button>
+  <div class="top-container toolbar" (click)="$event.stopPropagation()">
+    <button mat-icon-button (click)="nodeViewer.close(overlayRef)"><mat-icon>arrow_back</mat-icon></button>
+  </div>
+
+  <div class="bottom-container toolbar" (click)="$event.stopPropagation()"
+       [class.bottom-container-open]="showDetail" *ngIf="currentNode">
+
+    <div class="title-container">
+      <button mat-icon-button disableRipple (click)="showDetail=!showDetail">
+        <mat-icon>{{showDetail?'keyboard_arrow_down':'keyboard_arrow_up'}}</mat-icon>
+      </button>
+      <span class="title flex-padding" [class.single-line]="!showDetail">
+        {{currentNode.mainData.title?currentNode.mainData.title:'Untitled'}}
+        <span class="small">{{currentNode.mainData.type}}</span>
+      </span>
+      <button mat-icon-button disableRipple (click)="canWrite?nodeViewer.close(overlayRef):null"
+              [routerLink]="canWrite?['/node', currentNode.mainData.id,'edit']:null">
+        <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="description">
+      {{currentNode.mainData.description}}
+      <span class="small" *ngIf="!currentNode.mainData.description">no description</span>
+    </div>
   </div>
 
   <mat-progress-spinner *ngIf="!currentNode" diameter="64" color="primary" mode="indeterminate"></mat-progress-spinner>
@@ -36,4 +60,3 @@
   <div *ngIf="currentNode"><app-card-detail [node]="currentNode"></app-card-detail></div>
 
 </div>
-<div class="tool-bar-background"></div>

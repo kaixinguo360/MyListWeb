@@ -13,7 +13,9 @@
   overflow: scroll;
 }
 
-.side {
+/* ---- overlay container ---- */
+
+.sidebar {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -22,11 +24,86 @@
   z-index: 11;
   cursor: pointer;
 }
-.side-left {
+.left-container {
   left: 0;
 }
-.side-right {
+.right-container {
   right: 0;
+}
+
+.toolbar {
+  position: fixed;
+  z-index: 12;
+}
+
+.top-container {
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 64px;
+  max-width: 400px;
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 16px;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+}
+.top-container>.mat-icon-button {
+  color: white;
+  background: #0000008a;
+}
+
+.bottom-container {
+  top: calc(100vh - 64px);
+  left: 0; right: 0;
+  min-height: 64px;
+  padding: 10px 16px 0;
+  color: white;
+  background-color: #0000008a;
+  overflow-y: auto;
+}
+.bottom-container-open {
+  top: 200px;
+  bottom: 0;
+}
+
+.title-container {
+  display: flex;
+  align-items: baseline;
+}
+.title-container .mat-icon-button {
+  background: #00000000;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.description {
+  white-space: pre-wrap;
+}
+
+/* ---- others ---- */
+
+.preview-container {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+  border-radius: 10px;
+
+  max-width: 250px;
+  max-height: 250px;
+}
+.preview-container-overlay {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
+  background-color: #ffffff66;
 }
 
 .nav-button {
@@ -50,56 +127,12 @@
   color: white;
 }
 
-.tool-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 30%;
-  max-width: 400px;
-  height: 64px;
-  z-index: 12;
-  display: flex;
-  box-sizing: border-box;
-  padding: 0 16px;
-  flex-direction: row;
-  align-items: center;
-  white-space: nowrap;
-}
-.tool-button {
-  color: white;
-  background: rgba(66,66,66,0.54);
-}
-.tool-bar-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  z-index: 9;
-  background: white;
-}
-
 .mat-progress-spinner {
   z-index: 100;
   position: fixed;
 }
 
-.preview-container {
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  overflow: hidden;
-  border-radius: 10px;
-
-  max-width: 250px;
-  max-height: 250px;
-}
-.preview-container-overlay {
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 0; right: 0;
-  background-color: #ffffff66;
+.small {
+  color: #b0b0b0;
+  font-size: small;
 }

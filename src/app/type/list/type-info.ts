@@ -1,12 +1,13 @@
-import {ListContentComponent} from './content/list-content.component';
+import {ListPreviewComponent} from './preview/list-preview.component';
 import {ListEditComponent} from './edit/list-edit.component';
 import {TypeInfo, TypeService} from '../../service/util/type.service';
+import {ListDetailComponent} from './detail/list-detail.component';
 
 export const ListType: TypeInfo = {
   id: 'list',
   name: 'List',
-  preview: ListContentComponent,
-  detail: ListContentComponent,
+  preview: ListPreviewComponent,
+  detail: ListDetailComponent,
   extraEdit: ListEditComponent,
   icon: 'collections',
   process: node => {
