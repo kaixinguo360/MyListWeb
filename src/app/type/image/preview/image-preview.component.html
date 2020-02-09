@@ -1,6 +1,6 @@
 <div class="container" [class.container-loading]="loading">
 
-  <img [src]="node.mainData.excerpt" [alt]="" *ngIf="!error"
+  <img [src]="proxy.proxy(node.mainData.excerpt)" [alt]="" *ngIf="!error"
        (load)="loading=false"
        (error)="error=true">
 

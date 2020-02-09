@@ -21,6 +21,7 @@ import {TagInputComponent} from './filter/tag-filter/tag-input/tag-input.compone
 import {TagFilterComponent} from './filter/tag-filter/tag-filter.component';
 import {CommonModule} from '@angular/common';
 import {QuickEditComponent} from './edit/quick-edit/quick-edit.component';
+import {ProxyFilterComponent} from './filter/proxy-filter/proxy-filter.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -43,6 +44,7 @@ export class HammerConfig extends HammerGestureConfig  {
     TagSelectorComponent,
     TagInputComponent,
     TagFilterComponent,
+    ProxyFilterComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +68,7 @@ export class HammerConfig extends HammerGestureConfig  {
     TagSelectorComponent,
     TagInputComponent,
     TagFilterComponent,
+    ProxyFilterComponent
   ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,

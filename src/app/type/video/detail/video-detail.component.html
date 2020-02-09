@@ -1,7 +1,7 @@
 <div class="video-container"
      [class.video-container-playing]="playing"
      (click)="stop($event,player)">
-  <video #player [src]="video.url"
+  <video #player [src]="proxy.proxy(video.url)"
          (ended)="playing=false"
          (click)="$event.stopPropagation()"
          [controls]="playing"></video>

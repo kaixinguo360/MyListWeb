@@ -66,6 +66,9 @@ export class ViewService {
   public alert(message: string, action: string = 'Close', config: MatSnackBarConfig = {duration: 2000}) {
     this.matSnackBar.open(message, action, config);
   }
+  public detectChanges() {
+    this.cdRef.detectChanges();
+  }
 
   constructor() {
     ViewService.instance = this;

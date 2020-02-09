@@ -3,6 +3,7 @@
     <mat-icon>{{(isOpen|async)?'arrow_drop_down':'arrow_drop_up'}}</mat-icon>
   </button>
   <span>{{title?title:(sourceUrl|domain)}}</span>
+  <app-proxy-filter></app-proxy-filter>
   <button mat-icon-button routerLink="/home"><mat-icon>close</mat-icon></button>
 </mat-toolbar>
 <!-- Add Content Here -->

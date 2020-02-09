@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Detail} from '../../../component/content/detail/detail';
 import {Node} from '../../../service/util/node';
 import {Video} from '../type-info';
+import {ProxyService} from '../../../service/util/proxy.service';
 
 @Component({
   templateUrl: './video-detail.component.html',
@@ -30,4 +31,8 @@ export class VideoDetailComponent implements OnInit, Detail  {
   ngOnInit(): void {
     this.video = this.node.extraData as Video;
   }
+
+  constructor(
+    public proxy: ProxyService,
+  ) { }
 }
