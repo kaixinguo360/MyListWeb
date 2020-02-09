@@ -145,11 +145,11 @@ export class UserHomeComponent implements OnInit {
 
   constructor(
     public view: ViewService,
+    public nodeViewer: NodeViewer,
     public preference: Preference,
     private nodeService: NodeService,
     private tagSelector: TagSelector,
     private router: Router,
-    private nodeViewer: NodeViewer,
   ) { }
 
 }

@@ -22,15 +22,16 @@
 
 .hidden-input {
   margin: 8px 0;
+  color: gray;
 }
 .hidden-input-open {
   border: 2px solid #e0e0e0;
   border-radius: 10px;
 }
-.hidden-input span {
-  color: gray;
-}
 .hidden-input>div {
   margin: 8px;
+}
+.hidden-input textarea {
+  color: black;
 }
 

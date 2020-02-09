@@ -8,6 +8,7 @@ import {NodeService} from '../../../service/node.service';
 import {catchError, tap} from 'rxjs/operators';
 import {TypeService} from '../../../service/util/type.service';
 import {Preference} from '../../../service/util/preference.service';
+import {NodeViewer} from '../../../component/node-viewer/node-viewer.component';
 
 @Component({
   selector: 'app-list-edit',
@@ -17,8 +18,10 @@ import {Preference} from '../../../service/util/preference.service';
 export class ListEditComponent implements ExtraEdit {
 
   items: ListItem[] = [];
-  updating = false;
+
   show = this.preference.getSwitch('list-edit@show');
+  loading = false;
+  selectMode = false;
 
   public valid = true;
   public onChange(next: () => void): Subscription { return of().subscribe(); }
@@ -59,6 +62,19 @@ export class ListEditComponent implements ExtraEdit {
     };
     this.items.push(item);
   }
+  openViewer(item: ListItem) {
+    if (item.status === 'exist') {
+      this.nodeViewer.openById(item.node.mainData.id);
+    } else {
+      this.nodeViewer.open(item.node);
+    }
+  }
+
+  first(index: number) {
+    this.selectMode = false;
+    const items = this.items;
+    [items[index], items[0]] = [items[0], items[index]];
+  }
   up(index: number) {
     if (index <= 0) { return; }
     const items = this.items;
@@ -91,7 +107,7 @@ export class ListEditComponent implements ExtraEdit {
       if ( editor.hidden) { this.typeService.process(item.node); }
     }
   }
-  togglePart(index: number) {
+  togglePartStatus(index: number) {
     const item = this.items[index];
     if (item.status !== 'exist') {
       item.node.mainData.part = !item.node.mainData.part;
@@ -113,7 +129,7 @@ export class ListEditComponent implements ExtraEdit {
       ).subscribe();
     }
   }
-  toggleAllPart() {
+  toggleAllPartStatus() {
     const editableItems = this.items.filter(item => this.canWrite(item.node));
     const existItems = editableItems.filter(item => item.status === 'exist' && this.canWrite(item.node));
     const target = !editableItems.find(item => item.node.mainData.part);
@@ -121,7 +137,7 @@ export class ListEditComponent implements ExtraEdit {
     editableItems.filter(item => item.status !== 'exist').forEach(item => item.node.mainData.part = target);
 
     if (existItems.length) {
-      this.updating = true;
+      this.loading = true;
 
       const existNodes: Node[] = existItems.map(item => JSON.parse(JSON.stringify(item.node)));
       existItems.forEach(item => item.status = 'loading');
@@ -136,7 +152,7 @@ export class ListEditComponent implements ExtraEdit {
           editableItems.forEach((item) => item.status = 'exist');
           return of(err);
         }),
-        tap(() => this.updating = false),
+        tap(() => this.loading = false),
       ).subscribe();
     }
   }
@@ -147,9 +163,10 @@ export class ListEditComponent implements ExtraEdit {
 
   constructor(
     public view: ViewService,
+    public nodeViewer: NodeViewer,
     public preference: Preference,
-    private nodeService: NodeService,
     private typeService: TypeService,
+    private nodeService: NodeService,
   ) { }
 
 }

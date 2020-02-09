@@ -1,7 +1,6 @@
 .container {
   display: inline-block;
 }
-
 .overlay {
   position: fixed;
   top: 0;
@@ -12,15 +11,9 @@
   z-index: 100;
 }
 
-.additional-selection {
-  opacity: 0.75;
-  font-size: 0.75em;
-}
-
 .mat-checkbox {
   margin-right: 12px;
 }
-
 .mat-card {
   position: fixed;
   width: calc(100% - 64px);
@@ -31,6 +24,10 @@
   transform: translate(-50%);
 }
 
+.additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
 .actions {
   display: flex;
   align-items: flex-end;

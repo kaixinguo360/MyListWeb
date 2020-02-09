@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {NodeViewer} from '../component/node-viewer/node-viewer.component';
 import {ViewService} from '../service/util/view.service';
 import {TokenService} from '../service/token.service';
 import {Router} from '@angular/router';
@@ -22,7 +21,6 @@ export class RootComponent implements OnInit {
     private titleService: Title,
 
     public view: ViewService,
-    private popupService: NodeViewer,
     private tokenService: TokenService,
     private httpService: HttpService,
   ) { }

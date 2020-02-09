@@ -53,8 +53,9 @@ export class TokenService {
     );
   }
 
-  public hasToken(): boolean {
-    return Boolean(this.preference.get(this.view.admin ? 'admin_token' : 'token'));
+  public hasToken(admin: boolean = null): boolean {
+    admin = (admin === null) ? this.view.admin : admin;
+    return Boolean(this.preference.get(admin ? 'admin_token' : 'token'));
   }
   public getToken(): string {
     const token = this.preference.get(this.view.admin ? 'admin_token' : 'token');

@@ -31,20 +31,23 @@
         <mat-checkbox formControlName="nsfw">Unsafe</mat-checkbox>
         <mat-checkbox formControlName="like">Like</mat-checkbox>
         <mat-checkbox formControlName="hide">Hide</mat-checkbox>
-        <mat-checkbox formControlName="part">Part</mat-checkbox>
       </div>
 
     </form>
 
     <mat-card-actions align="end">
       <button mat-icon-button
-              [color]="(this.data.value.types.length === this.types.length)?'accent':null"
-              (click)="changeTypes()"><mat-icon>list</mat-icon></button>
+              [color]="(data.value.collection=='explode')?'accent':(data.value.collection==='all'?'primary':null)"
+              [matTooltip]="(data.value.collection|titlecase)+ 'Collection'" (click)="changePart()">
+        <mat-icon *ngIf="data.value.collection=='implode'">list_alt</mat-icon>
+        <mat-icon *ngIf="data.value.collection=='explode'">list</mat-icon>
+        <mat-icon *ngIf="data.value.collection=='all'">clear_all</mat-icon>
+      </button>
       <button mat-icon-button
-              [color]="(this.data.value.nsfw===true&&this.data.value.like===false&&this.data.value.hide===true)?'accent':null"
+              [color]="(data.value.nsfw===true&&data.value.like===false&&data.value.hide===true)?'accent':null"
               (click)="changeOptions()"><mat-icon>select_all</mat-icon></button>
       <button mat-icon-button
-              [color]="(this.data.value.permission==='available')?'accent':(this.data.value.permission==='others_shared'?'primary':null)"
+              [color]="(data.value.permission==='available')?'accent':(data.value.permission==='others_shared'?'primary':null)"
               (click)="changePermission()"><mat-icon>public</mat-icon></button>
       <button mat-button (click)="reset();">Reset</button>
       <button mat-button (click)="close();">OK</button>

@@ -16,7 +16,7 @@ export class BasicFilterComponent implements OnInit {
     nsfw: false,
     like: false,
     hide: false,
-    part: false,
+    collection: 'implode',
     permission: 'self',
     types: this.fb.control([])
   });
@@ -33,10 +33,12 @@ export class BasicFilterComponent implements OnInit {
   private changed = false;
   private onChangeSubject = new Subject<void>();
 
-  changeTypes() {
-    this.data.patchValue({
-      types: (this.data.value.types.length === this.types.length) ? [] : this.types
-    });
+  changePart() {
+    switch (this.data.value.collection) {
+      case 'implode': this.data.patchValue({collection: 'explode'}); break;
+      case 'explode': this.data.patchValue({collection: 'all'}); break;
+      default: this.data.patchValue({collection: 'implode'}); break;
+    }
   }
   changeOptions() {
     const value = this.data.value;
@@ -48,8 +50,8 @@ export class BasicFilterComponent implements OnInit {
   }
   changePermission() {
     switch (this.data.value.permission) {
-      case 'available': this.data.patchValue({permission: 'others_shared'}); break;
       case 'self': this.data.patchValue({permission: 'available'}); break;
+      case 'available': this.data.patchValue({permission: 'others_shared'}); break;
       default: this.data.patchValue({permission: 'self'}); break;
     }
   }
@@ -80,8 +82,10 @@ export class BasicFilterComponent implements OnInit {
       orTags: [],
       notTags: []
     };
-    if (!value.part) {
-      filter.conditions.push({column: 'node_part', oper: '=', value: '0'});
+    switch (value.collection) {
+      case 'implode': filter.conditions.push({column: 'node_part', oper: '=', value: '0'}); break;
+      case 'explode': filter.conditions.push({column: 'node_collection', oper: '=', value: '0'}); break;
+      default: break;
     }
     if (value.types.length < this.types.length && value.types.length > 0) {
       filter.conditions.push({
@@ -104,7 +108,7 @@ export class BasicFilterComponent implements OnInit {
     const saved = this.preference.get('saved_filter');
     if (saved) {
       this.modified = (saved !== this.defaultData);
-      this.data.setValue(JSON.parse(saved));
+      this.data.patchValue(JSON.parse(saved));
     }
   }
 

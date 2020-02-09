@@ -47,11 +47,12 @@ export class ViewService {
   }
 
   public back() {
-    window.stop();
+    this.stop();
     window.history.back();
   }
-  public reload() {
-    location.reload();
+  public stop() {
+    window.stop();
+    this.loading = false;
   }
   public logout() {
     this.tokenService.invalidateToken()
