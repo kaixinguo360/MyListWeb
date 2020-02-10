@@ -16,6 +16,7 @@ interface Excerpt {
 export class ListPreviewComponent implements Preview, OnInit {
 
   @Input() node: Node;
+  @Input() lazyload: boolean;
   excerptNode: Node;
   excerpt: Excerpt;
 

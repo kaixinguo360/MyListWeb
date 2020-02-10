@@ -3,9 +3,15 @@
     <mat-icon>{{(show|async)?'arrow_drop_down':'arrow_right'}}</mat-icon>
   </button>
   <span class="flex-padding">{{items.length}} {{items.length>1?'items':'item'}}</span>
-  <button type="button" mat-icon-button (click)="selectMode=!selectMode" *ngIf="(show|async)">
-    <mat-icon>{{selectMode?'center_focus_strong':'center_focus_weak'}}</mat-icon>
-  </button>
+
+  <div *ngIf="(show|async)&&items.length">
+    <button type="button" mat-icon-button (click)="selectMode=!selectMode">
+      <mat-icon>{{selectMode?'center_focus_strong':'center_focus_weak'}}</mat-icon></button>
+    <button type="button" mat-icon-button (click)="toggleAllPartStatus()" [disabled]="loading">
+      <mat-icon>check_circle</mat-icon></button>
+    <button type="button" mat-icon-button (click)="items.length=0">
+      <mat-icon>delete</mat-icon></button>
+  </div>
 </div>
 
 <div *ngIf="show|async">
@@ -13,10 +19,10 @@
        [class.item-container-select-mode]="selectMode">
 
     <div class="preview-container">
-      <div class="preview flex-padding hide-overflow" (click)="openViewer(item)" *ngIf="editor.hidden">
-        <app-card-preview [node]="item.node" [lazyload]="false"></app-card-preview>
+      <div class="preview hide-overflow" (click)="openViewer(item)" *ngIf="editor.hidden">
+        <app-card-preview [node]="item.node"></app-card-preview>
       </div>
-      <span class="flex-padding single-line" *ngIf="!editor.hidden">Editing...</span>
+      <span class="flex-padding single-line">{{editor.hidden?'':'Editing...'}}</span>
 
       <button type="button" mat-icon-button (click)="toggleEditor(editor, i)" [disabled]="!canWrite(item.node)||item.status=='loading'">
         <mat-icon>{{editor.hidden?'keyboard_arrow_down':'keyboard_arrow_up'}}</mat-icon>
@@ -40,9 +46,5 @@
   <div class="button-container">
     <button mat-icon-button type="button" (click)="addImage()"><mat-icon>add_photo_alternate</mat-icon></button>
     <span class="flex-padding"></span>
-    <div *ngIf="items.length">
-      <button type="button" mat-icon-button (click)="toggleAllPartStatus()" [disabled]="loading"><mat-icon>check_circle</mat-icon></button>
-      <button type="button" mat-icon-button (click)="items.length=0"><mat-icon>delete</mat-icon></button>
-    </div>
   </div>
 </div>

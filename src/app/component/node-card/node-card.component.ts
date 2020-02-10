@@ -18,6 +18,7 @@ export class NodeCardComponent implements OnInit {
   @Input() height: number;
   @Input() maxHeight: number;
   @Input() interact = true;
+  @Input() lazyload = false;
 
   showDesktopIcons = false;
   canWrite: boolean;

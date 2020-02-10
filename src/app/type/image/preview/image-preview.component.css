@@ -11,22 +11,6 @@ img {
   width: 100%;
   min-height: 100%;
 }
-img:before {
-  content: "Image";
-  font-size: 18px;
-  color: #b0b0b0;
-
-  position: absolute;
-  top: 0; bottom: 10px; left: 0; right: 0;
-  background-color: #f5f5f5;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 16px;
-  word-break: break-word;
-}
 img:after {
   content: attr(alt);
   font-size: 12px;
@@ -42,13 +26,35 @@ img:after {
   padding: 16px;
   word-break: break-word;
 }
+.img-loading:before {
+  content: "Loading...";
+  font-size: 18px;
+  color: #b0b0b0;
 
-.mat-icon {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  font-size: 64px;
+  top: 0; bottom: 10px; left: 0; right: 0;
+  background-color: #f5f5f5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 16px;
+  word-break: break-word;
+}
+.img-error:before {
+  content: "Error";
+  font-size: 18px;
+  color: #b0b0b0;
+
+  position: absolute;
+  top: 0; bottom: 10px; left: 0; right: 0;
+  background-color: #f5f5f5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 16px;
+  word-break: break-word;
 }

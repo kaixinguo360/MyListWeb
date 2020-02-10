@@ -7,7 +7,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
 import {EMPTY, throwError} from 'rxjs';
 import {ExtraEditComponent} from '../../component/edit/extra-edit/extra-edit.component';
-import {TagSelector} from '../../component/tag-selector/tag-selector.component';
+import {TagSelector} from '../../component/tag-dialog/tag-dialog.component';
 import {Node} from '../../service/util/node';
 import {HttpErrorResponse} from '@angular/common/http';
 import {TypeService} from '../../service/util/type.service';

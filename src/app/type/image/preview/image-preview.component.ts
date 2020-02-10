@@ -15,7 +15,9 @@ export class ImagePreviewComponent implements Preview {
   loading = true;
   error = false;
 
-  onload() {
+  onload(error: boolean) {
+    this.loading = false;
+    this.error = error;
     this.view.notify('preview@onload');
   }
 

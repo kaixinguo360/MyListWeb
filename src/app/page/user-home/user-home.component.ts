@@ -1,18 +1,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {BasicFilterComponent} from '../../component/filter/basic-filter/basic-filter.component';
+import {BasicFilterComponent} from '../../component/widget/basic-filter/basic-filter.component';
 import {ViewService} from '../../service/util/view.service';
 import {catchError, tap} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 import {MasonryComponent} from '../../component/masonry/masonry.component';
 import {NodeService} from '../../service/node.service';
 import {Node} from '../../service/util/node';
-import {TagSelector} from '../../component/tag-selector/tag-selector.component';
-import {TagFilterComponent} from '../../component/filter/tag-filter/tag-filter.component';
-import {OrderFilterComponent} from '../../component/filter/order-filter/order-filter.component';
+import {TagSelector} from '../../component/tag-dialog/tag-dialog.component';
+import {TagFilterComponent} from '../../component/widget/tag-filter/tag-filter.component';
 import {NodeViewer} from '../../component/node-viewer/node-viewer.component';
 import {Router} from '@angular/router';
-import {TypeInfo, TypeService} from '../../service/util/type.service';
-import {Preference} from '../../service/util/preference.service';
+import {OrderService} from '../../service/util/order.service';
 
 @Component({
   selector: 'app-user-home',
@@ -23,9 +21,7 @@ export class UserHomeComponent implements OnInit {
 
   error = false;
   sub: Subscription;
-  types: TypeInfo[] = TypeService.typeInfos;
 
-  @ViewChild('orderFilter', { read: OrderFilterComponent, static: true }) orderFilter: OrderFilterComponent;
   @ViewChild('tagFilter', { read: TagFilterComponent, static: true }) tagFilter: TagFilterComponent;
   @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) basicFilter: BasicFilterComponent;
   @ViewChild('masonryRef', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
@@ -35,12 +31,6 @@ export class UserHomeComponent implements OnInit {
       this.router.navigate(['tag'], { queryParams: { id: node.mainData.id } });
     } else {
       this.nodeViewer.open(node, this.masonry.items.map(item => item.data));
-    }
-  }
-  addFromURL() {
-    const url = prompt('Please enter the URL: ');
-    if (url) {
-      this.router.navigate(['/node/new/outside'], {queryParams: {url}});
     }
   }
 
@@ -123,7 +113,7 @@ export class UserHomeComponent implements OnInit {
     filter.andTags = tags.and;
     filter.notTags = tags.not;
 
-    const sort = this.orderFilter.getSort();
+    const sort = this.orderService.getSort();
     if (sort) { filter.sorts = [sort]; }
 
     this.sub = this.nodeService.getAll(filter).pipe(
@@ -150,8 +140,8 @@ export class UserHomeComponent implements OnInit {
     this.view.init({title: 'Home'});
     this.basicFilter.onChange(() => this.fetchData());
     this.tagFilter.onChange(() => this.fetchData());
-    this.orderFilter.onChange(() => this.fetchData());
     this.nodeService.onChange(() => this.fetchData());
+    this.view.notification('order@onchange').subscribe(() => this.fetchData());
     this.view.notification('preview@onload').subscribe(() => this.masonry.layout());
     this.fetchData();
   }
@@ -159,8 +149,8 @@ export class UserHomeComponent implements OnInit {
   constructor(
     public view: ViewService,
     public nodeViewer: NodeViewer,
-    public preference: Preference,
     private nodeService: NodeService,
+    private orderService: OrderService,
     private tagSelector: TagSelector,
     private router: Router,
   ) { }

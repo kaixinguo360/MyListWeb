@@ -85,6 +85,7 @@ export class OutsideComponent implements OnInit {
   ngOnInit() {
     this.masonry.enableSelectMode(true);
     this.view.init({title: 'Outside'});
+    this.view.notification('preview@onload').subscribe(() => this.masonry.layout());
 
     // Get URL From The Route
     this.route.queryParams.subscribe((params: Params) => {

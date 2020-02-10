@@ -3,7 +3,8 @@
     <mat-icon>{{(isOpen|async)?'arrow_drop_down':'arrow_drop_up'}}</mat-icon>
   </button>
   <span>{{title?title:(sourceUrl|domain)}}</span>
-  <app-proxy-filter></app-proxy-filter>
+  <app-add-menu></app-add-menu>
+  <app-proxy-selector></app-proxy-selector>
   <button mat-icon-button routerLink="/home"><mat-icon>close</mat-icon></button>
 </mat-toolbar>
 <!-- Add Content Here -->
@@ -14,7 +15,7 @@
 
     <app-masonry #masonryRef [template]="template"></app-masonry>
     <ng-template #template let-data="data">
-      <app-node-card interact="false" [node]="data" [maxHeight]="500"></app-node-card>
+      <app-node-card interact="false" [lazyload]="true" [node]="data" [maxHeight]="500"></app-node-card>
     </ng-template>
 
   </div>

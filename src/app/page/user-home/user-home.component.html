@@ -1,27 +1,17 @@
 <mat-toolbar>
   <span>{{view.config.title}}</span>
-  <app-proxy-filter></app-proxy-filter>
+  <app-add-menu></app-add-menu>
+  <app-proxy-selector></app-proxy-selector>
   <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
 </mat-toolbar>
 <!-- Add Content Here -->
 <div class="mat-content">
 
   <div class="tool-container">
-    <button mat-icon-button *ngIf="!masonry.selectMode" [matMenuTriggerFor]="addMenu"><mat-icon>add</mat-icon></button>
-    <mat-menu #addMenu xPosition="before" yPosition="below">
-
-      <button mat-menu-item routerLink="/node/new" *ngFor="let type of types"
-              (click)="preference.set('node-edit@type', type.id)">
-        <mat-icon>{{type.icon}}</mat-icon>{{type.name}}
-      </button>
-
-      <button mat-menu-item (click)="addFromURL()"><mat-icon>link</mat-icon>From URL</button>
-    </mat-menu>
-
     <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
       <mat-icon>center_focus_weak</mat-icon>
     </button>
-    <app-order-filter #orderFilter></app-order-filter>
+    <app-order-selector #orderFilter></app-order-selector>
     <app-tag-filter #tagFilter></app-tag-filter>
     <app-basic-filter #basicFilter></app-basic-filter>
     <button mat-icon-button (click)="view.loading?stopFetchData():fetchData()">
@@ -60,7 +50,10 @@
 
     <app-masonry #masonryRef [template]="template"></app-masonry>
     <ng-template #template let-data="data">
-      <app-node-card (click)="click(data)" [interact]="!masonry.selectMode" [node]="data" [maxHeight]="500"></app-node-card>
+      <app-node-card (click)="click(data)"
+                     [lazyload]="true"
+                     [interact]="!masonry.selectMode"
+                     [node]="data" [maxHeight]="500"></app-node-card>
     </ng-template>
 
   </div>

@@ -11,6 +11,7 @@ import {NodeViewer} from '../../../component/node-viewer/node-viewer.component';
 export class ListDetailComponent implements Preview {
 
   @Input() node: Node;
+  zoom = false;
 
   click(item: ListItem) {
     this.nodeViewer.open(item.node, this.node.extraList.map(i => i.node));

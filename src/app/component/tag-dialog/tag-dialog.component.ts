@@ -9,11 +9,11 @@ import {Filter} from '../../service/util/filter';
 import {Node} from '../../service/util/node';
 
 @Component({
-  selector: 'app-tag-selector',
-  templateUrl: './tag-selector.component.html',
-  styleUrls: ['./tag-selector.component.css']
+  selector: 'app-tag-dialog',
+  templateUrl: './tag-dialog.component.html',
+  styleUrls: ['./tag-dialog.component.css']
 })
-export class TagSelectorComponent implements OnInit {
+export class TagDialogComponent implements OnInit {
 
   title: string; // @Input
   filter: Filter; // @Input
@@ -81,7 +81,7 @@ export class TagSelectorComponent implements OnInit {
 
   constructor(
     public view: ViewService,
-    private dialogRef: MatDialogRef<TagSelectorComponent>,
+    private dialogRef: MatDialogRef<TagDialogComponent>,
     private fb: FormBuilder,
     private nodeService: NodeService,
   ) {}
@@ -110,9 +110,9 @@ export class TagSelector {
     instance.selected = selected;
     return dialogRef.afterClosed();
   }
-  private createDialogRef(): MatDialogRef<TagSelectorComponent> {
+  private createDialogRef(): MatDialogRef<TagDialogComponent> {
     return this.dialog.open(
-      TagSelectorComponent, {maxWidth: null, maxHeight: null}
+      TagDialogComponent, {maxWidth: null, maxHeight: null}
     );
   }
 

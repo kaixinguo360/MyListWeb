@@ -12,16 +12,17 @@ import {PreviewComponent} from './content/preview/preview.component';
 import {NodeCardComponent} from './node-card/node-card.component';
 import {MasonryComponent} from './masonry/masonry.component';
 import {NodeViewerComponent} from './node-viewer/node-viewer.component';
-import {OrderFilterComponent} from './filter/order-filter/order-filter.component';
-import {BasicFilterComponent} from './filter/basic-filter/basic-filter.component';
+import {OrderSelectorComponent} from './widget/order-selector/order-selector.component';
+import {BasicFilterComponent} from './widget/basic-filter/basic-filter.component';
 import {ExtraEditComponent} from './edit/extra-edit/extra-edit.component';
 import {NodeMenuComponent} from './node-menu/node-menu.component';
-import {TagSelectorComponent} from './tag-selector/tag-selector.component';
-import {TagInputComponent} from './filter/tag-filter/tag-input/tag-input.component';
-import {TagFilterComponent} from './filter/tag-filter/tag-filter.component';
+import {TagDialogComponent} from './tag-dialog/tag-dialog.component';
+import {TagInputComponent} from './widget/tag-filter/tag-input/tag-input.component';
+import {TagFilterComponent} from './widget/tag-filter/tag-filter.component';
 import {CommonModule} from '@angular/common';
 import {QuickEditComponent} from './edit/quick-edit/quick-edit.component';
-import {ProxyFilterComponent} from './filter/proxy-filter/proxy-filter.component';
+import {ProxySelectorComponent} from './widget/proxy-selector/proxy-selector.component';
+import {AddMenuComponent} from './widget/add-menu/add-menu.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -36,15 +37,16 @@ export class HammerConfig extends HammerGestureConfig  {
     NodeCardComponent,
     MasonryComponent,
     NodeViewerComponent,
-    OrderFilterComponent,
+    OrderSelectorComponent,
     BasicFilterComponent,
     ExtraEditComponent,
     QuickEditComponent,
     NodeMenuComponent,
-    TagSelectorComponent,
+    TagDialogComponent,
     TagInputComponent,
     TagFilterComponent,
-    ProxyFilterComponent,
+    ProxySelectorComponent,
+    AddMenuComponent
   ],
   imports: [
     CommonModule,
@@ -60,15 +62,16 @@ export class HammerConfig extends HammerGestureConfig  {
     NodeCardComponent,
     MasonryComponent,
     NodeViewerComponent,
-    OrderFilterComponent,
+    OrderSelectorComponent,
     BasicFilterComponent,
     ExtraEditComponent,
     QuickEditComponent,
     NodeMenuComponent,
-    TagSelectorComponent,
+    TagDialogComponent,
     TagInputComponent,
     TagFilterComponent,
-    ProxyFilterComponent
+    ProxySelectorComponent,
+    AddMenuComponent
   ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,
@@ -77,7 +80,7 @@ export class HammerConfig extends HammerGestureConfig  {
   entryComponents: [
     NodeViewerComponent,
     NodeMenuComponent,
-    TagSelectorComponent,
+    TagDialogComponent,
     QuickEditComponent,
   ]
 })

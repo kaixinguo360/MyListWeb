@@ -11,7 +11,7 @@ import {TypeService} from '../../../service/util/type.service';
 export class PreviewComponent implements OnChanges {
 
   @Input() node: Node;
-  @Input() lazyload = true;
+  @Input() lazyload = false;
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
   content: Preview;
 

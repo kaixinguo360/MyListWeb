@@ -32,7 +32,7 @@ export class ViewService {
   public matSnackBar: MatSnackBar; // @Autowired
   public titleService: Title; // @Autowired
 
-  private notifySubjects = new Map<string, Subject<void>>();
+  private notifySubjects = new Map<string, Subject<any>>();
 
   public init(config: ViewConfig, admin = false) {
     this.loading = false;
@@ -49,14 +49,14 @@ export class ViewService {
     this.cdRef.detectChanges();
   }
 
-  public notify(subject: string) {
-    if (this.notifySubjects.has(subject)) { this.notifySubjects.get(subject).next(); }
+  public notify(subject: string, value: any = null) {
+    if (this.notifySubjects.has(subject)) { this.notifySubjects.get(subject).next(value); }
   }
   public notification(subject: string): Observable<void> {
     if (this.notifySubjects.has(subject)) {
       return this.notifySubjects.get(subject);
     } else {
-      const notifySubject = new Subject<void>();
+      const notifySubject = new Subject<any>();
       this.notifySubjects.set(subject, notifySubject);
       return notifySubject;
     }

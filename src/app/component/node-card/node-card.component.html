@@ -10,7 +10,7 @@
     [style.max-height.px]="maxHeight?(maxHeight-12):null">
 
     <div class="preview-container flex-padding hide-overflow">
-      <app-card-preview [node]="node"></app-card-preview>
+      <app-card-preview [node]="node" [lazyload]="lazyload"></app-card-preview>
 
       <div class="status-icons">
         <mat-icon *ngIf="node.mainData.nsfw">warning</mat-icon>
