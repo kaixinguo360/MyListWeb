@@ -6,6 +6,7 @@ import {User} from '../user.service';
 import {MatSnackBar} from '@angular/material';
 import {MatSnackBarConfig} from '@angular/material/snack-bar/typings/snack-bar-config';
 import {Title} from '@angular/platform-browser';
+import {Observable, Subject} from 'rxjs';
 
 export interface ViewConfig {
   title: string;
@@ -31,28 +32,39 @@ export class ViewService {
   public matSnackBar: MatSnackBar; // @Autowired
   public titleService: Title; // @Autowired
 
+  private notifySubjects = new Map<string, Subject<void>>();
+
   public init(config: ViewConfig, admin = false) {
     this.loading = false;
     this.config = config;
     this.admin = admin;
-    this.onChange();
+    this.changed();
   }
   public setLoading(loading: boolean) {
     this.loading = loading;
-    this.onChange();
+    this.changed();
   }
-  private onChange() {
+  private changed() {
     this.titleService.setTitle('MyList' + (this.config.title ? ` - ${this.config.title}` : ''));
     this.cdRef.detectChanges();
   }
 
-  public back() {
-    this.stop();
-    window.history.back();
+  public notify(subject: string) {
+    if (this.notifySubjects.has(subject)) { this.notifySubjects.get(subject).next(); }
   }
-  public stop() {
+  public notification(subject: string): Observable<void> {
+    if (this.notifySubjects.has(subject)) {
+      return this.notifySubjects.get(subject);
+    } else {
+      const notifySubject = new Subject<void>();
+      this.notifySubjects.set(subject, notifySubject);
+      return notifySubject;
+    }
+  }
+
+  public back() {
     window.stop();
-    this.loading = false;
+    window.history.back();
   }
   public logout() {
     this.tokenService.invalidateToken()

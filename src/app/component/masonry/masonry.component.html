@@ -1,4 +1,4 @@
-<ngx-masonry #masonry class="container" [options]="masonryOptions" useImagesLoaded="false" updateLayout="false"
+<ngx-masonry #masonry class="container" [options]="masonryOptions" [useImagesLoaded]="false" [updateLayout]="false"
              [style.width.px]="containerWidth">
   <ngxMasonryItem *ngFor="let item of items"
                   [style.width]="view.isMobile?'50%':columnWidth+'px'">

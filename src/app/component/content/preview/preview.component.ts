@@ -11,6 +11,7 @@ import {TypeService} from '../../../service/util/type.service';
 export class PreviewComponent implements OnChanges {
 
   @Input() node: Node;
+  @Input() lazyload = true;
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
   content: Preview;
 
@@ -20,6 +21,7 @@ export class PreviewComponent implements OnChanges {
     const componentRef = this.contentHost.createComponent(factory);
     this.content = (componentRef.instance as Preview);
     this.content.node = this.node;
+    this.content.lazyload = this.lazyload;
   }
 
   constructor(

@@ -21,6 +21,7 @@ import {VideoEditComponent} from './video/edit/video-edit.component';
 import {ListEditComponent} from './list/edit/list-edit.component';
 import {ImageQuickEditComponent} from './image/quick-edit/image-quick-edit.component';
 import {ListDetailComponent} from './list/detail/list-detail.component';
+import {LazyLoadImageModule} from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {ListDetailComponent} from './list/detail/list-detail.component';
     RouterModule,
     MaterialModule,
     ComponentModule,
+    LazyLoadImageModule,
   ]
 })
 export class TypeModule { }

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {BasicFilterComponent} from '../../component/filter/basic-filter/basic-filter.component';
 import {ViewService} from '../../service/util/view.service';
 import {catchError, tap} from 'rxjs/operators';
-import {Subscription, throwError} from 'rxjs';
+import {of, Subscription} from 'rxjs';
 import {MasonryComponent} from '../../component/masonry/masonry.component';
 import {NodeService} from '../../service/node.service';
 import {Node} from '../../service/util/node';
@@ -130,16 +130,29 @@ export class UserHomeComponent implements OnInit {
       tap(nodes => this.masonry.setItems(nodes)),
       catchError(err => {
         this.error = false;
-        return throwError(err);
-      })
+        return of(err);
+      }),
+      tap(() => {
+        this.sub.unsubscribe();
+        this.sub = null;
+      }),
     ).subscribe();
   }
+  stopFetchData() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+      this.sub = null;
+      this.view.setLoading(false);
+    }
+  }
+
   ngOnInit(): void {
     this.view.init({title: 'Home'});
     this.basicFilter.onChange(() => this.fetchData());
     this.tagFilter.onChange(() => this.fetchData());
     this.orderFilter.onChange(() => this.fetchData());
     this.nodeService.onChange(() => this.fetchData());
+    this.view.notification('preview@onload').subscribe(() => this.masonry.layout());
     this.fetchData();
   }
 

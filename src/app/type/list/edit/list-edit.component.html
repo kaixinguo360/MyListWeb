@@ -14,7 +14,7 @@
 
     <div class="preview-container">
       <div class="preview flex-padding hide-overflow" (click)="openViewer(item)" *ngIf="editor.hidden">
-        <app-card-preview [node]="item.node"></app-card-preview>
+        <app-card-preview [node]="item.node" [lazyload]="false"></app-card-preview>
       </div>
       <span class="flex-padding single-line" *ngIf="!editor.hidden">Editing...</span>
 

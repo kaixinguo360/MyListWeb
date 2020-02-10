@@ -17,28 +17,19 @@ class MasonryItem {
 export class MasonryComponent implements OnInit {
 
   @Input() template: TemplateRef<any>;
-  items: MasonryItem[] = [];
-
-  containerWidth: number;
-  columnWidth = this.view.isMobile ? (window.innerWidth / 2) : AppConfig.columnWidth;
-
+  public items: MasonryItem[] = [];
   public selectMode = false;
   public selectCount = 0;
 
   @ViewChild('masonry', { static: true }) masonry: NgxMasonryComponent;
+  containerWidth: number;
+  columnWidth = this.view.isMobile ? (window.innerWidth / 2) : AppConfig.columnWidth;
   masonryOptions: NgxMasonryOptions = {
     initLayout: true,
     transitionDuration: '0',
     columnWidth: this.view.isMobile ? '.item-container' : this.columnWidth,
     percentPosition: this.view.isMobile,
   };
-
-  @HostListener('window:resize') resize() {
-    this.containerWidth = this.view.isMobile ? window.innerWidth :
-      (Math.max(Math.floor((window.innerWidth - 20) / this.columnWidth), 1) * this.columnWidth);
-    this.masonry.layout();
-  }
-  ngOnInit(): void { this.resize(); }
 
   public setItems(items: any[]) {
     this.items = items.map(data => ({data, selected: false}));
@@ -63,6 +54,16 @@ export class MasonryComponent implements OnInit {
   public getSelectedItems<T = any>(): T[] {
     return this.items.filter(item => item.selected).map(item => item.data);
   }
+  public layout() {
+    this.masonry.layout();
+  }
+
+  @HostListener('window:resize') resize() {
+    this.containerWidth = this.view.isMobile ? window.innerWidth :
+      (Math.max(Math.floor((window.innerWidth - 20) / this.columnWidth), 1) * this.columnWidth);
+    this.masonry.layout();
+  }
+  ngOnInit(): void { this.resize(); }
 
   constructor(
     public view: ViewService,

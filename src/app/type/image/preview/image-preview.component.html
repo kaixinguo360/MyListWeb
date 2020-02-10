@@ -1,9 +1,12 @@
-<div class="container" [class.container-loading]="loading">
+<div class="container" [class.container-loading]="loading||error">
 
-  <img [src]="proxy.proxy(node.mainData.excerpt)" [alt]="" *ngIf="!error"
-       (load)="loading=false"
-       (error)="error=true">
+  <img [lazyLoad]="lazyload?proxy.proxy(node.mainData.excerpt):null"
+       [src]="lazyload?null:proxy.proxy(node.mainData.excerpt)"
+       [alt]="node.mainData.excerpt|domain"
+       (onLoad)="loading=false;error=!$event;onload()"
+       (load)="loading=false;onload()"
+       (error)="loading=false;error=true;onload()">
 
-  <mat-icon color="primary" *ngIf="loading">{{error?'broken_image':'photo'}}</mat-icon>
+  <mat-icon color="primary" *ngIf="loading">photo</mat-icon>
 
 </div>

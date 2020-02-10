@@ -24,7 +24,7 @@
     <app-order-filter #orderFilter></app-order-filter>
     <app-tag-filter #tagFilter></app-tag-filter>
     <app-basic-filter #basicFilter></app-basic-filter>
-    <button mat-icon-button (click)="view.loading?view.stop():fetchData()">
+    <button mat-icon-button (click)="view.loading?stopFetchData():fetchData()">
       <mat-icon>{{view.loading?'close':'refresh'}}</mat-icon>
     </button>
   </div>
