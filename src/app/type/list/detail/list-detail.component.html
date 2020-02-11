@@ -8,9 +8,9 @@
   </div>
 
   <div *ngIf="zoom">
-    <div class="item-container" *ngFor="let item of node.extraList">
+    <div class="item-container" *ngFor="let item of node.extraList, index as index">
       <app-card-preview [node]="item.node" [lazyload]="true"
-                        (click)="$event.stopPropagation();click(item)"></app-card-preview>
+                        (click)="$event.stopPropagation();click(item, index)"></app-card-preview>
     </div>
   </div>
 

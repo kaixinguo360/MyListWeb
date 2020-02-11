@@ -1,6 +1,6 @@
 <div class="container">
   <div class="item-container hide-overflow">
-    <div class="preview-container hide-overflow" (click)="nodeViewer.open(node)">
+    <div class="preview-container hide-overflow" (click)="nodeViewer.openId(node.mainData.id)">
       <app-card-preview [node]="node"></app-card-preview>
     </div>
     <div class="info-container hide-overflow">

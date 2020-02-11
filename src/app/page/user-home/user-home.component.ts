@@ -26,11 +26,11 @@ export class UserHomeComponent implements OnInit {
   @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) basicFilter: BasicFilterComponent;
   @ViewChild('masonryRef', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
 
-  click(node: Node) {
+  click(node: Node, index: number) {
     if (node.mainData.type === 'tag') {
       this.router.navigate(['tag'], { queryParams: { id: node.mainData.id } });
     } else {
-      this.nodeViewer.open(node, this.masonry.items.map(item => item.data));
+      this.nodeViewer.openIds(index, this.masonry.items.map(item => item.data.mainData.id));
     }
   }
 

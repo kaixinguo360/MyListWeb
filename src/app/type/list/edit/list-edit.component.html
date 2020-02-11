@@ -19,7 +19,7 @@
        [class.item-container-select-mode]="selectMode">
 
     <div class="preview-container">
-      <div class="preview hide-overflow" (click)="openViewer(item)" *ngIf="editor.hidden">
+      <div class="preview hide-overflow" (click)="openViewer(item, i)" *ngIf="editor.hidden">
         <app-card-preview [node]="item.node"></app-card-preview>
       </div>
       <span class="flex-padding single-line">{{editor.hidden?'':'Editing...'}}</span>

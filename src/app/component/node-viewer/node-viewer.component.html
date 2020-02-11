@@ -1,9 +1,9 @@
 <div class="overlay"
      (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
      (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)"
-     (click)="nodeViewer.close(overlayRef)">
+     (click)="close()">
 
-  <div class="left-container sidebar" *ngIf="nodes.length>1"
+  <div class="left-container sidebar" *ngIf="ids.length>1"
        (mouseenter)="showLeftButton=true"
        (mouseleave)="showLeftButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"
@@ -13,7 +13,7 @@
     </button>
   </div>
 
-  <div class="right-container sidebar" *ngIf="nodes.length>1"
+  <div class="right-container sidebar" *ngIf="ids.length>1"
        (mouseenter)="showRightButton=true"
        (mouseleave)="showRightButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"
@@ -24,7 +24,7 @@
   </div>
 
   <div class="top-container toolbar" (click)="$event.stopPropagation()">
-    <button mat-icon-button (click)="nodeViewer.close(overlayRef)"><mat-icon>arrow_back</mat-icon></button>
+    <button mat-icon-button (click)="close()"><mat-icon>arrow_back</mat-icon></button>
   </div>
 
   <div class="bottom-container toolbar" (click)="$event.stopPropagation()"
@@ -38,7 +38,7 @@
         {{currentNode.mainData.title?currentNode.mainData.title:'Untitled'}}
         <span class="small">{{currentNode.mainData.type}}</span>
       </span>
-      <button mat-icon-button disableRipple (click)="canWrite?nodeViewer.close(overlayRef):null"
+      <button mat-icon-button disableRipple (click)="canWrite?close():null"
               [routerLink]="canWrite?['/node', currentNode.mainData.id,'edit']:null">
         <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>
       </button>
@@ -53,10 +53,6 @@
   </div>
 
   <mat-progress-spinner *ngIf="!currentNode" diameter="64" color="primary" mode="indeterminate"></mat-progress-spinner>
-  <div *ngIf="!currentNode" class="preview-container">
-    <app-card-preview [node]="nodes[index]"></app-card-preview>
-    <div class="preview-container-overlay"></div>
-  </div>
   <div *ngIf="currentNode"><app-card-detail [node]="currentNode"></app-card-detail></div>
 
 </div>

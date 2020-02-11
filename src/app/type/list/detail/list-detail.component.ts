@@ -13,8 +13,8 @@ export class ListDetailComponent implements Preview {
   @Input() node: Node;
   zoom = false;
 
-  click(item: ListItem) {
-    this.nodeViewer.open(item.node, this.node.extraList.map(i => i.node));
+  click(item: ListItem, index: number) {
+    this.nodeViewer.openIds(index, this.node.extraList.map(i => i.node.mainData.id));
   }
 
   constructor(

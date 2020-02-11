@@ -15,21 +15,25 @@ import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
 export class NodeViewerComponent implements OnInit {
 
   @Input() index: number;
-  @Input() nodes: Node[];
+  @Input() ids: number[];
 
-  overlayRef: OverlayRef;
   showLeftButton = false;
   showRightButton = false;
   showDetail = false;
   canWrite: boolean;
   currentNode: Node = null;
 
-  public turnPage(num: number) {
-    this.index = (this.index + this.nodes.length + Math.round(num)) % this.nodes.length;
+  overlayRef: OverlayRef;
+
+  turnPage(num: number) {
+    this.index = (this.index + this.ids.length + Math.round(num)) % this.ids.length;
     this.load();
   }
+  close() {
+    this.nodeViewer.close(this.overlayRef);
+  }
   private load() {
-    const id = this.nodes[this.index].mainData.id;
+    const id = this.ids[this.index];
     const cache = this.nodeService.getCache(id);
     if (cache != null) {
       this.showNode(cache);
@@ -46,9 +50,9 @@ export class NodeViewerComponent implements OnInit {
   }
   private preload() {
     for (let i = -5; i <= 5; i++) {
-      const node = this.nodes[this.index + i];
-      if (node) {
-        this.nodeService.get(node.mainData.id).subscribe();
+      const id = this.ids[this.index + i];
+      if (id) {
+        this.nodeService.get(id).subscribe();
       }
     }
     this.view.setLoading(false);
@@ -77,22 +81,25 @@ export class NodeViewer {
 
   private count = 0;
 
-  public open(node: Node, nodes?: Node[]) {
+  public openId(id: number) {
+    const popup = this.createViewer();
+    popup.ids = [id];
+    popup.index = 0;
+  }
+  public openIds(index: number, ids: number[]) {
+    const popup = this.createViewer();
+    popup.ids = ids;
+    popup.index = index;
+  }
+  private createViewer(): NodeViewerComponent {
     if (this.count === 0) { this.view.stopScroll(true); }
-
     this.count++;
+
     const overlayRef = this.overlay.create();
     const componentRef = overlayRef.attach(new ComponentPortal(NodeViewerComponent));
+    componentRef.instance.overlayRef = overlayRef;
 
-    const popup = (componentRef.instance as NodeViewerComponent);
-    popup.overlayRef = overlayRef;
-    if (nodes) {
-      popup.nodes = nodes;
-      popup.index = nodes.findIndex(n => n === node);
-    } else {
-      popup.nodes = [node];
-      popup.index = 0;
-    }
+    return componentRef.instance;
   }
   public close(overlayRef: OverlayRef) {
     overlayRef.dispose();

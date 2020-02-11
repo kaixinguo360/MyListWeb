@@ -62,11 +62,11 @@ export class ListEditComponent implements ExtraEdit {
     };
     this.items.push(item);
   }
-  openViewer(item: ListItem) {
+  openViewer(item: ListItem, index: number) {
     if (item.status === 'new') {
       this.view.alert('Unable to view an unsaved item');
     } else {
-      this.nodeViewer.open(item.node, this.items.map(i => i.node));
+      this.nodeViewer.openIds(index, this.items.map(i => i.node.mainData.id));
     }
   }
 

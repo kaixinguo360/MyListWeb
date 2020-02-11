@@ -49,8 +49,8 @@
   <div class="masonry">
 
     <app-masonry #masonryRef [template]="template"></app-masonry>
-    <ng-template #template let-data="data">
-      <app-node-card (click)="click(data)"
+    <ng-template #template let-data="data" let-index="index">
+      <app-node-card (click)="click(data, index)"
                      [lazyload]="true"
                      [interact]="!masonry.selectMode"
                      [node]="data" [maxHeight]="500"></app-node-card>
