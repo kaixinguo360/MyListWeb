@@ -144,7 +144,8 @@ export class NodeService {
     this.obCache.clear();
     this.view.notify('node@onchange');
   }
-  public getAllByType(type: string, filter: Filter = {}): Observable<Node[]> {
+  public getAllByType(type: string, filter?: Filter): Observable<Node[]> {
+    if (!filter) { filter = {}; }
     if (!filter.conditions) { filter.conditions = []; }
     filter.conditions.push({column: 'node_type', oper: '=', value: `'${type}'`});
     return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);

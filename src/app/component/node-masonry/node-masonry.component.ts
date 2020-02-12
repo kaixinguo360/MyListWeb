@@ -50,7 +50,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
 
   tag(tag: boolean) {
     this.tagSelector.selectTags(
-      undefined, undefined, tag ? 'Add tags to selected items' : 'Remove tags from selected items'
+      null, null, tag ? 'Add tags to selected items' : 'Remove tags from selected items'
     ).pipe(tap(tags => {
       if (!tags) { return; }
       if (tags.length) {

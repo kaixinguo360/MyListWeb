@@ -23,6 +23,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/api",
+              "src/proxy",
               "src/manifest.webmanifest"
             ],
             "styles": [
@@ -94,6 +95,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/api",
+              "src/proxy",
               "src/manifest.webmanifest"
             ],
             "styles": [

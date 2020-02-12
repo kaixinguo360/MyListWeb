@@ -158,6 +158,7 @@ export class NodeEditComponent implements OnInit {
           this.extraEdit.setExtraData(draft.extraData);
           this.extraEdit.setExtraList(draft.extraList);
           this.extraEdit.ngOnChanges(null);
+          this.tags = draft.tags as Node[];
         }
       }
     });

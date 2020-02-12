@@ -9,6 +9,7 @@ import {NodeService} from '../../service/node.service';
 import {Node} from '../../service/util/node';
 import {ViewService} from '../../service/util/view.service';
 import {TypeService} from '../../service/util/type.service';
+import {TagSelector} from '../../component/tag-dialog/tag-dialog.component';
 
 @Component({
   selector: 'app-outside',
@@ -29,26 +30,42 @@ export class OutsideComponent implements OnInit {
 
   save() {
     const selected = this.masonry.getSelectedItems();
-    if (!confirm(`Selected ${selected.length} items, confirm?`)) { return; }
-    if (selected.length) {
-      const draft: Node = {
-        mainData: {
-          user: this.view.user.id,
-          type: 'list',
-          title: this.title,
-          part: false,
-          collection: true,
-          permission: 'private',
-          nsfw: false,
-          like: false,
-          hide: false,
-          source: this.sourceUrl,
-        },
-        extraList: selected.map(node => ({node, status: 'new'})),
-      };
-      this.preference.set('node-edit@draft', JSON.stringify(draft));
-      this.router.navigate(['/node/new']);
+
+    const draft: Node = {
+      mainData: {
+        user: this.view.user.id,
+        title: this.title,
+        part: false,
+        collection: false,
+        permission: 'private',
+        nsfw: false,
+        like: false,
+        hide: false,
+        source: this.sourceUrl,
+      }
+    };
+
+    if (selected.length === 0) {
+      draft.mainData.type = 'node';
+    } else if (selected.length === 1) {
+      const node: Node = selected[0];
+      draft.mainData.type = node.mainData.type;
+      draft.extraData = node.extraData;
+    } else {
+      draft.mainData.type = 'list';
+      draft.mainData.collection = true;
+      draft.extraList = selected.map(node => ({node, status: 'new'}));
     }
+
+    this.tagSelector.selectTags(
+      null, null, `Selected ${selected.length} items`
+    ).subscribe(tags => {
+      if (tags) {
+        draft.tags = tags;
+        this.preference.set('node-edit@draft', JSON.stringify(draft));
+        this.router.navigate(['/node/new']);
+      }
+    });
   }
   load() {
     const dataStr = localStorage.getItem('outside@data');
@@ -103,6 +120,7 @@ export class OutsideComponent implements OnInit {
   constructor(
     public view: ViewService,
     public preference: Preference,
+    public tagSelector: TagSelector,
     private typeService: TypeService,
     private proxyService: ProxyService,
     private nodeService: NodeService,

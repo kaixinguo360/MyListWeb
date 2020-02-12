@@ -7,6 +7,8 @@ import {MatSnackBar} from '@angular/material';
 import {MatSnackBarConfig} from '@angular/material/snack-bar/typings/snack-bar-config';
 import {Title} from '@angular/platform-browser';
 import {Observable, Subject} from 'rxjs';
+import {MatSnackBarRef} from '@angular/material/snack-bar/typings/snack-bar-ref';
+import {SimpleSnackBar} from '@angular/material/snack-bar/typings/simple-snack-bar';
 
 export interface ViewConfig {
   title: string;
@@ -81,8 +83,8 @@ export class ViewService {
   public stopScroll(isFixed) {
     document.body.style.overflow = isFixed ? 'hidden' : '';
   }
-  public alert(message: string, action: string = 'Close', config: MatSnackBarConfig = {duration: 2000}) {
-    this.matSnackBar.open(message, action, config);
+  public alert(message: string, action: string = 'Close', config: MatSnackBarConfig = {duration: 2000}): MatSnackBarRef<SimpleSnackBar> {
+    return this.matSnackBar.open(message, action, config);
   }
   public detectChanges() {
     this.cdRef.detectChanges();

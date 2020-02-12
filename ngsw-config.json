@@ -24,11 +24,21 @@
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
       }
+    }, {
+      "name": "hooks",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/proxy/hook/**"
+        ]
+      }
     }
   ],
   "navigationUrls": [
     "/**",
     "!/api/**",
-    "!/proxy/**"
+    "!/proxy/static/**",
+    "!/proxy/page/**"
   ]
 }
