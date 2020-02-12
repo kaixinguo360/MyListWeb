@@ -39,7 +39,12 @@ export class AdminLoginGuard implements CanActivate {
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+
   { path: 'home', component: UserHomeComponent, canActivate: [UserLoginGuard] },
+  { path: 'type/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
+  { path: 'tag/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
+  { path: 'list/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
+
   { path: 'node/new', component: NodeEditComponent, canActivate: [UserLoginGuard] },
   { path: 'node/new/outside', component: OutsideComponent, canActivate: [UserLoginGuard] },
   { path: 'node/:id/edit', component: NodeEditComponent, canActivate: [UserLoginGuard] },

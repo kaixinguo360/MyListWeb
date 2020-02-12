@@ -10,7 +10,7 @@ import {ExtraEditComponent} from '../../component/edit/extra-edit/extra-edit.com
 import {TagSelector} from '../../component/tag-dialog/tag-dialog.component';
 import {Node} from '../../service/util/node';
 import {HttpErrorResponse} from '@angular/common/http';
-import {TypeService} from '../../service/util/type.service';
+import {TypeInfo, TypeService} from '../../service/util/type.service';
 import {Preference} from '../../service/util/preference.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class NodeEditComponent implements OnInit {
     description: this.fb.control(null),
     comment: this.fb.control(null),
   });
-  types: string[] = TypeService.typeInfos.map(info => info.id);
+  types: TypeInfo[] = TypeService.typeInfos;
   permissions = ['private', 'protect', 'public'];
 
   @ViewChild('extraDataEdit', {static: true}) extraEdit: ExtraEditComponent;

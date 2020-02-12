@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject, Subscription, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HttpService} from './util/http.service';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {ViewService} from './util/view.service';
@@ -29,7 +29,6 @@ export class NodeService {
 
   private nodeCache = new Map<number, Node>();
   private obCache = new Map<number, Observable<Node>>();
-  private onChangeSubject = new Subject<void>();
 
   private static wrap(node: Node): InputWrap {
     const tags = node.tags as number[];
@@ -143,7 +142,7 @@ export class NodeService {
   private handleChange() {
     this.nodeCache.clear();
     this.obCache.clear();
-    this.onChangeSubject.next();
+    this.view.notify('node@onchange');
   }
   public getAllByType(type: string, filter: Filter = {}): Observable<Node[]> {
     if (!filter.conditions) { filter.conditions = []; }
@@ -152,9 +151,6 @@ export class NodeService {
   }
   public getCache(id: number): Node {
     return this.nodeCache.get(id);
-  }
-  public onChange(next: () => void): Subscription {
-    return this.onChangeSubject.subscribe(next);
   }
 
   constructor(

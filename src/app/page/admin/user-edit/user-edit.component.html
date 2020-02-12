@@ -1,6 +1,6 @@
 <mat-toolbar>
   <button type="button" mat-icon-button (click)="view.back()"><mat-icon>arrow_back</mat-icon></button>
-  <span>{{view.config.title}}</span>
+  <span class="flex-padding">{{view.config.title}}</span>
   <button color="primary" mat-raised-button (click)="submit()" [disabled]="!data.valid||view.loading">Save</button>
 </mat-toolbar>
 <!-- Add Content Here -->

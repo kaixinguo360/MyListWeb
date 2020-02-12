@@ -44,6 +44,10 @@ export class ViewService {
     this.loading = loading;
     this.changed();
   }
+  public setTitle(title: string) {
+    this.config.title = title;
+    this.changed();
+  }
   private changed() {
     this.titleService.setTitle('MyList' + (this.config.title ? ` - ${this.config.title}` : ''));
     this.cdRef.detectChanges();
@@ -62,8 +66,10 @@ export class ViewService {
     }
   }
 
-  public back() {
+  public stop() {
     window.stop();
+  }
+  public back() {
     window.history.back();
   }
   public logout() {

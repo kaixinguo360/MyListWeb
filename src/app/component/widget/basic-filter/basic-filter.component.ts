@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {Subject} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {Preference} from '../../../service/util/preference.service';
 import {Filter} from '../../../service/util/filter';
 import {TypeService} from '../../../service/util/type.service';
@@ -96,8 +96,8 @@ export class BasicFilterComponent implements OnInit {
     }
     return filter;
   }
-  public onChange(next?: (value: void) => void, error?: (error: any) => void, complete?: () => void) {
-    this.onChangeSubject.subscribe(next, error, complete);
+  public onChange(next?: (value: void) => void, error?: (error: any) => void, complete?: () => void): Subscription {
+    return this.onChangeSubject.subscribe(next, error, complete);
   }
 
   constructor(

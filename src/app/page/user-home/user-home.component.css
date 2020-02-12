@@ -1,27 +1,19 @@
 .mat-toolbar {
   height: 64px;
-}
-
-.tool-container {
-  position: fixed;
-  top: 64px;
-  width: 100%;
-  z-index: 5;
-  display: flex;
   justify-content: flex-end;
+}
+
+.title-container {
+  display: flex;
   align-items: center;
-  background-color: white;
-  color: #8e8e8e;
-}
-
-.select-tool>.mat-button {
-  border-radius: 20px;
-}
-
-.masonry {
-  margin: 40px 0;
-}
-
-.center-icon {
   cursor: pointer;
+  overflow: hidden;
+  flex: 0 1 auto;
+  min-width: 120px;
+}
+.title-container>button:hover {
+  background-color: unset;
+}
+.title-padding {
+  flex: 1 1 auto;
 }

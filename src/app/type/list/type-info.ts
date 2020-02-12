@@ -5,7 +5,7 @@ import {ListDetailComponent} from './detail/list-detail.component';
 
 export const ListType: TypeInfo = {
   id: 'list',
-  name: 'List',
+  name: 'Collection',
   preview: ListPreviewComponent,
   detail: ListDetailComponent,
   extraEdit: ListEditComponent,

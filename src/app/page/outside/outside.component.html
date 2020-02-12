@@ -2,7 +2,7 @@
   <button mat-icon-button (click)="preference.toggle('outside@isOpen')">
     <mat-icon>{{(isOpen|async)?'arrow_drop_down':'arrow_drop_up'}}</mat-icon>
   </button>
-  <span>{{title?title:(sourceUrl|domain)}}</span>
+  <span class="flex-padding">{{title?title:(sourceUrl|domain)}}</span>
   <app-add-menu></app-add-menu>
   <app-proxy-selector></app-proxy-selector>
   <button mat-icon-button routerLink="/home"><mat-icon>close</mat-icon></button>

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {ActivationEnd, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {HttpCancelService} from './http-cancel.service';
 import {takeUntil} from 'rxjs/operators';
 
@@ -13,15 +13,7 @@ export class ManageHttpInterceptor implements HttpInterceptor {
   }
 
   constructor(
-    router: Router,
+    private router: Router,
     private httpCancelService: HttpCancelService
-  ) {
-    router.events.subscribe(event => {
-      // An event triggered at the end of the activation part of the Resolve phase of routing.
-      if (event instanceof ActivationEnd) {
-        // Cancel pending calls
-        this.httpCancelService.cancelPendingRequests();
-      }
-    });
-  }
+  ) {}
 }

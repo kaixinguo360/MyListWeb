@@ -1,10 +1,13 @@
-<button mat-icon-button [matMenuTriggerFor]="addMenu"><mat-icon>add</mat-icon></button>
-<mat-menu #addMenu xPosition="before" yPosition="below">
+<button mat-icon-button type="button" [matMenuTriggerFor]="menu"><mat-icon>add</mat-icon></button>
 
+<mat-menu #menu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="addFromURL()"><mat-icon>link</mat-icon>From URL</button>
+  <button mat-menu-item [matMenuTriggerFor]="typeMenu"><mat-icon>tag</mat-icon>Node</button>
+</mat-menu>
+
+<mat-menu #typeMenu xPosition="before" yPosition="below">
   <button mat-menu-item routerLink="/node/new" *ngFor="let type of types"
           (click)="preference.set('node-edit@type', type.id)">
     <mat-icon>{{type.icon}}</mat-icon>{{type.name}}
   </button>
-
-  <button mat-menu-item (click)="addFromURL()"><mat-icon>link</mat-icon>From URL</button>
 </mat-menu>

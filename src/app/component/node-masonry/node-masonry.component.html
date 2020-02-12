@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="tool-container">
+    <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
+      <mat-icon>center_focus_weak</mat-icon>
+    </button>
+    <app-order-selector></app-order-selector>
+    <app-tag-filter [hidden]="fixed" #tagFilter></app-tag-filter>
+    <app-basic-filter [hidden]="fixed" #basicFilter></app-basic-filter>
+    <button mat-icon-button (click)="view.loading?stopFetchData():fetchData()">
+      <mat-icon>{{view.loading?'close':'refresh'}}</mat-icon>
+    </button>
+  </div>
+  <div class="tool-container select-tool" *ngIf="masonry.selectMode">
+
+    <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)"><mat-icon>close</mat-icon></button>
+    <button mat-icon-button (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
+
+    <button mat-button (click)="tag(true)"><mat-icon>bookmark</mat-icon>Tag</button>
+    <button mat-button (click)="star(true)"><mat-icon>star</mat-icon>Star</button>
+
+    <button mat-icon-button [matMenuTriggerFor]="selectMenu"><mat-icon>more_horiz</mat-icon></button>
+  </div>
+
+  <div class="masonry">
+
+    <app-masonry #masonryRef [template]="template"></app-masonry>
+    <ng-template #template let-data="data" let-index="index">
+      <app-node-card (click)="click(data, index)"
+                     [lazyload]="true"
+                     [interact]="!masonry.selectMode"
+                     [node]="data" [maxHeight]="500"></app-node-card>
+    </ng-template>
+
+  </div>
+
+  <mat-icon class="center-icon big-icon" *ngIf="!masonry.items.length">{{error?'error':'info'}}</mat-icon>
+  <span class="center-info" *ngIf="!masonry.items.length">{{error?'Unknown Error':'Empty List'}}</span>
+</div>
+
+<mat-menu #selectMenu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="delete()"><mat-icon>delete</mat-icon>Delete</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="tag(false)"><mat-icon>bookmark_border</mat-icon>Untag</button>
+  <button mat-menu-item (click)="star(false)"><mat-icon>star_border</mat-icon>Unstar</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item [matMenuTriggerFor]="hideMenu"><mat-icon>visibility</mat-icon>Visibility</button>
+  <button mat-menu-item [matMenuTriggerFor]="safeMenu"><mat-icon>report</mat-icon>Safety</button>
+  <button mat-menu-item [matMenuTriggerFor]="permissionMenu"><mat-icon>person</mat-icon>Permission</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item>
+    <mat-icon>library_add_check</mat-icon>{{masonry.selectCount?'Selected: '+masonry.selectCount:'No selected'}}
+  </button>
+</mat-menu>
+
+<mat-menu #hideMenu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="hide(false)"><mat-icon>visibility</mat-icon>Display</button>
+  <button mat-menu-item (click)="hide(true)"><mat-icon>visibility_off</mat-icon>Hide</button>
+</mat-menu>
+
+<mat-menu #safeMenu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="safe(true)"><mat-icon>report</mat-icon>Safe</button>
+  <button mat-menu-item (click)="safe(false)"><mat-icon>report_off</mat-icon>Unsafe</button>
+</mat-menu>
+
+<mat-menu #permissionMenu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="permission('public')"><mat-icon>public</mat-icon>Public</button>
+  <button mat-menu-item (click)="permission('protect')"><mat-icon>edit</mat-icon>Protect</button>
+  <button mat-menu-item (click)="permission('private')"><mat-icon>person</mat-icon>Private</button>
+</mat-menu>

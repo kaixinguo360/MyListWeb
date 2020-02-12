@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {Node} from '../../../service/util/node';
 import {NodeService} from '../../../service/node.service';
@@ -82,8 +82,8 @@ export class TagFilterComponent implements OnInit {
       not: TagFilterComponent.toTags(this.notTags),
     };
   }
-  public onChange(next?: (value: void) => void, error?: (error: any) => void, complete?: () => void) {
-    this.onChangeSubject.subscribe(next, error, complete);
+  public onChange(next?: (value: void) => void, error?: (error: any) => void, complete?: () => void): Subscription {
+    return this.onChangeSubject.subscribe(next, error, complete);
   }
 
   constructor(

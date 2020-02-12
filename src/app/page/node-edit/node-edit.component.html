@@ -1,6 +1,6 @@
 <mat-toolbar>
   <button type="button" mat-icon-button (click)="view.back()"><mat-icon>arrow_back</mat-icon></button>
-  <span>{{view.config.title}}</span>
+  <span class="flex-padding">{{view.config.title}}</span>
   <button color="primary" mat-raised-button (click)="submit()" [disabled]="!valid||view.loading">Save</button>
 </mat-toolbar>
 <!-- Add Content Here -->
@@ -15,8 +15,8 @@
       <div class="full-width">
         <mat-form-field class="half-width">
           <mat-select required placeholder="Type" formControlName="type" [disabled]="mainData.value.id">
-            <mat-option *ngFor="let type of types" [value]="type">
-              {{type|titlecase}}
+            <mat-option *ngFor="let type of types" [value]="type.id">
+              {{type.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
