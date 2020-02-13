@@ -41,6 +41,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
 
   { path: 'home', component: UserHomeComponent, canActivate: [UserLoginGuard] },
+  { path: 'favorite', component: UserHomeComponent, canActivate: [UserLoginGuard] },
+  { path: 'all', component: UserHomeComponent, canActivate: [UserLoginGuard] },
   { path: 'type/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
   { path: 'tag/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
   { path: 'list/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },

@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ViewService} from '../../service/util/view.service';
 import {NodeService} from '../../service/node.service';
-import {ActivatedRoute, UrlSegment} from '@angular/router';
+import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
 import {Filter} from '../../service/util/filter';
 import {NodeMasonryComponent} from '../../component/node-masonry/node-masonry.component';
 import {TypeInfo, TypeService} from '../../service/util/type.service';
@@ -13,8 +13,12 @@ import {TypeInfo, TypeService} from '../../service/util/type.service';
 })
 export class UserHomeComponent implements OnInit {
 
+  private defaultPath = 'favorite';
+  private defaultData = null;
+
   types: TypeInfo[] = TypeService.typeInfos.map(i => i).reverse();
 
+  isHome: boolean;
   path: string;
   data: string;
   showBackIcon = false;
@@ -33,10 +37,31 @@ export class UserHomeComponent implements OnInit {
       this.path = urls[0].path;
       this.data = urls[1] ? urls[1].path : null;
 
+      this.isHome = this.path === 'home';
+      if (this.isHome) {
+        this.path = this.defaultPath;
+        this.data = this.defaultData;
+      } else {
+        if (!this.defaultData && this.path === this.defaultPath) {
+          history.replaceState(null, null, 'home');
+        }
+      }
+
       switch (this.path) {
 
         case 'home':
-          this.init({title: 'Home'});
+          this.router.navigate(['/favorite']);
+
+        // tslint:disable-next-line:no-switch-case-fall-through
+        case 'favorite':
+          this.init({
+            title: 'Favorite',
+            filter: {conditions: [{column: 'node_like', oper: '=', value: 1}]},
+          });
+          break;
+
+        case 'all':
+          this.init({title: 'All'});
           break;
 
         case 'type':
@@ -74,6 +99,7 @@ export class UserHomeComponent implements OnInit {
     public view: ViewService,
     public typeService: TypeService,
     private nodeService: NodeService,
+    private router: Router,
     private route: ActivatedRoute,
   ) { }
 
