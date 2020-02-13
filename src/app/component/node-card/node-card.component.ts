@@ -22,12 +22,14 @@ export class NodeCardComponent implements OnInit {
 
   showDesktopIcons = false;
   canWrite: boolean;
+  hasInfo: boolean;
 
   openMenu() {
     this.nodeMenu.open(this.node);
   }
   ngOnInit(): void {
     this.canWrite = NodeService.canWrite(this.node, this.view.user);
+    this.hasInfo = !!(this.node.mainData.title || this.node.mainData.description || this.node.mainData.comment);
   }
 
   constructor(

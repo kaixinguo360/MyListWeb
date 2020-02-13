@@ -44,12 +44,14 @@
       </div>
     </div>
 
-    <div class="description flex-fixed" *ngIf="node.mainData.description">
-      {{node.mainData.description|limit:100}}
+    <div class="info flex-fixed" *ngIf="hasInfo">
+      {{(node.mainData.title?node.mainData.title:
+        (node.mainData.description?node.mainData.description:node.mainData.comment))
+      |limit:100}}
     </div>
 
     <div class="mobile-buttons flex-fixed" *ngIf="view.isMobile" (click)="$event.stopPropagation()"
-      [style.margin-top.px]="node.mainData.description?-12:0">
+      [style.margin-top.px]="hasInfo?-12:0">
       <a *ngIf="node.mainData.source" [href]="node.mainData.source" class="single-line">
         <button mat-flat-button disableRipple class="mobile-url-button">
           <mat-icon>open_in_new</mat-icon>{{node.mainData.source|domain}}
