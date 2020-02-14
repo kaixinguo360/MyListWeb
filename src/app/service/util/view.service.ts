@@ -9,6 +9,7 @@ import {Title} from '@angular/platform-browser';
 import {Observable, Subject} from 'rxjs';
 import {MatSnackBarRef} from '@angular/material/snack-bar/typings/snack-bar-ref';
 import {SimpleSnackBar} from '@angular/material/snack-bar/typings/simple-snack-bar';
+import {Location} from '@angular/common';
 
 export interface ViewConfig {
   title: string;
@@ -30,6 +31,7 @@ export class ViewService {
 
   public tokenService: TokenService; // @Autowired
   public router: Router; // @Autowired
+  public location: Location; // @Autowired
   public cdRef: ChangeDetectorRef; // @Autowired
   public matSnackBar: MatSnackBar; // @Autowired
   public titleService: Title; // @Autowired
@@ -72,7 +74,7 @@ export class ViewService {
     window.stop();
   }
   public back() {
-    window.history.back();
+    this.location.back();
   }
   public logout() {
     this.tokenService.invalidateToken()

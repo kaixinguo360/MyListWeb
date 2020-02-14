@@ -49,10 +49,6 @@ export class UserHomeComponent implements OnInit {
 
       switch (this.path) {
 
-        case 'home':
-          this.router.navigate(['/favorite']);
-
-        // tslint:disable-next-line:no-switch-case-fall-through
         case 'favorite':
           this.init({
             title: 'Favorite',
@@ -62,6 +58,17 @@ export class UserHomeComponent implements OnInit {
 
         case 'all':
           this.init({title: 'All'});
+          break;
+
+        case 'untagged':
+          this.view.init({title: 'Untagged'});
+          this.nodeService.getAllByType('tag').subscribe(node => {
+            this.masonry.filter = {
+              conditions: [{column: 'node_type', oper: '!=', value: '\'tag\''}],
+              notTags: node.map(i => ({id: i.mainData.id})),
+            };
+            this.masonry.fetchData();
+          });
           break;
 
         case 'type':

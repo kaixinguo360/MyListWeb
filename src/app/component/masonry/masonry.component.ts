@@ -35,6 +35,11 @@ export class MasonryComponent implements OnInit {
     this.items = items.map(data => ({data, selected: false}));
     this.masonry.layout();
   }
+  public addItems(items: any[]) {
+    const newItems = items.map(data => ({data, selected: false}));
+    this.items = this.items.concat(newItems);
+    this.masonry.layout();
+  }
   public enableSelectMode(mode: boolean) {
     this.selectMode = mode;
     if (!mode) {

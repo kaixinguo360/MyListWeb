@@ -1,15 +1,21 @@
 <mat-toolbar>
-  <button mat-icon-button (click)="preference.toggle('outside@isOpen')">
-    <mat-icon>{{(isOpen|async)?'arrow_drop_down':'arrow_drop_up'}}</mat-icon>
+  <button mat-icon-button routerLink="/home"><mat-icon>close</mat-icon></button>
+  <button mat-icon-button (click)="preference.toggle('outside@isOpen')" [disabled]="!!outWindow">
+    <mat-icon>{{(isOpen|async)?'arrow_drop_down':'arrow_right'}}</mat-icon>
   </button>
+
   <span class="flex-padding">{{title?title:(sourceUrl|domain)}}</span>
+
   <app-add-menu></app-add-menu>
   <app-proxy-selector></app-proxy-selector>
-  <button mat-icon-button routerLink="/home"><mat-icon>close</mat-icon></button>
+  <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_horizon</mat-icon></button>
 </mat-toolbar>
-<!-- Add Content Here -->
-<iframe class="iframe" [src]="proxyUrl" [class.iframe-close]="isOpen|async"></iframe>
 
+<!-- Add Content Here -->
+<div style="height: 64px;"></div>
+<iframe class="iframe" [src]="proxySafeUrl" *ngIf="!outWindow"
+        [class.iframe-open]="!outWindow&&(isOpen|async)"
+        sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
 <div>
   <div class="masonry-container">
 
@@ -24,8 +30,13 @@
     <mat-icon>autorenew</mat-icon>Loading...
   </div>
 </div>
-
 <div class="round-button-container">
   <button mat-raised-button class="round-button" (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
   <button mat-raised-button class="round-button" (click)="save()"><mat-icon>save</mat-icon></button>
 </div>
+
+<!-- Add Menu Here -->
+<mat-menu #menu xPosition="after" yPosition="below">
+  <button mat-menu-item (click)="open()" *ngIf="!outWindow"><mat-icon>open_in_new</mat-icon>Open</button>
+  <button mat-menu-item (click)="close()" *ngIf="outWindow"><mat-icon>close</mat-icon>Close</button>
+</mat-menu>

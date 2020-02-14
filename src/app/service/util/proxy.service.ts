@@ -12,8 +12,8 @@ export class ProxyService {
 
   public static base64url(input) {
     return btoa(encodeURI(input))
-      .replace(/-/g, '+')
-      .replace(/_/g, '/');
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
   }
 
   public proxy(url: string): string {

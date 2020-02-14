@@ -29,9 +29,7 @@ export class Preference {
     } else {
       const subject = new Subject<string>();
       this.obs.set(key, subject);
-
-      const value = this.get(key, defaultValue);
-      subject.next(value);
+      this.get(key, defaultValue);
       return subject;
     }
   }
@@ -63,6 +61,9 @@ export class Preference {
       localStorage.clear();
       localStorage.setItem('admin_token', adminToken);
     }
+  }
+  public init() {
+    this.obs.forEach((subject, key) => subject.next(this.get(key)));
   }
 
   constructor(

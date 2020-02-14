@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {HttpService} from '../service/util/http.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class RootComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private location: Location,
     private cdRef: ChangeDetectorRef,
     private matDialog: MatDialog,
     private matSnackBar: MatSnackBar,
@@ -31,6 +33,7 @@ export class RootComponent implements OnInit {
     this.view.tokenService = this.tokenService;
     this.view.titleService = this.titleService;
     this.view.router = this.router;
+    this.view.location = this.location;
     this.view.cdRef = this.cdRef;
     this.view.matSnackBar = this.matSnackBar;
   }

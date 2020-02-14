@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ExtraEdit} from '../../../component/edit/extra-edit/extra-edit';
 import {of, Subscription, throwError} from 'rxjs';
 import {ListItem, Node} from '../../../service/util/node';
@@ -15,7 +15,7 @@ import {NodeViewer} from '../../../component/node-viewer/node-viewer.component';
   templateUrl: './list-edit.component.html',
   styleUrls: ['./list-edit.component.css']
 })
-export class ListEditComponent implements ExtraEdit {
+export class ListEditComponent implements ExtraEdit, OnInit {
 
   items: ListItem[] = [];
 
@@ -159,6 +159,9 @@ export class ListEditComponent implements ExtraEdit {
 
   canWrite(node: Node): boolean {
     return NodeService.canWrite(node, this.view.user);
+  }
+  ngOnInit(): void {
+    this.preference.init();
   }
 
   constructor(

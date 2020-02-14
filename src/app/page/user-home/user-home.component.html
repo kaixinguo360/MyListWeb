@@ -10,6 +10,7 @@
         <ng-container [ngSwitch]="path">
           <ng-container *ngSwitchCase="'favorite'">favorite</ng-container>
           <ng-container *ngSwitchCase="'all'">folder</ng-container>
+          <ng-container *ngSwitchCase="'untagged'">bookmark</ng-container>
           <ng-container *ngSwitchCase="'type'">{{typeService.getType(data)?.icon}}</ng-container>
           <ng-container *ngSwitchCase="'tag'">style</ng-container>
           <ng-container *ngSwitchCase="'list'">collections</ng-container>
@@ -35,6 +36,7 @@
 <mat-menu #menu xPosition="after" yPosition="below">
   <button mat-menu-item routerLink="/favorite" *ngIf="path!='favorite'"><mat-icon>favorite</mat-icon>Favorite</button>
   <button mat-menu-item routerLink="/all" *ngIf="path!='all'"><mat-icon>folder</mat-icon>All</button>
+  <button mat-menu-item routerLink="/untagged" *ngIf="path!='untagged'"><mat-icon>bookmark</mat-icon>Untagged</button>
 
   <mat-divider></mat-divider>
 

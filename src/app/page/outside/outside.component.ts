@@ -33,13 +33,16 @@ export class OutsideComponent implements OnInit {
   @ViewChild('masonryRef', {static: true}) masonry: MasonryComponent;
 
   sourceUrl: string;
-  proxyUrl: SafeUrl;
+  proxyUrl: string;
+  proxySafeUrl: SafeUrl;
+
   title: string;
   description: string;
-  items: Node[];
+  images: string[] = [];
 
   isLoading = true;
   isOpen = this.preference.getSwitch('outside@isOpen');
+  outWindow: Window;
 
   private regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
 
@@ -90,7 +93,8 @@ export class OutsideComponent implements OnInit {
       if (tags) {
         draft.tags = tags;
         this.preference.set('node-edit@draft', JSON.stringify(draft));
-        this.router.navigate(['/node/new']);
+        this.outWindow.close();
+        this.router.navigate(['/node/new'], {queryParams: {outside: 1}});
       }
     });
   }
@@ -105,37 +109,66 @@ export class OutsideComponent implements OnInit {
         this.title = this.title.substr(0, 100);
       }
 
-      this.items = data.images.filter(item => item.url).map(image => ({
-        mainData: {
-          user: this.view.user.id,
-          type: 'image',
-          title: '',
-          part: true,
-          collection: false,
-          permission: 'private',
-          nsfw: false,
-          like: false,
-          hide: false,
-          source: this.sourceUrl,
-          description: image.info,
-        },
-        extraData: {
-          nodeType: 'image',
-          url: image.url,
-        },
-      }));
-      this.items.forEach(node => this.typeService.process(node));
+      const newItems = data.images.filter(
+        item => {
+          if (item.url && (this.images.indexOf(item.url) < 0)) {
+            this.images.push(item.url);
+            return true;
+          } else {
+            return false;
+          }
+        }
+      ).map(
+        image => ({
+          mainData: {
+            user: this.view.user.id,
+            type: 'image',
+            title: '',
+            part: true,
+            collection: false,
+            permission: 'private',
+            nsfw: false,
+            like: false,
+            hide: false,
+            source: this.sourceUrl,
+            description: image.info,
+          },
+          extraData: {
+            nodeType: 'image',
+            url: image.url,
+          },
+        })
+      );
+      newItems.forEach(node => this.typeService.process(node));
 
-      this.masonry.setItems(this.items);
+      this.masonry.addItems(newItems);
       localStorage.removeItem('outside@data');
+      this.view.alert(newItems.length === 1 ? 'Add one new item' :  `Add ${newItems.length} new items`);
+
       this.isLoading = false;
     }
+  }
+
+  open() {
+    if (this.outWindow) { this.outWindow.close(); }
+
+    this.preference.set('outside@isOpen', null);
+    this.outWindow = window.open(this.proxyUrl, 'outWindow',
+      'height=500, width=900, toolbar=no, menubar=no');
+
+    this.outWindow.onbeforeunload = this.close;
+  }
+  close() {
+    this.outWindow = null;
+    this.view.detectChanges();
+    this.preference.set('outside@isOpen', 'true');
   }
 
   ngOnInit() {
     this.masonry.enableSelectMode(true);
     this.view.init({title: 'Outside'});
     this.view.notification('preview@onload').subscribe(() => this.masonry.layout());
+    this.preference.init();
 
     // Get URL From The Route
     this.route.queryParams.subscribe((params: Params) => {
@@ -148,21 +181,25 @@ export class OutsideComponent implements OnInit {
       urls = urls.concat(this.getUrl(text));
       urls = urls.concat(this.getUrl(url));
 
-      if (urls.length === 0) {
-        this.view.alert('No URL found').afterDismissed().subscribe(() => this.view.back());
-      } else {
+      if (urls.length >= 0 && urls[0]) {
         this.sourceUrl = urls[0];
+      } else {
+        this.sourceUrl = url ? url : (text ? text : title);
+      }
+
+      if (this.sourceUrl) {
         this.title = title;
-        if (this.sourceUrl) {
-          const encodedUrl = this.proxyService.proxyPage(this.sourceUrl);
-          this.proxyUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(encodedUrl);
-        }
+        this.proxyUrl = this.proxyService.proxyPage(this.sourceUrl);
+        this.proxySafeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.proxyUrl);
+      } else {
+        this.view.alert('No URL found').afterDismissed().subscribe(() => this.view.back());
       }
     });
 
     // Add Event Listener For Storage
     window.addEventListener('storage', () => this.load());
   }
+
   private getUrl(str: string): string[] {
     if (!str) { return []; }
     const result = str.match(this.regex);

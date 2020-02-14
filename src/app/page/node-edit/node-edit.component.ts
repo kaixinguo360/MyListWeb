@@ -22,6 +22,7 @@ export class NodeEditComponent implements OnInit {
 
   showDescription =  this.preference.getSwitch('node-edit@showDescription');
   showComment =  this.preference.getSwitch('node-edit@showComment');
+  hasDraft = false;
 
   mainData = this.fb.group({
     id: null,
@@ -65,8 +66,12 @@ export class NodeEditComponent implements OnInit {
       this.nodeService.update(node) :
       this.nodeService.add(node)
     ).pipe(
-      tap(() => this.saveStatus()),
-      tap(() => this.router.navigate(['/home'])),
+      tap(() => {
+        this.saveStatus();
+        this.route.snapshot.queryParams.outside ?
+          this.router.navigate(['/home']) :
+          this.view.back();
+      }),
       catchError(err => {
         this.snackBar.open('An error occurred.', 'Close');
         return throwError(err);
@@ -100,6 +105,21 @@ export class NodeEditComponent implements OnInit {
     }
   }
 
+  draft() {
+    if (this.hasDraft) {
+      this.preference.remove('node-edit@draft');
+    } else {
+      const node: Node = {
+        mainData: this.mainData.getRawValue(),
+        extraData: this.extraEdit.getExtraData(),
+        extraList: this.extraEdit.getExtraList(),
+        tags: this.tags.map(tag => tag.mainData.id)
+      };
+      node.mainData.id = null;
+      this.preference.set('node-edit@draft', JSON.stringify(node));
+    }
+    this.hasDraft = !this.hasDraft;
+  }
   loadStatus() {
     this.mainData.patchValue({
       type: this.preference.get('node-edit@type', 'node'),
@@ -110,6 +130,7 @@ export class NodeEditComponent implements OnInit {
     });
   }
   saveStatus() {
+    this.preference.remove('node-edit@draft');
     this.preference.set('node-edit@type', this.mainData.value.type);
     this.preference.set('node-edit@permission', this.mainData.value.permission);
     this.mainData.value.nsfw ? this.preference.set('node-edit@nsfw', 'true') : this.preference.remove('node-edit@nsfw');
@@ -123,6 +144,7 @@ export class NodeEditComponent implements OnInit {
       this.valid = this.mainData.valid && this.extraEdit.valid;
       this.ref.detectChanges();
     });
+    this.preference.init();
     this.loadStatus();
 
     this.route.paramMap.subscribe(map => {
@@ -148,17 +170,21 @@ export class NodeEditComponent implements OnInit {
           }),
         ).subscribe();
       } else {
-        this.view.init({title: 'New Node'});
-
         const draftStr = this.preference.get('node-edit@draft');
         if (draftStr) {
-          this.preference.remove('node-edit@draft');
+          if (!this.route.snapshot.queryParams.outside) { this.view.alert('Open a saved draft'); }
+          this.view.init({title: 'Draft Node'});
+
+          this.hasDraft = true;
           const draft: Node = JSON.parse(draftStr);
+
           this.mainData.patchValue(draft.mainData);
           this.extraEdit.setExtraData(draft.extraData);
           this.extraEdit.setExtraList(draft.extraList);
           this.extraEdit.ngOnChanges(null);
           this.tags = draft.tags as Node[];
+        } else {
+          this.view.init({title: 'New Node'});
         }
       }
     });
