@@ -14,13 +14,19 @@ export class QuickEditComponent implements OnInit, QuickEdit {
 
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
   content: QuickEdit;
+  canEdit: boolean;
 
   ngOnInit(): void {
     if (this.content) { this.contentHost.remove(); }
     const factory = this.typeService.getQuickEditFactory(this.node.mainData.type);
-    const componentRef = this.contentHost.createComponent(factory);
-    this.content = (componentRef.instance as QuickEdit);
-    this.content.node = this.node;
+    if (factory !== null) {
+      this.canEdit = true;
+      const componentRef = this.contentHost.createComponent(factory);
+      this.content = (componentRef.instance as QuickEdit);
+      this.content.node = this.node;
+    } else {
+      this.canEdit = false;
+    }
   }
 
   constructor(

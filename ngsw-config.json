@@ -38,7 +38,7 @@
   "navigationUrls": [
     "/**",
     "!/api/**",
-    "!/proxy/static",
-    "!/proxy/page"
+    "!/proxy/static/**",
+    "!/proxy/page/**"
   ]
 }

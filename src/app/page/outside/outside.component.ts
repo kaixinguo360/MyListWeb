@@ -55,10 +55,6 @@ export class OutsideComponent implements OnInit {
         title: this.title,
         part: false,
         collection: false,
-        permission: 'private',
-        nsfw: false,
-        like: false,
-        hide: false,
         source: this.sourceUrl,
         description: this.description,
       }
@@ -93,8 +89,8 @@ export class OutsideComponent implements OnInit {
       if (tags) {
         draft.tags = tags;
         this.preference.set('node-edit@draft', JSON.stringify(draft));
-        this.outWindow.close();
-        this.router.navigate(['/node/new'], {queryParams: {outside: 1}});
+        if (this.outWindow) { this.outWindow.close(); }
+        this.router.navigate(['/node/new'], {queryParams: {draft: 1}});
       }
     });
   }

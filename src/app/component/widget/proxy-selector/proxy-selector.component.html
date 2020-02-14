@@ -1,4 +1,4 @@
-<button type="button" mat-icon-button [matMenuTriggerFor]="proxyMenu">
+<button type="button" mat-icon-button [matMenuTriggerFor]="menu">
   <ng-container [ngSwitch]="proxy.mode">
     <mat-icon *ngSwitchCase="'http'">cloud_queue</mat-icon>
     <mat-icon *ngSwitchCase="'all'">cloud</mat-icon>
@@ -6,7 +6,7 @@
   </ng-container>
 </button>
 
-<mat-menu #proxyMenu xPosition="before" yPosition="below">
+<mat-menu #menu xPosition="before" yPosition="below">
   <button mat-menu-item [class.menu-select]="proxy.mode=='http'" (click)="proxy.changeMode('http')">
     <mat-icon>cloud_queue</mat-icon>Only http</button>
   <button mat-menu-item [class.menu-select]="proxy.mode=='all'" (click)="proxy.changeMode('all')">

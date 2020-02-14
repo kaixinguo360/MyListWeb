@@ -1,0 +1,18 @@
+<button type="button" mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>assignment</mat-icon>
+</button>
+
+<mat-menu #menu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="add()" *ngIf="node">
+    <mat-icon>add_circle_outline</mat-icon>Add</button>
+  <button mat-menu-item (click)="remove()" *ngIf="node">
+    <mat-icon>remove_circle_outline</mat-icon>Remove</button>
+  <button mat-menu-item (click)="newList()">
+    <mat-icon>playlist_add</mat-icon>New List</button>
+
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item (click)="clipboard.clear()">
+    <mat-icon>library_add_check</mat-icon>{{clipboard.length?'Clipped: '+clipboard.length:'No clipped'}}
+  </button>
+</mat-menu>

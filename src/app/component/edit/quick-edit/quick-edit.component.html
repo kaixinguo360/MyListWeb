@@ -1,3 +1,4 @@
 <div class="hide-overflow">
   <ng-container #content></ng-container>
+  <ng-container *ngIf="!canEdit">Cannot edit {{node.mainData.type}} type nodes</ng-container>
 </div>

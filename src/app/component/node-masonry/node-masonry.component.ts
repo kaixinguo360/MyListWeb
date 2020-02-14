@@ -13,6 +13,7 @@ import {OrderService} from '../../service/util/order.service';
 import {TagSelector} from '../tag-dialog/tag-dialog.component';
 import {Router} from '@angular/router';
 import {Filter} from '../../service/util/filter';
+import {ClipboardService} from '../../service/util/clipboard.service';
 
 @Component({
   selector: 'app-node-masonry',
@@ -117,6 +118,12 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
         this.view.alert(nodes.length === 1 ? `One item removed.` : `${nodes.length} items removed.`);
       })).subscribe());
   }
+  clip() {
+    this.handleSelectedNodes(() => true, nodes => {
+      this.clipboard.set(nodes);
+      this.view.alert( `${nodes.length === 1 ? `One item` : `${nodes.length} items`} add to clipboard.`);
+    });
+  }
   handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
     const nodes = this.masonry.getSelectedItems();
     if (nodes.length) {
@@ -184,6 +191,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   constructor(
     public view: ViewService,
     public nodeViewer: NodeViewer,
+    public clipboard: ClipboardService,
     private nodeService: NodeService,
     private orderService: OrderService,
     private tagSelector: TagSelector,

@@ -22,6 +22,8 @@
 
   <div class="title-padding"></div>
 
+  <button type="button" [routerLink]="['/node',mainNode.mainData.id,'edit']" mat-icon-button *ngIf="mainNode"><mat-icon>edit</mat-icon></button>
+  <app-clip-menu [node]="mainNode" *ngIf="clipboard.length"></app-clip-menu>
   <app-add-menu></app-add-menu>
   <app-proxy-selector></app-proxy-selector>
   <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>

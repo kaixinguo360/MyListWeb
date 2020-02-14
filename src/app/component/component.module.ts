@@ -24,6 +24,7 @@ import {QuickEditComponent} from './edit/quick-edit/quick-edit.component';
 import {ProxySelectorComponent} from './widget/proxy-selector/proxy-selector.component';
 import {AddMenuComponent} from './widget/add-menu/add-menu.component';
 import {NodeMasonryComponent} from './node-masonry/node-masonry.component';
+import {ClipMenuComponent} from './widget/clip-menu/clip-menu.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -49,6 +50,7 @@ export class HammerConfig extends HammerGestureConfig  {
     ProxySelectorComponent,
     AddMenuComponent,
     NodeMasonryComponent,
+    ClipMenuComponent
   ],
   imports: [
     CommonModule,
@@ -75,6 +77,7 @@ export class HammerConfig extends HammerGestureConfig  {
     ProxySelectorComponent,
     AddMenuComponent,
     NodeMasonryComponent,
+    ClipMenuComponent
   ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,

@@ -5,6 +5,8 @@ import {ActivatedRoute, Router, UrlSegment} from '@angular/router';
 import {Filter} from '../../service/util/filter';
 import {NodeMasonryComponent} from '../../component/node-masonry/node-masonry.component';
 import {TypeInfo, TypeService} from '../../service/util/type.service';
+import {ClipboardService} from '../../service/util/clipboard.service';
+import {Node} from '../../service/util/node';
 
 @Component({
   selector: 'app-user-home',
@@ -21,12 +23,14 @@ export class UserHomeComponent implements OnInit {
   isHome: boolean;
   path: string;
   data: string;
+  mainNode: Node;
   showBackIcon = false;
 
   @ViewChild('masonry', {static: true}) masonry: NodeMasonryComponent;
 
   init(config: {title: string, fixed?: boolean, filter?: Filter}) {
     this.view.init({title: config.title});
+    this.mainNode = null;
 
     this.masonry.fixed = !!config.fixed;
     this.masonry.filter = config.filter;
@@ -62,6 +66,7 @@ export class UserHomeComponent implements OnInit {
 
         case 'untagged':
           this.view.init({title: 'Untagged'});
+          this.mainNode = null;
           this.nodeService.getAllByType('tag').subscribe(node => {
             this.masonry.filter = {
               conditions: [{column: 'node_type', oper: '!=', value: '\'tag\''}],
@@ -85,7 +90,10 @@ export class UserHomeComponent implements OnInit {
             title: `Tag - #${tagId}`,
             filter: {andTags: [{id: tagId}]},
           });
-          this.nodeService.get(tagId).subscribe(node => this.view.setTitle(`Tag - ${node.mainData.title}`));
+          this.nodeService.get(tagId).subscribe(node => {
+            this.mainNode = node;
+            this.view.setTitle(`Tag - ${node.mainData.title}`);
+          });
           break;
 
         case 'list':
@@ -95,7 +103,10 @@ export class UserHomeComponent implements OnInit {
             fixed: true,
             filter: {andTags: [{id: listId}]},
           });
-          this.nodeService.get(listId).subscribe(node => this.view.setTitle(node.mainData.title));
+          this.nodeService.get(listId).subscribe(node => {
+            this.mainNode = node;
+            this.view.setTitle(node.mainData.title);
+          });
           break;
 
       }
@@ -104,6 +115,7 @@ export class UserHomeComponent implements OnInit {
 
   constructor(
     public view: ViewService,
+    public clipboard: ClipboardService,
     public typeService: TypeService,
     private nodeService: NodeService,
     private router: Router,

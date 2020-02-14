@@ -66,11 +66,9 @@ export class NodeEditComponent implements OnInit {
       this.nodeService.update(node) :
       this.nodeService.add(node)
     ).pipe(
-      tap(() => {
+      tap((n) => {
         this.saveStatus();
-        this.route.snapshot.queryParams.outside ?
-          this.router.navigate(['/home']) :
-          this.view.back();
+        this.jump(n);
       }),
       catchError(err => {
         this.snackBar.open('An error occurred.', 'Close');
@@ -105,6 +103,26 @@ export class NodeEditComponent implements OnInit {
     }
   }
 
+  jump(node: Node) {
+    switch (node.mainData.type) {
+      case 'list':
+        this.router.navigate(['/list', node.mainData.id]); break;
+      case 'tag':
+        this.router.navigate(['/tag', node.mainData.id]); break;
+      default:
+        if (node.tags && node.tags.length) {
+          if (node.tags.length === 1) {
+            const tag = node.tags[0] as Node;
+            this.router.navigate(['/tag', tag.mainData.id]);
+          } else {
+            this.router.navigate(['/home']);
+          }
+        } else {
+          this.router.navigate(['/untagged']);
+        }
+        break;
+    }
+  }
   draft() {
     if (this.hasDraft) {
       this.preference.remove('node-edit@draft');
@@ -172,7 +190,7 @@ export class NodeEditComponent implements OnInit {
       } else {
         const draftStr = this.preference.get('node-edit@draft');
         if (draftStr) {
-          if (!this.route.snapshot.queryParams.outside) { this.view.alert('Open a saved draft'); }
+          if (!this.route.snapshot.queryParams.draft) { this.view.alert('Open a saved draft'); }
           this.view.init({title: 'Draft Node'});
 
           this.hasDraft = true;
