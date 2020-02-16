@@ -1,58 +1,58 @@
-<div class="overlay"
-     (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
-     (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)"
-     (click)="close()">
+<div class="overlay">
 
   <div class="left-container sidebar" *ngIf="ids.length>1"
+       (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
+       (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)"
        (mouseenter)="showLeftButton=true"
        (mouseleave)="showLeftButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"
-       (click)="$event.stopPropagation();turnPage(-1)">
+       (click)="turnPage(-1)">
     <button mat-icon-button class="nav-button nav-button-left" *ngIf="showLeftButton">
       <mat-icon class="nav-icon">chevron_left</mat-icon>
     </button>
   </div>
 
   <div class="right-container sidebar" *ngIf="ids.length>1"
+       (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
+       (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)"
        (mouseenter)="showRightButton=true"
        (mouseleave)="showRightButton=false"
        (mousewheel)="turnPage($event.deltaY / 100)"
-       (click)="$event.stopPropagation();turnPage(1)">
+       (click)="turnPage(1)">
     <button mat-icon-button class="nav-button nav-button-right" *ngIf="showRightButton">
       <mat-icon class="nav-icon">chevron_right</mat-icon>
     </button>
   </div>
 
-  <div class="top-container toolbar" (click)="$event.stopPropagation()">
-    <button mat-icon-button (click)="close()"><mat-icon>arrow_back</mat-icon></button>
-  </div>
+  <button class="close-button" mat-icon-button (click)="close()"><mat-icon>arrow_back</mat-icon></button>
+  <button class="info-button" mat-icon-button (click)="showInfo=true" *ngIf="!showInfo"><mat-icon>keyboard_arrow_up</mat-icon></button>
 
-  <div class="bottom-container toolbar" (click)="$event.stopPropagation()"
-       [class.bottom-container-open]="showDetail" *ngIf="currentNode">
-
-    <div class="title-container">
-      <button mat-icon-button disableRipple (click)="showDetail=!showDetail">
-        <mat-icon>{{showDetail?'keyboard_arrow_down':'keyboard_arrow_up'}}</mat-icon>
+  <div class="info-container" *ngIf="showInfo&&currentNode" (click)="expandInfo=true"
+       [class.info-container-open]="expandInfo">
+    <div class="title">
+      <button mat-icon-button disableRipple (click)="$event.stopPropagation();expandInfo?expandInfo=false:showInfo=false">
+        <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
-      <span class="title flex-padding" [class.single-line]="!showDetail">
+      <span class="flex-padding" [class.single-line]="!expandInfo">
         {{currentNode.mainData.title?currentNode.mainData.title:'Untitled'}}
         <span class="small">{{currentNode.mainData.type}}</span>
       </span>
-      <button mat-icon-button disableRipple (click)="canWrite?close():null"
-              [routerLink]="canWrite?['/node', currentNode.mainData.id,'edit']:null">
-        <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>
-      </button>
+      <app-node-menu [node]="currentNode" (click)="$event.stopPropagation()" [showMoreButton]="false" [showViewButton]="false">
+        <button mat-icon-button><mat-icon>more_horizon</mat-icon></button>
+      </app-node-menu>
     </div>
-
     <mat-divider></mat-divider>
-
-    <div class="description">
+    <div [class.description-not-expend]="!expandInfo" [class.small]="!expandInfo">
       {{currentNode.mainData.description}}
       <span class="small" *ngIf="!currentNode.mainData.description">no description</span>
     </div>
   </div>
 
-  <mat-progress-spinner *ngIf="!currentNode" diameter="64" color="primary" mode="indeterminate"></mat-progress-spinner>
-  <div *ngIf="currentNode"><app-card-detail [node]="currentNode"></app-card-detail></div>
+  <div class="content-container" (click)="close()"
+       (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
+       (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)">
+    <mat-progress-spinner *ngIf="!currentNode" diameter="64" color="primary" mode="indeterminate"></mat-progress-spinner>
+    <div *ngIf="currentNode"><app-card-detail [node]="currentNode"></app-card-detail></div>
+  </div>
 
 </div>

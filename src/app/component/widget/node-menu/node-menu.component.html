@@ -1,0 +1,29 @@
+<div class="container" [matMenuTriggerFor]="menu">
+  <ng-content></ng-content>
+</div>
+
+<mat-menu #menu xPosition="before" yPosition="below">
+
+  <button mat-menu-item [routerLink]="canWrite?['/node', node.mainData.id,'edit']:null" [class.disabled]="!canWrite" [disabled]="!canWrite">
+    <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>Edit
+  </button>
+
+  <button mat-menu-item (click)="nodeViewer.openId(node.mainData.id)" *ngIf="showViewButton">
+    <mat-icon>aspect_ratio</mat-icon>View
+  </button>
+
+  <button mat-menu-item (click)="canWrite?delete():null" [class.disabled]="!canWrite" [disabled]="!canWrite">
+    <mat-icon>delete</mat-icon>
+    <span mat-line>Delete</span>
+  </button>
+
+  <a mat-menu-item target="_blank" [href]="[node.mainData.source]" *ngIf="node.mainData.source">
+    <mat-icon>open_in_new</mat-icon>Source
+  </a>
+
+  <button mat-menu-item (click)="nodeMenu.open(node)" *ngIf="showMoreButton">
+    <mat-icon>more_horizon</mat-icon>More
+  </button>
+
+
+</mat-menu>

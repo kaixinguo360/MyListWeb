@@ -1,23 +1,16 @@
 .overlay {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 0; bottom: 0;
+  left: 0; right: 0;
   background: #00000080;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  overflow: auto;
 }
 
 /* ---- overlay container ---- */
 
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 64px;
   bottom: 0;
   width: 30%;
   max-width: 400px;
@@ -31,57 +24,72 @@
   right: 0;
 }
 
-.toolbar {
-  position: fixed;
+.overlay>button {
   z-index: 12;
-}
-
-.top-container {
-  top: 0;
-  left: 0;
-  width: 30%;
-  height: 64px;
-  max-width: 400px;
-  display: flex;
-  box-sizing: border-box;
-  padding: 0 16px;
-  flex-direction: row;
-  align-items: center;
-  white-space: nowrap;
-}
-.top-container>.mat-icon-button {
+  position: fixed;
   color: white;
   background: #0000008a;
 }
+.close-button {
+  top: 12px; left: 16px;
+}
 
-.bottom-container {
+.content-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+/* ---- info-container ---- */
+.info-button {
+  bottom: 12px; left: 16px;
+}
+.info-container {
+  position: fixed;
   top: calc(100vh - 64px);
   left: 0; right: 0;
-  min-height: 64px;
+
   padding: 10px 16px 0;
+  min-height: 64px;
+  z-index: 12;
+
   color: white;
   background-color: #0000008a;
+
+  overflow-x: hidden;
   overflow-y: auto;
 }
-.bottom-container-open {
+.info-container-open {
   top: 200px;
   bottom: 0;
 }
-
-.title-container {
-  display: flex;
-  align-items: baseline;
-}
-.title-container .mat-icon-button {
+.info-container .mat-icon-button {
   background: #00000000;
 }
 
 .title {
+  display: flex;
+  align-items: baseline;
+}
+.title>span {
   font-size: 1.5em;
   font-weight: 500;
 }
-.info {
-  white-space: pre-wrap;
+
+.description-not-expend {
+  margin: -10px 40px 0;
+  color: #b0b0b0;
+  font-size: small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ---- others ---- */
@@ -132,7 +140,3 @@
   position: fixed;
 }
 
-.small {
-  color: #b0b0b0;
-  font-size: small;
-}

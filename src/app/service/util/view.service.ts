@@ -60,7 +60,7 @@ export class ViewService {
   public notify(subject: string, value: any = null) {
     if (this.notifySubjects.has(subject)) { this.notifySubjects.get(subject).next(value); }
   }
-  public notification(subject: string): Observable<void> {
+  public notification(subject: string): Observable<any> {
     if (this.notifySubjects.has(subject)) {
       return this.notifySubjects.get(subject);
     } else {

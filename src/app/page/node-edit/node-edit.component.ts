@@ -78,7 +78,7 @@ export class NodeEditComponent implements OnInit {
   }
   delete() {
     if (!confirm('Delete this node?')) { return; }
-    this.nodeService.remove(this.mainData.value.id).pipe(
+    this.nodeService.delete(this.mainData.value.id).pipe(
       tap(() => this.router.navigate(['/home'])),
       catchError(err => {
         this.snackBar.open('An error occurred.', 'Close');
@@ -104,23 +104,11 @@ export class NodeEditComponent implements OnInit {
   }
 
   jump(node: Node) {
-    switch (node.mainData.type) {
-      case 'list':
-        this.router.navigate(['/list', node.mainData.id]); break;
-      case 'tag':
-        this.router.navigate(['/tag', node.mainData.id]); break;
-      default:
-        if (node.tags && node.tags.length) {
-          if (node.tags.length === 1) {
-            const tag = node.tags[0] as Node;
-            this.router.navigate(['/tag', tag.mainData.id]);
-          } else {
-            this.router.navigate(['/home']);
-          }
-        } else {
-          this.router.navigate(['/untagged']);
-        }
-        break;
+    if (node.tags && node.tags.length) {
+      const tag = node.tags[0] as Node;
+      this.router.navigate(['/tag', tag.mainData.id]);
+    } else {
+      this.router.navigate(['/untagged']);
     }
   }
   draft() {

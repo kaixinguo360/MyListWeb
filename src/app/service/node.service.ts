@@ -16,6 +16,10 @@ class OutputWrap {
   node: Node;
   tags: Node[];
 }
+export class NodeChangeEvent {
+  action: string;
+  ids: number[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -86,13 +90,13 @@ export class NodeService {
   public update(node: Node): Observable<Node> {
     return this.httpService.put<OutputWrap>('node', NodeService.wrap(node)).pipe(
       NodeService.unwrap,
-      tap(() => this.handleChange()),
+      tap(() => this.handleChange('update')),
       NodeService.errorHandler,
     );
   }
-  public remove(id: number): Observable<void> {
+  public delete(id: number): Observable<void> {
     return this.httpService.delete<void>('node/' + id, null).pipe(
-      tap(() => this.handleChange()),
+      tap(() => this.handleChange('delete', [id])),
       NodeService.errorHandler,
     );
   }
@@ -120,29 +124,29 @@ export class NodeService {
     }
     return this.httpService.put<OutputWrap[]>(`node/batch?simple=${isSimple}&tag=${tagMode}`, wraps).pipe(
       NodeService.unwrapAll,
-      tap(() => this.handleChange()),
+      tap(() => this.handleChange('update')),
       NodeService.errorHandler,
     );
   }
   public updateTags(nodeIds: number[], tagIds: number[], action = 'set'): Observable<Node[]> {
     if (!tagIds.length) { return throwError('tagIds.length is 0!'); }
     return this.httpService.put<OutputWrap[]>(`node/tag?id=${tagIds.join('&id=')}&action=${action}`, nodeIds).pipe(
-      tap(() => this.handleChange()),
+      tap(() => this.handleChange('update')),
       NodeService.errorHandler,
     );
   }
-  public removeAll(ids: number[]): Observable<void> {
+  public deleteAll(ids: number[]): Observable<void> {
     return this.httpService.delete<void>('node/batch', ids).pipe(
-      tap(() => this.handleChange()),
+      tap(() => this.handleChange('delete', ids)),
       NodeService.errorHandler,
     );
   }
 
   // ------------ Util Method ------------ //
-  private handleChange() {
+  private handleChange(action: string, ids?: number[]) {
     this.nodeCache.clear();
     this.obCache.clear();
-    this.view.notify('node@onchange');
+    this.view.notify('node@onchange', {action, ids});
   }
   public getAllByType(type: string, filter?: Filter): Observable<Node[]> {
     if (!filter) { filter = {}; }

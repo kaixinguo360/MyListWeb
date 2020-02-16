@@ -12,12 +12,14 @@ export const ListType: TypeInfo = {
   icon: 'collections',
   process: node => {
     node.extraList.forEach(n => {
-      if (n.status !== 'exist') {
+      if (n.status === 'new') {
         n.node.mainData.permission = node.mainData.permission;
         n.node.mainData.nsfw = node.mainData.nsfw;
         n.node.mainData.like = node.mainData.like;
         n.node.mainData.hide = node.mainData.hide;
         n.node.mainData.source = node.mainData.source;
+      }
+      if (n.status !== 'exist') {
         TypeService.instance.process(n.node);
       }
     });
@@ -31,7 +33,7 @@ export const ListType: TypeInfo = {
     } else {
       node.mainData.excerpt = JSON.stringify({
         type: 'node',
-        excerpt: 'unknown node',
+        excerpt: 'Empty List',
         count: 0,
       });
     }

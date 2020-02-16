@@ -18,14 +18,15 @@
 
   <mat-nav-list>
 
-    <a mat-list-item [routerLink]="canWrite?['/node', node.mainData.id,'edit']:null" (click)="canWrite?close():null">
+    <a mat-list-item [routerLink]="canWrite?['/node', node.mainData.id,'edit']:null"
+       (click)="canWrite?close():null" [class.disabled]="!canWrite">
       <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>
       <span mat-line>
         Edit<span class="small" *ngIf="!canWrite"> (permission denied)</span>
       </span>
     </a>
 
-    <a mat-list-item (click)="delete()">
+    <a mat-list-item (click)="canWrite?delete():null" [class.disabled]="!canWrite">
       <mat-icon>delete</mat-icon>
       <span mat-line>Delete</span>
     </a>

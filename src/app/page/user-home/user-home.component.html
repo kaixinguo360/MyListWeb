@@ -2,10 +2,10 @@
 
   <div class="title-container" [matMenuTriggerFor]="menu">
     <button type="button" mat-icon-button disableRipple
-            (click)="$event.stopPropagation();view.back()"
+            (click)="$event.stopPropagation();isHome?null:back()"
             (mouseenter)="showBackIcon=true"
             (mouseleave)="showBackIcon=false">
-      <mat-icon *ngIf="showBackIcon">arrow_back</mat-icon>
+      <mat-icon *ngIf="showBackIcon">{{isHome?'home':'arrow_back'}}</mat-icon>
       <mat-icon *ngIf="!showBackIcon">
         <ng-container [ngSwitch]="path">
           <ng-container *ngSwitchCase="'favorite'">favorite</ng-container>
@@ -22,7 +22,9 @@
 
   <div class="title-padding"></div>
 
-  <button type="button" [routerLink]="['/node',mainNode.mainData.id,'edit']" mat-icon-button *ngIf="mainNode"><mat-icon>edit</mat-icon></button>
+  <app-node-menu [node]="mainNode" *ngIf="mainNode">
+    <button mat-icon-button><mat-icon>menu_open</mat-icon></button>
+  </app-node-menu>
   <app-clip-menu [node]="mainNode" *ngIf="clipboard.length"></app-clip-menu>
   <app-add-menu></app-add-menu>
   <app-proxy-selector></app-proxy-selector>
@@ -46,3 +48,4 @@
     <mat-icon>{{type.icon}}</mat-icon>{{type.name}}
   </button>
 </mat-menu>
+

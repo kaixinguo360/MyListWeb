@@ -19,17 +19,17 @@
   <mat-autocomplete #auto (optionSelected)="selected($event)" autoActiveFirstOption>
     <mat-option [value]="tagInput.value" *ngIf="tagInput.value">
       {{tagInput.value|limit:20}}
-      <span class="small">
+      <span class="small-text">
         - {{plaintextTips?plaintextTips:'plain text'}}
       </span>
     </mat-option>
     <mat-option *ngFor="let tag of filteredTags|async" [value]="tag">
       <mat-icon class="chip-icon">style</mat-icon>
       {{tag.mainData.title}}
-      <span class="small" *ngIf="tag.mainData.user!==view.user.id">
+      <span class="small-text" *ngIf="tag.mainData.user!==view.user.id">
         - from other user
       </span>
-      <span class="small" *ngIf="tag.mainData.user===view.user.id&&tag.mainData.permission!=='private'">
+      <span class="small-text" *ngIf="tag.mainData.user===view.user.id&&tag.mainData.permission!=='private'">
         - {{tag.mainData.permission}}
       </span>
     </mat-option>

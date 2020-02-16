@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 
 import {NodeService} from '../../service/node.service';
 import {ViewService} from '../../service/util/view.service';
-import {NodeMenu} from '../node-menu/node-menu.component';
+import {NodeMenu} from '../node-bottom-sheet/node-bottom-sheet.component';
 import {Node} from '../../service/util/node';
 
 @Component({

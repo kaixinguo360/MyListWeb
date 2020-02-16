@@ -114,7 +114,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   delete() {
     this.handleSelectedNodes(
       nodes => confirm(nodes.length === 1 ? `Remove this item?` : `Remove these ${nodes.length} items?`),
-      nodes => this.nodeService.removeAll(nodes.map(node => node.mainData.id)).pipe(tap(() => {
+      nodes => this.nodeService.deleteAll(nodes.map(node => node.mainData.id)).pipe(tap(() => {
         this.view.alert(nodes.length === 1 ? `One item removed.` : `${nodes.length} items removed.`);
       })).subscribe());
   }

@@ -15,7 +15,7 @@ import {NodeViewerComponent} from './node-viewer/node-viewer.component';
 import {OrderSelectorComponent} from './widget/order-selector/order-selector.component';
 import {BasicFilterComponent} from './widget/basic-filter/basic-filter.component';
 import {ExtraEditComponent} from './edit/extra-edit/extra-edit.component';
-import {NodeMenuComponent} from './node-menu/node-menu.component';
+import {NodeBottomSheetComponent} from './node-bottom-sheet/node-bottom-sheet.component';
 import {TagDialogComponent} from './tag-dialog/tag-dialog.component';
 import {TagInputComponent} from './widget/tag-filter/tag-input/tag-input.component';
 import {TagFilterComponent} from './widget/tag-filter/tag-filter.component';
@@ -25,6 +25,7 @@ import {ProxySelectorComponent} from './widget/proxy-selector/proxy-selector.com
 import {AddMenuComponent} from './widget/add-menu/add-menu.component';
 import {NodeMasonryComponent} from './node-masonry/node-masonry.component';
 import {ClipMenuComponent} from './widget/clip-menu/clip-menu.component';
+import {NodeMenuComponent} from './widget/node-menu/node-menu.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -43,14 +44,15 @@ export class HammerConfig extends HammerGestureConfig  {
     BasicFilterComponent,
     ExtraEditComponent,
     QuickEditComponent,
-    NodeMenuComponent,
+    NodeBottomSheetComponent,
     TagDialogComponent,
     TagInputComponent,
     TagFilterComponent,
     ProxySelectorComponent,
     AddMenuComponent,
     NodeMasonryComponent,
-    ClipMenuComponent
+    ClipMenuComponent,
+    NodeMenuComponent
   ],
   imports: [
     CommonModule,
@@ -70,14 +72,15 @@ export class HammerConfig extends HammerGestureConfig  {
     BasicFilterComponent,
     ExtraEditComponent,
     QuickEditComponent,
-    NodeMenuComponent,
+    NodeBottomSheetComponent,
     TagDialogComponent,
     TagInputComponent,
     TagFilterComponent,
     ProxySelectorComponent,
     AddMenuComponent,
     NodeMasonryComponent,
-    ClipMenuComponent
+    ClipMenuComponent,
+    NodeMenuComponent
   ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,
@@ -85,7 +88,7 @@ export class HammerConfig extends HammerGestureConfig  {
   }],
   entryComponents: [
     NodeViewerComponent,
-    NodeMenuComponent,
+    NodeBottomSheetComponent,
     TagDialogComponent,
     QuickEditComponent,
   ]

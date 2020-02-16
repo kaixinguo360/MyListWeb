@@ -86,3 +86,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .hide-overflow {
   overflow: hidden;
 }
+
+.small {
+  color: #b0b0b0;
+  font-size: small;
+}
+.disabled {
+  color: #00000061;
+}

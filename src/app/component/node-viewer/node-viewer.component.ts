@@ -1,11 +1,12 @@
 import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {NodeService} from '../../service/node.service';
-import {tap} from 'rxjs/operators';
+import {NodeChangeEvent, NodeService} from '../../service/node.service';
+import {filter, tap} from 'rxjs/operators';
 import {ViewService} from '../../service/util/view.service';
 import {Node} from '../../service/util/node';
 import {Overlay} from '@angular/cdk/overlay';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
+import {NavigationStart, Router} from '@angular/router';
 
 @Component({
   selector: 'app-card-viewer',
@@ -19,7 +20,8 @@ export class NodeViewerComponent implements OnInit {
 
   showLeftButton = false;
   showRightButton = false;
-  showDetail = false;
+  showInfo = true;
+  expandInfo = false;
   canWrite: boolean;
   currentNode: Node = null;
 
@@ -70,7 +72,19 @@ export class NodeViewerComponent implements OnInit {
     public view: ViewService,
     public nodeViewer: NodeViewer,
     private nodeService: NodeService,
-  ) { }
+    private router: Router,
+  ) {
+    router.events.pipe(
+      filter((event) => event instanceof NavigationStart),
+      tap(() => this.close())
+    ).subscribe();
+    this.view.notification('node@onchange').subscribe((event: NodeChangeEvent) => {
+      if (event.action === 'delete') {
+        this.ids = this.ids.filter(id => event.ids.indexOf(id) < 0);
+        this.ids.length ? this.load() : this.close();
+      }
+    });
+  }
 
 }
 
