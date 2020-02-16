@@ -24,22 +24,21 @@ export class ClipMenuComponent {
         .map(n => n.mainData.id)
       , [this.node.mainData.id], 'add'
     ).pipe(tap((ns) => {
-      this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} pasted`);
-      this.clipboard.clear();
+      this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} add to `
+        + `${this.node.mainData.type}#${this.node.mainData.id}`);
     })).subscribe();
   }
   public remove() {
     const toRemove = this.clipboard.get()
       .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'));
     if (toRemove.find(node => node.mainData.part)) {
-      if (!confirm()) { return; }
+      if (!confirm(`Some selections have an auto-delete attribute. This operation may delete them. Are you sure?`)) { return; }
     }
     this.nodeService.updateTags(
       toRemove.map(n => n.mainData.id), [this.node.mainData.id], 'remove'
     ).subscribe((ns) => {
       this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} remove from `
         + `${this.node.mainData.type}#${this.node.mainData.id}`);
-      this.clipboard.clear();
     });
   }
   public newList() {
@@ -61,7 +60,6 @@ export class ClipMenuComponent {
       if (tags) {
         draft.tags = tags;
         this.preference.set('node-edit@draft', JSON.stringify(draft));
-        this.clipboard.clear();
         this.router.navigate(['/node/new'], {queryParams: {draft: 1}});
       }
     });

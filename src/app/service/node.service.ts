@@ -17,8 +17,9 @@ class OutputWrap {
   tags: Node[];
 }
 export class NodeChangeEvent {
-  action: string;
-  ids: number[];
+  added?: Node[];
+  updated?: number[];
+  deleted?: number[];
 }
 
 @Injectable({
@@ -69,7 +70,10 @@ export class NodeService {
   public add(node: Node): Observable<Node> {
     return this.httpService.post<OutputWrap>('node', NodeService.wrap(node)).pipe(
       NodeService.unwrap,
-      tap(n => this.nodeCache.set(n.mainData.id, n)),
+      tap(n => {
+        this.nodeCache.set(n.mainData.id, n);
+        this.handleChange({added: [n]});
+      }),
       NodeService.errorHandler,
     );
   }
@@ -90,13 +94,13 @@ export class NodeService {
   public update(node: Node): Observable<Node> {
     return this.httpService.put<OutputWrap>('node', NodeService.wrap(node)).pipe(
       NodeService.unwrap,
-      tap(() => this.handleChange('update')),
+      tap(() => this.handleChange({updated: [node.mainData.id]})),
       NodeService.errorHandler,
     );
   }
   public delete(id: number): Observable<void> {
     return this.httpService.delete<void>('node/' + id, null).pipe(
-      tap(() => this.handleChange('delete', [id])),
+      tap(() => this.handleChange({deleted: [id]})),
       NodeService.errorHandler,
     );
   }
@@ -105,7 +109,10 @@ export class NodeService {
   public addAll(nodes: Node[]): Observable<Node[]> {
     return this.httpService.post<OutputWrap[]>('node/batch', NodeService.wrapAll(nodes)).pipe(
       NodeService.unwrapAll,
-      tap<Node[]>(ns => ns.forEach(n => this.nodeCache.set(n.mainData.id, n))),
+      tap<Node[]>(ns => {
+        ns.forEach(n => this.nodeCache.set(n.mainData.id, n));
+        this.handleChange({added: ns});
+      }),
       NodeService.errorHandler,
     );
   }
@@ -124,29 +131,31 @@ export class NodeService {
     }
     return this.httpService.put<OutputWrap[]>(`node/batch?simple=${isSimple}&tag=${tagMode}`, wraps).pipe(
       NodeService.unwrapAll,
-      tap(() => this.handleChange('update')),
+      tap(() => this.handleChange({updated: nodes.map(n => n.mainData.id)})),
       NodeService.errorHandler,
     );
   }
   public updateTags(nodeIds: number[], tagIds: number[], action = 'set'): Observable<Node[]> {
     if (!tagIds.length) { return throwError('tagIds.length is 0!'); }
     return this.httpService.put<OutputWrap[]>(`node/tag?id=${tagIds.join('&id=')}&action=${action}`, nodeIds).pipe(
-      tap(() => this.handleChange('update')),
+      tap(() => this.handleChange({
+        updated: nodeIds.concat(tagIds.filter(t => nodeIds.indexOf(t) < 0))
+      })),
       NodeService.errorHandler,
     );
   }
   public deleteAll(ids: number[]): Observable<void> {
     return this.httpService.delete<void>('node/batch', ids).pipe(
-      tap(() => this.handleChange('delete', ids)),
+      tap(() => this.handleChange({deleted: ids})),
       NodeService.errorHandler,
     );
   }
 
   // ------------ Util Method ------------ //
-  private handleChange(action: string, ids?: number[]) {
+  private handleChange(event: NodeChangeEvent) {
     this.nodeCache.clear();
     this.obCache.clear();
-    this.view.notify('node@onchange', {action, ids});
+    this.view.notify('node@onchange', event);
   }
   public getAllByType(type: string, filter?: Filter): Observable<Node[]> {
     if (!filter) { filter = {}; }

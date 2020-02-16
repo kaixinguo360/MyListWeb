@@ -79,8 +79,8 @@ export class NodeViewerComponent implements OnInit {
       tap(() => this.close())
     ).subscribe();
     this.view.notification('node@onchange').subscribe((event: NodeChangeEvent) => {
-      if (event.action === 'delete') {
-        this.ids = this.ids.filter(id => event.ids.indexOf(id) < 0);
+      if (event.deleted) {
+        this.ids = this.ids.filter(id => event.deleted.indexOf(id) < 0);
         this.ids.length ? this.load() : this.close();
       }
     });

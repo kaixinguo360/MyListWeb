@@ -23,7 +23,7 @@ import {ClipboardService} from '../../service/util/clipboard.service';
 export class NodeMasonryComponent implements OnInit, OnDestroy {
 
   public filter: Filter;
-  public fixed: boolean;
+  public filterFixed: boolean;
 
   error = false;
 
@@ -49,6 +49,46 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
     }
   }
 
+  clip(add: boolean) {
+    this.handleSelectedNodes(() => true, nodes =>
+      add ? this.clipboard.add(nodes) : this.clipboard.remove(nodes)
+    );
+  }
+  collection(add: boolean) {
+    const targetNode = this.clipboard.get()[0];
+
+    const fixedStatus = this.clipboard.fixed;
+    this.clipboard.setFixed(true);
+
+    this.handleSelectedNodes(
+      nodes => confirm(`${
+        add ? 'Add' : 'Remove'
+      } ${
+        nodes.length === 1 ? `this item` : `these ${nodes.length} items`
+      } ${
+        add ? 'to' : 'from'
+      } ${
+        targetNode.mainData.type + '#' + targetNode.mainData.id
+      }?`),
+      nodes => this.nodeService.updateTags(nodes
+          .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+          .map(n => n.mainData.id)
+        , [targetNode.mainData.id], add ? 'add' : 'remove'
+      ).pipe(
+        tap((ns) => {
+          this.view.alert(`${
+            ns.length === 1 ? `One item ` : `${ns.length} items `
+          } ${
+            add ? 'add to' : 'remove from'
+          } ${
+            targetNode.mainData.type + '#' + targetNode.mainData.id
+          }.`);
+        }),
+        catchError(err => of(err)),
+        tap(() => this.clipboard.setFixed(fixedStatus)),
+      ).subscribe());
+  }
+
   tag(tag: boolean) {
     this.tagSelector.selectTags(
       null, null, tag ? 'Add tags to selected items' : 'Remove tags from selected items'
@@ -67,6 +107,25 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
       }
     })).subscribe();
   }
+  permission(permission: string) {
+    this.handleSelectedNodes(
+      nodes => confirm(`Set ${nodes.length === 1 ? `this item` : `these ${nodes.length} items`} to ${permission}?`),
+      nodes => this.nodeService.updateAll(nodes
+          .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+          .map(n => { n.mainData.permission = permission; return n; })
+        , true
+      ).pipe(tap((ns) => {
+        this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} set to ${permission}.`);
+      })).subscribe());
+  }
+  delete() {
+    this.handleSelectedNodes(
+      nodes => confirm(nodes.length === 1 ? `Remove this item?` : `Remove these ${nodes.length} items?`),
+      nodes => this.nodeService.deleteAll(nodes.map(node => node.mainData.id)).pipe(tap(() => {
+        this.view.alert(nodes.length === 1 ? `One item removed.` : `${nodes.length} items removed.`);
+      })).subscribe());
+  }
+
   star(star: boolean) {
     this.handleSelectedNodes(
       nodes => confirm(`${star ? 'Star' : 'Unstar'} ${nodes.length === 1 ? `this item` : `these ${nodes.length} items`}?`),
@@ -100,47 +159,13 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
         this.view.alert(`Mark ${ns.length === 1 ? `one item ` : `${ns.length} items `} as ${safe ? 'safe' : 'unsafe'}.`);
       })).subscribe());
   }
-  permission(permission: string) {
-    this.handleSelectedNodes(
-      nodes => confirm(`Set ${nodes.length === 1 ? `this item` : `these ${nodes.length} items`} to ${permission}?`),
-      nodes => this.nodeService.updateAll(nodes
-          .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
-          .map(n => { n.mainData.permission = permission; return n; })
-        , true
-      ).pipe(tap((ns) => {
-        this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} set to ${permission}.`);
-      })).subscribe());
-  }
-  delete() {
-    this.handleSelectedNodes(
-      nodes => confirm(nodes.length === 1 ? `Remove this item?` : `Remove these ${nodes.length} items?`),
-      nodes => this.nodeService.deleteAll(nodes.map(node => node.mainData.id)).pipe(tap(() => {
-        this.view.alert(nodes.length === 1 ? `One item removed.` : `${nodes.length} items removed.`);
-      })).subscribe());
-  }
-  clip() {
-    this.handleSelectedNodes(() => true, nodes => {
-      this.clipboard.set(nodes);
-      this.view.alert( `${nodes.length === 1 ? `One item` : `${nodes.length} items`} add to clipboard.`);
-    });
-  }
-  handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
-    const nodes = this.masonry.getSelectedItems();
-    if (nodes.length) {
-      if (!confirm || !confirm(nodes)) { return; }
-      this.masonry.enableSelectMode(false);
-      handler(nodes);
-    } else {
-      this.view.alert('Please select at least one item.');
-    }
-  }
 
   public fetchData() {
     if (this.fetchSub) { this.fetchSub.unsubscribe(); }
     this.error = false;
 
     let filter: Filter;
-    if (this.fixed) {
+    if (this.filterFixed) {
       filter = JSON.parse(JSON.stringify(this.filter));
     } else {
       filter = this.basicFilter.getFilter();
@@ -174,6 +199,19 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
       this.fetchSub.unsubscribe();
       this.fetchSub = null;
       this.view.setLoading(false);
+    }
+  }
+  toggleSelectMode() {
+    this.masonry.enableSelectMode(!this.masonry.selectMode);
+  }
+  handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
+    const nodes = this.masonry.getSelectedItems();
+    if (nodes.length) {
+      if (!confirm || !confirm(nodes)) { return; }
+      this.masonry.enableSelectMode(false);
+      handler(nodes);
+    } else {
+      this.view.alert('Please select at least one item.');
     }
   }
 

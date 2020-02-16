@@ -39,7 +39,7 @@ export class UserHomeComponent implements OnInit {
     this.view.init({title: config.title});
     this.mainNode = null;
 
-    this.masonry.fixed = !!config.fixed;
+    this.masonry.filterFixed = !!config.fixed;
     this.masonry.filter = config.filter;
     this.masonry.fetchData();
   }

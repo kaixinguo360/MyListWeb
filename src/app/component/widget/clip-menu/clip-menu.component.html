@@ -1,5 +1,6 @@
 <button type="button" mat-icon-button [matMenuTriggerFor]="menu">
-  <mat-icon>assignment</mat-icon>
+  <mat-icon matBadgeSize="small" matBadgeColor="accent" matBadgePosition="above before"
+            [matBadge]="clipboard.length.toString()">assignment</mat-icon>
 </button>
 
 <mat-menu #menu xPosition="before" yPosition="below">
@@ -14,5 +15,10 @@
 
   <button mat-menu-item (click)="clipboard.clear()">
     <mat-icon>library_add_check</mat-icon>{{clipboard.length?'Clipped: '+clipboard.length:'No clipped'}}
+  </button>
+
+  <button mat-menu-item (click)="clipboard.setFixed(!clipboard.fixed)">
+    <mat-icon>{{clipboard.fixed?'lock':'lock_open'}}</mat-icon>
+    {{clipboard.fixed?'Fixed':'Not Fixed'}}
   </button>
 </mat-menu>

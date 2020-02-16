@@ -1,22 +1,22 @@
 <div class="container">
   <div class="tool-container">
-    <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)">
+    <button mat-icon-button (click)="toggleSelectMode()">
       <mat-icon>center_focus_weak</mat-icon>
     </button>
     <app-order-selector></app-order-selector>
-    <app-tag-filter [hidden]="fixed" #tagFilter></app-tag-filter>
-    <app-basic-filter [hidden]="fixed" #basicFilter></app-basic-filter>
+    <app-tag-filter [hidden]="filterFixed" #tagFilter></app-tag-filter>
+    <app-basic-filter [hidden]="filterFixed" #basicFilter></app-basic-filter>
     <button mat-icon-button (click)="view.loading?stopFetchData():fetchData()">
       <mat-icon>{{view.loading?'close':'refresh'}}</mat-icon>
     </button>
   </div>
   <div class="tool-container select-tool" *ngIf="masonry.selectMode">
 
-    <button mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)"><mat-icon>close</mat-icon></button>
+    <button mat-icon-button (click)="toggleSelectMode()"><mat-icon>close</mat-icon></button>
     <button mat-icon-button (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
 
     <button mat-button (click)="tag(true)"><mat-icon>bookmark</mat-icon>Tag</button>
-    <button mat-button (click)="clip()"><mat-icon>assignment_returned</mat-icon>Clip</button>
+    <button mat-button [matMenuTriggerFor]="clipMenu"><mat-icon>assignment</mat-icon>Clip</button>
 
     <button mat-icon-button [matMenuTriggerFor]="selectMenu"><mat-icon>more_horiz</mat-icon></button>
   </div>
@@ -36,6 +36,16 @@
   <mat-icon class="center-icon big-icon" *ngIf="!masonry.items.length">{{error?'error':'info'}}</mat-icon>
   <span class="center-info" *ngIf="!masonry.items.length">{{error?'Unknown Error':'Empty List'}}</span>
 </div>
+
+<mat-menu #clipMenu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="clip(true)"><mat-icon>add_circle_outline</mat-icon>Add to Clipboard</button>
+  <button mat-menu-item (click)="clip(false)" *ngIf="clipboard.length"><mat-icon>remove_circle_outline</mat-icon>Remove from Clipboard</button>
+  <ng-container *ngIf="clipboard.isCollection">
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="collection(true)"><mat-icon>add_circle_outline</mat-icon>Add to Collection</button>
+    <button mat-menu-item (click)="collection(false)"><mat-icon>remove_circle_outline</mat-icon>Remove from Collection</button>
+  </ng-container>
+</mat-menu>
 
 <mat-menu #selectMenu xPosition="before" yPosition="below">
   <button mat-menu-item (click)="delete()"><mat-icon>delete</mat-icon>Delete</button>

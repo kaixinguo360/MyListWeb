@@ -105,8 +105,8 @@ export class NodeEditComponent implements OnInit {
 
   jump(node: Node) {
     if (node.tags && node.tags.length) {
-      const tag = node.tags[0] as Node;
-      this.router.navigate(['/tag', tag.mainData.id]);
+      const collection = node.tags[0] as Node;
+      this.router.navigate([collection.mainData.type, collection.mainData.id]);
     } else {
       this.router.navigate(['/untagged']);
     }
