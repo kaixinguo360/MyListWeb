@@ -2,7 +2,7 @@
 
   <div class="title-container" [matMenuTriggerFor]="menu">
     <button type="button" mat-icon-button disableRipple
-            (click)="$event.stopPropagation();isHome?null:back()"
+            (click)="$event.stopPropagation();isHome?null:view.back()"
             (mouseenter)="showBackIcon=true"
             (mouseleave)="showBackIcon=false">
       <mat-icon *ngIf="showBackIcon">{{isHome?'home':'arrow_back'}}</mat-icon>

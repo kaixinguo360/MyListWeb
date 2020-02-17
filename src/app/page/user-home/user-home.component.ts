@@ -28,13 +28,6 @@ export class UserHomeComponent implements OnInit {
 
   @ViewChild('masonry', {static: true}) masonry: NodeMasonryComponent;
 
-  back() {
-    if (this.mainNode) {
-      this.view.back();
-    } else {
-      this.router.navigate(['/home']);
-    }
-  }
   init(config: {title: string, fixed?: boolean, filter?: Filter}) {
     this.view.init({title: config.title});
     this.mainNode = null;

@@ -68,7 +68,7 @@ export class NodeEditComponent implements OnInit {
     ).pipe(
       tap((n) => {
         this.saveStatus();
-        this.jump(n);
+        this.jump(n, !node.mainData.id);
       }),
       catchError(err => {
         this.snackBar.open('An error occurred.', 'Close');
@@ -103,12 +103,16 @@ export class NodeEditComponent implements OnInit {
     }
   }
 
-  jump(node: Node) {
-    if (node.tags && node.tags.length) {
-      const collection = node.tags[0] as Node;
-      this.router.navigate([collection.mainData.type, collection.mainData.id]);
+  jump(node: Node, isNew: boolean) {
+    if (isNew) {
+      if (node.tags && node.tags.length) {
+        const collection = node.tags[0] as Node;
+        this.router.navigate([collection.mainData.type, collection.mainData.id]);
+      } else {
+        this.router.navigate(['/untagged']);
+      }
     } else {
-      this.router.navigate(['/untagged']);
+      this.view.back();
     }
   }
   draft() {
