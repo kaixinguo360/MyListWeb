@@ -17,6 +17,11 @@ export class Tag {
 }
 
 export class Filter {
+  cascade?: boolean;
+  part?: boolean;
+  collection?: boolean;
+  types?: string[];
+
   conditions?: Condition[];
   sorts?: Sort[];
   permission?: string;

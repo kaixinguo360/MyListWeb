@@ -70,12 +70,7 @@ export class TagFilterComponent implements OnInit {
     return this.notAll ? {
       or: [],
       and: [],
-      not: this.allTags.map(i => ({
-        strict: false,
-        value: undefined,
-        id: i.mainData.id,
-        type: 'tag',
-      })),
+      not: this.allTags.map(i => ({id: i.mainData.id})),
     } : {
       or: TagFilterComponent.toTags(this.orTags),
       and: TagFilterComponent.toTags(this.andTags),

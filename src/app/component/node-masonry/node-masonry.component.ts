@@ -39,6 +39,10 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
     if (f2.orTags) { f1.orTags = f1.orTags.concat(f2.orTags); }
     if (f2.andTags) { f1.andTags = f1.andTags.concat(f2.andTags); }
     if (f2.notTags) { f1.notTags = f1.notTags.concat(f2.notTags); }
+
+    ['cascade', 'part', 'collection', 'nsfw', 'like', 'hide', 'types'].forEach(property => {
+      f1[property] = f2[property] === undefined ? f1[property] : f2[property];
+    });
   }
 
   click(node: Node, index: number) {

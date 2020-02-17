@@ -13,6 +13,7 @@ import {TypeService} from '../../../service/util/type.service';
 export class BasicFilterComponent implements OnInit {
 
   data = this.fb.group({
+    cascade: false,
     nsfw: false,
     like: false,
     hide: false,
@@ -72,6 +73,8 @@ export class BasicFilterComponent implements OnInit {
   public getFilter(): Filter {
     const value = this.data.value;
     const filter: Filter = {
+      cascade: !!value.cascade,
+      types: value.types.length ? value.types : null,
       nsfw: value.nsfw ? null : false,
       like: value.like ? true : null,
       hide: value.hide ? null : false,
@@ -83,16 +86,9 @@ export class BasicFilterComponent implements OnInit {
       notTags: []
     };
     switch (value.collection) {
-      case 'implode': filter.conditions.push({column: 'node_part', oper: '=', value: '0'}); break;
-      case 'explode': filter.conditions.push({column: 'node_collection', oper: '=', value: '0'}); break;
+      case 'implode': filter.part = false; break;
+      case 'explode': filter.collection = false; break;
       default: break;
-    }
-    if (value.types.length < this.types.length && value.types.length > 0) {
-      filter.conditions.push({
-        column: 'node_type',
-        oper: 'in',
-        value: '(\'' + value.types.join('\',\'') + '\')',
-      });
     }
     return filter;
   }

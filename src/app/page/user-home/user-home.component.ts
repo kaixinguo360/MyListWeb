@@ -63,7 +63,7 @@ export class UserHomeComponent implements OnInit {
         case 'favorite':
           this.init({
             title: 'Favorite',
-            filter: {conditions: [{column: 'node_like', oper: '=', value: 1}]},
+            filter: {like: true},
           });
           break;
 
@@ -87,7 +87,7 @@ export class UserHomeComponent implements OnInit {
           const type = this.typeService.getType(this.data);
           this.init({
             title: type.name,
-            filter: {conditions: [{column: 'node_type', oper: '=', value: `'${type.id}'`}]},
+            filter: {types: [type.id]},
           });
           break;
 
