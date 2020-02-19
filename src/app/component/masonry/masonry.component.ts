@@ -51,7 +51,9 @@ export class MasonryComponent implements OnInit {
     const length = this.view.isMobile ? 50 : 100;
     const start = this.displayItems.length;
     const end = Math.min(start + length, this.items.length);
-    this.displayItems = this.displayItems.concat(this.items.slice(start, end));
+    this.displayItems = this.displayItems.length ?
+      this.displayItems.concat(this.items.slice(start, end)) :
+      this.items.slice(start, end);
   }
 
   public enableSelectMode(mode: boolean) {

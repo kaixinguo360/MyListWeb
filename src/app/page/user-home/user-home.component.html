@@ -22,10 +22,10 @@
 
   <div class="title-padding"></div>
 
-  <app-node-menu [node]="mainNode" *ngIf="mainNode">
+  <app-node-menu [node]="masonry.mainNode" *ngIf="masonry.mainNode">
     <button mat-icon-button><mat-icon>menu_open</mat-icon></button>
   </app-node-menu>
-  <app-clip-menu [node]="mainNode" *ngIf="clipboard.length"></app-clip-menu>
+  <app-clip-menu [node]="masonry.mainNode" *ngIf="clipboard.length"></app-clip-menu>
   <app-add-menu></app-add-menu>
   <app-proxy-selector></app-proxy-selector>
   <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
@@ -33,8 +33,7 @@
 
 <!-- Add Content Here -->
 <div class="mat-content">
-  <app-node-masonry #masonry [disabled]="disabled" [mainNode]="mainNode"
-                    [filter]="filter" [filterFixed]="filterFixed"></app-node-masonry>
+  <app-node-masonry #masonry></app-node-masonry>
 </div>
 
 <!-- Add Menu Here -->

@@ -27,16 +27,36 @@
   border: 2px solid #ffd740;
 }
 
-.more-container {
-  width: 100%;
-  height: 96px;
+.load-more {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.more-container>button {
+.load-more>button {
   color: white;
   background-color: #afafaf;
   box-shadow: white 0 0 0;
   min-width: 200px;
+  margin-top: 60px;
+}
+.load-more>.small {
+  margin: 16px 0 56px;
+}
+
+.bottom-divider {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+.bottom-divider>.mat-divider {
+  width: calc(50% - 40px);
+}
+.bottom-divider>.mat-icon {
+  color: #0000001f;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
 }

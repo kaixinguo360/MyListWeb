@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {ViewService} from '../../service/util/view.service';
 import {of, Subscription} from 'rxjs';
@@ -20,12 +20,11 @@ import {ClipboardService} from '../../service/util/clipboard.service';
   templateUrl: './node-masonry.component.html',
   styleUrls: ['./node-masonry.component.css']
 })
-export class NodeMasonryComponent implements OnInit, OnChanges, OnDestroy {
+export class NodeMasonryComponent implements OnInit, OnDestroy {
 
-  @Input() filter: Filter;
-  @Input() filterFixed: boolean;
-  @Input() disabled: boolean;
-  @Input() mainNode: Node;
+  public filter: Filter;
+  public filterFixed: boolean;
+  public mainNode: Node;
 
   targetNode: Node;
   error = false;
@@ -229,9 +228,6 @@ export class NodeMasonryComponent implements OnInit, OnChanges, OnDestroy {
     this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('preview@onload').subscribe(() => this.masonry.layout()));
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    if (!this.disabled) { this.fetchData(); }
   }
   ngOnDestroy(): void {
     this.otherSubs.forEach(sub => sub.unsubscribe());

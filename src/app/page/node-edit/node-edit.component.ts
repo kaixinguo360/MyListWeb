@@ -123,7 +123,7 @@ export class NodeEditComponent implements OnInit {
         mainData: this.mainData.getRawValue(),
         extraData: this.extraEdit.getExtraData(),
         extraList: this.extraEdit.getExtraList(),
-        tags: this.tags.map(tag => tag.mainData.id)
+        tags: this.tags
       };
       node.mainData.id = null;
       this.preference.set('node-edit@draft', JSON.stringify(node));
