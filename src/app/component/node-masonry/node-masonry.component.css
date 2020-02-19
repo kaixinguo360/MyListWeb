@@ -19,6 +19,6 @@
   border-radius: 20px;
 }
 
-.masonry {
-  margin: 40px 0;
+.masonry-container {
+  margin-top: 40px;
 }

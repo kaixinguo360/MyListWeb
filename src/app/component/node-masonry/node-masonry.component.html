@@ -21,8 +21,7 @@
     <button mat-icon-button [matMenuTriggerFor]="selectMenu"><mat-icon>more_horiz</mat-icon></button>
   </div>
 
-  <div class="masonry">
-
+  <div class="masonry-container">
     <app-masonry #masonryRef [template]="template"></app-masonry>
     <ng-template #template let-data="data" let-index="index">
       <app-node-card (click)="click(data, index)"
@@ -30,7 +29,6 @@
                      [interact]="!masonry.selectMode"
                      [node]="data" [maxHeight]="500"></app-node-card>
     </ng-template>
-
   </div>
 
   <mat-icon class="center-icon big-icon" *ngIf="!masonry.items.length">{{error?'error':'info'}}</mat-icon>
