@@ -4,21 +4,18 @@
 </button>
 
 <mat-menu #menu xPosition="before" yPosition="below">
-  <button mat-menu-item (click)="add()" *ngIf="node">
-    <mat-icon>add_circle_outline</mat-icon>Add</button>
-  <button mat-menu-item (click)="remove()" *ngIf="node">
-    <mat-icon>remove_circle_outline</mat-icon>Remove</button>
-  <button mat-menu-item (click)="newList()">
-    <mat-icon>playlist_add</mat-icon>New List</button>
-
-  <mat-divider></mat-divider>
-
-  <button mat-menu-item (click)="clipboard.clear()">
-    <mat-icon>library_add_check</mat-icon>{{clipboard.length?'Clipped: '+clipboard.length:'No clipped'}}
-  </button>
-
-  <button mat-menu-item (click)="clipboard.setFixed(!clipboard.fixed)">
+  <button mat-menu-item (click)="clipboard.clear()"><mat-icon>close</mat-icon>Clear All</button>
+  <button mat-menu-item (click)="$event.stopPropagation();clipboard.setFixed(!clipboard.fixed)">
     <mat-icon>{{clipboard.fixed?'lock':'lock_open'}}</mat-icon>
     {{clipboard.fixed?'Fixed':'Not Fixed'}}
   </button>
+
+  <ng-container *ngIf="node">
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="add()"><mat-icon>add_circle_outline</mat-icon>Add</button>
+    <button mat-menu-item (click)="remove()"><mat-icon>remove_circle_outline</mat-icon>Remove</button>
+  </ng-container>
+
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="newList()"><mat-icon>playlist_add</mat-icon>New List</button>
 </mat-menu>

@@ -31,9 +31,12 @@ export class ClipMenuComponent {
   public remove() {
     const toRemove = this.clipboard.get()
       .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'));
-    if (toRemove.find(node => node.mainData.part)) {
-      if (!confirm(`Some selections have an auto-delete attribute. This operation may delete them. Are you sure?`)) { return; }
-    }
+
+    if (!(toRemove.find(node => node.mainData.part) ?
+        confirm(`Some selections have an auto-delete attribute. This operation may delete them. Are you sure?`) :
+        confirm(`This operation will remove selected items from this collection. Are you sure?`)
+    )) { return; }
+
     this.nodeService.updateTags(
       toRemove.map(n => n.mainData.id), [this.node.mainData.id], 'remove'
     ).subscribe((ns) => {

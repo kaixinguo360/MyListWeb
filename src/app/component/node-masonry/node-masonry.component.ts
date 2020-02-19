@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 
 import {ViewService} from '../../service/util/view.service';
 import {of, Subscription} from 'rxjs';
@@ -20,11 +20,14 @@ import {ClipboardService} from '../../service/util/clipboard.service';
   templateUrl: './node-masonry.component.html',
   styleUrls: ['./node-masonry.component.css']
 })
-export class NodeMasonryComponent implements OnInit, OnDestroy {
+export class NodeMasonryComponent implements OnInit, OnChanges, OnDestroy {
 
-  public filter: Filter;
-  public filterFixed: boolean;
+  @Input() filter: Filter;
+  @Input() filterFixed: boolean;
+  @Input() disabled: boolean;
+  @Input() mainNode: Node;
 
+  targetNode: Node;
   error = false;
 
   fetchSub: Subscription;
@@ -53,14 +56,14 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
     }
   }
 
-  clip(add: boolean) {
-    this.handleSelectedNodes(() => true, nodes =>
-      add ? this.clipboard.add(nodes) : this.clipboard.remove(nodes)
-    );
+  clip(action: string) {
+    this.handleSelectedNodes(() => true, nodes => {switch (action) {
+      case 'add': this.clipboard.add(nodes); break;
+      case 'remove': this.clipboard.remove(nodes); break;
+      case 'set': this.clipboard.set(nodes); break;
+    }});
   }
-  collection(add: boolean) {
-    const targetNode = this.clipboard.get()[0];
-
+  collection(add: boolean, targetNode: Node) {
     const fixedStatus = this.clipboard.fixed;
     this.clipboard.setFixed(true);
 
@@ -207,6 +210,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   }
   toggleSelectMode() {
     this.masonry.enableSelectMode(!this.masonry.selectMode);
+    this.targetNode = (this.masonry.selectMode && this.clipboard.isCollection) ? this.clipboard.get()[0] : null;
   }
   handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
     const nodes = this.masonry.getSelectedItems();
@@ -225,6 +229,9 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
     this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('preview@onload').subscribe(() => this.masonry.layout()));
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (!this.disabled) { this.fetchData(); }
   }
   ngOnDestroy(): void {
     this.otherSubs.forEach(sub => sub.unsubscribe());

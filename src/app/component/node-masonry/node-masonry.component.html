@@ -36,12 +36,27 @@
 </div>
 
 <mat-menu #clipMenu xPosition="before" yPosition="below">
-  <button mat-menu-item (click)="clip(true)"><mat-icon>add_circle_outline</mat-icon>Add to Clipboard</button>
-  <button mat-menu-item (click)="clip(false)" *ngIf="clipboard.length"><mat-icon>remove_circle_outline</mat-icon>Remove from Clipboard</button>
-  <ng-container *ngIf="clipboard.isCollection">
+  <button mat-menu-item (click)="collection(false, mainNode)" *ngIf="mainNode">
+    <mat-icon>remove_circle</mat-icon>Remove from <i>{{mainNode.mainData.type|titlecase}}#{{mainNode.mainData.id}}</i>
+  </button>
+  <button mat-menu-item (click)="clip('set')"><mat-icon>assignment</mat-icon>Clipboard</button>
+
+  <ng-container *ngIf="clipboard.length">
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="collection(true)"><mat-icon>add_circle_outline</mat-icon>Add to Collection</button>
-    <button mat-menu-item (click)="collection(false)"><mat-icon>remove_circle_outline</mat-icon>Remove from Collection</button>
+    <button mat-menu-item (click)="clip('add')"><mat-icon>assignment_returned</mat-icon>Add</button>
+    <button mat-menu-item (click)="clip('remove')"><mat-icon>assignment_return</mat-icon>Remove</button>
+  </ng-container>
+
+  <ng-container *ngIf="targetNode">
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="collection(true, targetNode)">
+      <mat-icon>add_circle_outline</mat-icon>
+      Add to <i>{{targetNode.mainData.type|titlecase}}#{{targetNode.mainData.id}}</i>
+    </button>
+    <button mat-menu-item (click)="collection(false, targetNode)">
+      <mat-icon>remove_circle_outline</mat-icon>
+      Remove from <i>{{targetNode.mainData.type|titlecase}}#{{targetNode.mainData.id}}</i>
+    </button>
   </ng-container>
 </mat-menu>
 

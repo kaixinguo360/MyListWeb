@@ -60,7 +60,7 @@ export class ClipboardService {
   }
   public clear(showStatus = true) {
     this.nodes = [];
-    this.length = 0;
+    this.updateStatus();
     if (showStatus) { this.showStatus(); }
   }
 

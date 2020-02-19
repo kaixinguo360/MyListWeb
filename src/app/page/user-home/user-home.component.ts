@@ -17,8 +17,11 @@ export class UserHomeComponent implements OnInit {
 
   private defaultPath = 'favorite';
   private defaultData = null;
-
   types: TypeInfo[] = TypeService.typeInfos.map(i => i).reverse();
+
+  filter: Filter;
+  filterFixed: boolean;
+  disabled = true;
 
   isHome: boolean;
   path: string;
@@ -32,9 +35,9 @@ export class UserHomeComponent implements OnInit {
     this.view.init({title: config.title});
     this.mainNode = null;
 
-    this.masonry.filterFixed = !!config.fixed;
-    this.masonry.filter = config.filter;
-    this.masonry.fetchData();
+    this.filterFixed = !!config.fixed;
+    this.filter = config.filter;
+    this.disabled = false;
   }
   ngOnInit(): void {
     this.route.url.subscribe((urls: UrlSegment[]) => {
@@ -68,7 +71,7 @@ export class UserHomeComponent implements OnInit {
           this.view.init({title: 'Untagged'});
           this.mainNode = null;
           this.nodeService.getAllByType('tag').subscribe(node => {
-            this.masonry.filter = {
+            this.filter = {
               conditions: [{column: 'node_type', oper: '!=', value: '\'tag\''}],
               notTags: node.map(i => ({id: i.mainData.id})),
             };

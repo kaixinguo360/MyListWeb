@@ -33,7 +33,8 @@
 
 <!-- Add Content Here -->
 <div class="mat-content">
-  <app-node-masonry #masonry></app-node-masonry>
+  <app-node-masonry #masonry [disabled]="disabled" [mainNode]="mainNode"
+                    [filter]="filter" [filterFixed]="filterFixed"></app-node-masonry>
 </div>
 
 <!-- Add Menu Here -->
