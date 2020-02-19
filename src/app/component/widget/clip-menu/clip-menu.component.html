@@ -12,8 +12,14 @@
 
   <ng-container *ngIf="node">
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="add()"><mat-icon>add_circle_outline</mat-icon>Add</button>
-    <button mat-menu-item (click)="remove()"><mat-icon>remove_circle_outline</mat-icon>Remove</button>
+    <button mat-menu-item (click)="add()">
+      <mat-icon>add_circle</mat-icon>Add To
+      <i>{{node.mainData.type|titlecase}}<span class="small">#{{node.mainData.id}}</span></i>
+    </button>
+    <button mat-menu-item (click)="remove()">
+      <mat-icon>remove_circle</mat-icon>Remove From
+      <i>{{node.mainData.type|titlecase}}<span class="small">#{{node.mainData.id}}</span></i>
+    </button>
   </ng-container>
 
   <mat-divider></mat-divider>

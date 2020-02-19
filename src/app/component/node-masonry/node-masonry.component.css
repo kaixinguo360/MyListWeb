@@ -2,7 +2,6 @@
   position: relative;
   min-height: 400px;
 }
-
 .tool-container {
   position: fixed;
   top: 64px;
@@ -14,11 +13,11 @@
   background-color: white;
   color: #8e8e8e;
 }
-
-.select-tool>.mat-button {
-  border-radius: 20px;
-}
-
 .masonry-container {
   margin-top: 40px;
+}
+
+.text-button {
+  border-radius: 20px;
+  padding: 0 6px;
 }
