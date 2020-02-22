@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ViewService} from './view.service';
 import {User} from '../user.service';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Injectable({
@@ -23,20 +23,6 @@ export class Preference {
       return value;
     }
   }
-  public getObservable(key: string, defaultValue?: string): Observable<string> {
-    if (this.obs.has(key)) {
-      return this.obs.get(key);
-    } else {
-      const subject = new Subject<string>();
-      this.obs.set(key, subject);
-      this.get(key, defaultValue);
-      return subject;
-    }
-  }
-  public getSwitch(key: string, defaultValue?: boolean): Observable<boolean> {
-    return this.getObservable(key, defaultValue ? 'true' : '')
-      .pipe(map(value => Boolean(value)));
-  }
   public set(key: string, value: string): void {
     localStorage.setItem(key, value);
     if (this.obs.has(key)) { this.obs.get(key).next(value); }
@@ -46,9 +32,24 @@ export class Preference {
     if (this.obs.has(key)) { this.obs.get(key).next(null); }
   }
 
+  public observable(key: string, defaultValue?: string): Observable<string> {
+    if (this.obs.has(key)) {
+      return this.obs.get(key);
+    } else {
+      const subject = new BehaviorSubject<string>(this.get(key, defaultValue));
+      this.obs.set(key, subject);
+      this.get(key, defaultValue);
+      return subject;
+    }
+  }
+  public switch(key: string, defaultValue?: boolean): Observable<boolean> {
+    return this.observable(key, defaultValue ? 'true' : '')
+      .pipe(map(value => Boolean(value)));
+  }
   public toggle(key: string) {
     this.get(key) ? this.remove(key) : this.set(key, 'true');
   }
+
   public setUser(user: User) {
     this.view.user = user;
     this.set('user', JSON.stringify(user));
@@ -61,9 +62,6 @@ export class Preference {
       localStorage.clear();
       localStorage.setItem('admin_token', adminToken);
     }
-  }
-  public init() {
-    this.obs.forEach((subject, key) => subject.next(this.get(key)));
   }
 
   constructor(

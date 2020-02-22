@@ -31,10 +31,7 @@ export class NodeService {
   private static errorHandler = HttpService.errorHandler;
   private static unwrap = map<OutputWrap, Node>(r => { r.node.tags = r.tags; return r.node; });
   private static unwrapAll = map<OutputWrap[], Node[]>(rs => rs.map(r => { r.node.tags = r.tags; return r.node; }));
-
-  private nodeCache = new Map<number, Node>();
-  private obCache = new Map<number, Observable<Node>>();
-
+  private cache = new Map<string, Observable<any>>();
   private static wrap(node: Node): InputWrap {
     const tags = node.tags as number[];
     node.tags = undefined;
@@ -65,29 +62,25 @@ export class NodeService {
     };
   }
 
-
   // ------------ Single Node Method ------------ //
   public add(node: Node): Observable<Node> {
     return this.httpService.post<OutputWrap>('node', NodeService.wrap(node)).pipe(
       NodeService.unwrap,
-      tap(n => {
-        this.nodeCache.set(n.mainData.id, n);
-        this.handleChange({added: [n]});
-      }),
+      tap(n => this.handleChange({added: [n]})),
       NodeService.errorHandler,
     );
   }
   public get(id: number): Observable<Node> {
-    if (this.obCache.has(id)) {
-      return this.obCache.get(id);
+    const key = String(id);
+    if (this.cache.has(key)) {
+      return this.cache.get(key);
     } else {
       const ob = this.httpService.get<OutputWrap>('node/' + id, null).pipe(
         NodeService.unwrap,
-        tap(n => this.nodeCache.set(n.mainData.id, n)),
-        shareReplay(1),
         NodeService.errorHandler,
+        shareReplay(1),
       );
-      this.obCache.set(id, ob);
+      this.cache.set(key, ob);
       return ob;
     }
   }
@@ -109,15 +102,28 @@ export class NodeService {
   public addAll(nodes: Node[]): Observable<Node[]> {
     return this.httpService.post<OutputWrap[]>('node/batch', NodeService.wrapAll(nodes)).pipe(
       NodeService.unwrapAll,
-      tap<Node[]>(ns => {
-        ns.forEach(n => this.nodeCache.set(n.mainData.id, n));
-        this.handleChange({added: ns});
-      }),
+      tap<Node[]>(ns => this.handleChange({added: ns})),
       NodeService.errorHandler,
     );
   }
   public getAll(filter: Filter = {}): Observable<Node[]> {
-    return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);
+    const key = JSON.stringify(filter);
+    if (this.cache.has(key)) {
+      return this.cache.get(key);
+    } else {
+      const ob = this.httpService.post<Node[]>('node/search', filter, true).pipe(
+        NodeService.errorHandler,
+        shareReplay(1),
+      );
+      this.cache.set(key, ob);
+      return ob;
+    }
+  }
+  public getAllByType(type: string, filter?: Filter): Observable<Node[]> {
+    if (!filter) { filter = {}; }
+    if (!filter.conditions) { filter.conditions = []; }
+    filter.conditions.push({column: 'node_type', oper: '=', value: `'${type}'`});
+    return this.getAll(filter);
   }
   public updateAll(nodes: Node[], isSimple = false, tagMode = 'set'): Observable<Node[]> {
     const wraps = NodeService.wrapAll(nodes);
@@ -153,18 +159,8 @@ export class NodeService {
 
   // ------------ Util Method ------------ //
   private handleChange(event: NodeChangeEvent) {
-    this.nodeCache.clear();
-    this.obCache.clear();
+    this.cache.clear();
     this.view.notify('node@onchange', event);
-  }
-  public getAllByType(type: string, filter?: Filter): Observable<Node[]> {
-    if (!filter) { filter = {}; }
-    if (!filter.conditions) { filter.conditions = []; }
-    filter.conditions.push({column: 'node_type', oper: '=', value: `'${type}'`});
-    return this.httpService.post<Node[]>('node/search', filter, true).pipe(NodeService.errorHandler);
-  }
-  public getCache(id: number): Node {
-    return this.nodeCache.get(id);
   }
 
   constructor(

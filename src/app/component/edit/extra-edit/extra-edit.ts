@@ -1,9 +1,8 @@
-import {Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ExtraData, ListItem} from '../../../service/util/node';
 
 export interface ExtraEdit {
-  valid: boolean;
-  onChange(next: () => void): Subscription;
+  valid?: Observable<boolean>;
   setExtraData?(extraData: ExtraData);
   setExtraList?(extraList: ListItem[]);
   getExtraData?(): ExtraData;

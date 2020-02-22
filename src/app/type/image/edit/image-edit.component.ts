@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ExtraEdit} from '../../../component/edit/extra-edit/extra-edit';
 import {NodeService} from '../../../service/node.service';
 import {FormBuilder, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {ViewService} from '../../../service/util/view.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ExtraData} from '../../../service/util/node';
@@ -14,7 +14,6 @@ import {ExtraData} from '../../../service/util/node';
 })
 export class ImageEditComponent implements ExtraEdit {
 
-  public valid = false;
   imageData = this.fb.group({
     nodeType: 'image',
     url: this.fb.control(null, Validators.required),
@@ -24,7 +23,7 @@ export class ImageEditComponent implements ExtraEdit {
     source: this.fb.control(null),
   });
 
-  public onChange(next: () => void): Subscription { return this.imageData.statusChanges.subscribe(next); }
+  public valid = new BehaviorSubject<boolean>(this.imageData.valid);
   public getExtraData(): ExtraData { return this.imageData.getRawValue(); }
   public setExtraData(extraData: ExtraData) { this.imageData.patchValue(extraData); }
 
@@ -35,7 +34,7 @@ export class ImageEditComponent implements ExtraEdit {
     private router: Router,
     private fb: FormBuilder,
   ) {
-    this.imageData.statusChanges.subscribe(() => this.valid = this.imageData.valid);
+    this.imageData.statusChanges.subscribe(() => this.valid.next(this.imageData.valid));
   }
 
 }

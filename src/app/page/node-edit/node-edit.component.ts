@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
-import {EMPTY, throwError} from 'rxjs';
+import {combineLatest, EMPTY, throwError} from 'rxjs';
 import {ExtraEditComponent} from '../../component/edit/extra-edit/extra-edit.component';
 import {TagSelector} from '../../component/tag-dialog/tag-dialog.component';
 import {Node} from '../../service/util/node';
@@ -20,8 +20,8 @@ import {Preference} from '../../service/util/preference.service';
 })
 export class NodeEditComponent implements OnInit {
 
-  showDescription =  this.preference.getSwitch('node-edit@showDescription');
-  showComment =  this.preference.getSwitch('node-edit@showComment');
+  showDescription =  this.preference.switch('node-edit@showDescription');
+  showComment =  this.preference.switch('node-edit@showComment');
   hasDraft = false;
 
   mainData = this.fb.group({
@@ -149,12 +149,10 @@ export class NodeEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.valid = this.extraEdit.valid;
-    this.extraEdit.onChange(() => {
-      this.valid = this.mainData.valid && this.extraEdit.valid;
+    combineLatest(this.mainData.statusChanges, this.extraEdit.valid).subscribe(valid => {
+      this.valid = valid[0] && valid[1];
       this.ref.detectChanges();
     });
-    this.preference.init();
     this.loadStatus();
 
     this.route.paramMap.subscribe(map => {

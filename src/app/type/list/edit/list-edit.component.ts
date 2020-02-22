@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ExtraEdit} from '../../../component/edit/extra-edit/extra-edit';
-import {of, Subscription, throwError} from 'rxjs';
+import {of, throwError} from 'rxjs';
 import {ListItem, Node} from '../../../service/util/node';
 import {ViewService} from '../../../service/util/view.service';
 import {Image} from '../../image/type-info';
@@ -15,16 +15,14 @@ import {NodeViewer} from '../../../component/node-viewer/node-viewer.component';
   templateUrl: './list-edit.component.html',
   styleUrls: ['./list-edit.component.css']
 })
-export class ListEditComponent implements ExtraEdit, OnInit {
+export class ListEditComponent implements ExtraEdit {
 
   items: ListItem[] = [];
 
-  show = this.preference.getSwitch('list-edit@show');
+  show = this.preference.switch('list-edit@show');
   loading = false;
   selectMode = false;
 
-  public valid = true;
-  public onChange(next: () => void): Subscription { return of().subscribe(); }
   public setExtraList(extraList: ListItem[]) {
     this.items = extraList as ListItem<Image>[];
   }
@@ -159,9 +157,6 @@ export class ListEditComponent implements ExtraEdit, OnInit {
 
   canWrite(node: Node): boolean {
     return NodeService.canWrite(node, this.view.user);
-  }
-  ngOnInit(): void {
-    this.preference.init();
   }
 
   constructor(

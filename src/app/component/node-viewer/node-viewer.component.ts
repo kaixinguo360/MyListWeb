@@ -36,19 +36,13 @@ export class NodeViewerComponent implements OnInit {
   }
   private load() {
     const id = this.ids[this.index];
-    const cache = this.nodeService.getCache(id);
-    if (cache != null) {
-      this.showNode(cache);
-      this.preload();
-    } else {
-      this.currentNode = null;
-      this.nodeService.get(id).pipe(
-        tap(n => {
-          this.showNode(n);
-          this.preload();
-        })
-      ).subscribe();
-    }
+    this.currentNode = null;
+    this.nodeService.get(id).pipe(
+      tap(n => {
+        this.showNode(n);
+        this.preload();
+      })
+    ).subscribe();
   }
   private preload() {
     for (let i = -5; i <= 5; i++) {

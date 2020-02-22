@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
 import {ExtraEdit} from './extra-edit';
-import {Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Subject, Subscription} from 'rxjs';
 import {ExtraData, ListItem} from '../../../service/util/node';
 import {TypeService} from '../../../service/util/type.service';
 
@@ -12,11 +12,10 @@ import {TypeService} from '../../../service/util/type.service';
 export class ExtraEditComponent implements OnChanges, ExtraEdit {
 
   @Input() type: string;
-  public valid: boolean;
 
   @ViewChild('content', { read: ViewContainerRef, static: true }) contentHost: ViewContainerRef;
   content: ExtraEdit;
-  subject: Subject<void> = new Subject<void>();
+  valid: Subject<boolean> = new BehaviorSubject<boolean>(true);
   subscription: Subscription;
 
   private extraData: ExtraData;
@@ -34,9 +33,6 @@ export class ExtraEditComponent implements OnChanges, ExtraEdit {
   public getExtraList(): ListItem[] {
     return (this.content && this.content.getExtraList) ? this.content.getExtraList() : null;
   }
-  public onChange(next: () => void): Subscription {
-    return this.subject.subscribe(next);
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.content) {
@@ -53,14 +49,11 @@ export class ExtraEditComponent implements OnChanges, ExtraEdit {
       const componentRef = this.contentHost.createComponent(factory);
       this.content = (componentRef.instance as ExtraEdit);
 
-      this.valid = this.content.valid;
-      this.subject.next();
-
-      this.subscription = this.content.onChange(() => {
-        this.valid = this.content.valid;
-        this.subject.next();
-      });
-
+      if (this.content.valid) {
+        this.subscription = this.content.valid.subscribe(valid => this.valid.next(valid));
+      } else {
+        this.valid.next(true);
+      }
       if (this.extraData) {
         if (this.content.setExtraData) { this.content.setExtraData(this.extraData); }
         this.extraData = null;
@@ -70,8 +63,7 @@ export class ExtraEditComponent implements OnChanges, ExtraEdit {
         this.extraList = null;
       }
     } else {
-      this.valid = true;
-      this.subject.next();
+      this.valid.next(true);
     }
   }
 

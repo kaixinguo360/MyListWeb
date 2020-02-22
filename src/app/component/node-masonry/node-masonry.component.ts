@@ -194,17 +194,19 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
         this.error = true;
         return of(err);
       }),
-      tap(() => {
-        this.fetchSub.unsubscribe();
-        this.fetchSub = null;
-      }),
+      tap(this.unsubscribe),
     ).subscribe();
   }
   stopFetchData() {
     if (this.fetchSub) {
+      this.unsubscribe();
+      this.view.setLoading(false);
+    }
+  }
+  unsubscribe() {
+    if (this.fetchSub) {
       this.fetchSub.unsubscribe();
       this.fetchSub = null;
-      this.view.setLoading(false);
     }
   }
   toggleSelectMode() {

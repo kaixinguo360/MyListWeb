@@ -9,7 +9,7 @@
     <div class="content">
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="Title" maxlength="255" formControlName="title" autocomplete="off">
+        <input matInput placeholder="Title" maxlength="1024" formControlName="title" autocomplete="off">
       </mat-form-field>
 
       <div class="full-width">
@@ -42,7 +42,7 @@
           </button>
           <span class="flex-padding">Description {{mainData.value.description?'(+)':''}}</span>
           <mat-form-field class="full-width" *ngIf="showDescription|async">
-            <textarea formControlName="description" matInput maxlength="2550" autocomplete="off"></textarea>
+            <textarea formControlName="description" matInput maxlength="2560" autocomplete="off"></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -54,13 +54,13 @@
           </button>
           <span class="flex-padding">Comment {{mainData.value.comment?'(+)':''}}</span>
           <mat-form-field class="full-width" *ngIf="showComment|async">
-            <textarea formControlName="comment" matInput maxlength="2550" autocomplete="off"></textarea>
+            <textarea formControlName="comment" matInput maxlength="2560" autocomplete="off"></textarea>
           </mat-form-field>
         </div>
       </div>
 
       <mat-form-field class="full-width">
-        <input matInput placeholder="Source Url" maxlength="255" formControlName="source" autocomplete="off">
+        <input matInput placeholder="Source Url" maxlength="1024" formControlName="source" autocomplete="off">
       </mat-form-field>
 
       <div class="full-width">

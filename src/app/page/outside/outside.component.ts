@@ -41,7 +41,7 @@ export class OutsideComponent implements OnInit {
   images: string[] = [];
 
   isLoading = true;
-  isOpen = this.preference.getSwitch('outside@isOpen');
+  isOpen = this.preference.switch('outside@isOpen');
   outWindow: Window;
 
   private regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
@@ -164,7 +164,6 @@ export class OutsideComponent implements OnInit {
     this.masonry.enableSelectMode(true);
     this.view.init({title: 'Outside'});
     this.view.notification('preview@onload').subscribe(() => this.masonry.layout());
-    this.preference.init();
 
     // Get URL From The Route
     this.route.queryParams.subscribe((params: Params) => {
