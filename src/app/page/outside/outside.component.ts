@@ -66,14 +66,13 @@ export class OutsideComponent implements OnInit {
       const node: Node = selected[0];
       draft.mainData.type = node.mainData.type;
 
-      if (draft.mainData.title) {
-        draft.mainData.description = node.mainData.description ? node.mainData.description : draft.mainData.description;
-      } else {
-        draft.mainData.title = node.mainData.description ? node.mainData.description : draft.mainData.title;
-        if (draft.mainData.title && draft.mainData.title.length >= 100) {
-          draft.mainData.description = draft.mainData.title;
-          draft.mainData.title = draft.mainData.title.substr(0, 100);
+      if (node.mainData.description) {
+        if (draft.mainData.description) {
+          if (!draft.mainData.title) {
+            draft.mainData.title = draft.mainData.description;
+          }
         }
+        draft.mainData.description = node.mainData.description;
       }
 
       draft.extraData = node.extraData;
@@ -102,7 +101,7 @@ export class OutsideComponent implements OnInit {
       this.title = data.title ? data.title : this.title;
       if (this.title && this.title.length >= 100) {
         this.description = this.title;
-        this.title = this.title.substr(0, 100);
+        this.title = null;
       }
 
       const newItems = data.images.filter(
