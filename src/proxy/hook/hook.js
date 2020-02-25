@@ -2,6 +2,17 @@
 // ---------- URL ---------- //
 
 history.pushState('','', PATH);
+window.addEventListener('popstate', (e) => {
+  e.stopPropagation();
+  if (location.pathname.substr(0, 12) === '/proxy/page/') {
+    history.go(-2);
+  } else {
+    const url = ORIGIN + location.pathname;
+    location.href = '/proxy/page/' + btoa(url)
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
+  }
+}, true);
 
 // ---------- Service Worker ---------- //
 
@@ -15,7 +26,7 @@ channel.port1.onmessage = function (e) {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/proxy/hook-sw.js', { scope: '/proxy/page/' })
     .then(function(reg) {
-      
+
       if (!reg.active) {
         window.location.reload();
       }
