@@ -10,6 +10,9 @@ import {Node} from '../../service/util/node';
 import {ViewService} from '../../service/util/view.service';
 import {TypeService} from '../../service/util/type.service';
 import {TagSelector} from '../../component/tag-dialog/tag-dialog.component';
+import {catchError, tap} from 'rxjs/operators';
+import {throwError} from 'rxjs';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-outside',
@@ -25,6 +28,7 @@ export class OutsideComponent implements OnInit {
     private typeService: TypeService,
     private proxyService: ProxyService,
     private nodeService: NodeService,
+    private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
     private domSanitizer: DomSanitizer,
@@ -46,53 +50,116 @@ export class OutsideComponent implements OnInit {
 
   private regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
 
-  save() {
+  saveCollection() {
     const selected = this.masonry.getSelectedItems();
-
     const draft: Node = {
+      extraList: selected.map(node => ({node, status: 'new'})),
       mainData: {
         user: this.view.user.id,
         title: this.title,
+        type: 'list',
+        part: false,
+        collection: true,
+        source: this.sourceUrl,
+        description: this.description,
+      },
+    };
+
+    this.tagSelector.selectTags(
+      null, null, `Selected ${selected.length} items`
+    ).subscribe(tags => {if (tags) {
+      draft.tags = tags;
+      this.preference.set('node-edit@draft', JSON.stringify(draft));
+      if (this.outWindow) { this.outWindow.close(); }
+      this.router.navigate(['/node/new'], {queryParams: {draft: 1}});
+    }});
+  }
+  saveMultipleNode() {
+    const selected = this.masonry.getSelectedItems();
+    const nodes = selected.map((node: Node) => {
+      node.mainData.part = false;
+      if (node.mainData.description) {
+        node.mainData.title = node.mainData.description;
+        node.mainData.description = this.title ? this.title : null;
+      } else if (this.title) {
+        node.mainData.title = this.title;
+      }
+      return node;
+    });
+
+    this.tagSelector.selectTags(
+      null, null, `Selected ${selected.length} items`
+    ).subscribe(tags => {if (tags) {
+      nodes.forEach(node => node.tags = tags.map(tag => tag.mainData.id));
+      this.nodeService.addAll(nodes).pipe(
+        tap((n) => {
+          if (this.outWindow) { this.outWindow.close(); }
+          if (tags && tags.length) {
+            this.router.navigate([tags[0].mainData.type, tags[0].mainData.id]);
+          } else {
+            this.router.navigate(['/untagged']);
+          }
+        }),
+        catchError(err => {
+          this.snackBar.open('An error occurred.', 'Close');
+          return throwError(err);
+        })
+      ).subscribe();
+    }});
+  }
+  saveSingleNode() {
+    const selected = this.masonry.getSelectedItems();
+    const node: Node = selected[0];
+    const draft: Node = {
+      extraData: node.extraData,
+      mainData: {
+        user: this.view.user.id,
+        title: this.title,
+        type: node.mainData.type,
         part: false,
         collection: false,
         source: this.sourceUrl,
         description: this.description,
-      }
+      },
     };
 
-    if (selected.length === 0) {
-      draft.mainData.type = 'node';
-    } else if (selected.length === 1) {
-      const node: Node = selected[0];
-      draft.mainData.type = node.mainData.type;
-
-      if (node.mainData.description) {
-        if (draft.mainData.description) {
-          if (!draft.mainData.title) {
-            draft.mainData.title = draft.mainData.description;
-          }
-        }
-        draft.mainData.description = node.mainData.description;
-      }
-
-      draft.extraData = node.extraData;
-    } else {
-      draft.mainData.type = 'list';
-      draft.mainData.collection = true;
-      draft.extraList = selected.map(node => ({node, status: 'new'}));
+    if (node.mainData.description) {
+      if (draft.mainData.description && !draft.mainData.title) { draft.mainData.title = draft.mainData.description; }
+      draft.mainData.description = node.mainData.description;
     }
 
     this.tagSelector.selectTags(
-      null, null, `Selected ${selected.length} items`
-    ).subscribe(tags => {
-      if (tags) {
-        draft.tags = tags;
-        this.preference.set('node-edit@draft', JSON.stringify(draft));
-        if (this.outWindow) { this.outWindow.close(); }
-        this.router.navigate(['/node/new'], {queryParams: {draft: 1}});
-      }
-    });
+      null, null, `Save as ${draft.mainData.type}`
+    ).subscribe(tags => {if (tags) {
+      draft.tags = tags;
+      this.preference.set('node-edit@draft', JSON.stringify(draft));
+      if (this.outWindow) { this.outWindow.close(); }
+      this.router.navigate(['/node/new'], {queryParams: {draft: 1}});
+    }});
   }
+  saveEmptyNode() {
+    const selected = this.masonry.getSelectedItems();
+
+    this.tagSelector.selectTags(
+      null, null, `Save as simple node`
+    ).subscribe(tags => {if (tags) {
+      const draft: Node = {
+        mainData: {
+          user: this.view.user.id,
+          title: this.title,
+          type: 'node',
+          part: false,
+          collection: false,
+          source: this.sourceUrl,
+          description: this.description,
+        }, tags
+      };
+      this.preference.set('node-edit@draft', JSON.stringify(draft));
+      if (this.outWindow) { this.outWindow.close(); }
+      this.router.navigate(['/node/new'], {queryParams: {draft: 1}});
+    }});
+  }
+
   load() {
     const dataStr = localStorage.getItem('outside@data');
     if (dataStr) {
@@ -138,12 +205,11 @@ export class OutsideComponent implements OnInit {
 
       this.masonry.addItems(newItems);
       localStorage.removeItem('outside@data');
-      this.view.alert(newItems.length === 1 ? 'Add one new item' :  `Add ${newItems.length} new items`);
+      this.view.alert(newItems.length === 1 ? 'Add a new item' :  `Add ${newItems.length} new items`);
 
       this.isLoading = false;
     }
   }
-
   open() {
     if (this.outWindow) { this.outWindow.close(); }
 

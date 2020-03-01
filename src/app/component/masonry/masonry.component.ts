@@ -36,7 +36,7 @@ export class MasonryComponent implements OnInit {
     this.items = items.map(data => ({data, selected: false}));
     this.displayItems.length = 0;
     this.more();
-    this.masonry.layout();
+    this.layout();
   }
   public addItems(items: any[]) {
     const newItems = items.map(data => ({data, selected: false}));
@@ -45,7 +45,7 @@ export class MasonryComponent implements OnInit {
       this.displayItems.length = 0;
       this.more();
     }
-    this.masonry.layout();
+    this.layout();
   }
   public more() {
     const length = this.view.isMobile ? 50 : 100;
@@ -78,6 +78,7 @@ export class MasonryComponent implements OnInit {
 
   public layout() {
     this.masonry.layout();
+    this.view.detectChanges();
   }
   @HostListener('window:resize') resize() {
     this.containerWidth = this.view.isMobile ? window.innerWidth :

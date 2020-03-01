@@ -13,9 +13,12 @@
 
 <!-- Add Content Here -->
 <div style="height: 64px;"></div>
+
 <iframe class="iframe" [src]="proxySafeUrl" *ngIf="!outWindow"
         [class.iframe-open]="!outWindow&&(isOpen|async)"
-        sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+        sandbox="allow-scripts allow-forms allow-same-origin">
+</iframe>
+
 <div>
   <div class="masonry-container">
 
@@ -30,10 +33,16 @@
     <mat-icon>autorenew</mat-icon>Loading...
   </div>
 </div>
+
 <div class="round-button-container">
-  <button mat-raised-button class="round-button" (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
-  <button mat-raised-button class="round-button" (click)="save()"><mat-icon>save</mat-icon></button>
-</div>
+  <button [disabled]="!masonry.items.length" mat-raised-button class="round-button" (click)="masonry.selectAll()"><mat-icon>select_all</mat-icon></button>
+  <button [disabled]="masonry.selectCount<1" mat-raised-button class="round-button" (click)="saveMultipleNode()"><mat-icon>library_add</mat-icon></button>
+  <ng-container [ngSwitch]="masonry.selectCount">
+    <button *ngSwitchCase="0" mat-raised-button class="round-button" (click)="saveEmptyNode()"><mat-icon>note_add</mat-icon></button>
+    <button *ngSwitchCase="1" mat-raised-button class="round-button" (click)="saveSingleNode()"><mat-icon>add_photo_alternate</mat-icon></button>
+    <button *ngSwitchDefault mat-raised-button class="round-button" (click)="saveCollection()"><mat-icon>post_add</mat-icon></button>
+  </ng-container>
+  </div>
 
 <!-- Add Menu Here -->
 <mat-menu #menu xPosition="after" yPosition="below">
