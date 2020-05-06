@@ -23,7 +23,10 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     this.view.init({ title: 'Image' });
     this.otherSubs.push(this.view.notification('preview@onload').subscribe(() => this.masonry.layout()));
     this.imageService.search({}).subscribe(
-      images => this.masonry.setItems(images)
+      images => {
+        this.masonry.setItems(images);
+        this.masonry.layout();
+      }
     );
   }
   ngOnDestroy(): void {

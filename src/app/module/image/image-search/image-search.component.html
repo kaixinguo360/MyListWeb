@@ -10,11 +10,7 @@
     <app-masonry #masonryRef [template]="template"></app-masonry>
     <ng-template #template let-data="data" let-index="index">
       <div class="image-container hide-overflow">
-        <img [lazyLoad]="data.imageUrl"
-             [alt]="data.imageTitle"
-             [class.img-loading]="loading"
-             [class.img-error]="error"
-             (onLoad)="onload(!$event)" (load)="onload(false)">
+        <app-image-card [image]="data"></app-image-card>
       </div>
     </ng-template>
   </div>
