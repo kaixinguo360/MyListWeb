@@ -5,7 +5,7 @@ import {EMPTY, Observable, OperatorFunction, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 
 import {TokenService} from '../token.service';
-import {AppConfig} from '../../../environments/app-config';
+import {AppConfig} from '../../../../environments/app-config';
 import {Preference} from './preference.service';
 import {ViewService} from './view.service';
 

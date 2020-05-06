@@ -1,7 +1,7 @@
 import {Component, HostListener, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
-import {AppConfig} from '../../../environments/app-config';
+import {AppConfig} from '../../../../environments/app-config';
 import {ViewService} from '../../service/util/view.service';
 
 class MasonryItem {

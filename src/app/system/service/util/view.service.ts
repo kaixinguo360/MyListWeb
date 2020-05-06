@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Injectable} from '@angular/core';
 import {TokenService} from '../token.service';
 import {Router} from '@angular/router';
-import {AppConfig} from '../../../environments/app-config';
+import {AppConfig} from '../../../../environments/app-config';
 import {User} from '../user.service';
 import {MatSnackBar} from '@angular/material';
 import {MatSnackBarConfig} from '@angular/material/snack-bar/typings/snack-bar-config';

@@ -1,4 +1,4 @@
-import {Order} from '../app/service/util/order';
+import {Order} from '../app/system/service/util/order';
 
 export const AppConfig = {
   apiUrl: '/api/',

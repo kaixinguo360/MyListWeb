@@ -1,12 +1,15 @@
 import {Injectable, NgModule} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterModule, RouterStateSnapshot, Routes} from '@angular/router';
 
-import {LoginComponent} from './page/login/login.component';
-import {AdminHomeComponent} from './page/admin/home/admin-home.component';
-import {UserHomeComponent} from './page/user-home/user-home.component';
-import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
-import {TokenService} from './service/token.service';
-import {ViewService} from './service/util/view.service';
+import {LoginComponent} from './system/page/login/login.component';
+import {AdminHomeComponent} from './system/page/admin/home/admin-home.component';
+import {UserHomeComponent} from './system/page/user-home/user-home.component';
+import {UserEditComponent} from './system/page/admin/user-edit/user-edit.component';
+import {TokenService} from './system/service/token.service';
+import {ViewService} from './system/service/util/view.service';
+
+import {ImageSearchComponent} from './module/image/image-search/image-search.component';
+import {ImageModule} from './module/image/image.module';
 
 @Injectable({providedIn: 'root'})
 export class UserLoginGuard implements CanActivate {
@@ -40,6 +43,8 @@ const routes: Routes = [
 
   { path: 'home', component: UserHomeComponent, canActivate: [UserLoginGuard] },
 
+  { path: 'image', component: ImageSearchComponent, canActivate: [UserLoginGuard] },
+
   { path: 'admin', redirectTo: 'admin/home', pathMatch: 'full' },
   { path: 'admin/login', component: LoginComponent },
   { path: 'admin/home', component: AdminHomeComponent, canActivate: [AdminLoginGuard] },
@@ -50,6 +55,9 @@ const routes: Routes = [
 
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes)]
+  imports: [
+    RouterModule.forRoot(routes),
+    ImageModule,
+  ]
 })
 export class AppRoutingModule { }
