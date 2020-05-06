@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000033;
+}
+
+.login-card {
+  flex: 1 0 auto;
+  max-width: 400px;
+  min-width: 0;
+  margin: 10px;
+}
+
+.login-card>div {
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.align-center {
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 80px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}

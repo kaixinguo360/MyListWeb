@@ -1,0 +1,8 @@
+.mat-toolbar {
+  height: 64px;
+  justify-content: flex-end;
+}
+
+.title-padding {
+  flex: 1 1 auto;
+}

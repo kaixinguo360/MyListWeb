@@ -1,0 +1,10 @@
+.mat-progress-bar {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+}
+
+.container {
+  min-width: 100%;
+  min-height: 100%;
+}

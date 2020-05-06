@@ -1,0 +1,9 @@
+export enum Order {
+  MTIME_DESC = 'MTIME_DESC',
+  MTIME_ASC = 'MTIME_ASC',
+  CTIME_DESC = 'CTIME_DESC',
+  CTIME_ASC = 'CTIME_ASC',
+  NAME_DESC = 'NAME_DESC',
+  NAME_ASC = 'NAME_ASC',
+  RANDOM = 'RANDOM'
+}
