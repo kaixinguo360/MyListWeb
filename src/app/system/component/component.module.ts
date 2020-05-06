@@ -32,6 +32,8 @@ export class HammerConfig extends HammerGestureConfig  {
     MaterialModule,
   ],
   exports: [
+    DomainPipe,
+    LimitPipe,
     MasonryComponent,
     OrderSelectorComponent,
     ProxySelectorComponent,

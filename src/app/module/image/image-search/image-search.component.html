@@ -1,1 +1,21 @@
-<p>image-search works!</p>
+<mat-toolbar>
+  <button type="button" mat-icon-button disableRipple><mat-icon>favorite</mat-icon></button>
+  <span class="flex-padding">{{view.config.title}}</span>
+  <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
+</mat-toolbar>
+
+<!-- Add Content Here -->
+<div class="mat-content">
+  <div class="masonry-container">
+    <app-masonry #masonryRef [template]="template"></app-masonry>
+    <ng-template #template let-data="data" let-index="index">
+      <div class="image-container hide-overflow">
+        <img [lazyLoad]="data.imageUrl"
+             [alt]="data.imageTitle"
+             [class.img-loading]="loading"
+             [class.img-error]="error"
+             (onLoad)="onload(!$event)" (load)="onload(false)">
+      </div>
+    </ng-template>
+  </div>
+</div>
