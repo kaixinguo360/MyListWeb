@@ -8,6 +8,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {OrderService} from '../../../system/service/util/order.service';
 import {Tag, TagService} from '../../../system/service/tag.service';
 import {Filter, FilterInputComponent} from '../../../system/component/widget/filter-input/filter-input.component';
+import {TagSelector} from '../../../system/component/tag-selector/tag-selector.component';
 
 @Component({
   selector: 'app-image-search',
@@ -58,9 +59,29 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     });
   }
 
+  fetchData() {
+    this.imageService.search({
+      andTags: this.filter.andTags,
+      orTags: this.filter.orTags,
+      notTags: this.filter.notTags,
+      includeText: this.filter.includeText,
+      excludeText: this.filter.excludeText,
+      limit: this.limit,
+      offset: this.page * this.limit,
+      order: this.orderService.getOrder('image'),
+      direction: this.orderService.getDirection('image'),
+    }).subscribe(
+      images => {
+        this.masonry.setItems(images);
+        this.masonry.layout();
+      }
+    );
+  }
+
   ngOnInit(): void {
+    this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
+    this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => { this.page = 0; this.fetchData(); }));
     this.otherSubs.push(this.view.notification('preview@onload').subscribe(() => this.masonry.layout()));
-    this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => { this.page = 0; location.reload(); }));
     this.tagService.search().subscribe(tags => this.allTags = tags);
 
     this.route.queryParamMap.subscribe((params: ParamMap) => {
@@ -76,22 +97,7 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
       };
       this.tagInput.setInput(this.filter);
 
-      this.imageService.search({
-        andTags: this.filter.andTags,
-        orTags: this.filter.orTags,
-        notTags: this.filter.notTags,
-        includeText: this.filter.includeText,
-        excludeText: this.filter.excludeText,
-        limit: this.limit,
-        offset: this.page * this.limit,
-        order: this.orderService.getOrder('image'),
-        direction: this.orderService.getDirection('image'),
-      }).subscribe(
-        images => {
-          this.masonry.setItems(images);
-          this.masonry.layout();
-        }
-      );
+      this.fetchData();
     });
   }
   ngOnDestroy(): void {
@@ -101,8 +107,9 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
   constructor(
     public view: ViewService,
     private imageService: ImageService,
-    private tagService: TagService,
     private orderService: OrderService,
+    private tagService: TagService,
+    private tagSelector: TagSelector,
     private route: ActivatedRoute,
     private router: Router,
   ) { }

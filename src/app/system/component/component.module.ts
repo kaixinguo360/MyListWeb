@@ -13,6 +13,7 @@ import {ProxySelectorComponent} from './widget/proxy-selector/proxy-selector.com
 import {DomainPipe} from './pipe/domain-pipe';
 import {LimitPipe} from './pipe/limit-pipe';
 import {FilterInputComponent} from './widget/filter-input/filter-input.component';
+import {TagSelectorComponent} from './tag-selector/tag-selector.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -26,6 +27,7 @@ export class HammerConfig extends HammerGestureConfig  {
     OrderSelectorComponent,
     ProxySelectorComponent,
     FilterInputComponent,
+    TagSelectorComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,10 @@ export class HammerConfig extends HammerGestureConfig  {
     OrderSelectorComponent,
     ProxySelectorComponent,
     FilterInputComponent,
+    TagSelectorComponent,
+  ],
+  bootstrap: [
+    TagSelectorComponent,
   ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,

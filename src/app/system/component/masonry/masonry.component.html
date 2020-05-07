@@ -3,7 +3,6 @@
     <ngxMasonryItem *ngFor="let item of displayItems; index as index" [style.width]="view.isMobile?'50%':columnWidth+'px'">
 
       <div class="background"
-           *ngIf="selectMode"
            [class.background-selected]="item.selected"></div>
 
       <div class="item-container"

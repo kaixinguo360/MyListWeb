@@ -24,7 +24,7 @@ export class ChipItem {
 }
 
 @Component({
-  selector: 'app-tag-input',
+  selector: 'app-filter-input',
   templateUrl: './filter-input.component.html',
   styleUrls: ['./filter-input.component.css']
 })
