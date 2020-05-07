@@ -22,6 +22,8 @@ export class MasonryComponent implements OnInit {
   public items: MasonryItem[] = [];
   displayItems: MasonryItem[] = [];
 
+  tmpSelected: any[] = [];
+
   @Input() template: TemplateRef<any>;
   @ViewChild('masonry', { static: true }) masonry: NgxMasonryComponent;
   containerWidth: number;
@@ -34,8 +36,17 @@ export class MasonryComponent implements OnInit {
   };
 
   public setItems(items: any[]) {
+
+    // Tmp save selected items
+    if (this.selectMode) {
+      this.tmpSelected = this.tmpSelected.concat(
+        this.items.filter(item => item.selected).map(item => item.data)
+      );
+    }
+
     this.items = items.map(data => ({data, selected: false}));
     this.displayItems.length = 0;
+
     this.more();
     this.layout();
   }
@@ -58,24 +69,31 @@ export class MasonryComponent implements OnInit {
     this.allDisplayed = this.displayItems.length === this.items.length;
   }
 
+  public toggleSelectMode() {
+    this.enableSelectMode(!this.selectMode);
+  }
   public enableSelectMode(mode: boolean) {
     this.selectMode = mode;
     if (!mode) {
       this.items.forEach(item => item.selected = false);
       this.selectCount = 0;
+      this.tmpSelected.length = 0;
     }
   }
   public selectAll() {
     if (this.items.find(item => !item.selected)) {
       this.items.forEach(item => item.selected = true);
-      this.selectCount = this.items.length;
+      this.selectCount = this.tmpSelected.length + this.items.length;
     } else {
       this.items.forEach(item => item.selected = false);
-      this.selectCount = 0;
+      this.selectCount = this.tmpSelected.length;
     }
   }
   public getSelectedItems<T = any>(): T[] {
-    return this.items.filter(item => item.selected).map(item => item.data);
+    // SelectedItems = CurrentSelected + TmpSelected
+    return this.tmpSelected.concat(
+      this.items.filter(item => item.selected).map(item => item.data)
+    );
   }
 
   public layout() {

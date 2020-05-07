@@ -32,6 +32,11 @@
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
 }
+.item-overlay>.mat-icon {
+  position: absolute;
+  top: 12px; right: 12px;
+  color: #ffd740;
+}
 
 .load-more {
   display: flex;

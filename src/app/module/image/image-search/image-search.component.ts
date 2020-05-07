@@ -6,9 +6,10 @@ import {MasonryComponent} from '../../../system/component/masonry/masonry.compon
 import {Subscription} from 'rxjs';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {OrderService} from '../../../system/service/util/order.service';
-import {Tag, TagService} from '../../../system/service/tag.service';
+import {TagService} from '../../../system/service/tag.service';
 import {Filter, FilterInputComponent} from '../../../system/component/widget/filter-input/filter-input.component';
 import {TagSelector} from '../../../system/component/tag-selector/tag-selector.component';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-image-search',
@@ -23,7 +24,7 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
 
   otherSubs: Subscription[] = [];
   @ViewChild('masonryRef', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
-  @ViewChild('tagInputRef', { read: FilterInputComponent, static: true }) tagInput: FilterInputComponent;
+  @ViewChild('filterInputRef', { read: FilterInputComponent, static: true }) tagInput: FilterInputComponent;
   orderConfig = [
     { name: '↑ 修改时间', tip: '最旧在前', icon: 'access_time', order: 'mtime', direction: 'asc' },
     { name: '↓ 修改时间', tip: '最新在前', icon: 'access_time', order: 'mtime', direction: 'desc' },
@@ -34,7 +35,37 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     { name: '↑ 页面名称', tip: 'A在前', icon: 'sort_by_alpha', order: 'pageTitle', direction: 'asc' },
     { name: '↓ 页面名称', tip: 'Z在前', icon: 'sort_by_alpha', order: 'pageTitle', direction: 'desc' },
   ];
-  allTags: Tag[];
+
+  addTag() {
+    const images = this.masonry.getSelectedItems<Image>().map(image => image.id);
+    this.tagSelector.selectTags().pipe(
+      tap(tags => {
+        if (!tags) { return; }
+        this.imageService.batchAddTags(images, tags).pipe(
+          tap(() => {
+            this.view.alert('Add tag success!');
+            this.masonry.enableSelectMode(false);
+            this.fetchData();
+          }),
+        ).subscribe();
+      })
+    ).subscribe();
+  }
+  removeTag() {
+    const images = this.masonry.getSelectedItems<Image>().map(image => image.id);
+    this.tagSelector.selectTags().pipe(
+      tap(tags => {
+        if (!tags) { return; }
+        this.imageService.batchRemoveTags(images, tags).pipe(
+          tap(() => {
+            this.view.alert('Remove tag success!');
+            this.masonry.enableSelectMode(false);
+            this.fetchData();
+          }),
+        ).subscribe();
+      })
+    ).subscribe();
+  }
 
   search(filter: Filter) {
     this.page = 0;
@@ -82,7 +113,6 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => { this.page = 0; this.fetchData(); }));
     this.otherSubs.push(this.view.notification('preview@onload').subscribe(() => this.masonry.layout()));
-    this.tagService.search().subscribe(tags => this.allTags = tags);
 
     this.route.queryParamMap.subscribe((params: ParamMap) => {
       this.view.init({ title: 'Image' });
@@ -108,7 +138,7 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     public view: ViewService,
     private imageService: ImageService,
     private orderService: OrderService,
-    private tagService: TagService,
+    public tagService: TagService,
     private tagSelector: TagSelector,
     private route: ActivatedRoute,
     private router: Router,

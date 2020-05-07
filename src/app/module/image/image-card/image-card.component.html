@@ -1,22 +1,24 @@
-<div class="container hide-overflow"
-     [class.container-loading]="loading||error">
+<a [href]="image.imageUrl" target="_blank">
+  <div class="container hide-overflow"
+       [class.container-loading]="loading||error">
 
-  <img [lazyLoad]="image.imageUrl"
-       [alt]="(image.imageTitle?image.imageTitle:(image.imageUrl|domain))|limit:20"
-       [class.img-loading]="loading"
-       [class.img-error]="error"
-       (onLoad)="onload(!$event)" (load)="onload(false)">
+    <img [lazyLoad]="image.imageUrl"
+         [alt]="(image.imageTitle?image.imageTitle:(image.imageUrl|domain))|limit:20"
+         [class.img-loading]="loading"
+         [class.img-error]="error"
+         (onLoad)="onload(!$event)" (load)="onload(false)">
 
-  <div class="info-layer">
-    <div class="flex-padding hide-overflow" *ngIf="image.imageTitle||image.pageTitle">
-      {{image.imageTitle?image.imageTitle:image.pageTitle}}
+    <div class="info-layer">
+      <div class="flex-padding hide-overflow" *ngIf="image.imageTitle||image.pageTitle">
+        {{image.imageTitle?image.imageTitle:image.pageTitle}}
+      </div>
+      <div class="single-line flex-fixed" *ngIf="image.imageTitle&&image.pageTitle">
+        {{image.pageTitle}}
+      </div>
+      <a class="source-link single-line flex-fixed" [href]="image.pageUrl" target="_blank" *ngIf="image.pageUrl">
+        {{image.pageUrl|domain}}
+      </a>
     </div>
-    <div class="single-line flex-fixed" *ngIf="image.imageTitle&&image.pageTitle">
-      {{image.pageTitle}}
-    </div>
-    <a class="single-line flex-fixed" [href]="image.pageUrl" target="_blank" *ngIf="image.pageUrl">
-      {{image.pageUrl|domain}}
-    </a>
+
   </div>
-
-</div>
+</a>

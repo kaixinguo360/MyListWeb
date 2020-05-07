@@ -28,6 +28,7 @@ export class TagService {
 
   private static errorHandler = HttpService.errorHandler;
   private cache = new Map<string, Observable<any>>();
+  public allTags: Tag[] = [];
 
   // ------------ Single Crud ------------ //
   public add(tag: Tag): Observable<Tag> {
@@ -100,7 +101,6 @@ export class TagService {
       limit: config.limit == null ? '' : config.limit + '',
       offset: config.offset == null ? '' : config.offset + '',
     }).pipe(
-      tap<Tag[]>(s => this.handleChange({added: s})),
       TagService.errorHandler,
     );
   }
@@ -110,9 +110,15 @@ export class TagService {
     this.cache.clear();
     this.view.notify('tag@onchange', event);
   }
+  private fetchAllTags() {
+    this.search().subscribe(tags => this.allTags = tags);
+  }
 
   constructor(
     public view: ViewService,
     private httpService: HttpService,
-  ) { }
+  ) {
+    this.fetchAllTags();
+    this.view.notification('tag@onchange').subscribe(() => this.fetchAllTags());
+  }
 }

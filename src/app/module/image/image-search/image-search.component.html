@@ -1,19 +1,39 @@
 <mat-toolbar>
-  <button type="button" mat-icon-button disableRipple><mat-icon>favorite</mat-icon></button>
-  <span class="flex-padding">{{view.config.title}}</span>
-  <button type="button" mat-icon-button (click)="masonry.enableSelectMode(!masonry.selectMode)"><mat-icon>favorite</mat-icon></button>
-  <app-order-selector [id]="'image'" [orderConfig]="orderConfig"></app-order-selector>
-  <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
+
+  <!-- main mode -->
+  <ng-container class="tool-container select-tool" *ngIf="!masonry.selectMode">
+    <button type="button" mat-icon-button disableRipple><mat-icon>favorite</mat-icon></button>
+    <span class="flex-padding">{{view.config.title}}</span>
+    <button type="button" mat-icon-button (click)="masonry.toggleSelectMode()"><mat-icon>check_circle_outline</mat-icon></button>
+    <app-order-selector [id]="'image'" [orderConfig]="orderConfig"></app-order-selector>
+    <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
+  </ng-container>
+
+  <!-- select mode -->
+  <ng-container class="tool-container select-tool" *ngIf="masonry.selectMode">
+    <span class="flex-padding">
+      {{masonry.selectCount?'Selected: '+masonry.selectCount:'No selected'}}
+    </span>
+
+    <button mat-icon-button (click)="addTag()"><mat-icon>add_circle</mat-icon></button>
+    <button mat-icon-button (click)="removeTag()"><mat-icon>remove_circle</mat-icon></button>
+    <button mat-icon-button (click)="masonry.selectAll()">
+      <mat-icon>{{masonry.selectCount==masonry.items.length?'check_circle':'check_circle_outline'}}</mat-icon>
+    </button>
+    <button mat-icon-button (click)="masonry.toggleSelectMode()"><mat-icon>close</mat-icon></button>
+
+  </ng-container>
+
 </mat-toolbar>
 
 <!-- Add Content Here -->
 <div class="mat-content">
 
   <div class="search-box">
-    <app-filter-input #tagInputRef
+    <app-filter-input #filterInputRef
                       (onChange)="search($event)"
-                      [placeholder]="'Search'"
-                      [allTags]="allTags"></app-filter-input>
+                      [allTags]="tagService.allTags"
+                      [placeholder]="'Search'"></app-filter-input>
   </div>
 
   <div class="paging-button" *ngIf="page>0">

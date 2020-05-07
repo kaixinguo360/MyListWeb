@@ -22,8 +22,11 @@ export class TagSelectorComponent implements OnInit {
 
   create(name: string) {
     if (name) {
-      this.tags.unshift({name});
-      this.showInputBox = false;
+      this.tagService.add({name}).subscribe(tag => {
+        this.tags.unshift(tag);
+        this.showInputBox = false;
+        this.view.notify('tag@onchange', {added: [tag]});
+      });
     } else {
       this.view.alert('Please enter a name for the new tag!');
     }

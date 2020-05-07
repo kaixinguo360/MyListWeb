@@ -81,6 +81,8 @@ img:after {
 }
 
 a, a:active {
-  font-size: small;
   color: unset;
+}
+.source-link, .source-link:active {
+  font-size: small;
 }

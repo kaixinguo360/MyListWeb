@@ -13,7 +13,9 @@
 
         <div class="item-overlay"
              *ngIf="selectMode"
-             (click)="item.selected=!item.selected;selectCount=selectCount+(item.selected?1:-1);"></div>
+             (click)="item.selected=!item.selected;selectCount=selectCount+(item.selected?1:-1);">
+          <mat-icon *ngIf="item.selected">check_circle_outline</mat-icon>
+        </div>
       </div>
 
     </ngxMasonryItem>
