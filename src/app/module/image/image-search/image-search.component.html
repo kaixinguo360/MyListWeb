@@ -1,6 +1,7 @@
 <mat-toolbar>
   <button type="button" mat-icon-button disableRipple><mat-icon>favorite</mat-icon></button>
   <span class="flex-padding">{{view.config.title}}</span>
+  <button (click)="masonry.enableSelectMode(!masonry.selectMode)"><mat-icon>favorite</mat-icon></button>
   <app-order-selector [id]="'image'" [orderConfig]="orderConfig"></app-order-selector>
   <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
 </mat-toolbar>

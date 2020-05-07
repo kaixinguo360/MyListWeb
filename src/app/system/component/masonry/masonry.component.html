@@ -1,15 +1,22 @@
 <div class="container" [style.width.px]="containerWidth">
   <ngx-masonry #masonry class="masonry-container" [options]="masonryOptions" [useImagesLoaded]="false" [updateLayout]="false">
     <ngxMasonryItem *ngFor="let item of displayItems; index as index" [style.width]="view.isMobile?'50%':columnWidth+'px'">
+
+      <div class="background"
+           *ngIf="selectMode"
+           [class.background-selected]="item.selected"></div>
+
       <div class="item-container"
            [class.item-container-select-mode]="selectMode"
            [class.item-container-selected]="item.selected">
 
         <ng-container *ngTemplateOutlet="template; context: {data: item.data, index: index}"></ng-container>
 
-        <div class="item-overlay" (click)="item.selected=!item.selected;selectCount=selectCount+(item.selected?1:-1);" *ngIf="selectMode"
-             [class.item-overlay-selected]="item.selected"></div>
+        <div class="item-overlay"
+             *ngIf="selectMode"
+             (click)="item.selected=!item.selected;selectCount=selectCount+(item.selected?1:-1);"></div>
       </div>
+
     </ngxMasonryItem>
   </ngx-masonry>
 

@@ -28,8 +28,8 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     { name: '↓ 修改时间', tip: '最新在前', icon: 'access_time', order: 'mtime', direction: 'desc' },
     { name: '↑ 创建时间', tip: '最旧在前', icon: 'create_new_folder', order: 'ctime', direction: 'asc' },
     { name: '↓ 创建时间', tip: '最新在前', icon: 'create_new_folder', order: 'ctime', direction: 'desc' },
-    { name: '↑ 图片名称', tip: 'A在前', icon: 'sort_by_alpha', order: 'pageUrl', direction: 'asc' },
-    { name: '↓ 图片名称', tip: 'Z在前', icon: 'sort_by_alpha', order: 'pageUrl', direction: 'desc' },
+    { name: '↑ 图片名称', tip: 'A在前', icon: 'sort_by_alpha', order: 'imageTitle', direction: 'asc' },
+    { name: '↓ 图片名称', tip: 'Z在前', icon: 'sort_by_alpha', order: 'imageTitle', direction: 'desc' },
     { name: '↑ 页面名称', tip: 'A在前', icon: 'sort_by_alpha', order: 'pageTitle', direction: 'asc' },
     { name: '↓ 页面名称', tip: 'Z在前', icon: 'sort_by_alpha', order: 'pageTitle', direction: 'desc' },
   ];
