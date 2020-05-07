@@ -51,7 +51,7 @@ const routes: Routes = [
   { path: 'node/new', component: NodeEditComponent, canActivate: [UserLoginGuard] },
   { path: 'node/:id/edit', component: NodeEditComponent, canActivate: [UserLoginGuard] },
 
-  { path: 'proxy/add', component: OutsideComponent, canActivate: [UserLoginGuard] },
+  { path: 'outside', component: OutsideComponent, canActivate: [UserLoginGuard] },
 
   { path: 'admin', redirectTo: 'admin/home', pathMatch: 'full' },
   { path: 'admin/login', component: LoginComponent },
