@@ -1,0 +1,51 @@
+<mat-form-field class="full-width">
+  <mat-chip-list #chipList [disabled]="disabled">
+
+    <mat-chip *ngFor="let item of chipItems; index as i"
+              [removable]="!item.fixed" (removed)="chipItems.splice(i,1)"
+              [class.special-chip]="item.type=='text'">
+
+      <mat-icon class="chip-icon" *ngIf="item.type=='tag'">style</mat-icon>
+
+      <ng-container *ngIf="item.mode=='or'">+</ng-container>
+      <ng-container *ngIf="item.mode=='not'">-</ng-container>
+
+      <ng-container *ngIf="item.type=='text'">{{item.value}}</ng-container>
+      <ng-container *ngIf="item.type=='tag'">{{item.value.name}}</ng-container>
+
+      <mat-icon matChipRemove *ngIf="!item.fixed" (click)="change()">cancel</mat-icon>
+
+    </mat-chip>
+
+    <input #input
+           [placeholder]="placeholder"
+           [formControl]="chipCtrl"
+           [matChipInputFor]="chipList"
+           [matAutocomplete]="auto">
+
+    <button mat-icon-button matSuffix (click)="change()">
+      <mat-icon>search</mat-icon>
+    </button>
+
+  </mat-chip-list>
+
+  <mat-autocomplete #auto (optionSelected)="optionSelected($event)" autoActiveFirstOption>
+
+    <mat-option *ngFor="let item of autocompleteOptions|async" [ngSwitch]="item.type" [value]="item">
+
+      <ng-container *ngSwitchCase="'text'">
+        <mat-icon class="chip-icon">search</mat-icon>
+        {{item.value|limit:20}}
+        <span class="small-text"> - text</span>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'tag'">
+        <mat-icon class="chip-icon">style</mat-icon>
+        {{item.value.name}}
+        <span class="small-text"> - tag</span>
+      </ng-container>
+
+    </mat-option>
+
+  </mat-autocomplete>
+</mat-form-field>

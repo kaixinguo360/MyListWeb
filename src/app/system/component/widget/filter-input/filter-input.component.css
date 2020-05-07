@@ -1,0 +1,22 @@
+.mat-chip {
+  display: flex;
+  align-items: center;
+  background-color: #ffe57f;
+}
+
+.special-chip {
+  background-color: #e0e0e0;
+}
+
+.chip-icon {
+  color: darkgray;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+.small-text {
+  color: darkgray;
+  font-weight: 300;
+}

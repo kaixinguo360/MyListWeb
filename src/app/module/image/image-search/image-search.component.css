@@ -3,14 +3,18 @@
   justify-content: flex-end;
 }
 
-.page-button {
+.search-box {
+  margin: 10px;
+}
+
+.paging-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
-.page-button>div {
+.paging-button>div {
   color: white;
   background-color: #afafaf;
   box-shadow: white 0 0 0;
@@ -20,7 +24,7 @@
   cursor: pointer;
   padding: 5px 0;
 }
-.page-button .count {
+.paging-button .count {
   font-size: 10px;
 }
 

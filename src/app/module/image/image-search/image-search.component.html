@@ -8,7 +8,14 @@
 <!-- Add Content Here -->
 <div class="mat-content">
 
-  <div class="page-button" *ngIf="page>0">
+  <div class="search-box">
+    <app-tag-input #tagInputRef
+                   (onChange)="search($event)"
+                   [placeholder]="'Search'"
+                   [allTags]="allTags"></app-tag-input>
+  </div>
+
+  <div class="paging-button" *ngIf="page>0">
     <div (click)="toPage(page-1)">
       <div>Previous Page</div>
       <div class="count">{{(page-1)*limit}} - {{page*limit-1}}</div>
@@ -24,7 +31,7 @@
     </ng-template>
   </div>
 
-  <div class="page-button" *ngIf="allDisplayed&&masonry.items.length==limit">
+  <div class="paging-button" *ngIf="masonry.allDisplayed&&masonry.items.length==limit">
     <div (click)="toPage(page+1)">
       <div>Next Page</div>
       <div class="count">{{(page+1)*limit}} - {{(page+2)*limit-1}}</div>

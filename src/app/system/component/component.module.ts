@@ -12,6 +12,7 @@ import {CommonModule} from '@angular/common';
 import {ProxySelectorComponent} from './widget/proxy-selector/proxy-selector.component';
 import {DomainPipe} from './pipe/domain-pipe';
 import {LimitPipe} from './pipe/limit-pipe';
+import {FilterInputComponent} from './widget/filter-input/filter-input.component';
 
 export class HammerConfig extends HammerGestureConfig  {
   buildHammer(element: HTMLElement) { return new Hammer(element, { touchAction: 'pan-y' }); }
@@ -24,6 +25,7 @@ export class HammerConfig extends HammerGestureConfig  {
     MasonryComponent,
     OrderSelectorComponent,
     ProxySelectorComponent,
+    FilterInputComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ export class HammerConfig extends HammerGestureConfig  {
     MasonryComponent,
     OrderSelectorComponent,
     ProxySelectorComponent,
+    FilterInputComponent,
   ],
   providers: [{
     provide: HAMMER_GESTURE_CONFIG,
