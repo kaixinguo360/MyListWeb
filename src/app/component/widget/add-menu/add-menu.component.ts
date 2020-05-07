@@ -15,7 +15,7 @@ export class AddMenuComponent {
   addFromURL() {
     const url = prompt('Please enter the URL: ');
     if (url) {
-      this.router.navigate(['/proxy/add'], {queryParams: {url}});
+      this.router.navigate(['/outside'], {queryParams: {url}});
     }
   }
 
