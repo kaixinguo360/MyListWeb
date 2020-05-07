@@ -1,10 +1,10 @@
 <button mat-icon-button type="button" [matMenuTriggerFor]="menu"><mat-icon>sort</mat-icon></button>
 
 <mat-menu #menu xPosition="before">
-  <button mat-menu-item *ngFor="let item of orderMenuItems"
-          [class.menu-select]="item.order==orderService.order"
-          [matTooltip]="item.tip"
-          (click)="orderService.setOrder(item.order)">
-    <mat-icon>{{item.icon}}</mat-icon>{{item.title}}
+  <button mat-menu-item *ngFor="let config of orderConfig"
+          [class.menu-select]="config.order==currentOrder&&config.direction==currentDirection"
+          [matTooltip]="config.tip"
+          (click)="setOrder(config)">
+    <mat-icon>{{config.icon}}</mat-icon>{{config.name}}
   </button>
 </mat-menu>

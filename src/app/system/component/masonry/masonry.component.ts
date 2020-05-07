@@ -3,6 +3,7 @@ import {NgxMasonryComponent, NgxMasonryOptions} from 'ngx-masonry';
 
 import {AppConfig} from '../../../../environments/app-config';
 import {ViewService} from '../../service/util/view.service';
+import {Subject} from 'rxjs';
 
 class MasonryItem {
   data: any;
@@ -16,6 +17,7 @@ class MasonryItem {
 })
 export class MasonryComponent implements OnInit {
 
+  public allDisplayed: Subject<void> = new Subject<void>();
   public selectMode = false;
   public selectCount = 0;
   public items: MasonryItem[] = [];
@@ -54,6 +56,9 @@ export class MasonryComponent implements OnInit {
     this.displayItems = this.displayItems.length ?
       this.displayItems.concat(this.items.slice(start, end)) :
       this.items.slice(start, end);
+    if (this.displayItems.length === this.items.length) {
+      this.allDisplayed.next();
+    }
   }
 
   public enableSelectMode(mode: boolean) {

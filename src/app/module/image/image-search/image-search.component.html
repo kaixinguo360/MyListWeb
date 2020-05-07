@@ -1,11 +1,20 @@
 <mat-toolbar>
   <button type="button" mat-icon-button disableRipple><mat-icon>favorite</mat-icon></button>
   <span class="flex-padding">{{view.config.title}}</span>
+  <app-order-selector [id]="'image'" [orderConfig]="orderConfig"></app-order-selector>
   <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
 </mat-toolbar>
 
 <!-- Add Content Here -->
 <div class="mat-content">
+
+  <div class="page-button" *ngIf="page>0">
+    <div (click)="toPage(page-1)">
+      <div>Previous Page</div>
+      <div class="count">{{(page-1)*limit}} - {{page*limit-1}}</div>
+    </div>
+  </div>
+
   <div class="masonry-container">
     <app-masonry #masonryRef [template]="template"></app-masonry>
     <ng-template #template let-data="data" let-index="index">
@@ -14,4 +23,18 @@
       </div>
     </ng-template>
   </div>
+
+  <div class="page-button" *ngIf="allDisplayed&&masonry.items.length==limit">
+    <div (click)="toPage(page+1)">
+      <div>Next Page</div>
+      <div class="count">{{(page+1)*limit}} - {{(page+2)*limit-1}}</div>
+    </div>
+  </div>
+
+  <div class="bottom-divider">
+    <mat-divider></mat-divider>
+    <mat-icon>filter_vintage</mat-icon>
+    <mat-divider></mat-divider>
+  </div>
+
 </div>

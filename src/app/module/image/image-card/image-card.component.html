@@ -1,18 +1,22 @@
-<div class="container hide-overflow" [class.container-loading]="loading||error">
+<div class="container hide-overflow"
+     [class.container-loading]="loading||error">
+
   <img [lazyLoad]="image.imageUrl"
-       [alt]="image.imageTitle?image.imageTitle:(image.imageUrl|domain)"
+       [alt]="(image.imageTitle?image.imageTitle:(image.imageUrl|domain))|limit:20"
        [class.img-loading]="loading"
        [class.img-error]="error"
        (onLoad)="onload(!$event)" (load)="onload(false)">
+
   <div class="info-layer">
-    <div class="flex-padding" *ngIf="image.imageTitle">
-      {{image.imageTitle?image.imageTitle:'Untitled Image'}}
+    <div class="flex-padding hide-overflow" *ngIf="image.imageTitle||image.pageTitle">
+      {{image.imageTitle?image.imageTitle:image.pageTitle}}
     </div>
-    <div class="single-line" *ngIf="image.pageTitle">
-      {{image.pageTitle?image.pageTitle:'Untitled Page'}}
+    <div class="single-line flex-fixed" *ngIf="image.imageTitle&&image.pageTitle">
+      {{image.pageTitle}}
     </div>
-    <a class="single-line" [href]="image.pageUrl" target="_blank" *ngIf="image.pageUrl">
+    <a class="single-line flex-fixed" [href]="image.pageUrl" target="_blank" *ngIf="image.pageUrl">
       {{image.pageUrl|domain}}
     </a>
   </div>
+
 </div>

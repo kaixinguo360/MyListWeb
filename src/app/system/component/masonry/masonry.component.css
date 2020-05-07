@@ -43,20 +43,3 @@
 .load-more>.small {
   margin: 16px 0 56px;
 }
-
-.bottom-divider {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-}
-.bottom-divider>.mat-divider {
-  width: calc(50% - 40px);
-}
-.bottom-divider>.mat-icon {
-  color: #0000001f;
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-}

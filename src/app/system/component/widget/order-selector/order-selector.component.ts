@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
-import {Order} from '../../../service/util/order';
+import {Component, Input, OnInit} from '@angular/core';
 import {OrderService} from '../../../service/util/order.service';
 
-class OrderMenuItem {
-  title: string;
-  tip: string;
-  order: Order;
+class OrderConfig {
+  name: string;
+  order: string;
+  direction: string;
   icon: string;
+  tip?: string;
 }
 
 @Component({
@@ -14,17 +14,26 @@ class OrderMenuItem {
   templateUrl: './order-selector.component.html',
   styleUrls: ['./order-selector.component.css']
 })
-export class OrderSelectorComponent {
+export class OrderSelectorComponent implements OnInit {
 
-  public orderMenuItems: OrderMenuItem[] = [
-    { title: '↑ 修改时间', tip: '最旧在前', icon: 'access_time', order: Order.MTIME_ASC },
-    { title: '↓ 修改时间', tip: '最新在前', icon: 'access_time', order: Order.MTIME_DESC },
-    { title: '↑ 创建时间', tip: '最旧在前', icon: 'create_new_folder', order: Order.CTIME_ASC },
-    { title: '↓ 创建时间', tip: '最新在前', icon: 'create_new_folder', order: Order.CTIME_DESC },
-    { title: '↑ 名称', tip: 'A在前', icon: 'sort_by_alpha', order: Order.NAME_ASC },
-    { title: '↓ 名称', tip: 'Z在前', icon: 'sort_by_alpha', order: Order.NAME_DESC },
-    { title: '随机', tip: '随机排列', icon: 'blur_on', order: Order.RANDOM }
-  ];
+  @Input() id: string;
+  @Input() orderConfig: OrderConfig[];
 
-  constructor(public orderService: OrderService) {}
+  currentOrder: string;
+  currentDirection: string;
+
+  setOrder(config: OrderConfig) {
+    this.currentOrder = config.order;
+    this.currentDirection = config.direction;
+    this.orderService.setOrder(this.id, config.order, config.direction);
+  }
+
+  ngOnInit(): void {
+    this.currentOrder = this.orderService.getOrder(this.id);
+    this.currentDirection = this.orderService.getDirection(this.id);
+  }
+
+  constructor(
+    public orderService: OrderService
+  ) {}
 }
