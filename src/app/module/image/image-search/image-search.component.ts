@@ -10,6 +10,7 @@ import {TagService} from '../../../system/service/tag.service';
 import {Filter, FilterInputComponent} from '../../../system/component/widget/filter-input/filter-input.component';
 import {TagSelector} from '../../../system/component/tag-selector/tag-selector.component';
 import {tap} from 'rxjs/operators';
+import {UrlService} from '../../../system/service/url.service';
 
 @Component({
   selector: 'app-image-search',
@@ -18,23 +19,12 @@ import {tap} from 'rxjs/operators';
 })
 export class ImageSearchComponent implements OnInit, OnDestroy {
 
-  limit = 100;
   page: number;
   filter: Filter = new Filter();
 
-  otherSubs: Subscription[] = [];
   @ViewChild('masonryRef', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
   @ViewChild('filterInputRef', { read: FilterInputComponent, static: true }) tagInput: FilterInputComponent;
-  orderConfig = [
-    { name: '↑ 修改时间', tip: '最旧在前', icon: 'access_time', order: 'mtime', direction: 'asc' },
-    { name: '↓ 修改时间', tip: '最新在前', icon: 'access_time', order: 'mtime', direction: 'desc' },
-    { name: '↑ 创建时间', tip: '最旧在前', icon: 'create_new_folder', order: 'ctime', direction: 'asc' },
-    { name: '↓ 创建时间', tip: '最新在前', icon: 'create_new_folder', order: 'ctime', direction: 'desc' },
-    { name: '↑ 图片名称', tip: 'A在前', icon: 'sort_by_alpha', order: 'imageTitle', direction: 'asc' },
-    { name: '↓ 图片名称', tip: 'Z在前', icon: 'sort_by_alpha', order: 'imageTitle', direction: 'desc' },
-    { name: '↑ 页面名称', tip: 'A在前', icon: 'sort_by_alpha', order: 'pageTitle', direction: 'asc' },
-    { name: '↓ 页面名称', tip: 'Z在前', icon: 'sort_by_alpha', order: 'pageTitle', direction: 'desc' },
-  ];
+  otherSubs: Subscription[] = [];
 
   addTag() {
     const images = this.masonry.getSelectedItems<Image>().map(image => image.id);
@@ -78,35 +68,13 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     scrollTo(0, 0);
   }
   update() {
-    this.router.navigate(['/image'], {
-      queryParams: {
-        andTags: this.filter.andTags.join(),
-        orTags: this.filter.orTags.join(),
-        notTags: this.filter.notTags.join(),
-        includeText: this.filter.includeText.join(),
-        excludeText: this.filter.excludeText.join(),
-        page: this.page,
-      }
-    });
+    this.urlService.jump('/image', this.filter, this.page);
   }
 
   fetchData() {
-    this.imageService.search({
-      andTags: this.filter.andTags,
-      orTags: this.filter.orTags,
-      notTags: this.filter.notTags,
-      includeText: this.filter.includeText,
-      excludeText: this.filter.excludeText,
-      limit: this.limit,
-      offset: this.page * this.limit,
-      order: this.orderService.getOrder('image'),
-      direction: this.orderService.getDirection('image'),
-    }).subscribe(
-      images => {
-        this.masonry.setItems(images);
-        this.masonry.layout();
-      }
-    );
+    this.imageService.search(this.filter, this.page).pipe(
+      tap(images => { this.masonry.setItems(images); this.masonry.layout(); })
+    ).subscribe();
   }
 
   ngOnInit(): void {
@@ -117,14 +85,8 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
     this.route.queryParamMap.subscribe((params: ParamMap) => {
       this.view.init({ title: 'Image' });
 
-      this.page = params.get('page') ? Number(params.get('page')) : 0;
-      this.filter = {
-        andTags: params.get('andTags') ? params.get('andTags').split(',') : [],
-        orTags: params.get('orTags') ? params.get('orTags').split(',') : [],
-        notTags: params.get('notTags') ? params.get('notTags').split(',') : [],
-        includeText: params.get('includeText') ? params.get('includeText').split(',') : [],
-        excludeText: params.get('excludeText') ? params.get('excludeText').split(',') : [],
-      };
+      this.page = this.urlService.getPage(params);
+      this.filter = this.urlService.getFilter(params);
       this.tagInput.setInput(this.filter);
 
       this.fetchData();
@@ -136,10 +98,11 @@ export class ImageSearchComponent implements OnInit, OnDestroy {
 
   constructor(
     public view: ViewService,
-    private imageService: ImageService,
+    public imageService: ImageService,
     private orderService: OrderService,
     public tagService: TagService,
     private tagSelector: TagSelector,
+    private urlService: UrlService,
     private route: ActivatedRoute,
     private router: Router,
   ) { }

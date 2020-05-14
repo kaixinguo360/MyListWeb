@@ -5,7 +5,7 @@
     <button type="button" mat-icon-button disableRipple><mat-icon>favorite</mat-icon></button>
     <span class="flex-padding">{{view.config.title}}</span>
     <button type="button" mat-icon-button (click)="masonry.toggleSelectMode()"><mat-icon>check_circle_outline</mat-icon></button>
-    <app-order-selector [id]="'image'" [orderConfig]="orderConfig"></app-order-selector>
+    <app-order-selector [id]="'image'" [columnName]="'imageTitle'"></app-order-selector>
     <button type="button" mat-icon-button (click)="view.logout()"><mat-icon>logout</mat-icon></button>
   </ng-container>
 
@@ -39,7 +39,7 @@
   <div class="paging-button" *ngIf="page>0">
     <div (click)="toPage(page-1)">
       <div>Previous Page</div>
-      <div class="count">{{(page-1)*limit}} - {{page*limit-1}}</div>
+      <div class="count">{{(page-1)*imageService.limit}} - {{page*imageService.limit-1}}</div>
     </div>
   </div>
 
@@ -52,10 +52,10 @@
     </ng-template>
   </div>
 
-  <div class="paging-button" *ngIf="masonry.allDisplayed&&masonry.items.length==limit">
+  <div class="paging-button" *ngIf="masonry.allDisplayed&&masonry.items.length==imageService.limit">
     <div (click)="toPage(page+1)">
       <div>Next Page</div>
-      <div class="count">{{(page+1)*limit}} - {{(page+2)*limit-1}}</div>
+      <div class="count">{{(page+1)*imageService.limit}} - {{(page+2)*imageService.limit-1}}</div>
     </div>
   </div>
 

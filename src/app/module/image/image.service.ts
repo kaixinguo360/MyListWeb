@@ -4,6 +4,8 @@ import {Observable} from 'rxjs';
 import {Image} from './image';
 import {shareReplay, tap} from 'rxjs/operators';
 import {ViewService} from '../../system/service/util/view.service';
+import {Filter} from '../../system/component/widget/filter-input/filter-input.component';
+import {OrderService} from '../../system/service/util/order.service';
 
 export class ImageChangeEvent {
   added?: Image[];
@@ -17,6 +19,7 @@ export class ImageChangeEvent {
 export class ImageService {
 
   private static errorHandler = HttpService.errorHandler;
+  public limit = 100;
   private cache = new Map<string, Observable<any>>();
 
   // ------------ Single Crud ------------ //
@@ -78,27 +81,17 @@ export class ImageService {
   }
 
   // ------------ Search ------------ //
-  public search(config: {
-    andTags?: string[],
-    orTags?: string[],
-    notTags?: string[],
-    includeText?: string[],
-    excludeText?: string[],
-    limit?: number,
-    offset?: number,
-    order?: string,
-    direction?: string,
-  }): Observable<Image[]> {
+  public search(filter: Filter, page: number): Observable<Image[]> {
     return this.httpService.get<Image[]>('image', {
-      andTags: config.andTags == null ? '' : config.andTags.join(),
-      orTags: config.orTags == null ? '' : config.orTags.join(),
-      notTags: config.notTags == null ? '' : config.notTags.join(),
-      includeText: config.includeText == null ? '' : config.includeText.join(),
-      excludeText: config.excludeText == null ? '' : config.excludeText.join(),
-      limit: config.limit == null ? '' : config.limit + '',
-      offset: config.offset == null ? '' : config.offset + '',
-      order: config.order == null ? '' : config.order,
-      direction: config.direction == null ? '' : config.direction,
+      andTags: filter.andTags == null ? '' : filter.andTags.join(),
+      orTags: filter.orTags == null ? '' : filter.orTags.join(),
+      notTags: filter.notTags == null ? '' : filter.notTags.join(),
+      includeText: filter.includeText == null ? '' : filter.includeText.join(),
+      excludeText: filter.excludeText == null ? '' : filter.excludeText.join(),
+      limit: String(this.limit),
+      offset: String(page * this.limit),
+      order: this.orderService.getOrder('image'),
+      direction: this.orderService.getDirection('image'),
     }).pipe(
       tap<Image[]>(s => this.handleChange({added: s})),
       ImageService.errorHandler,
@@ -176,5 +169,6 @@ export class ImageService {
   constructor(
     public view: ViewService,
     private httpService: HttpService,
+    private orderService: OrderService,
   ) { }
 }
