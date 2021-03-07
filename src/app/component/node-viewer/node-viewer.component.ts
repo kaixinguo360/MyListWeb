@@ -1,12 +1,12 @@
 import {Component, Injectable, Input, OnInit} from '@angular/core';
 import {NodeChangeEvent, NodeService} from '../../service/node.service';
-import {filter, tap} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 import {ViewService} from '../../service/util/view.service';
 import {Node} from '../../service/util/node';
 import {Overlay} from '@angular/cdk/overlay';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
-import {NavigationStart, Router} from '@angular/router';
+import {LocationStrategy} from '@angular/common';
 
 @Component({
   selector: 'app-card-viewer',
@@ -32,7 +32,7 @@ export class NodeViewerComponent implements OnInit {
     this.load();
   }
   close() {
-    this.nodeViewer.close(this.overlayRef);
+    this.nodeViewer.close();
   }
   private load() {
     const id = this.ids[this.index];
@@ -66,12 +66,7 @@ export class NodeViewerComponent implements OnInit {
     public view: ViewService,
     public nodeViewer: NodeViewer,
     private nodeService: NodeService,
-    private router: Router,
   ) {
-    router.events.pipe(
-      filter((event) => event instanceof NavigationStart),
-      tap(() => this.close())
-    ).subscribe();
     this.view.notification('node@onchange').subscribe((event: NodeChangeEvent) => {
       if (event.deleted) {
         this.ids = this.ids.filter(id => event.deleted.indexOf(id) < 0);
@@ -87,7 +82,7 @@ export class NodeViewerComponent implements OnInit {
 })
 export class NodeViewer {
 
-  private count = 0;
+  private openedViewers = [];
 
   public openId(id: number) {
     const popup = this.createViewer();
@@ -100,24 +95,35 @@ export class NodeViewer {
     popup.index = index;
   }
   private createViewer(): NodeViewerComponent {
-    if (this.count === 0) { this.view.stopScroll(true); }
-    this.count++;
+    history.pushState(null, 'Node Viewer', location.href);
+    if (this.openedViewers.length === 0) {
+      this.view.stopScroll(true);
+    }
 
     const overlayRef = this.overlay.create();
     const componentRef = overlayRef.attach(new ComponentPortal(NodeViewerComponent));
     componentRef.instance.overlayRef = overlayRef;
+    this.openedViewers.push(overlayRef);
 
     return componentRef.instance;
   }
-  public close(overlayRef: OverlayRef) {
-    overlayRef.dispose();
-    this.count--;
-    if (this.count === 0) { this.view.stopScroll(false); }
+
+  public close(overlayRef?: OverlayRef) {
+    overlayRef = this.openedViewers.pop();
+    if (overlayRef) {
+      overlayRef.dispose();
+    }
+    if (this.openedViewers.length === 0) {
+      this.view.stopScroll(false);
+    }
   }
 
   constructor(
     public view: ViewService,
     private nodeService: NodeService,
     private overlay: Overlay,
-  ) { }
+    private location: LocationStrategy,
+  ) {
+    this.location.onPopState(() => this.close());
+  }
 }
