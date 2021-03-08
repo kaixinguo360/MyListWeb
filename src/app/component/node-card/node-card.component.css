@@ -3,7 +3,6 @@
 .container {
   position: relative;
   border-radius: 10px;
-  background-color: white;
 }
 .container>div {
   max-height: 100%;
@@ -11,6 +10,9 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding: 4px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 6px #00000050;
 }
 .preview-container {
   display: flex;
@@ -34,6 +36,9 @@
   flex: 1 1 auto;
 }
 .mobile-url-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 0;
   transform: translate(-50%) scale(0.8) translate(50%);
 }
