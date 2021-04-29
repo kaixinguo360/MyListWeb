@@ -105,7 +105,8 @@ export class TagSelector {
     const dialogRef = this.createDialogRef();
     const instance = dialogRef.componentInstance;
     instance.title = title;
-    instance.filter = filter;
+    instance.filter = filter ? filter : {};
+    instance.filter.sorts = [{ property: 'node_title', direction: 'asc' }];
     instance.multiple = true;
     instance.selected = selected;
     return dialogRef.afterClosed();
