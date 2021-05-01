@@ -1,17 +1,25 @@
 .container {
   position: fixed;
   top: 0; bottom: 0; left: 0; right: 0;
-}
-.container-nozoom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.container-zoom {
-  padding: 100px 0;
-  z-index: 100;
+  padding: 10px 0 60px 0;
   overflow: scroll;
   background: #00000080;
+}
+
+.title, .description {
+  width: calc(100% - 40px);
+  color: #ffffffe6;
+}
+.title {
+  margin: 15px auto 25px auto;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.description {
+  max-width: 600px;
+  margin: 20px auto;
+  white-space: pre-wrap;
 }
 
 .item-container {
@@ -19,15 +27,8 @@
   max-width: 600px;
   margin: 25px auto;
 }
-
-.preview {
-  width: 300px;
-  max-width: calc(100% - 40px);
-  margin: 0 auto;
-}
-.close-button {
-  position: fixed;
-  top: 12px; left: 16px;
-  color: white;
-  background: #0000008a;
+.item-title, .item-description {
+  color: #ffffffe6;
+  padding: 8px 0 0 0;
+  white-space: pre-wrap;
 }

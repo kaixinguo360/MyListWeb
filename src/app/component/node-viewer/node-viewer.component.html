@@ -25,12 +25,12 @@
   </div>
 
   <button class="close-button" mat-icon-button (click)="close()"><mat-icon>arrow_back</mat-icon></button>
-  <button class="info-button" mat-icon-button (click)="showInfo=true" *ngIf="!showInfo"><mat-icon>keyboard_arrow_up</mat-icon></button>
+  <button class="info-button" mat-icon-button (click)="showInfo=true;preference.set('node-viewer@showInfo', 'true')" *ngIf="!showInfo"><mat-icon>keyboard_arrow_up</mat-icon></button>
 
-  <div class="info-container" *ngIf="showInfo&&currentNode" (click)="expandInfo=true"
+  <div class="info-container" *ngIf="showInfo&&currentNode" (click)="expandInfo=true;preference.set('node-viewer@expandInfo', 'true')"
        [class.info-container-open]="expandInfo">
     <div class="title">
-      <button mat-icon-button disableRipple (click)="$event.stopPropagation();expandInfo?expandInfo=false:showInfo=false">
+      <button mat-icon-button disableRipple (click)="$event.stopPropagation();toggleExpandInfo()">
         <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
       <span class="flex-padding" [class.single-line]="!expandInfo">
@@ -48,9 +48,7 @@
     </div>
   </div>
 
-  <div class="content-container" (click)="close()"
-       (swiperight)="showLeftButton=false;showRightButton=false;turnPage(-1)"
-       (swipeleft)="showLeftButton=false;showRightButton=false;turnPage(1)">
+  <div class="content-container" (click)="close()">
     <mat-progress-spinner *ngIf="!currentNode" diameter="64" color="primary" mode="indeterminate"></mat-progress-spinner>
     <div *ngIf="currentNode"><app-card-detail [node]="currentNode"></app-card-detail></div>
   </div>

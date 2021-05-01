@@ -1,22 +1,19 @@
-<div class="container"
-     [class.container-nozoom]="!zoom"
-     [class.container-zoom]="zoom"
-     (click)="zoom?$event.stopPropagation():'';zoom=false">
+<div class="container">
 
-  <div class="preview" (click)="$event.stopPropagation();zoom=true" *ngIf="!zoom">
-    <app-card-preview [node]="node"></app-card-preview>
-  </div>
-
-  <div *ngIf="zoom">
+  <div (click)="$event.stopPropagation()">
+    <div class="title" *ngIf="node.mainData.title">{{node.mainData.title}}</div>
+    <div class="description" *ngIf="node.mainData.description">{{node.mainData.description}}</div>
     <div class="item-container" *ngFor="let item of node.extraList, index as index">
-      <app-card-preview [node]="item.node" [lazyload]="true"
-                        (click)="$event.stopPropagation();click(item, index)"></app-card-preview>
+
+      <app-card-preview [node]="item.node" [lazyload]="true" (click)="$event.stopPropagation();click(item, index)"></app-card-preview>
+
+      <div class="item-title" *ngIf="item.node.mainData.title">
+        {{item.node.mainData.title}}
+      </div>
+      <div class="item-description" *ngIf="item.node.mainData.description">
+        {{item.node.mainData.description}}
+      </div>
     </div>
   </div>
-
-  <button class="close-button" mat-icon-button *ngIf="zoom"
-          (click)="$event.stopPropagation();zoom=false">
-    <mat-icon>close</mat-icon>
-  </button>
 
 </div>

@@ -8,7 +8,7 @@ import {ComponentModule} from '../component/component.module';
 import {NodeContentComponent} from './node/content/node-content.component';
 
 import {ListPreviewComponent} from './list/preview/list-preview.component';
-import {TagContentComponent} from './tag/tag-content.component';
+import {TagPreviewComponent} from './tag/preview/tag-preview.component';
 
 import {ImagePreviewComponent} from './image/preview/image-preview.component';
 import {ImageDetailComponent} from './image/detail/image-detail.component';
@@ -25,6 +25,7 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {CollectionPreviewComponent} from './collection/preview/collection-preview.component';
 import {CollectionDetailComponent} from './collection/detail/collection-detail.component';
 import {CollectionEditComponent} from './collection/edit/collection-edit.component';
+import {TagDetailComponent} from './tag/detail/tag-detail.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {CollectionEditComponent} from './collection/edit/collection-edit.compone
     ListPreviewComponent,
     ListDetailComponent,
     ListEditComponent,
-    TagContentComponent,
+    TagPreviewComponent,
+    TagDetailComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
     ImageEditComponent,
@@ -52,7 +54,8 @@ import {CollectionEditComponent} from './collection/edit/collection-edit.compone
     ListPreviewComponent,
     ListDetailComponent,
     ListEditComponent,
-    TagContentComponent,
+    TagPreviewComponent,
+    TagDetailComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
     ImageEditComponent,

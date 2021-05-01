@@ -7,6 +7,7 @@ import {Overlay} from '@angular/cdk/overlay';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
 import {LocationStrategy} from '@angular/common';
+import {Preference} from '../../service/util/preference.service';
 
 @Component({
   selector: 'app-card-viewer',
@@ -31,9 +32,19 @@ export class NodeViewerComponent implements OnInit {
     this.index = (this.index + this.ids.length + Math.round(num)) % this.ids.length;
     this.load();
   }
+  toggleExpandInfo() {
+    if (this.expandInfo) {
+      this.expandInfo = false;
+      this.preference.remove('node-viewer@expandInfo');
+    } else {
+      this.showInfo = false;
+      this.preference.remove('node-viewer@showInfo');
+    }
+  }
   close() {
     this.nodeViewer.close();
   }
+
   private load() {
     const id = this.ids[this.index];
     this.currentNode = null;
@@ -59,11 +70,14 @@ export class NodeViewerComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.showInfo = Boolean(this.preference.get('node-viewer@showInfo'));
+    this.expandInfo = Boolean(this.preference.get('node-viewer@expandInfo'));
     this.load();
   }
 
   constructor(
     public view: ViewService,
+    public preference: Preference,
     public nodeViewer: NodeViewer,
     private nodeService: NodeService,
   ) {
@@ -116,6 +130,12 @@ export class NodeViewer {
     if (this.openedViewers.length === 0) {
       this.view.stopScroll(false);
     }
+  }
+  public closeAll(overlayRef?: OverlayRef) {
+    while (this.openedViewers.length) {
+      this.openedViewers.pop().dispose();
+    }
+    this.view.stopScroll(false);
   }
 
   constructor(

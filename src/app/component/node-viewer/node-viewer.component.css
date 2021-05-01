@@ -67,8 +67,9 @@
   overflow-y: auto;
 }
 .info-container-open {
-  top: 200px;
+  top: calc(100vh - 200px);
   bottom: 0;
+  padding-bottom: 10px;
 }
 .info-container .mat-icon-button {
   background: #00000000;

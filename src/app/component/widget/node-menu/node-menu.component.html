@@ -4,7 +4,7 @@
 
 <mat-menu #menu xPosition="before" yPosition="below">
 
-  <button mat-menu-item [routerLink]="canWrite?['/node', node.mainData.id,'edit']:null" [class.disabled]="!canWrite" [disabled]="!canWrite">
+  <button mat-menu-item [routerLink]="canWrite?['/node', node.mainData.id,'edit']:null" (click)="edit()" [class.disabled]="!canWrite" [disabled]="!canWrite">
     <mat-icon>{{canWrite?'edit':'lock'}}</mat-icon>Edit
   </button>
 

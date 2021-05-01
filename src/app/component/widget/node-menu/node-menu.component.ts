@@ -18,6 +18,9 @@ export class NodeMenuComponent implements OnChanges {
   @Input() showMoreButton = true;
   canWrite: boolean;
 
+  edit() {
+    this.nodeViewer.closeAll();
+  }
   delete() {
     if (!confirm('Remove this item?')) { return; }
     this.nodeService.delete(this.node.mainData.id)

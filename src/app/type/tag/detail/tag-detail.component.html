@@ -3,7 +3,7 @@
      [class.container-zoom]="zoom"
      (click)="zoom?$event.stopPropagation():'';zoom=false">
 
-  <div class="preview" (click)="$event.stopPropagation();zoom=true" *ngIf="!zoom">
+  <div class="preview" (click)="$event.stopPropagation();zoom=true;fetchData()" *ngIf="!zoom">
     <app-card-preview [node]="node"></app-card-preview>
   </div>
 
