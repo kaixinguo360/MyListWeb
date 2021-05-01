@@ -1,0 +1,50 @@
+<div class="button-container">
+  <button class="toggle-button" type="button" mat-icon-button (click)="preference.toggle('list-edit@show')">
+    <mat-icon>{{(show|async)?'arrow_drop_down':'arrow_right'}}</mat-icon>
+  </button>
+  <span class="flex-padding">{{items.length}} {{items.length>1?'items':'item'}}</span>
+
+  <div *ngIf="(show|async)&&items.length">
+    <button type="button" mat-icon-button (click)="selectMode=!selectMode">
+      <mat-icon>{{selectMode?'center_focus_strong':'center_focus_weak'}}</mat-icon></button>
+    <button type="button" mat-icon-button (click)="toggleAllPartStatus()" [disabled]="loading">
+      <mat-icon>check_circle</mat-icon></button>
+    <button type="button" mat-icon-button (click)="items.length=0">
+      <mat-icon>delete</mat-icon></button>
+  </div>
+</div>
+
+<div *ngIf="show|async">
+  <div class="item-container" *ngFor="let item of items; index as i"
+       [class.item-container-select-mode]="selectMode">
+
+    <div class="preview-container">
+      <div class="preview hide-overflow" (click)="openViewer(item, i)" *ngIf="editor.hidden">
+        <app-card-preview [node]="item.node"></app-card-preview>
+      </div>
+      <span class="flex-padding single-line">{{editor.hidden?'':'Editing...'}}</span>
+
+      <button type="button" mat-icon-button (click)="toggleEditor(editor, i)" [disabled]="!canWrite(item.node)||item.status=='loading'">
+        <mat-icon>{{editor.hidden?'keyboard_arrow_down':'keyboard_arrow_up'}}</mat-icon>
+      </button>
+      <button type="button" mat-icon-button (click)="down(i)" [disabled]="i+1>=items.length||item.status=='loading'"><mat-icon>arrow_drop_down</mat-icon></button>
+      <button type="button" mat-icon-button (click)="up(i)" [disabled]="i<=0||item.status=='loading'"><mat-icon>arrow_drop_up</mat-icon></button>
+      <button type="button" mat-icon-button (click)="togglePartStatus(i)" [disabled]="!canWrite(item.node)||item.status==='loading'">
+        <mat-icon>{{item.node.mainData.part?'remove_circle_outline':'check_circle'}}</mat-icon>
+      </button>
+      <button type="button" mat-icon-button (click)="items.splice(i, 1)" [disabled]="item.status=='loading'"><mat-icon>delete</mat-icon></button>
+    </div>
+
+    <div #editor class="editor-container" hidden>
+      <app-quick-edit [node]="item.node" *ngIf="item.status!='exist'&&item.status!='loading'"></app-quick-edit>
+    </div>
+
+    <div class="item-overlay" (click)="first(i)" *ngIf="selectMode"></div>
+
+  </div>
+
+  <div class="button-container">
+    <button mat-icon-button type="button" (click)="addImage()"><mat-icon>add_photo_alternate</mat-icon></button>
+    <span class="flex-padding"></span>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="container"
+     [class.container-nozoom]="!zoom"
+     [class.container-zoom]="zoom"
+     (click)="zoom?$event.stopPropagation():'';zoom=false">
+
+  <div class="preview" (click)="$event.stopPropagation();zoom=true" *ngIf="!zoom">
+    <app-card-preview [node]="node"></app-card-preview>
+  </div>
+
+  <div *ngIf="zoom">
+    <div class="item-container" *ngFor="let item of node.extraList, index as index">
+      <app-card-preview [node]="item.node" [lazyload]="true"
+                        (click)="$event.stopPropagation();click(item, index)"></app-card-preview>
+    </div>
+  </div>
+
+  <button class="close-button" mat-icon-button *ngIf="zoom"
+          (click)="$event.stopPropagation();zoom=false">
+    <mat-icon>close</mat-icon>
+  </button>
+
+</div>

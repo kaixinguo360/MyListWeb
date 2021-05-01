@@ -17,6 +17,7 @@ export const ImageType: TypeInfo = {
   id: 'image',
   name: 'Image',
   icon: 'image',
+  openInNewTab: false,
   detail: ImageDetailComponent,
   preview: ImagePreviewComponent,
   extraEdit: ImageEditComponent,

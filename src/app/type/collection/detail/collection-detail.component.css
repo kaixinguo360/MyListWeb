@@ -1,0 +1,33 @@
+.container {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+}
+.container-nozoom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container-zoom {
+  padding: 100px 0;
+  z-index: 100;
+  overflow: scroll;
+  background: #00000080;
+}
+
+.item-container {
+  width: calc(100% - 40px);
+  max-width: 600px;
+  margin: 25px auto;
+}
+
+.preview {
+  width: 300px;
+  max-width: calc(100% - 40px);
+  margin: 0 auto;
+}
+.close-button {
+  position: fixed;
+  top: 12px; left: 16px;
+  color: white;
+  background: #0000008a;
+}

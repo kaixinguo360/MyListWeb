@@ -10,6 +10,7 @@ export interface TypeInfo {
   id: string;
   name: string;
   icon: string;
+  openInNewTab: boolean;
   preview: Type<Preview>;
   detail: Type<Detail>;
   extraEdit?: Type<ExtraEdit>;

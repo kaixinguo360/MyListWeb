@@ -12,6 +12,7 @@ export class Video extends ExtraData {
 export const VideoType: TypeInfo = {
   id: 'video',
   name: 'Video',
+  openInNewTab: false,
   preview: VideoPreviewComponent,
   detail: VideoDetailComponent,
   extraEdit: VideoEditComponent,

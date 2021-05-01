@@ -13,7 +13,8 @@
           <ng-container *ngSwitchCase="'untagged'">bookmark</ng-container>
           <ng-container *ngSwitchCase="'type'">{{typeService.getType(data)?.icon}}</ng-container>
           <ng-container *ngSwitchCase="'tag'">style</ng-container>
-          <ng-container *ngSwitchCase="'list'">collections</ng-container>
+          <ng-container *ngSwitchCase="'collection'">collections</ng-container>
+          <ng-container *ngSwitchCase="'list'">list</ng-container>
         </ng-container>
       </mat-icon>
     </button>

@@ -1,16 +1,16 @@
-import {ListPreviewComponent} from './preview/list-preview.component';
-import {ListEditComponent} from './edit/list-edit.component';
+import {CollectionPreviewComponent} from './preview/collection-preview.component';
+import {CollectionEditComponent} from './edit/collection-edit.component';
 import {TypeInfo, TypeService} from '../../service/util/type.service';
-import {ListDetailComponent} from './detail/list-detail.component';
+import {CollectionDetailComponent} from './detail/collection-detail.component';
 
-export const ListType: TypeInfo = {
-  id: 'list',
-  name: 'List',
-  openInNewTab: true,
-  preview: ListPreviewComponent,
-  detail: ListDetailComponent,
-  extraEdit: ListEditComponent,
-  icon: 'list',
+export const CollectionType: TypeInfo = {
+  id: 'collection',
+  name: 'Collection',
+  openInNewTab: false,
+  preview: CollectionPreviewComponent,
+  detail: CollectionDetailComponent,
+  extraEdit: CollectionEditComponent,
+  icon: 'collections',
   process: node => {
     node.extraList.forEach(n => {
       if (n.status === 'new') {
@@ -34,7 +34,7 @@ export const ListType: TypeInfo = {
     } else {
       node.mainData.excerpt = JSON.stringify({
         type: 'node',
-        excerpt: 'Empty List',
+        excerpt: 'Empty Collection',
         count: 0,
       });
     }

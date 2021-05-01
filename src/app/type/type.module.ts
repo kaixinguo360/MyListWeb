@@ -22,12 +22,19 @@ import {ListEditComponent} from './list/edit/list-edit.component';
 import {ImageQuickEditComponent} from './image/quick-edit/image-quick-edit.component';
 import {ListDetailComponent} from './list/detail/list-detail.component';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
+import {CollectionPreviewComponent} from './collection/preview/collection-preview.component';
+import {CollectionDetailComponent} from './collection/detail/collection-detail.component';
+import {CollectionEditComponent} from './collection/edit/collection-edit.component';
 
 @NgModule({
   declarations: [
     NodeContentComponent,
+    CollectionPreviewComponent,
+    CollectionDetailComponent,
+    CollectionEditComponent,
     ListPreviewComponent,
     ListDetailComponent,
+    ListEditComponent,
     TagContentComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
@@ -36,12 +43,15 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
     VideoPreviewComponent,
     VideoDetailComponent,
     VideoEditComponent,
-    ListEditComponent,
   ],
   entryComponents: [
     NodeContentComponent,
+    CollectionPreviewComponent,
+    CollectionDetailComponent,
+    CollectionEditComponent,
     ListPreviewComponent,
     ListDetailComponent,
+    ListEditComponent,
     TagContentComponent,
     ImagePreviewComponent,
     ImageDetailComponent,
@@ -50,7 +60,6 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
     VideoPreviewComponent,
     VideoDetailComponent,
     VideoEditComponent,
-    ListEditComponent,
   ],
   imports: [
     CommonModule,

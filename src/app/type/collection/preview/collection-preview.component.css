@@ -1,0 +1,28 @@
+.container {
+  position: relative;
+}
+
+.count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: gray;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: #00000033 0 0 2px;
+
+  position: absolute;
+  top: 8px; right: 8px;
+  padding: 2px 6px;
+
+  font-size: 14px;
+  transform: translate(50%, -50%) scale(1.4) translate(-50%, 50%);
+}
+
+.count>.mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  margin-right: 2px;
+}

@@ -96,11 +96,24 @@ export class UserHomeComponent implements OnInit {
         case 'list':
           const listId = Number(this.data);
           this.init({
-            title: `Collection - #${listId}`,
+            title: `List - #${listId}`,
             fixed: true,
             filter: {andTags: [{id: listId}]},
           });
           this.nodeService.get(listId).subscribe(node => {
+            this.masonry.mainNode = node;
+            this.view.setTitle(node.mainData.title);
+          });
+          break;
+
+        case 'collection':
+          const collectionId = Number(this.data);
+          this.init({
+            title: `Collection - #${collectionId}`,
+            fixed: true,
+            filter: {andTags: [{id: collectionId}]},
+          });
+          this.nodeService.get(collectionId).subscribe(node => {
             this.masonry.mainNode = node;
             this.view.setTitle(node.mainData.title);
           });

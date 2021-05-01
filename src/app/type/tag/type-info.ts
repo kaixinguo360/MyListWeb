@@ -4,6 +4,7 @@ import {TypeInfo} from '../../service/util/type.service';
 export const TagType: TypeInfo = {
   id: 'tag',
   name: 'Tag',
+  openInNewTab: true,
   preview: TagContentComponent,
   detail: TagContentComponent,
   icon: 'style',

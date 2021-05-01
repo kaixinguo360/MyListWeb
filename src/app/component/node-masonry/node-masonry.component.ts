@@ -14,6 +14,7 @@ import {TagSelector} from '../tag-dialog/tag-dialog.component';
 import {Router} from '@angular/router';
 import {Filter} from '../../service/util/filter';
 import {ClipboardService} from '../../service/util/clipboard.service';
+import {TypeService} from '../../service/util/type.service';
 
 @Component({
   selector: 'app-node-masonry',
@@ -48,7 +49,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   }
 
   click(node: Node, index: number) {
-    if (node.mainData.type === 'tag' || node.mainData.type === 'list') {
+    if (this.typeService.getType(node.mainData.type).openInNewTab) {
       this.router.navigate([node.mainData.type, node.mainData.id]);
     } else {
       this.nodeViewer.openIds(index, this.masonry.items.map(item => item.data.mainData.id));
@@ -242,6 +243,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
     private nodeService: NodeService,
     private orderService: OrderService,
     private tagSelector: TagSelector,
+    private typeService: TypeService,
     private router: Router,
   ) { }
 }
