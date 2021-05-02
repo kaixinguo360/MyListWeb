@@ -31,7 +31,12 @@
     <mat-selection-list #selectList>
       <mat-list-option class="item-container" [selected]="isSelected(tag)" [value]="tag" *ngFor="let tag of tags">
         <div>
-          <p class="title" matLine>{{tag.mainData.title}}</p>
+          <p class="title" matLine>
+            <mat-icon class="icon">
+              {{typeService.getType(tag.mainData.type).icon}}
+            </mat-icon>
+            {{tag.mainData.title}}
+          </p>
           <p class="info" matLine>
             <span *ngIf="tag.mainData.user!==view.user.id">
               <mat-icon>public</mat-icon>

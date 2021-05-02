@@ -7,6 +7,8 @@ import {ViewService} from '../../service/util/view.service';
 import {FormBuilder} from '@angular/forms';
 import {Filter} from '../../service/util/filter';
 import {Node} from '../../service/util/node';
+import {ClipboardService} from '../../service/util/clipboard.service';
+import {TypeService} from '../../service/util/type.service';
 
 @Component({
   selector: 'app-tag-dialog',
@@ -58,6 +60,10 @@ export class TagDialogComponent implements OnInit {
       tap(tags => {
         this.tags = tags;
 
+        if (this.clipboard.isCollection) {
+          this.tags = this.tags.concat(this.clipboard.get());
+        }
+
         if (this.multiple && this.selected && this.selected.length) {
           const selectedIds: number[] = this.selected.map(tag => tag.mainData.id);
           const selectedTags: Node[] = [];
@@ -81,9 +87,11 @@ export class TagDialogComponent implements OnInit {
 
   constructor(
     public view: ViewService,
+    public typeService: TypeService,
     private dialogRef: MatDialogRef<TagDialogComponent>,
     private fb: FormBuilder,
     private nodeService: NodeService,
+    private clipboard: ClipboardService,
   ) {}
 
 }

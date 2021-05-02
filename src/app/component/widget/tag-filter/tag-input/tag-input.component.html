@@ -24,7 +24,9 @@
       </span>
     </mat-option>
     <mat-option *ngFor="let tag of filteredTags|async" [value]="tag">
-      <mat-icon class="chip-icon">style</mat-icon>
+      <mat-icon class="chip-icon">
+        {{typeService.getType(tag.mainData.type).icon}}
+      </mat-icon>
       {{tag.mainData.title}}
       <span class="small-text" *ngIf="tag.mainData.user!==view.user.id">
         - from other user

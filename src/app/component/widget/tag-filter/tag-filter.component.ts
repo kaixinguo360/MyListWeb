@@ -39,7 +39,7 @@ export class TagFilterComponent implements OnInit {
       strict: false,
       value: i.title,
       id: i.isNew ? undefined : i.node.mainData.id,
-      type: 'tag',
+      type: i.node.mainData.type,
     }));
   }
 

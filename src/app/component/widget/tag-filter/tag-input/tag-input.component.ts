@@ -1,10 +1,12 @@
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {map, startWith} from 'rxjs/operators';
 import {Node} from '../../../../service/util/node';
 import {ViewService} from '../../../../service/util/view.service';
+import {ClipboardService} from '../../../../service/util/clipboard.service';
+import {TypeService} from '../../../../service/util/type.service';
 
 export class ChipItem {
   isNew?: boolean;
@@ -18,7 +20,7 @@ export class ChipItem {
   templateUrl: './tag-input.component.html',
   styleUrls: ['./tag-input.component.css']
 })
-export class TagInputComponent {
+export class TagInputComponent implements OnInit {
 
   @Input() placeholder: string;
   @Input() plaintextTips: string;
@@ -31,6 +33,7 @@ export class TagInputComponent {
 
   filteredTags: Observable<Node[]>;
   chipCtrl = new FormControl();
+  allCollections: Node[];
 
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
 
@@ -43,10 +46,10 @@ export class TagInputComponent {
   }
   private _filter(value: any): Node[] {
     return ((typeof value === 'string') ?
-        this.allTags.filter(t => t.mainData.title
+        this.allCollections.concat(this.clipboard.get()).filter(t => t.mainData.title
           .toLowerCase()
           .indexOf(value.toLowerCase()) !== -1)
-        : this.allTags
+        : this.allCollections
     ).filter(
       t => this.selectedItems
         .filter(n => !n.isNew)
@@ -55,8 +58,17 @@ export class TagInputComponent {
     );
   }
 
+  ngOnInit(): void {
+    this.allCollections = this.allTags;
+    if (this.clipboard.isCollection) {
+      this.allCollections = this.allCollections.concat(this.clipboard.get());
+    }
+  }
+
   constructor(
     public view: ViewService,
+    public typeService: TypeService,
+    public clipboard: ClipboardService,
   ) {
     this.filteredTags = this.chipCtrl.valueChanges.pipe(
       startWith(null),

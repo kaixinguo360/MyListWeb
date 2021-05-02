@@ -70,6 +70,12 @@
   font-size: 14px;
   transform: translate(0, 2px);
 }
+.icon {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  transform: translate(0, 5px);
+}
 
 .input-box {
   margin-top: 20px;
