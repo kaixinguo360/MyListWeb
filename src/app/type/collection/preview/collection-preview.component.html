@@ -1,7 +1,18 @@
-<div class="container">
-  <app-card-preview [node]="excerptNode" [lazyload]="lazyload"></app-card-preview>
+<div #container class="container">
+  <div [style.height.px]="HEIGHT">
+    <div *ngFor="let excerptNode of excerptNodes; index as i" class="preview-container"
+         [ngStyle]="{
+            'top.px': PADDING + i * ((container.clientHeight - size) / (excerptNodes.length - 1)),
+            'left.px': PADDING + i * ((container.clientWidth - size) / (excerptNodes.length - 1)),
+            'width.px': size - 2 * PADDING,
+            'max-height.px': size - 2 * PADDING,
+            'transform': 'translateY(' + (size - 2 * PADDING)/2 + 'px) translateY(-50%)'
+         }">
+      <app-card-preview [node]="excerptNode" [lazyload]="lazyload"></app-card-preview>
+    </div>
+  </div>
   <div class="count">
     <mat-icon>collections</mat-icon>
-    {{excerpt?.count}}
+    {{count}}
   </div>
 </div>
