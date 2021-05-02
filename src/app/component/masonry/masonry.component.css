@@ -12,20 +12,21 @@
 .item-container-select-mode {
   transform: scale(0.95);
 }
-.item-container-selected {
-  transform: scale(0.9);
-}
 
 .item-overlay {
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;
   border-radius: 16px;
 }
-.item-overlay:hover { background-color: #0000001a; }
-.item-overlay:active { background-color: unset; }
+.item-overlay:hover { background: #0000001a; }
+.item-overlay:active { background: #00000033; }
+
 .item-overlay-selected {
-  border: 2px solid #ffd740;
+  border: 6px solid #ffeb3b;
+  background: #ffec3d4d;
 }
+.item-overlay-selected:hover { background: #ffec3d66; }
+.item-overlay-selected:active { background: #ffec3d80; }
 
 .load-more {
   display: flex;
