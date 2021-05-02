@@ -44,12 +44,12 @@ export class ClipMenuComponent {
         + `${this.node.mainData.type}#${this.node.mainData.id}`);
     });
   }
-  public newList() {
+  public create(type: string) {
     const draft: Node = {
       mainData: {
         user: this.view.user.id,
-        title: 'New List',
-        type: 'list',
+        title: `New ${type}`,
+        type: type.toLowerCase(),
         part: false,
         collection: true,
       },

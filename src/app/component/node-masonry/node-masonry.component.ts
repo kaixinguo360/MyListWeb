@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 import {Filter} from '../../service/util/filter';
 import {ClipboardService} from '../../service/util/clipboard.service';
 import {TypeService} from '../../service/util/type.service';
+import {Preference} from '../../service/util/preference.service';
 
 @Component({
   selector: 'app-node-masonry',
@@ -27,7 +28,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   public filterFixed: boolean;
   public mainNode: Node;
 
-  targetNode: Node;
+  targetNodes: Node[];
   error = false;
 
   fetchSub: Subscription;
@@ -125,6 +126,31 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
         this.view.alert(`${ns.length === 1 ? `One item ` : `${ns.length} items `} set to ${permission}.`);
       })).subscribe());
   }
+  create(type: string) {
+    this.handleSelectedNodes(() => true, nodes => {
+      const draft: Node = {
+        mainData: {
+          user: this.view.user.id,
+          title: `New ${type}`,
+          type: type.toLowerCase(),
+          part: false,
+          collection: true,
+        },
+        extraList: nodes
+          .filter(n => (n.mainData.user === this.view.user.id || n.mainData.permission === 'public'))
+          .map(node => ({node, status: 'exist'}))
+      };
+      this.tagSelector.selectTags(
+        null, null, `Selected ${this.clipboard.length} items`
+      ).subscribe(tags => {
+        if (tags) {
+          draft.tags = tags;
+          this.preference.set('node-edit@draft', JSON.stringify(draft));
+          this.router.navigate(['/node/new'], {queryParams: {draft: 1}});
+        }
+      });
+    });
+  }
   delete() {
     this.handleSelectedNodes(
       nodes => confirm(nodes.length === 1 ? `Remove this item?` : `Remove these ${nodes.length} items?`),
@@ -212,7 +238,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   }
   toggleSelectMode() {
     this.masonry.enableSelectMode(!this.masonry.selectMode);
-    this.targetNode = (this.masonry.selectMode && this.clipboard.isCollection) ? this.clipboard.get()[0] : null;
+    this.targetNodes = (this.masonry.selectMode && this.clipboard.isCollection) ? this.clipboard.get() : null;
   }
   handleSelectedNodes(confirm: (nodes: Node[]) => boolean, handler: (nodes: Node[]) => void) {
     const nodes = this.masonry.getSelectedItems();
@@ -244,6 +270,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private tagSelector: TagSelector,
     private typeService: TypeService,
+    private preference: Preference,
     private router: Router,
   ) { }
 }

@@ -41,9 +41,9 @@
   <button mat-menu-item (click)="tag(true)"><mat-icon>bookmark</mat-icon>Tag</button>
   <mat-divider></mat-divider>
   <button mat-menu-item (click)="clip('add')"><mat-icon>assignment_returned</mat-icon>Clipboard</button>
-  <button mat-menu-item (click)="collection(true, targetNode)" *ngIf="targetNode">
-    <mat-icon>add_circle_outline</mat-icon>Clipped
-    <i>{{targetNode.mainData.type|titlecase}}<span class="small">#{{targetNode.mainData.id}}</span></i>
+  <button mat-menu-item (click)="collection(true, targetNode)" *ngFor="let targetNode of targetNodes">
+    <mat-icon>add_circle_outline</mat-icon>
+    <i>{{targetNode.mainData.type|titlecase}}<span class="small">#{{targetNode.mainData.title}}</span></i>
   </button>
   <mat-divider></mat-divider>
   <button mat-menu-item (click)="star(true)"><mat-icon>star</mat-icon>Star</button>
@@ -59,9 +59,9 @@
   <button mat-menu-item (click)="tag(false)"><mat-icon>bookmark_border</mat-icon>Untag</button>
   <mat-divider></mat-divider>
   <button mat-menu-item (click)="clip('remove')"><mat-icon>assignment_return</mat-icon>Clipboard</button>
-  <button mat-menu-item (click)="collection(false, targetNode)" *ngIf="targetNode">
-    <mat-icon>remove_circle_outline</mat-icon>Clipped
-    <i>{{targetNode.mainData.type|titlecase}}<span class="small">#{{targetNode.mainData.id}}</span></i>
+  <button mat-menu-item (click)="collection(false, targetNode)" *ngFor="let targetNode of targetNodes">
+    <mat-icon>remove_circle_outline</mat-icon>
+    <i>{{targetNode.mainData.type|titlecase}}<span class="small">#{{targetNode.mainData.title}}</span></i>
   </button>
   <mat-divider></mat-divider>
   <button mat-menu-item (click)="star(false)"><mat-icon>star_border</mat-icon>Unstar</button>
@@ -81,6 +81,8 @@
   <button mat-menu-item [matMenuTriggerFor]="safeMenu"><mat-icon>report</mat-icon>Safety</button>
   <mat-divider></mat-divider>
   <button mat-menu-item [matMenuTriggerFor]="permissionMenu"><mat-icon>person</mat-icon>Permission</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item [matMenuTriggerFor]="createMenu"><mat-icon>playlist_add</mat-icon>Create</button>
 </mat-menu>
 <mat-menu #clipMenu xPosition="before" yPosition="below">
   <button mat-menu-item (click)="clip('set')"><mat-icon>assignment</mat-icon>Clipboard</button>
@@ -91,15 +93,15 @@
     <button mat-menu-item (click)="clip('remove')"><mat-icon>assignment_return</mat-icon>Remove</button>
   </ng-container>
 
-  <ng-container *ngIf="targetNode">
+  <ng-container *ngFor="let targetNode of targetNodes">
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="collection(true, targetNode)">
       <mat-icon>add_circle_outline</mat-icon>
-      Add to <i>{{targetNode.mainData.type|titlecase}}#{{targetNode.mainData.id}}</i>
+      Add to <i>{{targetNode.mainData.type|titlecase}}<span class="small">#{{targetNode.mainData.title}}</span></i>
     </button>
     <button mat-menu-item (click)="collection(false, targetNode)">
       <mat-icon>remove_circle_outline</mat-icon>
-      Remove from <i>{{targetNode.mainData.type|titlecase}}#{{targetNode.mainData.id}}</i>
+      Remove from <i>{{targetNode.mainData.type|titlecase}}<span class="small">#{{targetNode.mainData.title}}</span></i>
     </button>
   </ng-container>
 </mat-menu>
@@ -123,4 +125,8 @@
   <button mat-menu-item (click)="permission('public')"><mat-icon>public</mat-icon>Public</button>
   <button mat-menu-item (click)="permission('protect')"><mat-icon>edit</mat-icon>Protect</button>
   <button mat-menu-item (click)="permission('private')"><mat-icon>person</mat-icon>Private</button>
+</mat-menu>
+<mat-menu #createMenu xPosition="before" yPosition="below">
+  <button mat-menu-item (click)="create('List')"><mat-icon>playlist_add</mat-icon>New List</button>
+  <button mat-menu-item (click)="create('Collection')"><mat-icon>playlist_add</mat-icon>New Collection</button>
 </mat-menu>

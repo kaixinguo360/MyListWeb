@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ViewService} from './view.service';
 import {Node} from './node';
 import {NodeChangeEvent} from '../node.service';
+import {TypeService} from './type.service';
 
 @Injectable({
   providedIn: 'root'
@@ -70,9 +71,7 @@ export class ClipboardService {
 
   private updateStatus() {
     this.length = this.nodes.length;
-    this.isCollection = this.length === 1 && (
-      this.nodes[0].mainData.type === 'list' || this.nodes[0].mainData.type === 'tag'
-    );
+    this.isCollection = this.nodes.every(n => n.mainData.collection);
   }
   private showStatus() {
     this.view.alert(
@@ -83,7 +82,8 @@ export class ClipboardService {
   }
 
   constructor(
-    public view: ViewService
+    public view: ViewService,
+    public typeService: TypeService
   ) {
     view.notification('node@onchange').subscribe((event: NodeChangeEvent) => {
       if (!this.fixed) {
