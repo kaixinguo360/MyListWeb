@@ -53,8 +53,9 @@ export class SearchFilterComponent implements OnInit {
     this.andKeyWords.length = 0;
     this.notKeyWords.length = 0;
   }
-  close() {
+  close(changed?: boolean) {
     this.open = false;
+    this.changed = (changed === undefined) ? this.changed : changed;
     if (!this.open && this.changed) {
       this.changed = false;
       this.onChangeSubject.next();
@@ -136,7 +137,10 @@ export class SearchFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.nodeService.getAllByType('tag', {permission: 'available'}).pipe(
+    this.nodeService.getAllByType('tag', {
+      permission: 'available',
+      sorts: [{ property: 'node_title', direction: 'asc' }]
+    }).pipe(
       tap(tags => {
         this.allTags = tags;
         if (this.noTag) { this.onChangeSubject.next(); }

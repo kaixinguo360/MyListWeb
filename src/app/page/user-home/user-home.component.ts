@@ -97,7 +97,6 @@ export class UserHomeComponent implements OnInit {
           const listId = Number(this.data);
           this.init({
             title: `List - #${listId}`,
-            fixed: true,
             filter: {andTags: [{id: listId}]},
           });
           this.nodeService.get(listId).subscribe(node => {

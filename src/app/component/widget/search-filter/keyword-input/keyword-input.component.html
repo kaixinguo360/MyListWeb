@@ -12,7 +12,9 @@
     <input #keywordInput [placeholder]="placeholder?placeholder:'Keyword input'"
            [formControl]="chipCtrl"
            [matChipInputFor]="chipList"
-           [matAutocomplete]="auto">
+           [matAutocomplete]="auto"
+           (keydown.enter)="keydown()"
+           (keydown.escape)="keydown()">
 
   </mat-chip-list>
 

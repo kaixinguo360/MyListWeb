@@ -17,9 +17,9 @@
       </label>
     </div>
     <div>
-      <app-keyword-input [placeholder]="advanced?'Or Keywords':'Keywords'" [allTags]="allTags" [selectedItems]="orKeyWords" (onChange)="changed=true"></app-keyword-input>
-      <app-keyword-input *ngIf="advanced" placeholder="And Keywords" [allTags]="allTags" [selectedItems]="andKeyWords" (onChange)="changed=true"></app-keyword-input>
-      <app-keyword-input *ngIf="advanced" placeholder="Not Keywords" [allTags]="allTags" [selectedItems]="notKeyWords" (onChange)="changed=true"></app-keyword-input>
+      <app-keyword-input [placeholder]="advanced?'Or Keywords':'Keywords'" [allTags]="allTags" [selectedItems]="orKeyWords" (onChange)="changed=true" (onComplete)="close(true)"></app-keyword-input>
+      <app-keyword-input *ngIf="advanced" placeholder="And Keywords" [allTags]="allTags" [selectedItems]="andKeyWords" (onChange)="changed=true" (onComplete)="close(true)"></app-keyword-input>
+      <app-keyword-input *ngIf="advanced" placeholder="Not Keywords" [allTags]="allTags" [selectedItems]="notKeyWords" (onChange)="changed=true" (onComplete)="close(true)"></app-keyword-input>
     </div>
     <mat-card-actions align="end">
       <button mat-button (click)="reset()">Reset</button>

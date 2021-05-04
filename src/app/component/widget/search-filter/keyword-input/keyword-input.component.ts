@@ -31,12 +31,20 @@ export class KeywordInputComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onChange: EventEmitter<void> = new EventEmitter<void>();
 
+  // tslint:disable-next-line:no-output-on-prefix
+  @Output() onComplete: EventEmitter<void> = new EventEmitter<void>();
+
   filteredTags: Observable<Node[]>;
   chipCtrl = new FormControl();
   allCollections: Node[];
 
   @ViewChild('keywordInput', {static: false}) keywordInput: ElementRef<HTMLInputElement>;
 
+  keydown() {
+    if (!this.keywordInput.nativeElement.value) {
+      this.onComplete.emit();
+    }
+  }
   selected(event: MatAutocompleteSelectedEvent): void {
     this.onChange.emit();
     const value = event.option.value;
