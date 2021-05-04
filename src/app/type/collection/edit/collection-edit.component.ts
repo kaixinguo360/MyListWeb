@@ -25,6 +25,7 @@ export class CollectionEditComponent implements ExtraEdit {
 
   public setExtraList(extraList: ListItem[]) {
     this.items = extraList as ListItem<Image>[];
+    this.items.filter(i => i.status === 'new').forEach(i => this.typeService.process(i.node));
   }
   public getExtraList(): ListItem[] {
     return this.items;
