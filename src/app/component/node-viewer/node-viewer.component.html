@@ -42,7 +42,7 @@
       </app-node-menu>
     </div>
     <mat-divider></mat-divider>
-    <div [class.description-not-expend]="!expandInfo" [class.small]="!expandInfo">
+    <div class="description" [class.description-not-expend]="!expandInfo" [class.small]="!expandInfo">
       {{currentNode.mainData.description}}
       <span class="small" *ngIf="!currentNode.mainData.description">no description</span>
     </div>

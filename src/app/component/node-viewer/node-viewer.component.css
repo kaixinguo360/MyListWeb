@@ -84,6 +84,9 @@
   font-weight: 500;
 }
 
+.description {
+  white-space: pre-wrap;
+}
 .description-not-expend {
   margin: -10px 40px 0;
   color: #b0b0b0;
