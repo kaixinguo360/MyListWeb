@@ -122,7 +122,7 @@ export class NodeService {
   public getAllByType(type: string, filter?: Filter): Observable<Node[]> {
     if (!filter) { filter = {}; }
     if (!filter.conditions) { filter.conditions = []; }
-    filter.conditions.push({column: 'node_type', oper: '=', value: `'${type}'`});
+    filter.conditions.push({column: 'content.node_type', oper: '=', value: `'${type}'`});
     return this.getAll(filter);
   }
   public updateAll(nodes: Node[], isSimple = false, tagMode = 'set'): Observable<Node[]> {

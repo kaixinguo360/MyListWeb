@@ -89,14 +89,16 @@ export class SearchFilterComponent implements OnInit {
     if (or.length) {
       or = or.map(t => t.replace('\\', '\\\\'));
       conditions.push({
-        column: `CONCAT(COALESCE(node_title, ''), COALESCE(node_description, ''), COALESCE(node_comment, ''), COALESCE(node_source, ''))`,
+        // tslint:disable-next-line:max-line-length
+        column: `CONCAT(COALESCE(content.node_title, ''), COALESCE(content.node_description, ''), COALESCE(content.node_comment, ''), COALESCE(content.node_source, ''))`,
         oper: 'REGEXP',
         value: `'${or.reduce((a, b) => a + '|' + b)}'`,
       });
     }
 
     const and = this.andKeyWords.filter(t => t.isNew).map(t => ({
-      column: `CONCAT(COALESCE(node_title, ''), COALESCE(node_description, ''), COALESCE(node_comment, ''), COALESCE(node_source, ''))`,
+      // tslint:disable-next-line:max-line-length
+      column: `CONCAT(COALESCE(content.node_title, ''), COALESCE(content.node_description, ''), COALESCE(content.node_comment, ''), COALESCE(content.node_source, ''))`,
       oper: 'REGEXP',
       value: `'${t.title}'`,
     }));
@@ -108,7 +110,8 @@ export class SearchFilterComponent implements OnInit {
     if (not.length) {
       not = not.map(t => t.replace('\\', '\\\\'));
       conditions.push({
-        column: `CONCAT(COALESCE(node_title, ''), COALESCE(node_description, ''), COALESCE(node_comment, ''), COALESCE(node_source, ''))`,
+        // tslint:disable-next-line:max-line-length
+        column: `CONCAT(COALESCE(content.node_title, ''), COALESCE(content.node_description, ''), COALESCE(content.node_comment, ''), COALESCE(content.node_source, ''))`,
         oper: 'NOT REGEXP',
         value: `'${not.reduce((a, b) => a + '|' + b)}'`,
       });

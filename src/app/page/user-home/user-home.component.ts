@@ -66,7 +66,7 @@ export class UserHomeComponent implements OnInit {
           this.masonry.mainNode = null;
           this.nodeService.getAllByType('tag').subscribe(node => {
             this.masonry.filter = {
-              conditions: [{column: 'node_type', oper: '!=', value: '\'tag\''}],
+              conditions: [{column: 'content.node_type', oper: '!=', value: '\'tag\''}],
               notTags: node.map(i => ({id: i.mainData.id})),
             };
             this.masonry.fetchData();

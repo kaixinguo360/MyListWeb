@@ -89,7 +89,7 @@ export class NodeEditComponent implements OnInit {
   selectTags() {
     this.tagSelector.selectTags(this.tags, {
       permission: 'editable',
-      conditions: this.mainData.value.id ? [{column: 'id', oper: '!=', value: this.mainData.value.id}] : null
+      conditions: this.mainData.value.id ? [{column: 'content.id', oper: '!=', value: this.mainData.value.id}] : null
     }).subscribe(tags => tags ? this.tags = tags : null);
   }
   getTagsInfo(): string {
