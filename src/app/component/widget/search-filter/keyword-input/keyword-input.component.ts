@@ -8,7 +8,7 @@ import {ViewService} from '../../../../service/util/view.service';
 import {ClipboardService} from '../../../../service/util/clipboard.service';
 import {TypeService} from '../../../../service/util/type.service';
 
-export class ChipItem {
+export class Keyword {
   isNew?: boolean;
   title?: string;
   node?: Node;
@@ -16,16 +16,16 @@ export class ChipItem {
 }
 
 @Component({
-  selector: 'app-tag-input',
-  templateUrl: './tag-input.component.html',
-  styleUrls: ['./tag-input.component.css']
+  selector: 'app-keyword-input',
+  templateUrl: './keyword-input.component.html',
+  styleUrls: ['./keyword-input.component.css']
 })
-export class TagInputComponent implements OnInit {
+export class KeywordInputComponent implements OnInit {
 
   @Input() placeholder: string;
   @Input() plaintextTips: string;
   @Input() allTags: Node[];
-  @Input() selectedItems: ChipItem[];
+  @Input() selectedItems: Keyword[];
   @Input() disabled: boolean;
 
   // tslint:disable-next-line:no-output-on-prefix
@@ -35,13 +35,13 @@ export class TagInputComponent implements OnInit {
   chipCtrl = new FormControl();
   allCollections: Node[];
 
-  @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('keywordInput', {static: false}) keywordInput: ElementRef<HTMLInputElement>;
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.onChange.emit();
     const value = event.option.value;
     this.selectedItems.push((typeof value === 'string') ? {isNew: true, title: value} : {node: value});
-    this.tagInput.nativeElement.value = '';
+    this.keywordInput.nativeElement.value = '';
     this.chipCtrl.setValue(null);
   }
   private _filter(value: any): Node[] {

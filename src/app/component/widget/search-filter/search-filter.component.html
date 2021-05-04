@@ -1,0 +1,29 @@
+<div class="container">
+  <button mat-icon-button (click)="open?close():(open=true)">
+    <mat-icon matBadgeSize="small" matBadge="!" matBadgePosition="above before" matBadgeColor="accent" [matBadgeHidden]="!modified">search</mat-icon>
+  </button>
+  <div *ngIf="open" class="overlay" (click)="close()">
+  </div>
+  <mat-card *ngIf="open">
+    <div class="toggles full-width">
+      <span class="title flex-padding">Search</span>
+      <label>
+        Advanced
+        <mat-slide-toggle [checked]="advanced" (change)="advanced=$event.checked;changed=true"></mat-slide-toggle>
+      </label>
+      <label>
+        No tag
+        <mat-slide-toggle [checked]="noTag" (change)="noTag=$event.checked;changed=true"></mat-slide-toggle>
+      </label>
+    </div>
+    <div>
+      <app-keyword-input [placeholder]="advanced?'Or Keywords':'Keywords'" [allTags]="allTags" [selectedItems]="orKeyWords" (onChange)="changed=true"></app-keyword-input>
+      <app-keyword-input *ngIf="advanced" placeholder="And Keywords" [allTags]="allTags" [selectedItems]="andKeyWords" (onChange)="changed=true"></app-keyword-input>
+      <app-keyword-input *ngIf="advanced" placeholder="Not Keywords" [allTags]="allTags" [selectedItems]="notKeyWords" (onChange)="changed=true"></app-keyword-input>
+    </div>
+    <mat-card-actions align="end">
+      <button mat-button (click)="reset()">Reset</button>
+      <button mat-button (click)="close()">OK</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

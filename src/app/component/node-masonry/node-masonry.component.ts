@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
 import {ViewService} from '../../service/util/view.service';
 import {of, Subscription} from 'rxjs';
-import {TagFilterComponent} from '../widget/tag-filter/tag-filter.component';
+import {SearchFilterComponent} from '../widget/search-filter/search-filter.component';
 import {BasicFilterComponent} from '../widget/basic-filter/basic-filter.component';
 import {MasonryComponent} from '../masonry/masonry.component';
 import {Node} from '../../service/util/node';
@@ -34,7 +34,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   fetchSub: Subscription;
   otherSubs: Subscription[] = [];
 
-  @ViewChild('tagFilter', { read: TagFilterComponent, static: true }) tagFilter: TagFilterComponent;
+  @ViewChild('searchFilter', { read: SearchFilterComponent, static: true }) searchFilter: SearchFilterComponent;
   @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) basicFilter: BasicFilterComponent;
   @ViewChild('masonryRef', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
 
@@ -202,10 +202,13 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
       filter = JSON.parse(JSON.stringify(this.filter));
     } else {
       filter = this.basicFilter.getFilter();
-      const tags = this.tagFilter.getTags();
+
+      const tags = this.searchFilter.getTags();
       filter.orTags = tags.or;
       filter.andTags = tags.and;
       filter.notTags = tags.not;
+
+      filter.conditions = this.searchFilter.getConditions();
 
       if (this.filter) {
         NodeMasonryComponent.mergeFilter(filter, this.filter);
@@ -253,7 +256,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.otherSubs.push(this.basicFilter.onChange(() => this.fetchData()));
-    this.otherSubs.push(this.tagFilter.onChange(() => this.fetchData()));
+    this.otherSubs.push(this.searchFilter.onChange(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('preview@onload').subscribe(() => this.masonry.layout()));

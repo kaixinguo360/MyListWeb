@@ -1,5 +1,5 @@
 <mat-form-field class="full-width">
-  <mat-chip-list #chipList aria-label="Tag selection" [disabled]="disabled">
+  <mat-chip-list #chipList aria-label="Keyword selection" [disabled]="disabled">
 
     <mat-chip *ngFor="let item of selectedItems; index as i"
       [removable]="!item.fixed" (removed)="selectedItems.splice(i,1)"
@@ -9,16 +9,16 @@
       <mat-icon matChipRemove (click)="this.onChange.emit()" *ngIf="!item.fixed">cancel</mat-icon>
     </mat-chip>
 
-    <input #tagInput [placeholder]="placeholder?placeholder:'Tag input'"
-      [formControl]="chipCtrl"
-      [matChipInputFor]="chipList"
-      [matAutocomplete]="auto">
+    <input #keywordInput [placeholder]="placeholder?placeholder:'Keyword input'"
+           [formControl]="chipCtrl"
+           [matChipInputFor]="chipList"
+           [matAutocomplete]="auto">
 
   </mat-chip-list>
 
   <mat-autocomplete #auto (optionSelected)="selected($event)" autoActiveFirstOption>
-    <mat-option [value]="tagInput.value" *ngIf="tagInput.value">
-      {{tagInput.value|limit:20}}
+    <mat-option [value]="keywordInput.value" *ngIf="keywordInput.value">
+      {{keywordInput.value|limit:20}}
       <span class="small-text">
         - {{plaintextTips?plaintextTips:'plain text'}}
       </span>

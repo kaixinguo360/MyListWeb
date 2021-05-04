@@ -17,8 +17,8 @@ import {BasicFilterComponent} from './widget/basic-filter/basic-filter.component
 import {ExtraEditComponent} from './edit/extra-edit/extra-edit.component';
 import {NodeBottomSheetComponent} from './node-bottom-sheet/node-bottom-sheet.component';
 import {TagDialogComponent} from './tag-dialog/tag-dialog.component';
-import {TagInputComponent} from './widget/tag-filter/tag-input/tag-input.component';
-import {TagFilterComponent} from './widget/tag-filter/tag-filter.component';
+import {KeywordInputComponent} from './widget/search-filter/keyword-input/keyword-input.component';
+import {SearchFilterComponent} from './widget/search-filter/search-filter.component';
 import {CommonModule} from '@angular/common';
 import {QuickEditComponent} from './edit/quick-edit/quick-edit.component';
 import {ProxySelectorComponent} from './widget/proxy-selector/proxy-selector.component';
@@ -46,8 +46,8 @@ export class HammerConfig extends HammerGestureConfig  {
     QuickEditComponent,
     NodeBottomSheetComponent,
     TagDialogComponent,
-    TagInputComponent,
-    TagFilterComponent,
+    KeywordInputComponent,
+    SearchFilterComponent,
     ProxySelectorComponent,
     AddMenuComponent,
     NodeMasonryComponent,
@@ -74,8 +74,8 @@ export class HammerConfig extends HammerGestureConfig  {
     QuickEditComponent,
     NodeBottomSheetComponent,
     TagDialogComponent,
-    TagInputComponent,
-    TagFilterComponent,
+    KeywordInputComponent,
+    SearchFilterComponent,
     ProxySelectorComponent,
     AddMenuComponent,
     NodeMasonryComponent,
