@@ -3,7 +3,6 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ViewService} from '../../service/util/view.service';
 import {of, Subscription} from 'rxjs';
 import {SearchFilterComponent} from '../widget/search-filter/search-filter.component';
-import {BasicFilterComponent} from '../widget/basic-filter/basic-filter.component';
 import {MasonryComponent} from '../masonry/masonry.component';
 import {Node} from '../../service/util/node';
 import {catchError, tap} from 'rxjs/operators';
@@ -35,7 +34,6 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   otherSubs: Subscription[] = [];
 
   @ViewChild('searchFilter', { read: SearchFilterComponent, static: true }) searchFilter: SearchFilterComponent;
-  @ViewChild('basicFilter', { read: BasicFilterComponent, static: true }) basicFilter: BasicFilterComponent;
   @ViewChild('masonryRef', { read: MasonryComponent, static: true }) masonry: MasonryComponent;
 
   private static mergeFilter(f1: Filter, f2: Filter) {
@@ -201,15 +199,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
     if (this.filterFixed) {
       filter = JSON.parse(JSON.stringify(this.filter));
     } else {
-      filter = this.basicFilter.getFilter();
-
-      const tags = this.searchFilter.getTags();
-      filter.orTags = tags.or;
-      filter.andTags = tags.and;
-      filter.notTags = tags.not;
-
-      filter.conditions = this.searchFilter.getConditions();
-
+      filter = this.searchFilter.getFilter();
       if (this.filter) {
         NodeMasonryComponent.mergeFilter(filter, this.filter);
       }
@@ -255,7 +245,6 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.otherSubs.push(this.basicFilter.onChange(() => this.fetchData()));
     this.otherSubs.push(this.searchFilter.onChange(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => this.fetchData()));

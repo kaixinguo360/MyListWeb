@@ -5,14 +5,17 @@ import {Node} from '../../../service/util/node';
 import {NodeService} from '../../../service/node.service';
 import {Keyword} from './keyword-input/keyword-input.component';
 import {Preference} from '../../../service/util/preference.service';
-import {Condition, Tag} from '../../../service/util/filter';
+import {Condition, Filter, Tag} from '../../../service/util/filter';
+import {TypeService} from '../../../service/util/type.service';
+import {FormBuilder} from '@angular/forms';
 
-class KeyWords {
-  or: Keyword[];
-  and: Keyword[];
-  not: Keyword[];
-  noTag: boolean;
-  advanced: boolean;
+class FilterConfig {
+  orKeywords: Keyword[];
+  andKeywords: Keyword[];
+  notKeywords: Keyword[];
+  isOnlyUntagged: boolean;
+  isAdvanced: boolean;
+  filter: any;
 }
 
 @Component({
@@ -24,17 +27,41 @@ export class SearchFilterComponent implements OnInit {
 
   allTags: Node[] = [];
 
-  orKeyWords: Keyword[] = [];
-  andKeyWords: Keyword[] = [];
-  notKeyWords: Keyword[] = [];
+  // Status
+  isOpen = false;
+  isModified = false;
+  isChanged = false;
 
-  open = false;
-  modified = false;
-  noTag = false;
-  advanced = false;
-  changed = false;
+  // Current Config
+  orKeywords: Keyword[] = [];
+  andKeywords: Keyword[] = [];
+  notKeywords: Keyword[] = [];
+  isOnlyUntagged = false;
+  isAdvanced = false;
+  filter = this.fb.group({
+    cascade: false,
+    nsfw: false,
+    like: false,
+    hide: false,
+    collection: 'implode',
+    permission: 'self',
+    types: this.fb.control([])
+  });
 
-  private defaultData = JSON.stringify({or: [], and: [], not: [], noTag: false, advanced: false});
+  // Default Config
+  defaultConfig = {
+    orKeywords: [], andKeywords: [], notKeywords: [],
+    isOnlyUntagged: false, isAdvanced: false,
+    filter: this.filter.value,
+  };
+  defaultJSON = JSON.stringify(this.defaultConfig);
+  types: string[] = TypeService.typeInfos.map(info => info.id);
+  permissions: string[] = [
+    'private', 'protect', 'public', 'shared', 'self',
+    'others_protect', 'others_public', 'others_shared',
+    'editable', 'available'];
+
+  // Subject & Utils
   private onChangeSubject = new Subject<void>();
   private static toTags(chipItems: Keyword[]): Tag[] {
     return chipItems.map(i => ({
@@ -46,46 +73,100 @@ export class SearchFilterComponent implements OnInit {
   }
 
   reset() {
-    this.changed = true;
-    this.noTag = false;
-    this.advanced = false;
-    this.orKeyWords.length = 0;
-    this.andKeyWords.length = 0;
-    this.notKeyWords.length = 0;
+    this.isChanged = true;
+    this.isOnlyUntagged = this.defaultConfig.isOnlyUntagged;
+    this.isAdvanced = this.defaultConfig.isAdvanced;
+    this.orKeywords.length = 0;
+    this.andKeywords.length = 0;
+    this.notKeywords.length = 0;
+    this.filter.setValue(this.defaultConfig.filter);
   }
   close(changed?: boolean) {
-    this.open = false;
-    this.changed = (changed === undefined) ? this.changed : changed;
-    if (!this.open && this.changed) {
-      this.changed = false;
+    this.isOpen = false;
+    this.isChanged = (changed === undefined) ? this.isChanged : changed;
+
+    if (!this.isOpen && this.isChanged) {
+      this.isChanged = false;
       this.onChangeSubject.next();
-      const json = JSON.stringify({
-        or: this.orKeyWords,
-        and: this.andKeyWords,
-        not: this.notKeyWords,
-        noTag: this.noTag,
-        advanced : this.advanced,
-      });
-      this.modified = (json !== this.defaultData);
-      this.preference.set('saved_keywords', json); // Save Tags
+      this.saveConfig();
     }
   }
 
-  public getTags(): { or: Tag[], and: Tag[], not: Tag[] } {
-    return this.noTag ? {
-      or: [],
-      and: [],
-      not: this.allTags.map(i => ({id: i.mainData.id})),
-    } : {
-      or: SearchFilterComponent.toTags(this.orKeyWords.filter(t => !t.isNew)),
-      and: SearchFilterComponent.toTags(this.andKeyWords.filter(t => !t.isNew)),
-      not: SearchFilterComponent.toTags(this.notKeyWords.filter(t => !t.isNew)),
-    };
+  changePart() {
+    switch (this.filter.value.collection) {
+      case 'implode': this.filter.patchValue({collection: 'explode'}); break;
+      case 'explode': this.filter.patchValue({collection: 'all'}); break;
+      default: this.filter.patchValue({collection: 'implode'}); break;
+    }
   }
-  public getConditions(): Condition[] {
+  changeOptions() {
+    const value = this.filter.value;
+    this.filter.patchValue(
+      (value.nsfw === true && value.like === false && value.hide === true) ?
+        {nsfw: false, like: false, hide: false} :
+        {nsfw: true, like: false, hide: true}
+    );
+  }
+  changePermission() {
+    switch (this.filter.value.permission) {
+      case 'self': this.filter.patchValue({permission: 'available'}); break;
+      case 'available': this.filter.patchValue({permission: 'others_shared'}); break;
+      default: this.filter.patchValue({permission: 'self'}); break;
+    }
+  }
+
+  private saveConfig() {
+    const currentConfig: FilterConfig = {
+      orKeywords: this.orKeywords,
+      andKeywords: this.andKeywords,
+      notKeywords: this.notKeywords,
+      isOnlyUntagged: this.isOnlyUntagged,
+      isAdvanced : this.isAdvanced,
+      filter: this.filter.value,
+    };
+    const json = JSON.stringify(currentConfig);
+    this.preference.set('search-filter@savedData', json);
+    this.isModified = (json !== this.defaultJSON);
+  }
+  private loadConfig() {
+    const json = this.preference.get('search-filter@savedData');
+    if (json) {
+      this.isModified = (json !== this.defaultJSON);
+      const savedConfig: FilterConfig = JSON.parse(json);
+      this.filter.patchValue(savedConfig.filter);
+      this.orKeywords = savedConfig.orKeywords;
+      this.andKeywords = savedConfig.andKeywords;
+      this.notKeywords = savedConfig.notKeywords;
+      this.isOnlyUntagged = savedConfig.isOnlyUntagged;
+      this.isAdvanced = savedConfig.isAdvanced;
+    }
+  }
+  private getBasicFilter(): Filter {
+    const value = this.filter.value;
+    const filter: Filter = {
+      cascade: !!value.cascade,
+      types: value.types.length ? value.types : null,
+      nsfw: value.nsfw ? null : false,
+      like: value.like ? true : null,
+      hide: value.hide ? null : false,
+      permission: value.permission,
+      conditions: [],
+      sorts: [],
+      andTags: [],
+      orTags: [],
+      notTags: []
+    };
+    switch (value.collection) {
+      case 'implode': filter.part = false; break;
+      case 'explode': filter.collection = false; break;
+      default: break;
+    }
+    return filter;
+  }
+  private getConditions(): Condition[] {
     let conditions = [];
 
-    let or = this.orKeyWords.filter(t => t.isNew).map(t => t.title);
+    let or = this.orKeywords.filter(t => t.isNew).map(t => t.title);
     if (or.length) {
       or = or.map(t => t.replace('\\', '\\\\'));
       conditions.push({
@@ -96,7 +177,7 @@ export class SearchFilterComponent implements OnInit {
       });
     }
 
-    const and = this.andKeyWords.filter(t => t.isNew).map(t => ({
+    const and = this.andKeywords.filter(t => t.isNew).map(t => ({
       // tslint:disable-next-line:max-line-length
       column: `CONCAT(COALESCE(content.node_title, ''), COALESCE(content.node_description, ''), COALESCE(content.node_comment, ''), COALESCE(content.node_source, ''))`,
       oper: 'REGEXP',
@@ -106,7 +187,7 @@ export class SearchFilterComponent implements OnInit {
       conditions = conditions.concat(and);
     }
 
-    let not = this.notKeyWords.filter(t => t.isNew).map(t => t.title);
+    let not = this.notKeywords.filter(t => t.isNew).map(t => t.title);
     if (not.length) {
       not = not.map(t => t.replace('\\', '\\\\'));
       conditions.push({
@@ -119,6 +200,22 @@ export class SearchFilterComponent implements OnInit {
 
     return conditions;
   }
+
+  public getFilter(): Filter {
+    const filter = this.getBasicFilter();
+
+    if (this.isOnlyUntagged) {
+      filter.notTags = this.allTags.map(i => ({id: i.mainData.id}));
+    } else {
+      filter.orTags = SearchFilterComponent.toTags(this.orKeywords.filter(t => !t.isNew));
+      filter.andTags = SearchFilterComponent.toTags(this.andKeywords.filter(t => !t.isNew));
+      filter.notTags = SearchFilterComponent.toTags(this.notKeywords.filter(t => !t.isNew));
+    }
+
+    filter.conditions = this.getConditions();
+
+    return filter;
+  }
   public onChange(next?: (value: void) => void, error?: (error: any) => void, complete?: () => void): Subscription {
     return this.onChangeSubject.subscribe(next, error, complete);
   }
@@ -126,17 +223,10 @@ export class SearchFilterComponent implements OnInit {
   constructor(
     public preference: Preference,
     private nodeService: NodeService,
+    private typeService: TypeService,
+    private fb: FormBuilder,
   ) {
-    const savedKeywords = this.preference.get('saved_keywords');
-    if (savedKeywords) {
-      this.modified = (savedKeywords !== this.defaultData);
-      const chipItems: KeyWords = JSON.parse(savedKeywords);
-      this.orKeyWords = chipItems.or;
-      this.andKeyWords = chipItems.and;
-      this.notKeyWords = chipItems.not;
-      this.noTag = chipItems.noTag;
-      this.advanced = chipItems.advanced;
-    }
+    this.loadConfig();
   }
 
   ngOnInit(): void {
@@ -146,9 +236,10 @@ export class SearchFilterComponent implements OnInit {
     }).pipe(
       tap(tags => {
         this.allTags = tags;
-        if (this.noTag) { this.onChangeSubject.next(); }
+        if (this.isOnlyUntagged) { this.onChangeSubject.next(); }
       })
     ).subscribe();
+    this.filter.statusChanges.subscribe(() => this.isChanged = true);
   }
 
 }

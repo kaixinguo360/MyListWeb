@@ -1,7 +1,6 @@
 .container {
   display: inline-block;
 }
-
 .overlay {
   position: fixed;
   top: 0;
@@ -21,21 +20,25 @@
   left: 50%;
   transform: translate(-50%);
 }
+.mat-checkbox {
+  margin-right: 12px;
+}
+.toggles {
+  display: flex;
+  justify-content: flex-end;
+}
+.toggles>label {
+  margin-left: 12px;
+}
 
 .actions {
   display: flex;
   align-items: flex-end;
 }
-
 .title {
   font-weight: 500;
 }
-
-.toggles {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.padding {
-  height: 100px;
+.additional-selection {
+  opacity: 0.75;
+  font-size: 0.75em;
 }

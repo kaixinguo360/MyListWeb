@@ -1,27 +1,69 @@
 <div class="container">
-  <button mat-icon-button (click)="open?close():(open=true)">
-    <mat-icon matBadgeSize="small" matBadge="!" matBadgePosition="above before" matBadgeColor="accent" [matBadgeHidden]="!modified">search</mat-icon>
+  <button mat-icon-button (click)="isOpen?close():(isOpen=true)">
+    <mat-icon matBadgeSize="small" matBadge="!" matBadgePosition="above before" matBadgeColor="accent" [matBadgeHidden]="!isModified">search</mat-icon>
   </button>
-  <div *ngIf="open" class="overlay" (click)="close()">
+  <div *ngIf="isOpen" class="overlay" (click)="close()">
   </div>
-  <mat-card *ngIf="open">
+  <mat-card *ngIf="isOpen">
     <div class="toggles full-width">
       <span class="title flex-padding">Search</span>
       <label>
         Advanced
-        <mat-slide-toggle [checked]="advanced" (change)="advanced=$event.checked;changed=true"></mat-slide-toggle>
+        <mat-slide-toggle [checked]="isAdvanced" (change)="isAdvanced=$event.checked;isChanged=true"></mat-slide-toggle>
       </label>
       <label>
-        No tag
-        <mat-slide-toggle [checked]="noTag" (change)="noTag=$event.checked;changed=true"></mat-slide-toggle>
+        Untagged
+        <mat-slide-toggle [checked]="isOnlyUntagged" (change)="isOnlyUntagged=$event.checked;isChanged=true"></mat-slide-toggle>
       </label>
     </div>
     <div>
-      <app-keyword-input [placeholder]="advanced?'Or Keywords':'Keywords'" [allTags]="allTags" [selectedItems]="orKeyWords" (onChange)="changed=true" (onComplete)="close(true)"></app-keyword-input>
-      <app-keyword-input *ngIf="advanced" placeholder="And Keywords" [allTags]="allTags" [selectedItems]="andKeyWords" (onChange)="changed=true" (onComplete)="close(true)"></app-keyword-input>
-      <app-keyword-input *ngIf="advanced" placeholder="Not Keywords" [allTags]="allTags" [selectedItems]="notKeyWords" (onChange)="changed=true" (onComplete)="close(true)"></app-keyword-input>
+      <app-keyword-input [placeholder]="isAdvanced?'Or Keywords':'Keywords'" [allTags]="allTags" [selectedItems]="orKeywords" (onChange)="isChanged=true" (onComplete)="close(true)"></app-keyword-input>
+      <app-keyword-input *ngIf="isAdvanced" placeholder="And Keywords" [allTags]="allTags" [selectedItems]="andKeywords" (onChange)="isChanged=true" (onComplete)="close(true)"></app-keyword-input>
+      <app-keyword-input *ngIf="isAdvanced" placeholder="Not Keywords" [allTags]="allTags" [selectedItems]="notKeywords" (onChange)="isChanged=true" (onComplete)="close(true)"></app-keyword-input>
     </div>
+    <form [formGroup]="filter">
+
+      <mat-form-field *ngIf="isAdvanced" class="half-width">
+        <mat-select placeholder="Types" formControlName="types" multiple>
+          <mat-select-trigger *ngIf="filter.value.types?.length==types.length||filter.value.types?.length==0">All</mat-select-trigger>
+          <mat-select-trigger *ngIf="filter.value.types?.length<types.length&&filter.value.types?.length>4">
+            {{filter.value.types ? filter.value.types[0] : ''}}
+            <span *ngIf="filter.value.types?.length > 1" class="additional-selection">
+            (+{{filter.value.types?.length - 1}} {{filter.value.types?.length === 2 ? 'other' : 'others'}})
+          </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="isAdvanced" class="half-width">
+        <mat-select placeholder="Permission" formControlName="permission">
+          <mat-option *ngFor="let permission of permissions" [value]="permission">{{permission|uppercase}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="full-width">
+        <mat-checkbox formControlName="nsfw">Unsafe</mat-checkbox>
+        <mat-checkbox formControlName="like">Like</mat-checkbox>
+        <mat-checkbox formControlName="hide">Hide</mat-checkbox>
+        <mat-checkbox formControlName="cascade">Cascade</mat-checkbox>
+      </div>
+
+    </form>
     <mat-card-actions align="end">
+      <button mat-icon-button
+              [color]="(filter.value.collection=='explode')?'accent':(filter.value.collection==='all'?'primary':null)"
+              [matTooltip]="(filter.value.collection|titlecase)+ 'Collection'" (click)="changePart()">
+        <mat-icon *ngIf="filter.value.collection=='implode'">list_alt</mat-icon>
+        <mat-icon *ngIf="filter.value.collection=='explode'">list</mat-icon>
+        <mat-icon *ngIf="filter.value.collection=='all'">clear_all</mat-icon>
+      </button>
+      <button mat-icon-button
+              [color]="(filter.value.nsfw===true&&filter.value.like===false&&filter.value.hide===true)?'accent':null"
+              (click)="changeOptions()"><mat-icon>select_all</mat-icon></button>
+      <button mat-icon-button
+              [color]="(filter.value.permission==='available')?'accent':(filter.value.permission==='others_shared'?'primary':null)"
+              (click)="changePermission()"><mat-icon>public</mat-icon></button>
       <button mat-button (click)="reset()">Reset</button>
       <button mat-button (click)="close()">OK</button>
     </mat-card-actions>

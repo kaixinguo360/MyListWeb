@@ -3,7 +3,6 @@
     <button mat-icon-button (click)="toggleSelectMode()"><mat-icon>check_circle_outline</mat-icon></button>
     <app-order-selector></app-order-selector>
     <app-search-filter [hidden]="filterFixed" #searchFilter></app-search-filter>
-    <app-basic-filter [hidden]="filterFixed" #basicFilter></app-basic-filter>
     <button mat-icon-button (click)="view.loading?stopFetchData():fetchData()">
       <mat-icon>{{view.loading?'close':'refresh'}}</mat-icon>
     </button>

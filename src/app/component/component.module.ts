@@ -13,7 +13,6 @@ import {NodeCardComponent} from './node-card/node-card.component';
 import {MasonryComponent} from './masonry/masonry.component';
 import {NodeViewerComponent} from './node-viewer/node-viewer.component';
 import {OrderSelectorComponent} from './widget/order-selector/order-selector.component';
-import {BasicFilterComponent} from './widget/basic-filter/basic-filter.component';
 import {ExtraEditComponent} from './edit/extra-edit/extra-edit.component';
 import {NodeBottomSheetComponent} from './node-bottom-sheet/node-bottom-sheet.component';
 import {TagDialogComponent} from './tag-dialog/tag-dialog.component';
@@ -41,7 +40,6 @@ export class HammerConfig extends HammerGestureConfig  {
     MasonryComponent,
     NodeViewerComponent,
     OrderSelectorComponent,
-    BasicFilterComponent,
     ExtraEditComponent,
     QuickEditComponent,
     NodeBottomSheetComponent,
@@ -69,7 +67,6 @@ export class HammerConfig extends HammerGestureConfig  {
     MasonryComponent,
     NodeViewerComponent,
     OrderSelectorComponent,
-    BasicFilterComponent,
     ExtraEditComponent,
     QuickEditComponent,
     NodeBottomSheetComponent,
