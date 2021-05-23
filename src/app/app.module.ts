@@ -18,6 +18,7 @@ import {UserHomeComponent} from './page/user-home/user-home.component';
 import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
 import {NodeEditComponent} from './page/node-edit/node-edit.component';
 import {OutsideComponent} from './page/outside/outside.component';
+import {SaveComponent} from './page/save/save.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {OutsideComponent} from './page/outside/outside.component';
     UserHomeComponent,
     NodeEditComponent,
     OutsideComponent,
+    SaveComponent,
   ],
   imports: [
     BrowserModule,

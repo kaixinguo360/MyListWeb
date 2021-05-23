@@ -9,6 +9,7 @@ import {NodeEditComponent} from './page/node-edit/node-edit.component';
 import {OutsideComponent} from './page/outside/outside.component';
 import {TokenService} from './service/token.service';
 import {ViewService} from './service/util/view.service';
+import {SaveComponent} from './page/save/save.component';
 
 @Injectable({providedIn: 'root'})
 export class UserLoginGuard implements CanActivate {
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'node/:id/edit', component: NodeEditComponent, canActivate: [UserLoginGuard] },
 
   { path: 'outside', component: OutsideComponent, canActivate: [UserLoginGuard] },
+  { path: 'save', component: SaveComponent, canActivate: [UserLoginGuard] },
 
   { path: 'admin', redirectTo: 'admin/home', pathMatch: 'full' },
   { path: 'admin/login', component: LoginComponent },
