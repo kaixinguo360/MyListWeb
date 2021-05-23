@@ -33,4 +33,8 @@ export class Filter {
   andTags?: Tag[];
   orTags?: Tag[];
   notTags?: Tag[];
+
+  andWords?: string[];
+  orWords?: string[];
+  notWords?: string[];
 }

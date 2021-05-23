@@ -5,7 +5,7 @@ import {Node} from '../../../service/util/node';
 import {NodeService} from '../../../service/node.service';
 import {Keyword} from './keyword-input/keyword-input.component';
 import {Preference} from '../../../service/util/preference.service';
-import {Condition, Filter, Tag} from '../../../service/util/filter';
+import {Filter, Tag} from '../../../service/util/filter';
 import {TypeService} from '../../../service/util/type.service';
 import {FormBuilder} from '@angular/forms';
 
@@ -163,43 +163,6 @@ export class SearchFilterComponent implements OnInit {
     }
     return filter;
   }
-  private getConditions(): Condition[] {
-    let conditions = [];
-
-    let or = this.orKeywords.filter(t => t.isNew).map(t => t.title);
-    if (or.length) {
-      or = or.map(t => t.replace('\\', '\\\\'));
-      conditions.push({
-        // tslint:disable-next-line:max-line-length
-        column: `CONCAT(COALESCE(content.node_title, ''), COALESCE(content.node_description, ''), COALESCE(content.node_comment, ''), COALESCE(content.node_source, ''))`,
-        oper: 'REGEXP',
-        value: `'${or.reduce((a, b) => a + '|' + b)}'`,
-      });
-    }
-
-    const and = this.andKeywords.filter(t => t.isNew).map(t => ({
-      // tslint:disable-next-line:max-line-length
-      column: `CONCAT(COALESCE(content.node_title, ''), COALESCE(content.node_description, ''), COALESCE(content.node_comment, ''), COALESCE(content.node_source, ''))`,
-      oper: 'REGEXP',
-      value: `'${t.title}'`,
-    }));
-    if (and && and.length) {
-      conditions = conditions.concat(and);
-    }
-
-    let not = this.notKeywords.filter(t => t.isNew).map(t => t.title);
-    if (not.length) {
-      not = not.map(t => t.replace('\\', '\\\\'));
-      conditions.push({
-        // tslint:disable-next-line:max-line-length
-        column: `CONCAT(COALESCE(content.node_title, ''), COALESCE(content.node_description, ''), COALESCE(content.node_comment, ''), COALESCE(content.node_source, ''))`,
-        oper: 'NOT REGEXP',
-        value: `'${not.reduce((a, b) => a + '|' + b)}'`,
-      });
-    }
-
-    return conditions;
-  }
 
   public getFilter(): Filter {
     const filter = this.getBasicFilter();
@@ -212,7 +175,9 @@ export class SearchFilterComponent implements OnInit {
       filter.notTags = SearchFilterComponent.toTags(this.notKeywords.filter(t => !t.isNew));
     }
 
-    filter.conditions = this.getConditions();
+    filter.orWords = this.orKeywords.filter(t => t.isNew).map(t => t.title);
+    filter.andWords = this.andKeywords.filter(t => t.isNew).map(t => t.title);
+    filter.notWords = this.notKeywords.filter(t => t.isNew).map(t => t.title);
 
     return filter;
   }
