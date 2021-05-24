@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {ProxyService} from '../../service/util/proxy.service';
 import {ViewService} from '../../service/util/view.service';
+import {Preference} from '../../service/util/preference.service';
+import {Node} from '../../service/util/node';
 
 @Component({
   selector: 'app-outside',
@@ -10,8 +12,23 @@ import {ViewService} from '../../service/util/view.service';
 })
 export class OutsideComponent implements OnInit {
 
+  title: string;
   sourceUrl: string;
   private regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+
+  saveDraft() {
+    const draft: Node = {
+      mainData: {
+        type: 'node',
+        user: this.view.user.id,
+        title: this.title,
+        source: this.sourceUrl,
+      },
+      tags: [],
+    };
+    this.preference.set('node-edit@draft', JSON.stringify(draft));
+    location.href = location.origin + '/node/new?draft=1';
+  }
 
   ngOnInit() {
     this.view.init({title: 'Outside'});
@@ -37,6 +54,7 @@ export class OutsideComponent implements OnInit {
         if (!this.sourceUrl.startsWith('http://') && !this.sourceUrl.startsWith('https://')) {
           this.sourceUrl = 'https://' + this.sourceUrl;
         }
+        this.title = title ? title : this.getDomain(this.sourceUrl);
         location.href = this.proxyService.proxyPage(this.sourceUrl);
       } else {
         this.view.alert('No URL found').afterDismissed().subscribe(() => this.view.back());
@@ -49,10 +67,20 @@ export class OutsideComponent implements OnInit {
     const result = str.match(this.regex);
     return result ? result : [];
   }
+  private getDomain(url: string): string {
+    if (!url) { return url; }
+    const match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+    if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+      return match[2];
+    } else {
+      return url;
+    }
+  }
 
   constructor(
     public view: ViewService,
     private proxyService: ProxyService,
+    private preference: Preference,
     private route: ActivatedRoute,
   ) { }
 
