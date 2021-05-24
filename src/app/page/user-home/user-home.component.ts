@@ -118,6 +118,19 @@ export class UserHomeComponent implements OnInit {
           });
           break;
 
+        case 'dlist':
+          const dlistId = Number(this.data);
+          this.view.setTitle(`DList - #${dlistId}`);
+          this.nodeService.get(dlistId).subscribe(node => {
+            this.masonry.mainNode = node;
+            const filter: Filter = JSON.parse((node.extraData as any).filter);
+            this.init({
+              title: node.mainData.title,
+              filter,
+            });
+          });
+          break;
+
       }
     });
   }

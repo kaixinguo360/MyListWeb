@@ -26,6 +26,8 @@ import {CollectionPreviewComponent} from './collection/preview/collection-previe
 import {CollectionDetailComponent} from './collection/detail/collection-detail.component';
 import {CollectionEditComponent} from './collection/edit/collection-edit.component';
 import {TagDetailComponent} from './tag/detail/tag-detail.component';
+import {DListPreviewComponent} from './dlist/preview/d-list-preview.component';
+import {DListEditComponent} from './dlist/edit/d-list-edit.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import {TagDetailComponent} from './tag/detail/tag-detail.component';
     VideoPreviewComponent,
     VideoDetailComponent,
     VideoEditComponent,
+    DListPreviewComponent,
+    DListEditComponent,
   ],
   entryComponents: [
     NodeContentComponent,
@@ -63,6 +67,8 @@ import {TagDetailComponent} from './tag/detail/tag-detail.component';
     VideoPreviewComponent,
     VideoDetailComponent,
     VideoEditComponent,
+    DListPreviewComponent,
+    DListEditComponent,
   ],
   imports: [
     CommonModule,

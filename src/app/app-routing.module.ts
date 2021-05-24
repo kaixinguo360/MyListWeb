@@ -48,6 +48,7 @@ const routes: Routes = [
   { path: 'type/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
   { path: 'tag/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
   { path: 'list/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
+  { path: 'dlist/:id', component: UserHomeComponent, canActivate: [UserLoginGuard] },
 
   { path: 'node/new', component: NodeEditComponent, canActivate: [UserLoginGuard] },
   { path: 'node/:id/edit', component: NodeEditComponent, canActivate: [UserLoginGuard] },

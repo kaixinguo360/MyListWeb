@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {Node} from '../../../service/util/node';
@@ -26,6 +26,7 @@ class FilterConfig {
 export class SearchFilterComponent implements OnInit {
 
   allTags: Node[] = [];
+  @Input() autoSave = true;
 
   // Status
   isOpen = false;
@@ -115,7 +116,7 @@ export class SearchFilterComponent implements OnInit {
     }
   }
 
-  private saveConfig() {
+  public getConfig(): string {
     const currentConfig: FilterConfig = {
       orKeywords: this.orKeywords,
       andKeywords: this.andKeywords,
@@ -124,12 +125,9 @@ export class SearchFilterComponent implements OnInit {
       isAdvanced : this.isAdvanced,
       filter: this.filter.value,
     };
-    const json = JSON.stringify(currentConfig);
-    this.preference.set('search-filter@savedData', json);
-    this.isModified = (json !== this.defaultJSON);
+    return JSON.stringify(currentConfig);
   }
-  private loadConfig() {
-    const json = this.preference.get('search-filter@savedData');
+  public setConfig(json: string) {
     if (json) {
       this.isModified = (json !== this.defaultJSON);
       const savedConfig: FilterConfig = JSON.parse(json);
@@ -140,6 +138,15 @@ export class SearchFilterComponent implements OnInit {
       this.isOnlyUntagged = savedConfig.isOnlyUntagged;
       this.isAdvanced = savedConfig.isAdvanced;
     }
+  }
+  private saveConfig() {
+    const json = this.getConfig();
+    this.isModified = (json !== this.defaultJSON);
+    if (this.autoSave) { this.preference.set('search-filter@savedData', json); }
+  }
+  private loadConfig() {
+    const json = this.preference.get('search-filter@savedData');
+    this.setConfig(json);
   }
   private getBasicFilter(): Filter {
     const value = this.filter.value;

@@ -4,6 +4,7 @@ import {CollectionType} from './collection/type-info';
 import {TagType} from './tag/type-info';
 import {ImageType} from './image/type-info';
 import {VideoType} from './video/type-info';
+import {DListType} from './dlist/type-info';
 import {TypeInfo} from '../service/util/type.service';
 
 export const DefaultType = NodeType;
@@ -14,4 +15,5 @@ export const TypeConfig: TypeInfo[] = [
   ListType,
   CollectionType,
   TagType,
+  DListType,
 ];
