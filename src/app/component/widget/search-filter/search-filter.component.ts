@@ -1,12 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {Node} from '../../../service/util/node';
-import {NodeService} from '../../../service/node.service';
+import {Filter, Node, NodeService, Tag} from '../../../service/node.service';
 import {Keyword} from './keyword-input/keyword-input.component';
-import {Preference} from '../../../service/util/preference.service';
-import {Filter, Tag} from '../../../service/util/filter';
-import {TypeService} from '../../../service/util/type.service';
+import {Preference} from '../../../service/preference.service';
+import {TypeService} from '../../../service/type.service';
 import {FormBuilder} from '@angular/forms';
 
 class FilterConfig {
@@ -182,9 +180,9 @@ export class SearchFilterComponent implements OnInit {
       filter.notTags = SearchFilterComponent.toTags(this.notKeywords.filter(t => !t.isNew));
     }
 
-    filter.orWords = this.orKeywords.filter(t => t.isNew).map(t => t.title);
-    filter.andWords = this.andKeywords.filter(t => t.isNew).map(t => t.title);
-    filter.notWords = this.notKeywords.filter(t => t.isNew).map(t => t.title);
+    filter.orKeywords = this.orKeywords.filter(t => t.isNew).map(t => t.title);
+    filter.andKeywords = this.andKeywords.filter(t => t.isNew).map(t => t.title);
+    filter.notKeywords = this.notKeywords.filter(t => t.isNew).map(t => t.title);
 
     return filter;
   }

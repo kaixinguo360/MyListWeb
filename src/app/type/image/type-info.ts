@@ -1,9 +1,9 @@
-import {ExtraData, Node} from '../../service/util/node';
 import {ImageDetailComponent} from './detail/image-detail.component';
 import {ImageEditComponent} from './edit/image-edit.component';
 import {ImagePreviewComponent} from './preview/image-preview.component';
-import {TypeInfo} from '../../service/util/type.service';
+import {TypeDefinition} from '../../service/type.service';
 import {ImageQuickEditComponent} from './quick-edit/image-quick-edit.component';
+import {ExtraData, Node} from '../../service/node.service';
 
 export class Image extends ExtraData {
   url: string;
@@ -13,7 +13,7 @@ export class Image extends ExtraData {
   source?: string;
 }
 
-export const ImageType: TypeInfo = {
+export const ImageType: TypeDefinition = {
   id: 'image',
   name: 'Image',
   icon: 'image',

@@ -12,25 +12,25 @@ import {TypeModule} from './type/type.module';
 import {ComponentModule} from './component/component.module';
 
 import {RootComponent} from './page/root.component';
-import {LoginComponent} from './page/login/login.component';
-import {AdminHomeComponent} from './page/admin/home/admin-home.component';
-import {UserHomeComponent} from './page/user-home/user-home.component';
-import {UserEditComponent} from './page/admin/user-edit/user-edit.component';
-import {NodeEditComponent} from './page/node-edit/node-edit.component';
-import {OutsideComponent} from './page/outside/outside.component';
-import {SaveComponent} from './page/save/save.component';
+import {LoginPageComponent} from './page/user/login-page/login-page.component';
+import {AdminPageComponent} from './page/admin/admin-page/admin-page.component';
+import {MainPageComponent} from './page/user/main-page/main-page.component';
+import {UserEditPageComponent} from './page/admin/user-edit-page/user-edit-page.component';
+import {EditPageComponent} from './page/user/edit-page/edit-page.component';
+import {OutsidePageComponent} from './page/user/outside-page/outside-page.component';
+import {SavePageComponent} from './page/user/save-page/save-page.component';
 
 
 @NgModule({
   declarations: [
     RootComponent,
-    LoginComponent,
-    AdminHomeComponent,
-    UserEditComponent,
-    UserHomeComponent,
-    NodeEditComponent,
-    OutsideComponent,
-    SaveComponent,
+    LoginPageComponent,
+    AdminPageComponent,
+    UserEditPageComponent,
+    MainPageComponent,
+    EditPageComponent,
+    OutsidePageComponent,
+    SavePageComponent,
   ],
   imports: [
     BrowserModule,

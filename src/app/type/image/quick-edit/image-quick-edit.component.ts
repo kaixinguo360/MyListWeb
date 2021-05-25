@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {Node} from '../../../service/util/node';
 import {Image} from '../type-info';
+import {Node} from '../../../service/node.service';
 
 @Component({
   templateUrl: './image-quick-edit.component.html',

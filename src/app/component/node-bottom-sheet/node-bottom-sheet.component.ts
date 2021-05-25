@@ -1,8 +1,7 @@
 import {Component, Inject, Injectable} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef} from '@angular/material';
-import {NodeService} from '../../service/node.service';
-import {ViewService} from '../../service/util/view.service';
-import {Node} from '../../service/util/node';
+import {Node, NodeService} from '../../service/node.service';
+import {ViewService} from '../../service/view.service';
 import {NodeViewer} from '../node-viewer/node-viewer.component';
 import {tap} from 'rxjs/operators';
 

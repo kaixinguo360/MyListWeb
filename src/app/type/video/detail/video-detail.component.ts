@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Detail} from '../../../component/content/detail/detail';
-import {Node} from '../../../service/util/node';
+import {Detail} from '../../../component/node-content/detail/detail';
 import {Video} from '../type-info';
-import {ProxyService} from '../../../service/util/proxy.service';
+import {ProxyService} from '../../../service/proxy.service';
+import {Node} from '../../../service/node.service';
 
 @Component({
   templateUrl: './video-detail.component.html',

@@ -6,20 +6,20 @@ import {NgxMasonryModule} from 'ngx-masonry';
 
 import {MaterialModule} from '../material.module';
 
-import {DomainPipe, LimitPipe} from '../service/util/pipes';
-import {DetailComponent} from './content/detail/detail.component';
-import {PreviewComponent} from './content/preview/preview.component';
+import {DomainPipe, LimitPipe} from '../service/pipes';
+import {DetailComponent} from './node-content/detail/detail.component';
+import {PreviewComponent} from './node-content/preview/preview.component';
 import {NodeCardComponent} from './node-card/node-card.component';
-import {MasonryComponent} from './masonry/masonry.component';
+import {MasonryComponent} from './node-masonry/masonry/masonry.component';
 import {NodeViewerComponent} from './node-viewer/node-viewer.component';
 import {OrderSelectorComponent} from './widget/order-selector/order-selector.component';
-import {ExtraEditComponent} from './edit/extra-edit/extra-edit.component';
+import {ExtraEditComponent} from './node-edit/extra-edit/extra-edit.component';
 import {NodeBottomSheetComponent} from './node-bottom-sheet/node-bottom-sheet.component';
 import {TagDialogComponent} from './tag-dialog/tag-dialog.component';
 import {KeywordInputComponent} from './widget/search-filter/keyword-input/keyword-input.component';
 import {SearchFilterComponent} from './widget/search-filter/search-filter.component';
 import {CommonModule} from '@angular/common';
-import {QuickEditComponent} from './edit/quick-edit/quick-edit.component';
+import {QuickEditComponent} from './node-edit/quick-edit/quick-edit.component';
 import {ProxySelectorComponent} from './widget/proxy-selector/proxy-selector.component';
 import {AddMenuComponent} from './widget/add-menu/add-menu.component';
 import {NodeMasonryComponent} from './node-masonry/node-masonry.component';

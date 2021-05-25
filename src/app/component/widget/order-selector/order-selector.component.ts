@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {Order} from '../../../service/util/order';
-import {OrderService} from '../../../service/util/order.service';
+import {Order, OrderService} from '../../../service/order.service';
 
 class OrderMenuItem {
   title: string;

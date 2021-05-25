@@ -1,15 +1,15 @@
-import {ExtraData, Node} from '../../service/util/node';
 import {VideoPreviewComponent} from './preview/video-preview.component';
 import {VideoEditComponent} from './edit/video-edit.component';
 import {VideoDetailComponent} from './detail/video-detail.component';
-import {TypeInfo} from '../../service/util/type.service';
+import {TypeDefinition} from '../../service/type.service';
+import {ExtraData, Node} from '../../service/node.service';
 
 export class Video extends ExtraData {
   url: string;
   format: string;
 }
 
-export const VideoType: TypeInfo = {
+export const VideoType: TypeDefinition = {
   id: 'video',
   name: 'Video',
   openInNewTab: false,

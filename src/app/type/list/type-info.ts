@@ -1,9 +1,9 @@
 import {ListPreviewComponent} from './preview/list-preview.component';
 import {ListEditComponent} from './edit/list-edit.component';
-import {TypeInfo, TypeService} from '../../service/util/type.service';
+import {TypeDefinition, TypeService} from '../../service/type.service';
 import {ListDetailComponent} from './detail/list-detail.component';
 
-export const ListType: TypeInfo = {
+export const ListType: TypeDefinition = {
   id: 'list',
   name: 'List',
   openInNewTab: true,

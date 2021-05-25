@@ -1,7 +1,7 @@
 import {AfterContentChecked, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 
-import {Preview} from '../../../component/content/preview/preview';
-import {Node} from '../../../service/util/node';
+import {Preview} from '../../../component/node-content/preview/preview';
+import {Node} from '../../../service/node.service';
 
 @Component({
   templateUrl: './collection-preview.component.html',

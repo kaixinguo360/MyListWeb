@@ -3,9 +3,9 @@ import {Router} from '@angular/router';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable, of, throwError} from 'rxjs';
 
-import {HttpService} from './util/http.service';
-import {Preference} from './util/preference.service';
-import {ViewService} from './util/view.service';
+import {HttpService} from './http.service';
+import {Preference} from './preference.service';
+import {ViewService} from './view.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {User} from './user.service';
 

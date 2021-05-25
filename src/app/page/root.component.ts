@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ViewService} from '../service/util/view.service';
+import {ViewService} from '../service/view.service';
 import {TokenService} from '../service/token.service';
 import {Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {MatDialog, MatSnackBar} from '@angular/material';
-import {HttpService} from '../service/util/http.service';
+import {HttpService} from '../service/http.service';
 import {Location} from '@angular/common';
 
 @Component({

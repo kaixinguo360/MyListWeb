@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {TypeInfo, TypeService} from '../../../service/util/type.service';
-import {Preference} from '../../../service/util/preference.service';
+import {TypeDefinition, TypeService} from '../../../service/type.service';
+import {Preference} from '../../../service/preference.service';
 
 @Component({
   selector: 'app-add-menu',
@@ -10,7 +10,7 @@ import {Preference} from '../../../service/util/preference.service';
 })
 export class AddMenuComponent {
 
-  types: TypeInfo[] = TypeService.typeInfos;
+  types: TypeDefinition[] = TypeService.typeInfos;
 
   addFromURL() {
     const url = prompt('Please enter the URL: ');

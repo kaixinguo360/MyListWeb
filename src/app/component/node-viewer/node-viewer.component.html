@@ -24,7 +24,7 @@
     </button>
   </div>
 
-  <button class="close-button" mat-icon-button (click)="close()"><mat-icon>arrow_back</mat-icon></button>
+  <button class="close-button" mat-icon-button (click)="location.back()"><mat-icon>arrow_back</mat-icon></button>
   <button class="info-button" mat-icon-button (click)="showInfo=true;preference.set('node-viewer@showInfo', 'true')" *ngIf="!showInfo"><mat-icon>keyboard_arrow_up</mat-icon></button>
 
   <div class="info-container" *ngIf="showInfo&&currentNode" (click)="expandInfo=true;preference.set('node-viewer@expandInfo', 'true')"
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <div class="content-container" (click)="close()">
+  <div class="content-container" (click)="location.back()">
     <mat-progress-spinner *ngIf="!currentNode" diameter="64" color="primary" mode="indeterminate"></mat-progress-spinner>
     <div *ngIf="currentNode"><app-card-detail [node]="currentNode"></app-card-detail></div>
   </div>

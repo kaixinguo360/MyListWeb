@@ -3,10 +3,10 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {map, startWith} from 'rxjs/operators';
-import {Node} from '../../../../service/util/node';
-import {ViewService} from '../../../../service/util/view.service';
-import {ClipboardService} from '../../../../service/util/clipboard.service';
-import {TypeService} from '../../../../service/util/type.service';
+import {ViewService} from '../../../../service/view.service';
+import {ClipboardService} from '../../../../service/clipboard.service';
+import {TypeService} from '../../../../service/type.service';
+import {Node} from '../../../../service/node.service';
 
 export class Keyword {
   isNew?: boolean;

@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-import {Detail} from '../../../component/content/detail/detail';
+import {Detail} from '../../../component/node-content/detail/detail';
 import {Image} from '../type-info';
-import {Node} from '../../../service/util/node';
-import {ProxyService} from '../../../service/util/proxy.service';
+import {ProxyService} from '../../../service/proxy.service';
+import {Node} from '../../../service/node.service';
 
 @Component({
   templateUrl: './image-detail.component.html',

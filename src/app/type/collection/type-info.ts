@@ -1,9 +1,9 @@
 import {CollectionPreviewComponent} from './preview/collection-preview.component';
 import {CollectionEditComponent} from './edit/collection-edit.component';
-import {TypeInfo, TypeService} from '../../service/util/type.service';
+import {TypeDefinition, TypeService} from '../../service/type.service';
 import {CollectionDetailComponent} from './detail/collection-detail.component';
 
-export const CollectionType: TypeInfo = {
+export const CollectionType: TypeDefinition = {
   id: 'collection',
   name: 'Collection',
   openInNewTab: false,

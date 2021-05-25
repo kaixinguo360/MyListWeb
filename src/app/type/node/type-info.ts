@@ -1,7 +1,7 @@
 import {NodeContentComponent} from './content/node-content.component';
-import {TypeInfo} from '../../service/util/type.service';
+import {TypeDefinition} from '../../service/type.service';
 
-export const NodeType: TypeInfo = {
+export const NodeType: TypeDefinition = {
   id: 'node',
   name: 'Simple Node',
   openInNewTab: false,

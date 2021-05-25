@@ -1,9 +1,8 @@
 import {Component, Input} from '@angular/core';
 
-import {Preview} from '../../../component/content/preview/preview';
-import {ListItem, Node} from '../../../service/util/node';
+import {Preview} from '../../../component/node-content/preview/preview';
 import {NodeViewer} from '../../../component/node-viewer/node-viewer.component';
-import {NodeService} from '../../../service/node.service';
+import {ListItem, Node, NodeService} from '../../../service/node.service';
 
 @Component({
   templateUrl: './tag-detail.component.html',

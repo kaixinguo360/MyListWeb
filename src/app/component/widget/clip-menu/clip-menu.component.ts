@@ -1,11 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {ClipboardService} from '../../../service/util/clipboard.service';
-import {Node} from '../../../service/util/node';
+import {ClipboardService} from '../../../service/clipboard.service';
 import {tap} from 'rxjs/operators';
-import {NodeService} from '../../../service/node.service';
-import {ViewService} from '../../../service/util/view.service';
+import {Node, NodeService} from '../../../service/node.service';
+import {ViewService} from '../../../service/view.service';
 import {TagSelector} from '../../tag-dialog/tag-dialog.component';
-import {Preference} from '../../../service/util/preference.service';
+import {Preference} from '../../../service/preference.service';
 import {Router} from '@angular/router';
 
 @Component({

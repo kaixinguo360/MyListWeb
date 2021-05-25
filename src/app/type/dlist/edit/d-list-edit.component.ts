@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ExtraEdit} from '../../../component/edit/extra-edit/extra-edit';
-import {ViewService} from '../../../service/util/view.service';
-import {ExtraData} from '../../../service/util/node';
+import {ExtraEdit} from '../../../component/node-edit/extra-edit/extra-edit';
+import {ViewService} from '../../../service/view.service';
 import {SearchFilterComponent} from '../../../component/widget/search-filter/search-filter.component';
 import {Subscription} from 'rxjs';
+import {ExtraData} from '../../../service/node.service';
 
 @Component({
   selector: 'app-d-list-edit',

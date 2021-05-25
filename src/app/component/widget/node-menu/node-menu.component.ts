@@ -1,9 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Node} from '../../../service/util/node';
 import {NodeMenu} from '../../node-bottom-sheet/node-bottom-sheet.component';
 import {NodeViewer} from '../../node-viewer/node-viewer.component';
-import {ViewService} from '../../../service/util/view.service';
-import {NodeService} from '../../../service/node.service';
+import {ViewService} from '../../../service/view.service';
+import {Node, NodeService} from '../../../service/node.service';
 import {tap} from 'rxjs/operators';
 
 @Component({

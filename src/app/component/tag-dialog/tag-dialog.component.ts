@@ -2,13 +2,11 @@ import {Component, Injectable, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef, MatListOption} from '@angular/material';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
-import {NodeService} from '../../service/node.service';
-import {ViewService} from '../../service/util/view.service';
+import {Filter, Node, NodeService} from '../../service/node.service';
+import {ViewService} from '../../service/view.service';
 import {FormBuilder} from '@angular/forms';
-import {Filter} from '../../service/util/filter';
-import {Node} from '../../service/util/node';
-import {ClipboardService} from '../../service/util/clipboard.service';
-import {TypeService} from '../../service/util/type.service';
+import {ClipboardService} from '../../service/clipboard.service';
+import {TypeService} from '../../service/type.service';
 
 @Component({
   selector: 'app-tag-dialog',

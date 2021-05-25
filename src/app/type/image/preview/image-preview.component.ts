@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 
-import {Preview} from '../../../component/content/preview/preview';
-import {Node} from '../../../service/util/node';
-import {ProxyService} from '../../../service/util/proxy.service';
-import {ViewService} from '../../../service/util/view.service';
+import {Preview} from '../../../component/node-content/preview/preview';
+import {ProxyService} from '../../../service/proxy.service';
+import {ViewService} from '../../../service/view.service';
+import {Node} from '../../../service/node.service';
 
 @Component({
   templateUrl: './image-preview.component.html',

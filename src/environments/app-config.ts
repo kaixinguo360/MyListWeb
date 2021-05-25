@@ -1,9 +1,9 @@
-import {Order} from '../app/service/util/order';
+import {Order} from '../app/service/order.service';
 
 export const AppConfig = {
   apiUrl: '/api/',
   proxyUrl: '/proxy/',
   columnWidth: 240,
   mobileWidth: 640,
-  defaultOrder: Order.MTIME_DESC,
+  defaultOrder: Order.CTIME_DESC,
 };

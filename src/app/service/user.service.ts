@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpService} from './util/http.service';
+import {HttpService} from './http.service';
 
 export class User {
   id?: number;

@@ -1,8 +1,8 @@
 import {TagPreviewComponent} from './preview/tag-preview.component';
-import {TypeInfo} from '../../service/util/type.service';
+import {TypeDefinition} from '../../service/type.service';
 import {TagDetailComponent} from './detail/tag-detail.component';
 
-export const TagType: TypeInfo = {
+export const TagType: TypeDefinition = {
   id: 'tag',
   name: 'Tag',
   openInNewTab: true,

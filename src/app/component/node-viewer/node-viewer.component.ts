@@ -1,13 +1,12 @@
 import {Component, Injectable, Input, OnInit} from '@angular/core';
-import {NodeChangeEvent, NodeService} from '../../service/node.service';
+import {Node, NodeChangeEvent, NodeService} from '../../service/node.service';
 import {tap} from 'rxjs/operators';
-import {ViewService} from '../../service/util/view.service';
-import {Node} from '../../service/util/node';
+import {ViewService} from '../../service/view.service';
 import {Overlay} from '@angular/cdk/overlay';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
 import {LocationStrategy} from '@angular/common';
-import {Preference} from '../../service/util/preference.service';
+import {Preference} from '../../service/preference.service';
 
 @Component({
   selector: 'app-card-viewer',
@@ -41,8 +40,17 @@ export class NodeViewerComponent implements OnInit {
       this.preference.remove('node-viewer@showInfo');
     }
   }
+
   close() {
-    this.nodeViewer.close();
+    const openedViewers = this.nodeViewer.openedViewers;
+    const index = openedViewers.findIndex(n => n === this);
+    if (index >= 0 && index < openedViewers.length) {
+      openedViewers[index].overlayRef.dispose();
+      openedViewers.splice(index, 1);
+    }
+    if (openedViewers.length === 0) {
+      this.view.stopScroll(false);
+    }
   }
 
   private load() {
@@ -79,6 +87,7 @@ export class NodeViewerComponent implements OnInit {
     public view: ViewService,
     public preference: Preference,
     public nodeViewer: NodeViewer,
+    public location: LocationStrategy,
     private nodeService: NodeService,
   ) {
     this.view.notification('node@onchange').subscribe((event: NodeChangeEvent) => {
@@ -96,7 +105,7 @@ export class NodeViewerComponent implements OnInit {
 })
 export class NodeViewer {
 
-  private openedViewers = [];
+  public openedViewers: NodeViewerComponent[] = [];
 
   public openId(id: number) {
     const popup = this.createViewer();
@@ -108,34 +117,26 @@ export class NodeViewer {
     popup.ids = ids;
     popup.index = index;
   }
+  public closeAll() {
+    while (this.openedViewers.length) {
+      this.openedViewers.pop().close();
+    }
+    this.view.stopScroll(false);
+  }
+
   private createViewer(): NodeViewerComponent {
     history.pushState(null, 'Node Viewer', location.href);
-    if (this.openedViewers.length === 0) {
-      this.view.stopScroll(true);
-    }
 
     const overlayRef = this.overlay.create();
     const componentRef = overlayRef.attach(new ComponentPortal(NodeViewerComponent));
     componentRef.instance.overlayRef = overlayRef;
-    this.openedViewers.push(overlayRef);
+
+    if (this.openedViewers.length === 0) {
+      this.view.stopScroll(true);
+    }
+    this.openedViewers.push(componentRef.instance);
 
     return componentRef.instance;
-  }
-
-  public close(overlayRef?: OverlayRef) {
-    overlayRef = this.openedViewers.pop();
-    if (overlayRef) {
-      overlayRef.dispose();
-    }
-    if (this.openedViewers.length === 0) {
-      this.view.stopScroll(false);
-    }
-  }
-  public closeAll(overlayRef?: OverlayRef) {
-    while (this.openedViewers.length) {
-      this.openedViewers.pop().dispose();
-    }
-    this.view.stopScroll(false);
   }
 
   constructor(
@@ -144,6 +145,10 @@ export class NodeViewer {
     private overlay: Overlay,
     private location: LocationStrategy,
   ) {
-    this.location.onPopState(() => this.close());
+    location.onPopState((e) => {
+      if (e instanceof PopStateEvent && this.openedViewers.length) {
+        this.openedViewers[this.openedViewers.length - 1].close();
+      }
+    });
   }
 }

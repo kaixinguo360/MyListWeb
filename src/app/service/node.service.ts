@@ -1,12 +1,89 @@
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
-import {HttpService} from './util/http.service';
+import {HttpService} from './http.service';
 import {map, shareReplay, tap} from 'rxjs/operators';
-import {ViewService} from './util/view.service';
+import {ViewService} from './view.service';
 import {User} from './user.service';
-import {Filter} from './util/filter';
-import {Node} from './util/node';
 
+// ------------ Node ------------ //
+export class MainData {
+  id?: number;
+  user?: number;
+  type?: string;
+  ctime?: number;
+  mtime?: number;
+  title?: string;
+  excerpt?: string;
+  part?: boolean;
+  collection?: boolean;
+  permission?: string;
+  nsfw?: boolean;
+  like?: boolean;
+  hide?: boolean;
+  source?: string;
+  description?: string;
+  comment?: string;
+}
+export class ExtraData {
+  nodeType: string;
+}
+export class ListItem<T extends ExtraData = ExtraData> {
+  node?: Node<T>;
+  status?: string;
+}
+export class Node<T extends ExtraData = ExtraData> {
+  mainData: MainData;
+  extraData?: T;
+  extraList?: ListItem[];
+  tags?: Node[] | number[];
+}
+
+// ------------ Filter ------------ //
+export class Condition {
+  column: string;
+  oper: string;
+  value: any;
+}
+export class Sort {
+  property: string;
+  direction: string;
+}
+export class Tag {
+  strict?: boolean;
+  value?: string;
+  id?: number;
+  type?: string;
+}
+export class Filter {
+  cascade?: boolean;
+  part?: boolean;
+  collection?: boolean;
+  types?: string[];
+
+  conditions?: Condition[];
+  sorts?: Sort[];
+  permission?: string;
+
+  nsfw?: boolean;
+  like?: boolean;
+  hide?: boolean;
+
+  andTags?: Tag[];
+  orTags?: Tag[];
+  notTags?: Tag[];
+
+  andKeywords?: string[];
+  orKeywords?: string[];
+  notKeywords?: string[];
+}
+
+// ------------ Event & Wrap ------------ //
+
+export class NodeChangeEvent {
+  added?: Node[];
+  updated?: number[];
+  deleted?: number[];
+}
 class InputWrap {
   id?: number;
   node?: Node;
@@ -15,11 +92,6 @@ class InputWrap {
 class OutputWrap {
   node: Node;
   tags: Node[];
-}
-export class NodeChangeEvent {
-  added?: Node[];
-  updated?: number[];
-  deleted?: number[];
 }
 
 @Injectable({

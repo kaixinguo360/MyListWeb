@@ -1,20 +1,18 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import {ViewService} from '../../service/util/view.service';
+import {ViewService} from '../../service/view.service';
 import {of, Subscription} from 'rxjs';
 import {SearchFilterComponent} from '../widget/search-filter/search-filter.component';
-import {MasonryComponent} from '../masonry/masonry.component';
-import {Node} from '../../service/util/node';
+import {MasonryComponent} from './masonry/masonry.component';
 import {catchError, tap} from 'rxjs/operators';
 import {NodeViewer} from '../node-viewer/node-viewer.component';
-import {NodeService} from '../../service/node.service';
-import {OrderService} from '../../service/util/order.service';
+import {Filter, Node, NodeService} from '../../service/node.service';
+import {OrderService} from '../../service/order.service';
 import {TagSelector} from '../tag-dialog/tag-dialog.component';
 import {Router} from '@angular/router';
-import {Filter} from '../../service/util/filter';
-import {ClipboardService} from '../../service/util/clipboard.service';
-import {TypeService} from '../../service/util/type.service';
-import {Preference} from '../../service/util/preference.service';
+import {ClipboardService} from '../../service/clipboard.service';
+import {TypeService} from '../../service/type.service';
+import {Preference} from '../../service/preference.service';
 
 @Component({
   selector: 'app-node-masonry',

@@ -1,13 +1,12 @@
 import {Component} from '@angular/core';
-import {ExtraEdit} from '../../../component/edit/extra-edit/extra-edit';
+import {ExtraEdit} from '../../../component/node-edit/extra-edit/extra-edit';
 import {of, throwError} from 'rxjs';
-import {ListItem, Node} from '../../../service/util/node';
-import {ViewService} from '../../../service/util/view.service';
+import {ViewService} from '../../../service/view.service';
 import {Image} from '../../image/type-info';
-import {NodeService} from '../../../service/node.service';
+import {ListItem, Node, NodeService} from '../../../service/node.service';
 import {catchError, tap} from 'rxjs/operators';
-import {TypeService} from '../../../service/util/type.service';
-import {Preference} from '../../../service/util/preference.service';
+import {TypeService} from '../../../service/type.service';
+import {Preference} from '../../../service/preference.service';
 import {NodeViewer} from '../../../component/node-viewer/node-viewer.component';
 
 @Component({

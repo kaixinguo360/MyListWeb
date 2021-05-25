@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ProxyService} from '../../../service/util/proxy.service';
+import {ProxyService} from '../../../service/proxy.service';
 
 @Component({
   selector: 'app-proxy-selector',

@@ -1,13 +1,13 @@
-import {ExtraData} from '../../service/util/node';
 import {DListEditComponent} from './edit/d-list-edit.component';
 import {DListPreviewComponent} from './preview/d-list-preview.component';
-import {TypeInfo} from '../../service/util/type.service';
+import {TypeDefinition} from '../../service/type.service';
+import {ExtraData} from '../../service/node.service';
 
 export class DList extends ExtraData {
   filter: string;
 }
 
-export const DListType: TypeInfo = {
+export const DListType: TypeDefinition = {
   id: 'dlist',
   name: 'DList',
   icon: 'list',
