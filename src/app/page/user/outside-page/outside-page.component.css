@@ -1,6 +1,5 @@
 .container {
   position: absolute;;
-  top: 28vh;
   width: 100%;
 }
 .container>div {
@@ -8,11 +7,46 @@
   margin-right: auto;
 }
 
+.center-container {
+  top: 28vh;
+}
+.up-container {
+  top: 10vh;
+}
+
 .text {
   width: fit-content;
+  max-width: 80%;
   font-size: 22px;
   margin-bottom: 64px;
+}
+.title {
   font-family: "Comic Sans MS", cursive, sans-serif;
+  text-align: center;
+}
+
+ul {
+  width: calc(80vw);
+  max-width: 300px;
+  margin: 12px auto;
+  padding: 8px;
+}
+li {
+  font-size: 0.8em;
+  margin-bottom: 8px;
+  list-style: none;
+  padding: 0;
+}
+small {
+  color: gray;
+}
+
+.node-title {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
 }
 
 .wrap {

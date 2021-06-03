@@ -1,9 +1,26 @@
-<div class="container">
-  <div class="text">
-    Jumping to <a [href]="sourceUrl" target="_blank">{{sourceUrl|domain}}</a>
+<div class="container center-container" *ngIf="!saved">
+  <div class="text title">
+    {{checking?'Checking':'Jumping to'}} <a [href]="sourceUrl" target="_blank">{{sourceUrl|domain}}</a>
   </div>
   <div class="wrap" (click)="saveDraft()">
     <div class="spinner1"></div>
     <div class="spinner2"></div>
+  </div>
+</div>
+
+<div class="container up-container" *ngIf="saved">
+  <div class="text">
+    <div class="title">
+      This page of <a [href]="sourceUrl" target="_blank">{{sourceUrl|domain}}</a> has saved ({{savedNodes.length}})
+    </div>
+    <ul>
+      <li *ngFor="let node of savedNodes">
+        <app-node-card [node]="node"></app-node-card>
+      </li>
+      <li>
+        <button mat-raised-button (click)="jump()"
+                style="display: block; margin: 24px auto 0 auto;">Save Again</button>
+      </li>
+    </ul>
   </div>
 </div>

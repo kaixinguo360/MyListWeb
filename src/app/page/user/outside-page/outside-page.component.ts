@@ -3,7 +3,9 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {ProxyService} from '../../../service/proxy.service';
 import {ViewService} from '../../../service/view.service';
 import {Preference} from '../../../service/preference.service';
-import {Node} from '../../../service/node.service';
+import {Node, NodeService} from '../../../service/node.service';
+import {catchError, tap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
   templateUrl: './outside-page.component.html',
@@ -13,6 +15,11 @@ export class OutsidePageComponent implements OnInit {
 
   title: string;
   sourceUrl: string;
+
+  checking = true;
+  saved = false;
+  savedNodes: Node[];
+
   private regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
 
   saveDraft() {
@@ -54,11 +61,32 @@ export class OutsidePageComponent implements OnInit {
           this.sourceUrl = 'https://' + this.sourceUrl;
         }
         this.title = title ? title : this.getDomain(this.sourceUrl);
-        location.href = this.proxyService.proxyPage(this.sourceUrl);
+
+        // Check if this url added
+        this.nodeService.getAll({
+          orKeywords: [this.sourceUrl]
+        }).pipe(
+          tap((nodes) => {
+            this.checking = false;
+            if (nodes && nodes.length > 0) {
+              this.saved = true;
+              this.savedNodes = nodes;
+            } else {
+              this.jump();
+            }
+          }),
+          catchError((e) => {
+            this.checking = false;
+            return of(e);
+          }),
+        ).subscribe();
       } else {
         this.view.alert('No URL found').afterDismissed().subscribe(() => this.view.back());
       }
     });
+  }
+  jump() {
+    location.href = this.proxyService.proxyPage(this.sourceUrl);
   }
 
   private getUrl(str: string): string[] {
@@ -79,6 +107,7 @@ export class OutsidePageComponent implements OnInit {
   constructor(
     public view: ViewService,
     private proxyService: ProxyService,
+    private nodeService: NodeService,
     private preference: Preference,
     private route: ActivatedRoute,
   ) { }
