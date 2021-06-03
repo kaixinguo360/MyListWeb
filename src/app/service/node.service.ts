@@ -113,7 +113,7 @@ export class NodeService {
     return nodes.map(node => NodeService.wrap(node));
   }
   public static canWrite(node: Node, user: User): boolean {
-    return !(node.mainData.user !== user.id && node.mainData.permission !== 'public');
+    return !((node.mainData.user !== user.id || node.mainData.user == null) && node.mainData.permission !== 'public');
   }
   public static emptyNode(): Node {
     return {

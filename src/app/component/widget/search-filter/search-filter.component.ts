@@ -6,6 +6,7 @@ import {Keyword} from './keyword-input/keyword-input.component';
 import {Preference} from '../../../service/preference.service';
 import {TypeService} from '../../../service/type.service';
 import {FormBuilder} from '@angular/forms';
+import {Router} from '@angular/router';
 
 class FilterConfig {
   orKeywords: Keyword[];
@@ -79,6 +80,13 @@ export class SearchFilterComponent implements OnInit {
     this.andKeywords.length = 0;
     this.notKeywords.length = 0;
     this.filter.setValue(this.defaultConfig.filter);
+  }
+  search() {
+    this.isOpen = false;
+    this.isChanged = false;
+    this.saveConfig();
+    this.router.navigate(['/all']);
+    this.onChangeSubject.next();
   }
   close(changed?: boolean) {
     this.isOpen = false;
@@ -194,6 +202,7 @@ export class SearchFilterComponent implements OnInit {
     public preference: Preference,
     private nodeService: NodeService,
     private typeService: TypeService,
+    private router: Router,
     private fb: FormBuilder,
   ) {
     this.loadConfig();
