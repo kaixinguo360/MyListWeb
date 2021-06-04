@@ -29,6 +29,10 @@
 .info-container .description {
   white-space: pre-wrap;
 }
+.info-container .comment {
+  white-space: pre-wrap;
+  font-style: italic;
+}
 
 .close-button {
   display: block;

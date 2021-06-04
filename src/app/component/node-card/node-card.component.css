@@ -105,7 +105,7 @@ a {
   text-decoration: none;
 }
 
-/* -- others -- */
+/* -- info -- */
 .info {
   font-size: small;
   color: #8e8e8e;
@@ -113,6 +113,28 @@ a {
   overflow: hidden;
   overflow-wrap: break-word;
 }
+.info>div {
+  margin: 8px 0;
+}
+.info>div:first-child {
+  margin-top: 0;
+}
+.info>div:last-child {
+  margin-bottom: 0;
+}
+.info>mat-divider {
+  margin: -1px 0 -2px 0;
+}
+.title {
+  font-weight: bold;
+}
+.description {
+}
+.comment {
+  font-style: italic;
+}
+
+/* -- others -- */
 .overlay {
   position: absolute;
   top: 0; bottom: 0; left: 0; right: 0;

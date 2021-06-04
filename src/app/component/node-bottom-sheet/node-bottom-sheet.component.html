@@ -13,6 +13,9 @@
         {{node.mainData.description}}
         <span class="small" *ngIf="!node.mainData.description">no description</span>
       </div>
+      <div class="comment" *ngIf="node.mainData.comment">
+        {{node.mainData.comment}}
+      </div>
     </div>
   </div>
 

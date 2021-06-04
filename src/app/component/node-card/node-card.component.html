@@ -45,9 +45,16 @@
     </div>
 
     <div class="info flex-fixed" *ngIf="hasInfo">
-      {{(node.mainData.title?node.mainData.title:
-        (node.mainData.description?node.mainData.description:node.mainData.comment))
-      |limit:100}}
+      <div class="comment" *ngIf="node.mainData.comment">
+        {{node.mainData.comment|limit:160}}
+      </div>
+      <mat-divider *ngIf="(node.mainData.title||node.mainData.description)&&node.mainData.comment"></mat-divider>
+      <div class="title" *ngIf="node.mainData.title">
+        {{node.mainData.title|limit:160}}
+      </div>
+      <div class="description" *ngIf="node.mainData.description">
+        {{node.mainData.description|limit:160}}
+      </div>
     </div>
 
     <div class="mobile-buttons flex-fixed" *ngIf="view.isMobile" (click)="$event.stopPropagation()"
