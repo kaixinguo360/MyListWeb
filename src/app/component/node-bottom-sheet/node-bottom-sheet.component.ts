@@ -4,6 +4,7 @@ import {Node, NodeService} from '../../service/node.service';
 import {ViewService} from '../../service/view.service';
 import {NodeViewer} from '../node-viewer/node-viewer.component';
 import {tap} from 'rxjs/operators';
+import {NavigationStart, Router} from '@angular/router';
 
 @Component({
   selector: 'app-node-bottom-sheet',
@@ -35,6 +36,7 @@ export class NodeBottomSheetComponent {
     @Inject(MAT_BOTTOM_SHEET_DATA) public node: Node,
   ) {
     this.canWrite = NodeService.canWrite(node, this.view.user);
+    this.view.notification('node-bottom-sheet@closeAll').subscribe(() => this.close());
   }
 
 }
@@ -59,6 +61,13 @@ export class NodeMenu {
   constructor(
     public view: ViewService,
     private bottomSheet: MatBottomSheet,
-  ) { }
+    private router: Router,
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.view.notify('node-bottom-sheet@closeAll');
+      }
+    });
+  }
 
 }

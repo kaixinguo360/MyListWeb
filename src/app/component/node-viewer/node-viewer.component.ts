@@ -7,6 +7,7 @@ import {ComponentPortal} from '@angular/cdk/portal';
 import {OverlayRef} from '@angular/cdk/overlay/typings/overlay-ref';
 import {LocationStrategy} from '@angular/common';
 import {Preference} from '../../service/preference.service';
+import {NavigationStart, Router} from '@angular/router';
 
 @Component({
   selector: 'app-card-viewer',
@@ -96,6 +97,7 @@ export class NodeViewerComponent implements OnInit {
         this.ids.length ? this.load() : this.close();
       }
     });
+    this.view.notification('node-viewer@closeAll').subscribe(() => this.close());
   }
 
 }
@@ -116,12 +118,6 @@ export class NodeViewer {
     const popup = this.createViewer();
     popup.ids = ids;
     popup.index = index;
-  }
-  public closeAll() {
-    while (this.openedViewers.length) {
-      this.openedViewers.pop().close();
-    }
-    this.view.stopScroll(false);
   }
 
   private createViewer(): NodeViewerComponent {
@@ -144,10 +140,16 @@ export class NodeViewer {
     private nodeService: NodeService,
     private overlay: Overlay,
     private location: LocationStrategy,
+    private router: Router,
   ) {
     location.onPopState((e) => {
       if (e instanceof PopStateEvent && this.openedViewers.length) {
         this.openedViewers[this.openedViewers.length - 1].close();
+      }
+    });
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.view.notify('node-viewer@closeAll');
       }
     });
   }
