@@ -5,6 +5,7 @@ import {ExtraEdit} from '../component/node-edit/extra-edit/extra-edit';
 import {DefaultType, TypeConfig} from '../type/type-config';
 import {QuickEdit} from '../component/node-edit/quick-edit/quick-edit';
 import {Node} from './node.service';
+import {TextInfo} from '../component/node-card/node-card.component';
 
 export interface TypeDefinition {
   id: string;
@@ -16,6 +17,7 @@ export interface TypeDefinition {
   extraEdit?: Type<ExtraEdit>;
   quickEdit?: Type<QuickEdit>;
   process?: (node: Node) => void;
+  getTextInfo?: (node: Node) => TextInfo;
 }
 
 @Injectable({
@@ -52,6 +54,15 @@ export class TypeService {
     if (type && type.process) {
       type.process(node);
     }
+  }
+
+  public getTextInfo(node: Node) {
+    const type = this.getType(node.mainData.type);
+    return type.getTextInfo ? type.getTextInfo(node) : {
+      title: node.mainData.title,
+      description: node.mainData.description,
+      comment: node.mainData.comment,
+    };
   }
 
   public getType(typeId: string): TypeDefinition {

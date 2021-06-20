@@ -14,4 +14,5 @@ export const TagType: TypeDefinition = {
       throw Error('Tag node should have a title.');
     }
   },
+  getTextInfo: _ => null,
 };

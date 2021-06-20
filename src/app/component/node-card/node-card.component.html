@@ -44,16 +44,16 @@
       </div>
     </div>
 
-    <div class="info flex-fixed" *ngIf="hasInfo">
-      <div class="comment" *ngIf="node.mainData.comment">
-        {{node.mainData.comment|limit:160}}
+    <div class="info flex-fixed" *ngIf="this.textInfo">
+      <div class="comment" *ngIf="this.textInfo.comment">
+        {{this.textInfo.comment|limit:160}}
       </div>
-      <mat-divider *ngIf="(node.mainData.title||node.mainData.description)&&node.mainData.comment"></mat-divider>
-      <div class="title" *ngIf="node.mainData.title">
-        {{node.mainData.title|limit:160}}
+      <mat-divider *ngIf="(this.textInfo.title||this.textInfo.description)&&this.textInfo.comment"></mat-divider>
+      <div class="title" *ngIf="this.textInfo.title">
+        {{this.textInfo.title|limit:160}}
       </div>
-      <div class="description" *ngIf="node.mainData.description">
-        {{node.mainData.description|limit:160}}
+      <div class="description" *ngIf="this.textInfo.description">
+        {{this.textInfo.description|limit:160}}
       </div>
     </div>
 
