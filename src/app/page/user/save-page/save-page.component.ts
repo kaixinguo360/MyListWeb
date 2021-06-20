@@ -20,7 +20,7 @@ export class SavePageComponent implements OnInit {
         draft.mainData.user = this.view.user.id;
       }
       if (draft.extraList) {
-        draft.extraList.filter(i => i.node.mainData.user = this.view.user.id);
+        draft.extraList.forEach(i => i.node.mainData.user = this.view.user.id);
       }
       localStorage.setItem('node-edit@draft', JSON.stringify(draft));
       location.href = location.origin + '/node/new?draft=1';

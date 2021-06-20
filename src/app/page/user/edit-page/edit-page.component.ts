@@ -184,6 +184,14 @@ export class EditPageComponent implements OnInit {
           this.hasDraft = true;
           const draft: Node = JSON.parse(draftStr);
 
+          if (draft.mainData && !draft.mainData.user) {
+            draft.mainData.user = this.view.user.id;
+          }
+          if (draft.extraList) {
+            draft.extraList.filter(i => !i.node.mainData.user)
+              .forEach(i => i.node.mainData.user = this.view.user.id);
+          }
+
           this.mainData.patchValue(draft.mainData);
           this.extraEdit.setExtraData(draft.extraData);
           this.extraEdit.setExtraList(draft.extraList);
