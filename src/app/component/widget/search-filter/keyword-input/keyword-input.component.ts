@@ -54,7 +54,7 @@ export class KeywordInputComponent implements OnInit {
   }
   private _filter(value: any): Node[] {
     return ((typeof value === 'string') ?
-        this.allCollections.concat(this.clipboard.get()).filter(t => t.mainData.title
+        this.allCollections.filter(t => t.mainData.title
           .toLowerCase()
           .indexOf(value.toLowerCase()) !== -1)
         : this.allCollections
@@ -69,7 +69,7 @@ export class KeywordInputComponent implements OnInit {
   ngOnInit(): void {
     this.allCollections = this.allTags;
     if (this.clipboard.isCollection) {
-      this.allCollections = this.allCollections.concat(this.clipboard.get());
+      this.allCollections = this.clipboard.get().concat(this.allCollections);
     }
   }
 

@@ -54,12 +54,22 @@ export class TagDialogComponent implements OnInit {
   ngOnInit() {
     this.title = this.title ? this.title :
       (this.multiple ? 'Please select tags' : 'Please select a tag');
-    this.nodeService.getAllByType('tag', this.filter).pipe(
+    this.nodeService.getAllByType(['tag', 'dlist'], this.filter).pipe(
       tap(tags => {
         this.tags = tags;
 
+        this.tags.sort((a, b) => {
+          if (a.mainData.type === b.mainData.type) {
+            return 0;
+          } else if (a.mainData.type === 'tag') {
+            return 1;
+          } else if (b.mainData.type === 'tag') {
+            return -1;
+          }
+        });
+
         if (this.clipboard.isCollection) {
-          this.tags = this.tags.concat(this.clipboard.get());
+          this.tags = this.clipboard.get().concat(this.tags.concat());
         }
 
         if (this.multiple && this.selected && this.selected.length) {

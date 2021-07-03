@@ -10,7 +10,7 @@ export class DList extends ExtraData {
 export const DListType: TypeDefinition = {
   id: 'dlist',
   name: 'DList',
-  icon: 'list',
+  icon: 'dynamic_form',
   openInNewTab: true,
   detail: DListPreviewComponent,
   preview: DListPreviewComponent,

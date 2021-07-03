@@ -191,10 +191,18 @@ export class NodeService {
       return ob;
     }
   }
-  public getAllByType(type: string, filter?: Filter): Observable<Node[]> {
+  public getAllByType(types: string | string[], filter?: Filter): Observable<Node[]> {
     if (!filter) { filter = {}; }
     if (!filter.conditions) { filter.conditions = []; }
-    filter.conditions.push({column: 'content.node_type', oper: '=', value: `'${type}'`});
+    if (!(types instanceof Array)) { types = [types]; }
+    let typeStr = '';
+    for (let i = 0; i < types.length; i++) {
+      typeStr += `'${types[i]}'`;
+      if (i !== types.length - 1) {
+        typeStr += ',';
+      }
+    }
+    filter.conditions.push({column: 'content.node_type', oper: 'in', value: `(${typeStr})`});
     return this.getAll(filter);
   }
   public updateAll(nodes: Node[], isSimple = false, tagMode = 'set'): Observable<Node[]> {
