@@ -36,9 +36,15 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
 
   private static mergeFilter(f1: Filter, f2: Filter) {
     if (f2.conditions) { f1.conditions = f1.conditions.concat(f2.conditions); }
+    if (f2.sorts) { f1.sorts = f1.sorts.concat(f2.sorts); }
+
     if (f2.orTags) { f1.orTags = f1.orTags.concat(f2.orTags); }
     if (f2.andTags) { f1.andTags = f1.andTags.concat(f2.andTags); }
     if (f2.notTags) { f1.notTags = f1.notTags.concat(f2.notTags); }
+
+    if (f2.orKeywords) { f1.orKeywords = f1.orKeywords.concat(f2.orKeywords); }
+    if (f2.andKeywords) { f1.andKeywords = f1.andKeywords.concat(f2.andKeywords); }
+    if (f2.notKeywords) { f1.notKeywords = f1.notKeywords.concat(f2.notKeywords); }
 
     ['cascade', 'part', 'collection', 'nsfw', 'like', 'hide', 'types'].forEach(property => {
       f1[property] = f2[property] === undefined ? f1[property] : f2[property];
@@ -244,7 +250,7 @@ export class NodeMasonryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.otherSubs.push(this.searchFilter.onChange(() => this.fetchData()));
-    this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
+    // this.otherSubs.push(this.view.notification('node@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('order@onchange').subscribe(() => this.fetchData()));
     this.otherSubs.push(this.view.notification('preview@onload').subscribe(() => this.masonry.layout()));
   }
